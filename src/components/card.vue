@@ -31,7 +31,7 @@ export default {
   methods: {
     gohome() {
       this.$router.push({path: '/'})
-    }
+    },
   }
 }
 </script>

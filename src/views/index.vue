@@ -1,57 +1,27 @@
 <template>
-
-
   <mu-container>
-    <!-- <mu-flex justify-content="center"> -->
-      <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
-        <!-- <mu-card-header title="Myron Avatar" sub-title="sub title">
-          <mu-avatar slot="avatar">
-            <img src="../../assets/images/uicon.jpg">
-          </mu-avatar>
-        </mu-card-header> -->
-        <mu-card-media title="Image Title" sub-title="Image Sub Title">
-          <img src="../assets/sun.jpg">
-        </mu-card-media>
-        <mu-card-title title="Content Title" sub-title="Content Title"></mu-card-title>
-        <mu-card-text>
-          散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-          调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-          似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光，
-          找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！
-        </mu-card-text>
-      </mu-card>
+    <mu-alert color="info" delete v-if="tip" @delete="closeAlert()" transition="mu-scale-transition">
+      <mu-icon left value="info" color="#fff"></mu-icon> 本站的视频只能在手机观看
+    </mu-alert>
+    <!-- <router-link to="/whmm">
 
-      <mu-card style="width: 100%; max-width: 375px; margin: 0 auto;">
-        <!-- <mu-card-header title="Myron Avatar" sub-title="sub title">
-          <mu-avatar slot="avatar">
-            <img src="../../assets/images/uicon.jpg">
-          </mu-avatar>
-        </mu-card-header> -->
-        <mu-card-media title="Image Title" sub-title="Image Sub Title">
-          <img src="../assets/sun.jpg">
-        </mu-card-media>
-        <mu-card-title title="Content Title" sub-title="Content Title"></mu-card-title>
-        <mu-card-text>
-          散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
-          调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
-          似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光，
-          找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！
-        </mu-card-text>
-      </mu-card>
-      <!-- <mu-paper :z-depth="1">
-        <mu-grid-list class="gridlist-demo">
-          <mu-sub-header>December</mu-sub-header>
-          <mu-grid-tile v-for="(item, index) in whmm" :key="index">
-            <img :src="item.image" >
-            <span slot="title">{{item.title}}</span>
-            <span slot="subTitle">by <b>{{item.creatDate}}</b></span>
-            <mu-button slot="action" icon>
-              <mu-icon value="star_border"></mu-icon>
-            </mu-button>
-          </mu-grid-tile>
-        </mu-grid-list>
-      </mu-paper> -->
-    <!-- </mu-flex> -->
+    </router-link> -->
+    <mu-card v-for="(item, index) in listData" :key="index" @click="goroute(item)">
+      <mu-card-media >
+        <img :src="item.image">
+        <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
+      </mu-card-media>
+      <mu-card-text>
+        <h3 class="listTitle">{{item.title}}</h3>
+        <mu-flex align-items="center" class="creatTime">
+          <mu-icon size="18" value="access_time"></mu-icon>
+          {{item.creatDate}}
+        </mu-flex>
+      </mu-card-text>
+    </mu-card>
+    <mu-flex justify-content="center" style="margin: 32px 0;">
+      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
+    </mu-flex>
   </mu-container>
 </template>
 
@@ -60,13 +30,93 @@ import whmm from '@/data/whmm'
 export default {
   data () {
     return {
-      whmm: whmm
+      whmm: whmm,
+      current: 1,
+      pageSize: 10,
+      listData: [],
+      tip: true
+    }
+  },
+  created() {
+    this.current = Number(this.$route.query.page) || 1
+    this.goPage()
+    if(sessionStorage.getItem('tip')) {
+      this.tip = false
+    }
+  },
+  watch: {
+    $route(){
+      this.current = Number(this.$route.query.page) || 1
+      this.goPage()
+    }
+  },
+  methods: {
+    closeAlert () {
+      this.tip = false
+      sessionStorage.setItem('tip', false)
+    },    
+    goroute(data) {
+      const loading = this.$loading();
+      this.$router.push({
+        path: `/whmm/${data.id}`
+      })
+      sessionStorage.setItem('data', JSON.stringify(data))
+      setTimeout(() => {
+        loading.close()
+      }, 800)
+    },
+    // 获取分页数据
+    goPage() {
+      this.listData = this.whmm.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+    },
+    // 点击分页
+    handlpage() {
+      this.$router.push({path: '/', query: {page: this.current}})
+      const loading = this.$loading();
+      this.goPage()
+      setTimeout(() => {
+        loading.close()
+        document.documentElement.scrollTop = 0
+        document.body.scrollTop = 0
+      }, 1000)
     }
   }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.mu-card{
+  margin: 10px 0 15px;
+  overflow: hidden;
+}
+.longTime {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+}
+.listTitle{
+  margin: 0 auto 3px;
+}
+.mu-card-text{
+  padding: 10px;
+}
+.mu-card-text i{
+  margin-right: 5px;
+}
 
+.mu-alert{
+  padding: 10px 16px;
+}
+.mu-scale-transition-enter-active,
+.mu-scale-transition-leave-active {
+  transition: transform .45s cubic-bezier(0.23, 1, 0.32, 1), opacity .45s cubic-bezier(0.23, 1, 0.32, 1);
+  backface-visibility: hidden;
+}
+.mu-scale-transition-enter,
+.mu-scale-transition-leave-active {
+  transform: scale(0);
+  opacity: 0;
+}
 </style>
