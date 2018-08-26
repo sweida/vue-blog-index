@@ -11,11 +11,13 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "muse-ui": "^3.0.0",
     "muse-ui-loading": "^0.2.0",
     "typeface-roboto": "^0.0.54",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

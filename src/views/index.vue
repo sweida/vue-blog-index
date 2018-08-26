@@ -8,7 +8,9 @@
     </router-link> -->
     <mu-card v-for="(item, index) in listData" :key="index" @click="goroute(item)">
       <mu-card-media >
-        <img :src="item.image">
+        <!-- <mu-circular-progress v-if="!item.image" class="demo-circular-progress" :size="36"></mu-circular-progress> -->
+        <!-- <img v-lazy="'https://www.43kpd.com'+item.image" > -->
+        <img v-lazy="'https://www.43kpd.com'+item.image" >
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
       </mu-card-media>
       <mu-card-text>
@@ -31,6 +33,7 @@ export default {
   data () {
     return {
       whmm: whmm,
+      normline: this.$store.state.normline,
       current: 1,
       pageSize: 10,
       listData: [],
@@ -38,6 +41,7 @@ export default {
     }
   },
   created() {
+    console.log(this.whmm, 553)
     this.current = Number(this.$route.query.page) || 1
     this.goPage()
     if(sessionStorage.getItem('tip')) {
@@ -99,11 +103,18 @@ export default {
 .listTitle{
   margin: 0 auto 3px;
 }
+.mu-card-media {
+  min-height: 200px;
+}
 .mu-card-text{
   padding: 10px;
 }
 .mu-card-text i{
   margin-right: 5px;
+}
+.mu-circular-progress{
+  margin: 25% 0 0 50%;
+  transform: translateX(-18px)
 }
 
 .mu-alert{

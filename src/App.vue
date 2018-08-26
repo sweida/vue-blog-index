@@ -2,7 +2,7 @@
   <div id="app">
     <Header></Header>
     <router-view class="main"/>
-    <mu-button fab color="secondary" class="gotop" v-show="gotop" @click="goTop">
+    <mu-button fab color="secondary" class="gotop" v-if="gotop" @click="goTop" transition="mu-scale-transition">
       <mu-icon value="airplanemode_active"></mu-icon>
     </mu-button>
     <footer>
@@ -25,6 +25,12 @@ export default {
   },
   mounted () {
     window.addEventListener('scroll', this.handleScroll)
+  },
+  created() {
+    this.$get('line').then(res => {
+      this.$store.state.line = res.data
+      this.$store.state.normline = res.data[0].address
+    })
   },
   methods: {
     handleScroll () {
@@ -59,5 +65,15 @@ export default {
 footer{
   padding: 0 20px;
   text-align: center;
+}
+.mu-scale-transition-enter-active,
+.mu-scale-transition-leave-active {
+  transition: transform .45s cubic-bezier(0.23, 1, 0.32, 1), opacity .45s cubic-bezier(0.23, 1, 0.32, 1);
+  backface-visibility: hidden;
+}
+.mu-scale-transition-enter,
+.mu-scale-transition-leave-active {
+  transform: scale(0);
+  opacity: 0;
 }
 </style>

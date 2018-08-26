@@ -59,7 +59,8 @@ export default {
   methods: {
     // 猜你喜欢
     favorter() {
-      const shuffle = this.whmm.sort(
+      let newlist = this.whmm.slice()
+      const shuffle = newlist.sort(
         () => Math.random() - 0.5
       )
       this.favorData = shuffle.slice(0, 3)
