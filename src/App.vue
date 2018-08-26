@@ -29,7 +29,7 @@ export default {
   created() {
     this.$get('line').then(res => {
       this.$store.state.line = res.data
-      this.$store.state.normline = res.data[0].address
+      this.$store.state.normline = res.data[2].address
     })
   },
   methods: {

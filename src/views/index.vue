@@ -10,7 +10,7 @@
       <mu-card-media >
         <!-- <mu-circular-progress v-if="!item.image" class="demo-circular-progress" :size="36"></mu-circular-progress> -->
         <!-- <img v-lazy="'https://www.43kpd.com'+item.image" > -->
-        <img v-lazy="'https://www.43kpd.com'+item.image" >
+        <img v-lazy="'https://www.43kpd.com'+item.image" :key="item.id">
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
       </mu-card-media>
       <mu-card-text>
