@@ -3,14 +3,10 @@
     <mu-alert color="info" delete v-if="tip" @delete="closeAlert()" transition="mu-scale-transition">
       <mu-icon left value="info" color="#fff"></mu-icon> 本站的视频只能在手机观看
     </mu-alert>
-    <!-- <router-link to="/whmm">
 
-    </router-link> -->
     <mu-card v-for="(item, index) in listData" :key="index" @click="goroute(item)">
       <mu-card-media >
-        <!-- <mu-circular-progress v-if="!item.image" class="demo-circular-progress" :size="36"></mu-circular-progress> -->
-        <!-- <img v-lazy="'https://www.43kpd.com'+item.image" > -->
-        <img v-lazy="'https://www.43kpd.com'+item.image" :key="item.id">
+        <img v-lazy="normline+item.image" :key="item.id">
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
       </mu-card-media>
       <mu-card-text>
@@ -21,6 +17,7 @@
         </mu-flex>
       </mu-card-text>
     </mu-card>
+    <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
       <mu-pagination raised :total="whmm.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
     </mu-flex>
@@ -33,7 +30,7 @@ export default {
   data () {
     return {
       whmm: whmm,
-      normline: this.$store.state.normline,
+      normline: sessionStorage.getItem('normline') || '',
       current: 1,
       pageSize: 10,
       listData: [],
@@ -41,12 +38,25 @@ export default {
     }
   },
   created() {
-    console.log(this.whmm, 553)
-    this.current = Number(this.$route.query.page) || 1
-    this.goPage()
+    // 是否提示
     if(sessionStorage.getItem('tip')) {
       this.tip = false
+    }    
+    // 默认路线
+    if (this.normline=='') {
+      this.$get('line').then(res => {
+        sessionStorage.setItem('normline', res.data[0].address)
+        this.normline = res.data[0].address
+        this.current = Number(this.$route.query.page) || 1
+        this.goPage()
+      })
+    } else {
+      this.current = Number(this.$route.query.page) || 1
+      this.goPage()
     }
+  },
+  beforeMount() {
+
   },
   watch: {
     $route(){

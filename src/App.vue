@@ -27,10 +27,7 @@ export default {
     window.addEventListener('scroll', this.handleScroll)
   },
   created() {
-    this.$get('line').then(res => {
-      this.$store.state.line = res.data
-      this.$store.state.normline = res.data[2].address
-    })
+
   },
   methods: {
     handleScroll () {

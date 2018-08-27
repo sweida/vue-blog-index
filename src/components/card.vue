@@ -1,25 +1,17 @@
 <template>
-  <mu-appbar color="primary" class="mu-header">
-    <mu-button icon slot="left" @click="gohome">
-      <mu-icon value="home" ></mu-icon>
-    </mu-button>
-    Title
-    <mu-menu slot="right">
-      <mu-button flat>MENU</mu-button>
-      <mu-list slot="content">
-        <mu-list-item button>
-          <mu-list-item-content>
-            <mu-list-item-title>Menu Item 1</mu-list-item-title>
-          </mu-list-item-content>
-        </mu-list-item>
-        <mu-list-item button>
-          <mu-list-item-content>
-            <mu-list-item-title>Menu Item 2</mu-list-item-title>
-          </mu-list-item-content>
-        </mu-list-item>
-      </mu-list>
-    </mu-menu>
-  </mu-appbar>
+    <mu-card v-for="(item, index) in listData" :key="index" @click="goroute(item)">
+      <mu-card-media >
+        <img v-lazy="normline+item.image" :key="item.id">
+        <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
+      </mu-card-media>
+      <mu-card-text>
+        <h3 class="listTitle">{{item.title}}</h3>
+        <mu-flex align-items="center" class="creatTime">
+          <mu-icon size="18" value="access_time"></mu-icon>
+          {{item.creatDate}}
+        </mu-flex>
+      </mu-card-text>
+    </mu-card>
 </template>
 
 <script>
@@ -29,8 +21,16 @@ export default {
     }
   },
   methods: {
-    gohome() {
-      this.$router.push({path: '/'})
+    // 查看详情
+    goroute(data) {
+      const loading = this.$loading();
+      this.$router.push({
+        path: `/whmm/${data.id}`
+      })
+      sessionStorage.setItem('data', JSON.stringify(data))
+      setTimeout(() => {
+        loading.close()
+      }, 800)
     },
   }
 }
