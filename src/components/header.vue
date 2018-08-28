@@ -1,19 +1,33 @@
 <template>
-  <mu-appbar color="primary" class="mu-header">
-    <mu-button icon slot="left" @click="gohome">
-      <mu-icon value="home" ></mu-icon>
-    </mu-button>
-    <mu-menu slot="right">
-      <mu-button flat>{{'路线'+normid}}</mu-button>
-      <mu-list slot="content">
-        <mu-list-item button v-for="(item, index) in line" :key="index" @click="changeLine(index)">
-          <mu-list-item-content>
-            <mu-list-item-title>{{item.name}}</mu-list-item-title>
-          </mu-list-item-content>
+  <div>
+    <mu-appbar color="primary" class="mu-header">
+      <mu-button icon slot="left" @click="open = !open">
+        <mu-icon value="menu" ></mu-icon>
+      </mu-button>
+      <mu-menu slot="right">
+        <mu-button flat>{{'路线'+normid}}</mu-button>
+        <mu-list slot="content">
+          <mu-list-item button v-for="(item, index) in line" :key="index" @click="changeLine(index)">
+            <mu-list-item-content>
+              <mu-list-item-title>{{item.name}}</mu-list-item-title>
+            </mu-list-item-content>
+          </mu-list-item>
+        </mu-list>
+      </mu-menu>
+    </mu-appbar>
+    
+    <mu-drawer :open.sync="open" :docked="false">
+      <mu-list>
+        <mu-list-item button v-for="(item, index) in menu" :key="index"  @click="goMenu(item.url)">
+          <mu-list-item-action>
+            <mu-icon :value="item.icon || 'grade'" color="pink"></mu-icon>
+          </mu-list-item-action>
+          <mu-list-item-title>{{item.name}}</mu-list-item-title>
         </mu-list-item>
       </mu-list>
-    </mu-menu>
-  </mu-appbar>
+    </mu-drawer>    
+  </div>
+
 </template>
 
 <script>
@@ -21,8 +35,36 @@ export default {
   data () {
     return {
       line: [],
+      open: false,
       normLine: sessionStorage.getItem("normline") || '',
-      normid: sessionStorage.getItem("normid") || '1'
+      normid: sessionStorage.getItem("normid") || '1',
+      menu: [
+        {
+          name: '首页',
+          url: 'index',
+          icon: 'home'
+        },        
+        {
+          name: '网红主播',
+          url: 'whmm',
+          icon: 'library_music'
+        },
+        {
+          name: '国产精品',
+          url: 'guochan',
+          icon: 'live_tv'
+        },
+        {
+          name: '微拍福利',
+          url: 'weipai',
+          icon: 'videocam'
+        },
+        {
+          name: '91大神',
+          url: 'porn91',
+          icon: 'movie_filter'
+        }
+      ],
     }
   },
   created() {
@@ -40,6 +82,10 @@ export default {
   methods: {
     gohome() {
       this.$router.push({path: '/'})
+    },
+    goMenu(menu) {
+      this.$router.push({name: menu})
+      this.open = false
     },
     changeLine(index) {
       sessionStorage.setItem('normline', this.line[index].address)

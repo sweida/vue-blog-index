@@ -6,7 +6,7 @@
       <mu-icon value="airplanemode_active"></mu-icon>
     </mu-button>
     <footer>
-      <div>本站只是为了技术交流，本站资源均来于互联网，与本人无关，若有侵权请告知</div>
+      <div>本站只是为了技术交流，本站资源均来于互联网，如有侵犯权限请联系本站删除，本站不承担任何相关的法律责任</div>
       <p>备案号：这种网站还备案？</p>
     </footer>
   </div>

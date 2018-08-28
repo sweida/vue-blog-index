@@ -1,7 +1,7 @@
 <template>
   <mu-container>
-    <mu-alert color="info" delete v-if="tip" @delete="closeAlert()" transition="mu-scale-transition">
-      <mu-icon left value="info" color="#fff"></mu-icon> 本站的视频只能在手机观看
+    <mu-alert color="info">
+      <mu-icon left value="video_library" color="#fff"></mu-icon>视频分类：{{name}}
     </mu-alert>
 
     <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
@@ -19,18 +19,18 @@
     </mu-card>
     <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
-      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
+      <mu-pagination raised :total="guochan.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
     </mu-flex>
   </mu-container>
 </template>
 
 <script>
-import whmm from '@/data/whmm/index.js'
+import guochan from '@/data/guochan/index.js'
 export default {
   data () {
     return {
-      name: '每日头条',
-      whmm: whmm,
+      name: '国产精品',
+      guochan: guochan,
       normline: sessionStorage.getItem('normline') || '',
       current: 1,
       pageSize: 10,
@@ -83,11 +83,11 @@ export default {
     },
     // 获取分页数据
     goPage() {
-      this.listData = this.whmm.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+      this.listData = this.guochan.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
     },
     // 点击分页
     handlpage() {
-      this.$router.push({path: '/', query: {page: this.current}})
+      this.$router.push({path: '/guochan', query: {page: this.current}})
       const loading = this.$loading();
       this.goPage()
       setTimeout(() => {

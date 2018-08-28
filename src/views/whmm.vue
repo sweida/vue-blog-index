@@ -1,108 +1,108 @@
 <template>
-  <main>
-    <mu-container>
-      <h3>正常播放：{{video.title}}</h3>
-      <p>日期：{{video.creatDate}} <span class="longTime">时长：{{video.longTime}}</span></p>
-    </mu-container>
-    <div class="video">
-      <video controls="controls" :src="video.video" :poster="video.image" width="100%" height="100%" autoplay="autoplay"></video>
-    </div>
-    <mu-container>
-      <mu-flex align-items="center" class="favorite">
-        <mu-icon size="18" value="favorite" color="secondary"></mu-icon>
-        猜你喜欢
-      </mu-flex>
+  <mu-container>
+    <mu-alert color="info">
+      <mu-icon left value="video_library" color="#fff"></mu-icon>视频分类：{{name}}
+    </mu-alert>
 
-      <mu-card v-for="(item, index) in favorData" :key="index" @click="goroute(item)">
-        <mu-card-media >
-          <img :src="item.image">
-          <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
-        </mu-card-media>
-        <mu-card-text>
-          <h3 class="listTitle">{{item.title}}</h3>
-          <mu-flex align-items="center" class="creatTime">
-            <mu-icon size="18" value="access_time"></mu-icon>
-            {{item.creatDate}}
-          </mu-flex>
-        </mu-card-text>
-      </mu-card>
-    </mu-container>
-  </main>
+    <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
+      <mu-card-media >
+        <img v-lazy="normline+item.image" :key="item.id">
+        <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
+      </mu-card-media>
+      <mu-card-text>
+        <h3 class="listTitle">{{item.title}}</h3>
+        <mu-flex align-items="center" class="creatTime">
+          <mu-icon size="18" value="access_time"></mu-icon>
+          {{item.creatDate}}
+        </mu-flex>
+      </mu-card-text>
+    </mu-card>
+    <!-- 分页 -->
+    <mu-flex justify-content="center" style="margin: 32px 0;">
+      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
+    </mu-flex>
+  </mu-container>
 </template>
 
 <script>
-import whmm from '@/data/whmm'
+import whmm from '@/data/whmm/index.js'
 export default {
   data () {
     return {
-      video: '',
+      name: '网红主播',
       whmm: whmm,
-      favorData: []
+      normline: sessionStorage.getItem('normline') || '',
+      current: 1,
+      pageSize: 10,
+      listData: [],
+      tip: true
     }
   },
   created() {
-    // 重定向到首页
-    let vdata = JSON.parse(sessionStorage.getItem("data"))
-    if(vdata) {
-      this.video = vdata
+    // 是否提示
+    if(sessionStorage.getItem('tip')) {
+      this.tip = false
+    }    
+    // 默认路线
+    if (this.normline=='') {
+      this.$get('line').then(res => {
+        sessionStorage.setItem('normline', res.data[0].address)
+        this.normline = res.data[0].address
+        this.current = Number(this.$route.query.page) || 1
+        this.goPage()
+      })
     } else {
-      this.$router.push({path: '/'})
+      this.current = Number(this.$route.query.page) || 1
+      this.goPage()
     }
-    // 猜你喜欢
-    this.favorter()
+  },
+  beforeMount() {
+
   },
   watch: {
     $route(){
-      this.favorter()
+      this.current = Number(this.$route.query.page) || 1
+      this.goPage()
     }
   },
   methods: {
-    // 猜你喜欢
-    favorter() {
-      let newlist = this.whmm.slice()
-      const shuffle = newlist.sort(
-        () => Math.random() - 0.5
-      )
-      this.favorData = shuffle.slice(0, 3)
-    },
-    goroute(data) {
+    closeAlert () {
+      this.tip = false
+      sessionStorage.setItem('tip', false)
+    },    
+    detail(data) {
       const loading = this.$loading();
       this.$router.push({
-        path: `/whmm/${data.id}`
+        path: `/detail/${data.id}`,
+        query: {type: this.name}
       })
-      this.video = data
       sessionStorage.setItem('data', JSON.stringify(data))
       setTimeout(() => {
         loading.close()
       }, 800)
+    },
+    // 获取分页数据
+    goPage() {
+      this.listData = this.whmm.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+    },
+    // 点击分页
+    handlpage() {
+      this.$router.push({path: '/whmm', query: {page: this.current}})
+      const loading = this.$loading();
+      this.goPage()
+      setTimeout(() => {
+        loading.close()
+        document.documentElement.scrollTop = 0
+        document.body.scrollTop = 0
+      }, 1000)
     }
   }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3{
-  margin: 3px 0;
-}
-p{
-  color: #666;
-  margin: 3px 0 10px;
-}
-.longTime{
-  margin-left: 30px;
-}
-.video{
-  width: 100%;
-  height: 240px;
-  background: #000;
-  margin-bottom: 30px;
-}
-.favorite i{
-  margin-right: 5px;
-}
-
-/* 卡片 */
 .mu-card{
   margin: 10px 0 15px;
   overflow: hidden;
@@ -115,10 +115,31 @@ p{
 .listTitle{
   margin: 0 auto 3px;
 }
+.mu-card-media {
+  min-height: 200px;
+}
 .mu-card-text{
   padding: 10px;
 }
 .mu-card-text i{
   margin-right: 5px;
+}
+.mu-circular-progress{
+  margin: 25% 0 0 50%;
+  transform: translateX(-18px)
+}
+
+.mu-alert{
+  padding: 10px 16px;
+}
+.mu-scale-transition-enter-active,
+.mu-scale-transition-leave-active {
+  transition: transform .45s cubic-bezier(0.23, 1, 0.32, 1), opacity .45s cubic-bezier(0.23, 1, 0.32, 1);
+  backface-visibility: hidden;
+}
+.mu-scale-transition-enter,
+.mu-scale-transition-leave-active {
+  transform: scale(0);
+  opacity: 0;
 }
 </style>
