@@ -2,9 +2,9 @@
   <div id="app">
     <Header></Header>
     <router-view class="main"/>
-    <mu-button fab color="secondary" class="gotop" v-if="gotop" @click="goTop" transition="mu-scale-transition">
+    <!-- <mu-button fab color="secondary" class="gotop" v-if="gotop" @click="goTop" transition="mu-scale-transition">
       <mu-icon value="airplanemode_active"></mu-icon>
-    </mu-button>
+    </mu-button> -->
     <footer>
       <div>本站只是为了技术交流，本站资源均来于互联网，如有侵犯权限请联系本站删除，本站不承担任何相关的法律责任</div>
       <p>备案号：这种网站还备案？</p>
@@ -30,20 +30,20 @@ export default {
 
   },
   methods: {
-    handleScroll () {
-      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-      if (scrollTop > 700) {
-        this.gotop = true
-      } else {
-        this.gotop = false
-      }
-    },
-    goTop() {
-      setTimeout(() => {
-        document.documentElement.scrollTop = 0
-        document.body.scrollTop = 0
-      }, 300)
-    }
+    // handleScroll () {
+    //   let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+    //   if (scrollTop > 700) {
+    //     this.gotop = true
+    //   } else {
+    //     this.gotop = false
+    //   }
+    // },
+    // goTop() {
+    //   setTimeout(() => {
+    //     document.documentElement.scrollTop = 0
+    //     document.body.scrollTop = 0
+    //   }, 300)
+    // }
   }
 }
 </script>

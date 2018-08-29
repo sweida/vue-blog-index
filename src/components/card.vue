@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import whmm from '@/data/whmm'
+import whmm from '@/data/whmm/index'
 export default {
   data () {
     return {
@@ -33,19 +33,23 @@ export default {
       () => Math.random() - 0.5
     )
     this.favorData = shuffle.slice(0, 3)
-    console.log(newlist, shuffle, this.favorData)
   },
   watch: {
     $route(){
-      this.favorter()
+      let newlist = this.whmm.slice()
+      const shuffle = newlist.sort(
+        () => Math.random() - 0.5
+      )
+      this.favorData = shuffle.slice(0, 3)
     }
   },
   methods: {
     // 查看详情
-    datail(data) {
+    detail(data) {
       const loading = this.$loading();
       this.$router.push({
-        path: `/whmm/${data.id}`
+        path: `/detail/${data.id}`,
+        query: {type: '网红主播'}
       })
       sessionStorage.setItem('data', JSON.stringify(data))
       setTimeout(() => {
