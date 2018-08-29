@@ -1,5 +1,6 @@
 <template>
-    <mu-card v-for="(item, index) in listData" :key="index" @click="goroute(item)">
+  <div class="favore">
+    <mu-card v-for="(item, index) in favorData" :key="index" @click="detail(item)">
       <mu-card-media >
         <img v-lazy="normline+item.image" :key="item.id">
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
@@ -12,17 +13,36 @@
         </mu-flex>
       </mu-card-text>
     </mu-card>
+  </div>
 </template>
 
 <script>
+import whmm from '@/data/whmm'
 export default {
   data () {
     return {
+      whmm: whmm,
+      normline: sessionStorage.getItem('normline') || '',
+      favorData: [],
+    }
+  },
+  created() {
+    // 猜你喜欢
+    let newlist = this.whmm.slice()
+    const shuffle = newlist.sort(
+      () => Math.random() - 0.5
+    )
+    this.favorData = shuffle.slice(0, 3)
+    console.log(newlist, shuffle, this.favorData)
+  },
+  watch: {
+    $route(){
+      this.favorter()
     }
   },
   methods: {
     // 查看详情
-    goroute(data) {
+    datail(data) {
       const loading = this.$loading();
       this.$router.push({
         path: `/whmm/${data.id}`
@@ -38,14 +58,28 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.mu-header {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  width: 100%;
-  z-index: 101;
+.favore{
+  margin-bottom: 40px;
+}
+.mu-card{
+  margin: 10px 0 15px;
   overflow: hidden;
 }
-
+.longTime {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+}
+.listTitle{
+  margin: 0 auto 3px;
+}
+.mu-card-media {
+  min-height: 200px;
+}
+.mu-card-text{
+  padding: 10px;
+}
+.mu-card-text i{
+  margin-right: 5px;
+}
 </style>

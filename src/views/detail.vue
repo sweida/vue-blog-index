@@ -14,7 +14,8 @@
         猜你喜欢
       </mu-flex>
 
-      <mu-card v-for="(item, index) in favorData" :key="index" @click="goroute(item)">
+      <Card></Card>
+      <!-- <mu-card v-for="(item, index) in favorData" :key="index" @click="goroute(item)">
         <mu-card-media >
           <img :src="item.image">
           <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
@@ -26,20 +27,21 @@
             {{item.creatDate}}
           </mu-flex>
         </mu-card-text>
-      </mu-card>
+      </mu-card> -->
     </mu-container>
   </main>
 </template>
 
 <script>
-import whmm from '@/data/whmm'
+import Card from '@/components/card'
 export default {
+  components: {
+    Card
+  },
   data () {
     return {
       video: '',
-      whmm: whmm,
       type: this.$route.query.type,
-      favorData: []
     }
   },
   created() {
@@ -50,23 +52,8 @@ export default {
     } else {
       this.$router.push({path: '/'})
     }
-    // 猜你喜欢
-    this.favorter()
-  },
-  watch: {
-    $route(){
-      this.favorter()
-    }
   },
   methods: {
-    // 猜你喜欢
-    favorter() {
-      let newlist = this.whmm.slice()
-      const shuffle = newlist.sort(
-        () => Math.random() - 0.5
-      )
-      this.favorData = shuffle.slice(0, 3)
-    },
     goroute(data) {
       const loading = this.$loading();
       this.$router.push({
