@@ -53,6 +53,11 @@ export default {
       this.$router.push({path: '/'})
     }
   },
+  watch: {
+    $route(){
+      this.video = JSON.parse(sessionStorage.getItem("data"))
+    }
+  },
   methods: {
     goroute(data) {
       const loading = this.$loading();

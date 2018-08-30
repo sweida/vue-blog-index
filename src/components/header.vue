@@ -63,6 +63,21 @@ export default {
           name: '91大神',
           url: 'porn91',
           icon: 'movie_filter'
+        },
+        {
+          name: '韩国主播',
+          url: 'hanguo',
+          icon: 'music_video'
+        },
+        {
+          name: '嫖客日记',
+          url: 'riji',
+          icon: 'book'
+        },
+        {
+          name: '三级片',
+          url: 'sanjipian',
+          icon: 'receipt'
         }
       ],
     }
