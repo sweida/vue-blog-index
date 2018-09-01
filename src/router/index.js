@@ -9,6 +9,8 @@ import porn91 from '@/views/porn91'
 import hanguo from '@/views/hanguo'
 import riji from '@/views/riji'
 import sanjipian from '@/views/sanjipian'
+import nenmo from '@/views/nenmo'
+import zongyi from '@/views/zongyi'
 
 Vue.use(Router)
 
@@ -51,13 +53,21 @@ export default new Router({
       name: 'guochan',
       component: guochan
     },
-
+    {
+      path: '/nenmo',
+      name: 'nenmo',
+      component: nenmo
+    },
     {
       path: '/weipai',
       name: 'weipai',
       component: weipai
     },
-
+    {
+      path: '/zongyi',
+      name: 'zongyi',
+      component: zongyi
+    },
     {
       path: '/hanguo',
       name: 'hanguo',

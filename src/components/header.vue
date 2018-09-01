@@ -15,7 +15,7 @@
         </mu-list>
       </mu-menu>
     </mu-appbar>
-    
+
     <mu-drawer :open.sync="open" :docked="false">
       <mu-list>
         <mu-list-item button v-for="(item, index) in menu" :key="index"  @click="goMenu(item.url)">
@@ -25,7 +25,7 @@
           <mu-list-item-title>{{item.name}}</mu-list-item-title>
         </mu-list-item>
       </mu-list>
-    </mu-drawer>    
+    </mu-drawer>
   </div>
 
 </template>
@@ -43,7 +43,7 @@ export default {
           name: '首页',
           url: 'index',
           icon: 'home'
-        },        
+        },
         {
           name: '网红主播',
           url: 'whmm',
@@ -60,6 +60,11 @@ export default {
           icon: 'videocam'
         },
         {
+          name: '嫩模写真',
+          url: 'nenmo',
+          icon: 'collections'
+        },
+        {
           name: '91大神',
           url: 'porn91',
           icon: 'movie_filter'
@@ -73,6 +78,11 @@ export default {
           name: '嫖客日记',
           url: 'riji',
           icon: 'book'
+        },
+        {
+          name: '两性综艺',
+          url: 'zongyi',
+          icon: 'touch_app'
         },
         {
           name: '三级片',
@@ -92,7 +102,7 @@ export default {
         sessionStorage.setItem('normid', res.data[0].id)
       }
       loading.close()
-    })    
+    })
   },
   methods: {
     gohome() {

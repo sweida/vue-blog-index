@@ -1,7 +1,8 @@
 <template>
   <mu-container>
     <mu-alert color="info">
-      <mu-icon left value="video_library" color="#fff"></mu-icon>视频分类：{{name}}
+      <mu-icon left value="video_library" color="#fff"></mu-icon>
+      视频分类：{{name}}（共{{weipai.length}}个视频）
     </mu-alert>
 
     <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
@@ -42,7 +43,7 @@ export default {
     // 是否提示
     if(sessionStorage.getItem('tip')) {
       this.tip = false
-    }    
+    }
     // 默认路线
     if (this.normline=='') {
       this.$get('line').then(res => {
@@ -69,7 +70,7 @@ export default {
     closeAlert () {
       this.tip = false
       sessionStorage.setItem('tip', false)
-    },    
+    },
     detail(data) {
       const loading = this.$loading();
       this.$router.push({

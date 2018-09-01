@@ -2,7 +2,7 @@
   <mu-container>
     <mu-alert color="info">
       <mu-icon left value="video_library" color="#fff"></mu-icon>
-      视频分类：{{name}}（共{{porn91.length}}个视频）
+      视频分类：{{name}}（共{{zongyi.length}}个视频）
     </mu-alert>
 
     <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
@@ -20,19 +20,18 @@
     </mu-card>
     <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
-      <mu-pagination raised :total="porn91.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
+      <mu-pagination raised :total="zongyi.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
     </mu-flex>
   </mu-container>
 </template>
 
 <script>
-import porn91 from '@/data/porn91/index.js'
+import zongyi from '@/data/zongyi/index.js'
 export default {
-
   data () {
     return {
-      name: '91大神',
-      porn91: porn91,
+      name: '两性综艺',
+      zongyi: zongyi,
       normline: sessionStorage.getItem('normline') || '',
       current: 1,
       pageSize: 10,
@@ -85,11 +84,11 @@ export default {
     },
     // 获取分页数据
     goPage() {
-      this.listData = this.porn91.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+      this.listData = this.zongyi.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
     },
     // 点击分页
     handlpage() {
-      this.$router.push({path: '/porn91', query: {page: this.current}})
+      this.$router.push({path: '/zongyi', query: {page: this.current}})
       const loading = this.$loading();
       this.goPage()
       setTimeout(() => {
@@ -133,7 +132,6 @@ export default {
 
 .mu-alert{
   padding: 10px 16px;
-  font-size: 16px;
 }
 .mu-scale-transition-enter-active,
 .mu-scale-transition-leave-active {
