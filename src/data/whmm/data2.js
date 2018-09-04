@@ -118,7 +118,8 @@ export default [
     "creatDate": "2018-08-26",
     "longTime": "00:11:35",
     "title": "宅男意淫撸管推荐高颜值白富美女神主播声音甜美奶子硕大阴毛稀疏私处粉嫩诱人",
-    "video": "https://play.cdmbo.com/20180825/SWcHBpGO/index.m3u8"
+    "video": "https://play.cdmbo.com/20180825/SWcHBpGO/index.m3u8",
+    "vip": true
   },
   {
     "id": "10603",

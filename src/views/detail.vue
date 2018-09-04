@@ -1,9 +1,9 @@
 <template>
   <main>
     <mu-container>
-      <h3>正常播放：{{video.title}}</h3>
+      <h3>正在播放：{{video.title}}</h3>
       <p>视频分类：{{type}}</p>
-      <p>日期：{{video.creatDate}} <span class="longTime">时长：{{video.longTime}}</span></p>
+      <p>日期：{{video.creatDate}} <span class="Time">时长：{{video.longTime}}</span></p>
     </mu-container>
     <div class="video">
       <video controls="controls" :src="video.video" :poster="video.image" width="100%" height="100%" autoplay="autoplay"></video>
@@ -83,7 +83,7 @@ p{
   color: #666;
   margin: 5px 0 7px;
 }
-.longTime{
+.Time{
   margin-left: 30px;
 }
 .video{

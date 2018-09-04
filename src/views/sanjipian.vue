@@ -7,7 +7,7 @@
 
     <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
       <mu-card-media >
-        <img v-lazy="normline+item.image" :key="item.id">
+        <img v-lazy="item.image" :key="item.id">
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
       </mu-card-media>
       <mu-card-text>
@@ -20,7 +20,7 @@
     </mu-card>
     <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
-      <mu-pagination raised :total="sanjipian.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
+      <mu-pagination raised :total="sanjipian.length" :page-size="pageSize" :page-count="5" :current.sync="current" @change="handlpage"></mu-pagination>
     </mu-flex>
   </mu-container>
 </template>
@@ -85,6 +85,11 @@ export default {
     // 获取分页数据
     goPage() {
       this.listData = this.sanjipian.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+      this.listData.forEach(item => {
+        if (item.image.substring(0, 4) != 'http') {
+          item.image = this.normline + item.image
+        }
+      })
     },
     // 点击分页
     handlpage() {

@@ -11,6 +11,7 @@ import riji from '@/views/riji'
 import sanjipian from '@/views/sanjipian'
 import nenmo from '@/views/nenmo'
 import zongyi from '@/views/zongyi'
+import siwa from '@/views/siwa'
 
 Vue.use(Router)
 
@@ -47,6 +48,11 @@ export default new Router({
       path: '/porn91',
       name: 'porn91',
       component: porn91
+    },
+    {
+      path: '/siwa',
+      name: 'siwa',
+      component: siwa
     },
     {
       path: '/guochan',

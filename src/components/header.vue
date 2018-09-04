@@ -70,6 +70,11 @@ export default {
           icon: 'movie_filter'
         },
         {
+          name: '丝袜诱惑',
+          url: 'siwa',
+          icon: 'hot_tub'
+        },
+        {
           name: '韩国主播',
           url: 'hanguo',
           icon: 'music_video'

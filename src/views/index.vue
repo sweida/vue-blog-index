@@ -1,12 +1,12 @@
 <template>
   <mu-container>
     <mu-alert color="info" delete v-if="tip" @delete="closeAlert()" transition="mu-scale-transition">
-      <mu-icon left value="info" color="#fff"></mu-icon> 本站的视频只能在手机观看
+      <mu-icon left value="info" color="#fff"></mu-icon> 本站的视频只能在手机观看，图片挂了才切换路线，视频挂了不用切换路线，后退重新点击视频即可
     </mu-alert>
 
     <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
       <mu-card-media >
-        <img v-lazy="normline+item.image" :key="item.id">
+        <img v-lazy="item.image" :key="item.id">
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
       </mu-card-media>
       <mu-card-text>
@@ -19,7 +19,7 @@
     </mu-card>
     <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
-      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
+      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :page-count=5 :current.sync="current" @change="handlpage"></mu-pagination>
     </mu-flex>
   </mu-container>
 </template>
@@ -42,7 +42,7 @@ export default {
     // 是否提示
     if(sessionStorage.getItem('tip')) {
       this.tip = false
-    }    
+    }
     // 默认路线
     if (this.normline=='') {
       this.$get('line').then(res => {
@@ -69,7 +69,7 @@ export default {
     closeAlert () {
       this.tip = false
       sessionStorage.setItem('tip', false)
-    },    
+    },
     detail(data) {
       const loading = this.$loading();
       this.$router.push({
@@ -84,6 +84,11 @@ export default {
     // 获取分页数据
     goPage() {
       this.listData = this.whmm.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+      this.listData.forEach(item => {
+        if (item.image.substring(0, 4) != 'http') {
+          item.image = this.normline + item.image
+        }
+      })
     },
     // 点击分页
     handlpage() {

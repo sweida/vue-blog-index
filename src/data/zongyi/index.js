@@ -1,5 +1,15 @@
+import mlyxs from './mlyxs.js'
+import mlhs from './mlhs.js'
+
 export default [
   {
+    'id': '5964',
+    'image': '/d/file/zongyi/2018-04-29/7feb45f698a34dd2221ed5fe185ed5bf.jpg',
+    'creatDate': '2018-04-29',
+    'longTime': '00:06:34',
+    'title': '美国综艺秀模特野外原始游玩超高清视频',
+    'video': 'https://www.fkc123.net/20180428/dN0SaaMO/index.m3u8'
+  }, {
     'id': '10670',
     'image': '/d/file/zongyi/2018-08-28/1ea0f4d823fc3abfbcfa965780682091.jpg',
     'creatDate': '2018-08-28',
@@ -127,18 +137,13 @@ export default [
     'title': '紧张刺激的卡拉OK撸管大赛',
     'video': 'https://play.dapaobo.com/20180505/B6vmD7Ey/index.m3u8'
   }, {
-    'id': '6084',
-    'image': 'http://www.fkc123.net:2100/20180430/BAs1p4cN/1.jpg',
+    'id': '6061',
+    'image': 'http://www.fkc123.net:2100/20180430/55HoVkUq/1.jpg',
     'creatDate': '2018-05-01',
-    'longTime': '00:19:11',
-    'title': '[魅力研习社][第084期][打底浪潮][640 x 480]',
-    'video': 'https://www.fkc123.net/20180430/BAs1p4cN/index.m3u8'
-  }, {
-    'id': '6082',
-    'image': 'http://www.fkc123.net:2100/20180430/zHB8KmGW/1.jpg',
-    'creatDate': '2018-05-01',
-    'longTime': '00:20:28',
-    'title': '[魅力研习社][第085期][我爱白衬衫][640 x 480]',
-    'video': 'https://www.fkc123.net/20180430/zHB8KmGW/index.m3u8'
+    'longTime': '00:17:35',
+    'title': '[性感女影星][640 x 480]',
+    'video': 'https://www.fkc123.net/20180430/55HoVkUq/index.m3u8'
   },
+  ...mlyxs,
+  ...mlhs
 ]

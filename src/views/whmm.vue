@@ -4,10 +4,14 @@
       <mu-icon left value="video_library" color="#fff"></mu-icon>
       视频分类：{{name}}（共{{whmm.length}}个视频）
     </mu-alert>
-
+    <div class="videoType">
+      快速分类：
+      <mu-button :color="active=='all' ? 'secondary' : 'primary'" @click="allType">全部</mu-button>
+      <mu-button :color="active=='vip' ? 'secondary' : 'primary'" @click="vipType">精品推荐</mu-button>
+    </div>
     <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
       <mu-card-media >
-        <img v-lazy="normline+item.image" :key="item.id">
+        <img v-lazy="item.image" :key="item.id">
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
       </mu-card-media>
       <mu-card-text>
@@ -20,7 +24,7 @@
     </mu-card>
     <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
-      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :current.sync="current" @change="handlpage"></mu-pagination>
+      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :page-count=5 :current.sync="current" @change="handlpage"></mu-pagination>
     </mu-flex>
   </mu-container>
 </template>
@@ -31,6 +35,7 @@ export default {
   data () {
     return {
       name: '网红主播',
+      active: 'all',
       whmm: whmm,
       normline: sessionStorage.getItem('normline') || '',
       current: 1,
@@ -82,9 +87,31 @@ export default {
         loading.close()
       }, 800)
     },
+    allType () {
+      this.whmm = whmm
+      this.active = 'all'
+      this.goPage()
+    },
+    vipType () {
+      this.active = 'vip'
+      let vip = []
+      this.whmm.forEach(item => {
+        if (item.vip) {
+          vip.push(item)
+        }
+      })
+      this.whmm = vip
+      this.current = 1
+      this.goPage()
+    },
     // 获取分页数据
     goPage() {
       this.listData = this.whmm.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+      this.listData.forEach(item => {
+        if (item.image.substring(0, 4) != 'http') {
+          item.image = this.normline + item.image
+        }
+      })
     },
     // 点击分页
     handlpage() {
@@ -107,6 +134,9 @@ export default {
 .mu-card{
   margin: 10px 0 15px;
   overflow: hidden;
+}
+.videoType{
+  margin-top: 10px;
 }
 .longTime {
   position: absolute;

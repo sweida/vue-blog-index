@@ -100,7 +100,7 @@ export default [
     video: 'https://play.cdmbo.com/20180809/ZfctE5q2/index.m3u8'
   },
   {
-    id: '/9950',
+    id: '9950',
     image: '/d/file/gcjp/riji/2018-08-08/69009e07d0659e3d486c82a4eb0b6e88.jpg',
     creatDate: '2018-08-08',
     longTime: '00:50:59',
@@ -108,7 +108,7 @@ export default [
     video: 'https://play.cdmbo.com/20180807/qGT9BP9y/index.m3u8'
   },
   {
-    id: '/9924',
+    id: '9924',
     image: '/d/file/gcjp/riji/2018-08-08/f052167cacd44069d6676e2b5226b865.jpg',
     creatDate: '2018-08-08',
     longTime: '00:08:59',
@@ -116,7 +116,7 @@ export default [
     video: 'https://play.cdmbo.com/20180807/6gNTQfAZ/index.m3u8'
   },
   {
-    id: '/9910',
+    id: '9910',
     image: '/d/file/gcjp/riji/2018-08-07/9b51d5c4995329f9eb98db728b090057.jpg',
     creatDate: '2018-08-07',
     longTime: '00:54:20',
@@ -124,7 +124,7 @@ export default [
     video: 'https://play.cdmbo.com/20180806/umrXSE3t/index.m3u8'
   },
   {
-    id: '/9851',
+    id: '9851',
     image: '/d/file/gcjp/riji/2018-08-06/ed650f029ca9f64e5e770546c14dc78d.jpg',
     creatDate: '2018-08-06',
     longTime: '00:31:28',
@@ -132,7 +132,7 @@ export default [
     video: 'https://play.cdmbo.com/20180805/cCB8Yo6J/index.m3u8'
   },
   {
-    id: '/9818',
+    id: '9818',
     image: '/d/file/gcjp/riji/2018-08-05/26f664980dbc02bef77009d16d46dac0.gif',
     creatDate: '2018-08-05',
     longTime: '00:09:23',
@@ -140,7 +140,7 @@ export default [
     video: 'https://play.cdmbo.com/20180804/SNBM11yn/index.m3u8'
   },
   {
-    id: '/9754',
+    id: '9754',
     image: '/d/file/gcjp/riji/2018-08-03/c3598b0949481c601c12922b28579498.gif',
     creatDate: '2018-08-03',
     longTime: '00:17:57',
@@ -148,7 +148,7 @@ export default [
     video: 'https://play.cdmbo.com/20180802/6qS94B0S/index.m3u8'
   },
   {
-    id: '/9770',
+    id: '9770',
     image: '/d/file/gcjp/riji/2018-08-03/06398cd570129f7ea619f90b77dce3c0.gif',
     creatDate: '2018-08-03',
     longTime: '00:20:10',
@@ -156,7 +156,7 @@ export default [
     video: 'https://play.cdmbo.com/20180802/onPAVZex/index.m3u8'
   },
   {
-    id: '/9636',
+    id: '9636',
     image: '/d/file/gcjp/riji/2018-07-31/5d96959b92c2c3decddadf1b2f6d1d54.gif',
     creatDate: '2018-07-31',
     longTime: '00:22:17',
@@ -164,7 +164,7 @@ export default [
     video: 'https://play.cdmbo.com/20180730/xGnNEOgC/index.m3u8'
   },
   {
-    id: '/9621',
+    id: '9621',
     image: '/d/file/gcjp/riji/2018-07-30/9249eb9e8921302e89b212f7861966e9.gif',
     creatDate: '2018-07-30',
     longTime: '00:31:05',
@@ -172,7 +172,7 @@ export default [
     video: 'https://play.cdmbo.com/20180729/dAz42RLl/index.m3u8'
   },
   {
-    id: '/9455',
+    id: '9455',
     image: '/d/file/gcjp/riji/2018-07-26/f44a9c980098c35b96a5563e57476a14.jpg',
     creatDate: '2018-07-26',
     longTime: '00:05:18',
@@ -180,7 +180,7 @@ export default [
     video: 'https://play.cdmbo.com/20180725/lRkxuDRY/index.m3u8'
   },
   {
-    id: '/9372',
+    id: '9372',
     image: '/d/file/gcjp/riji/2018-07-24/4c3fd797f658a2e7fac6dee7d09cbc7e.gif',
     creatDate: '2018-07-24',
     longTime: '00:24:38',
@@ -188,7 +188,7 @@ export default [
     video: 'https://play.cdmbo.com/20180723/2JJR6QE7/index.m3u8'
   },
   {
-    id: '/9374',
+    id: '9374',
     image: '/d/file/gcjp/riji/2018-07-24/73ac81580365345d5fdea61672517aa4.jpg',
     creatDate: '2018-07-24',
     longTime: '00:08:17',

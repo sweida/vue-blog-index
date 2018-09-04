@@ -7,7 +7,7 @@
     </mu-button> -->
     <footer>
       <div>本站只是为了技术交流，本站资源均来于互联网，如有侵犯权限请联系本站删除，本站不承担任何相关的法律责任</div>
-      <p>备案号：这种网站还备案？</p>
+      <p>如未满18周岁请自觉离开！</p>
     </footer>
   </div>
 </template>
@@ -49,6 +49,11 @@ export default {
 </script>
 
 <style>
+#cnzz_stat_icon_1274645464{
+  font-size: 0;
+  opacity: 0;
+  display: none;
+}
 #app {
 }
 .main{

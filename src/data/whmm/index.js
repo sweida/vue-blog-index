@@ -1,7 +1,12 @@
 import data2 from './data2.js'
 import data3 from './data3.js'
+import data4 from './data4.js'
+import data5 from './data5.js'
+import data6 from './data6.js'
 
 export default [
+  ...data6,
+  ...data4,
   ...data3,
   ...data2,
   {
@@ -148,7 +153,8 @@ export default [
     creatDate: '2018-08-21',
     longTime: '00:31:17',
     title: '绝色花多多811露脸一多情趣连体黑丝极品诱惑',
-    video: 'https://play.cdmbo.com/20180820/2EsXc403/index.m3u8'
+    video: 'https://play.cdmbo.com/20180820/2EsXc403/index.m3u8',
+    'vip': true
   },
   {
     id: '10365',
@@ -196,6 +202,8 @@ export default [
     creatDate: '2018-08-19',
     longTime: '00:03:17',
     title: '话教的小姐姐小乔',
-    video: 'https://play.cdmbo.com/20180818/A4xD3lGf/index.m3u8'
-  }
+    video: 'https://play.cdmbo.com/20180818/A4xD3lGf/index.m3u8',
+    'vip': true
+  },
+  ...data5,
 ]

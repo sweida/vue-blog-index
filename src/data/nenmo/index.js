@@ -152,7 +152,7 @@ export default [
     'video': 'https://play.cdmbo.com/20180810/RzUHZmic/index.m3u8'
   },
   {
-    'id': '/9965',
+    'id': '9965',
     'image': '/d/file/fuli/nmxz/2018-08-09/3b10e93cb57d9b00389377b79232da9c.gif',
     'creatDate': '2018-08-09',
     'longTime': '00:01:36',

@@ -1,4 +1,9 @@
+import data2 from './data2.js'
+import data3 from './data3.js'
+
 export default [
+  ...data3,
+  ...data2,
   {
     id: '10587',
     image:
@@ -140,7 +145,7 @@ export default [
     video: 'https://play.cdmbo.com/20180809/Sby8oCBE/index.m3u8'
   },
   {
-    id: '/9974',
+    id: '9974',
     image:
       '/d/file/gcjp/91porn/2018-08-09/55c9a44ab892d10f18928d03ae84d762.gif',
     creatDate: '2018-08-09',
@@ -149,7 +154,7 @@ export default [
     video: 'https://play.cdmbo.com/20180808/VJ1cpeSu/index.m3u8'
   },
   {
-    id: '/9992',
+    id: '9992',
     image:
       '/d/file/gcjp/91porn/2018-08-09/f53e225bfec2bc992e1e1c2681083a28.gif',
     creatDate: '2018-08-09',
@@ -158,7 +163,7 @@ export default [
     video: 'https://play.cdmbo.com/20180808/2XPSKBGp/index.m3u8'
   },
   {
-    id: '/9941',
+    id: '9941',
     image:
       '/d/file/gcjp/91porn/2018-08-08/47e29e3c00a7076d8db469b31fb70b6a.gif',
     creatDate: '2018-08-08',
@@ -168,7 +173,7 @@ export default [
     video: 'https://play.cdmbo.com/20180807/M0dTLefc/index.m3u8'
   },
   {
-    id: '/9903',
+    id: '9903',
     image:
       '/d/file/gcjp/91porn/2018-08-07/d77ebf6c1e96693d42f5e4a745f5b771.gif',
     creatDate: '2018-08-07',
@@ -178,7 +183,7 @@ export default [
     video: 'https://play.cdmbo.com/20180806/D5mA0yVf/index.m3u8'
   },
   {
-    id: '/9874',
+    id: '9874',
     image:
       '/d/file/gcjp/91porn/2018-08-06/dfa2cfc6c5a9ba979e3b2633069f9d24.gif',
     creatDate: '2018-08-06',
@@ -188,7 +193,7 @@ export default [
     video: 'https://play.cdmbo.com/20180805/WewSjZ58/index.m3u8'
   },
   {
-    id: '/9838',
+    id: '9838',
     image:
       '/d/file/gcjp/91porn/2018-08-05/2a395bd74f8e94ab83e889fa3d7f27b6.jpg',
     creatDate: '2018-08-05',
@@ -198,7 +203,7 @@ export default [
     video: 'https://play.cdmbo.com/20180804/zqD31YUG/index.m3u8'
   },
   {
-    id: '/9806',
+    id: '9806',
     image:
       '/d/file/gcjp/91porn/2018-08-04/b800f2ca6f2f06fa49808abcd0e94ff1.gif',
     creatDate: '2018-08-04',
@@ -207,7 +212,7 @@ export default [
     video: 'https://play.cdmbo.com/20180803/Jei8oqvF/index.m3u8'
   },
   {
-    id: '/9794',
+    id: '9794',
     image:
       '/d/file/gcjp/91porn/2018-08-04/e1d85c00ab1f9fe7d7d38022be9b18da.gif',
     creatDate: '2018-08-04',
@@ -216,7 +221,7 @@ export default [
     video: 'https://play.cdmbo.com/20180803/DCBhq0BG/index.m3u8'
   },
   {
-    id: '/9809',
+    id: '9809',
     image:
       '/d/file/gcjp/91porn/2018-08-04/050076e52474bb34150c5f20b4e5e9fe.jpg',
     creatDate: '2018-08-04',

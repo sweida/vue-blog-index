@@ -2,14 +2,9 @@
   <mu-container>
     <mu-alert color="info">
       <mu-icon left value="video_library" color="#fff"></mu-icon>
-      视频分类：{{name}}（共{{zongyi.length}}个视频）
+      视频分类：{{name}}（共{{siwa.length}}个视频）
     </mu-alert>
-    <div class="videoType">
-      快速分类：
-      <mu-button :color="active=='all' ? 'secondary' : 'primary'" @click="allType">全部</mu-button>
-      <mu-button :color="active=='mlyxs' ? 'secondary' : 'primary'" @click="mlyxsType">魅力研习社</mu-button>
-      <mu-button :color="active=='mlhs' ? 'secondary' : 'primary'" @click="mlhsType">美丽贺岁</mu-button>
-    </div>
+
     <mu-card v-for="(item, index) in listData" :key="index" @click="detail(item)">
       <mu-card-media >
         <img v-lazy="item.image" :key="item.id">
@@ -25,21 +20,18 @@
     </mu-card>
     <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
-      <mu-pagination raised :total="zongyi.length" :page-size="pageSize" :page-count=5 :current.sync="current" @change="handlpage"></mu-pagination>
+      <mu-pagination raised :total="siwa.length" :page-size="pageSize" :page-count=5 :current.sync="current" @change="handlpage"></mu-pagination>
     </mu-flex>
   </mu-container>
 </template>
 
 <script>
-import zongyi from '@/data/zongyi/index.js'
-import mlyxs from '@/data/zongyi/mlyxs.js'
-import mlhs from '@/data/zongyi/mlhs.js'
+import siwa from '@/data/siwa/index.js'
 export default {
   data () {
     return {
-      name: '两性综艺',
-      active: 'all',
-      zongyi: zongyi,
+      name: '丝袜诱惑',
+      siwa: siwa,
       normline: sessionStorage.getItem('normline') || '',
       current: 1,
       pageSize: 10,
@@ -90,26 +82,9 @@ export default {
         loading.close()
       }, 800)
     },
-    allType() {
-      this.active = 'all'
-      this.zongyi = zongyi
-      this.goPage()
-    },
-    mlyxsType() {
-      this.active = 'mlyxs'
-      this.zongyi = mlyxs
-      this.current = 1
-      this.goPage()
-    },
-    mlhsType() {
-      this.active = 'mlhs'
-      this.zongyi = mlhs
-      this.current = 1
-      this.goPage()
-    },
     // 获取分页数据
     goPage() {
-      this.listData = this.zongyi.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
+      this.listData = this.siwa.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
       this.listData.forEach(item => {
         if (item.image.substring(0, 4) != 'http') {
           item.image = this.normline + item.image
@@ -118,7 +93,7 @@ export default {
     },
     // 点击分页
     handlpage() {
-      this.$router.push({path: '/zongyi', query: {page: this.current}})
+      this.$router.push({path: '/siwa', query: {page: this.current}})
       const loading = this.$loading();
       this.goPage()
       setTimeout(() => {
@@ -137,12 +112,6 @@ export default {
 .mu-card{
   margin: 10px 0 15px;
   overflow: hidden;
-}
-.videoType{
-  margin-top: 10px;
-}
-.videoType button{
-  min-width: 78px
 }
 .longTime {
   position: absolute;

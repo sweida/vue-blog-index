@@ -1,4 +1,7 @@
+import data2 from './data2.js'
+
 export default [
+  ...data2,
   {
     'id': '10811',
     'image': '/d/file/guochan/2018-09-01/a128fa42f5c8f849829fb6eb6e24f5f9.jpg',

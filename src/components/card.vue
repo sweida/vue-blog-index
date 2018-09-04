@@ -32,7 +32,7 @@ export default {
     const shuffle = newlist.sort(
       () => Math.random() - 0.5
     )
-    this.favorData = shuffle.slice(0, 3)
+    this.favorData = shuffle.slice(0, 5)
   },
   watch: {
     $route(){
@@ -40,7 +40,7 @@ export default {
       const shuffle = newlist.sort(
         () => Math.random() - 0.5
       )
-      this.favorData = shuffle.slice(0, 3)
+      this.favorData = shuffle.slice(0, 5)
     }
   },
   methods: {
