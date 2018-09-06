@@ -1,6 +1,8 @@
 import data2 from './data2.js'
+import data3 from './data3.js'
 
 export default [
+  ...data3,
   ...data2,
   {
     'id': '10887',
