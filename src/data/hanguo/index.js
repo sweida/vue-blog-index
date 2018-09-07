@@ -1,4 +1,7 @@
+import data2 from './data2.js'
+
 export default [
+  ...data2,
   {
     "creatDate": "2018-09-06",
     "id": "10997",
