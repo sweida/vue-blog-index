@@ -2,7 +2,7 @@
   <div class="favore">
     <mu-card v-for="(item, index) in favorData" :key="index" @click="detail(item)">
       <mu-card-media >
-        <img v-lazy="normline+item.image" :key="item.id">
+        <img v-lazy="item.image" :key="item.id">
         <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
       </mu-card-media>
       <mu-card-text>
@@ -17,41 +17,46 @@
 </template>
 
 <script>
-import whmm from '@/data/whmm/index'
 export default {
   data () {
     return {
-      whmm: whmm,
       normline: sessionStorage.getItem('normline') || '',
       favorData: [],
     }
   },
+  props: ['name', 'type'],
   created() {
-    // 猜你喜欢
-    let newlist = this.whmm.slice()
-    const shuffle = newlist.sort(
-      () => Math.random() - 0.5
-    )
-    this.favorData = shuffle.slice(0, 5)
+    this.getDate()
   },
   watch: {
     $route(){
-      let newlist = this.whmm.slice()
-      const shuffle = newlist.sort(
-        () => Math.random() - 0.5
-      )
-      this.favorData = shuffle.slice(0, 5)
+      this.getDate()
     }
   },
   methods: {
+    // 所有数据
+    getDate() {
+      let params = {
+        limit: 5,
+        skip: Math.floor(Math.random() * 30 + 1)
+      }
+      this.$get(this.type, params).then(res => {
+        console.log(res.data, '推荐')
+        this.favorData = res.data.results
+        // this.favorData.forEach(item => {
+        //   if (item.image.substring(0, 4) != 'http') {
+        //     item.image = sessionStorage.getItem('normline') + item.image
+        //   }
+        // })
+      })
+    },
     // 查看详情
-    detail(data) {
+    detail(item) {
       const loading = this.$loading();
       this.$router.push({
-        path: `/detail/${data.id}`,
-        query: {type: '网红主播'}
+        path: `/detail/${this.type}/${item.id}`,
+        query: {object: item, name: this.name}
       })
-      sessionStorage.setItem('data', JSON.stringify(data))
       setTimeout(() => {
         loading.close()
       }, 800)

@@ -2,7 +2,7 @@
   <mu-container>
     <mu-alert color="info">
       <mu-icon left value="video_library" color="#fff"></mu-icon>
-      视频分类：{{name}}（共{{whmm.length}}个视频）
+      视频分类：{{name}}（共{{page.total}}个视频）
     </mu-alert>
     <div class="videoType">
       快速分类：
@@ -24,100 +24,106 @@
     </mu-card>
     <!-- 分页 -->
     <mu-flex justify-content="center" style="margin: 32px 0;">
-      <mu-pagination raised :total="whmm.length" :page-size="pageSize" :page-count=5 :current.sync="current" @change="handlpage"></mu-pagination>
+      <mu-pagination raised :total="page.total" :page-size="page.Size" :page-count=5 :current.sync="page.current" @change="handlpage"></mu-pagination>
     </mu-flex>
   </mu-container>
 </template>
 
 <script>
-import whmm from '@/data/whmm/index.js'
 export default {
   data () {
     return {
       name: '网红主播',
+      type: 'whmm',
       active: 'all',
-      whmm: whmm,
       normline: sessionStorage.getItem('normline') || '',
-      current: 1,
-      pageSize: 10,
       listData: [],
-      tip: true
+      page: {
+        current: 1,
+        Size: 10,
+        total: 1
+      }
     }
   },
   created() {
-    // 是否提示
-    if(sessionStorage.getItem('tip')) {
-      this.tip = false
-    }
-    // 默认路线
-    if (this.normline=='') {
-      this.$get('line').then(res => {
-        sessionStorage.setItem('normline', res.data[0].address)
-        this.normline = res.data[0].address
-        this.current = Number(this.$route.query.page) || 1
-        this.goPage()
-      })
-    } else {
-      this.current = Number(this.$route.query.page) || 1
-      this.goPage()
-    }
-  },
-  beforeMount() {
-
+    this.page.current = Number(this.$route.query.page) || 1
+    this.getDate()
   },
   watch: {
     $route(){
-      this.current = Number(this.$route.query.page) || 1
-      this.goPage()
+      if (this.active == 'all') {
+        this.page.current = Number(this.$route.query.page) || 1
+        this.getDate()
+      } else if(this.active == 'vip') {
+        this.page.current = Number(this.$route.query.page) || 1
+        this.getVipData()
+      }
     }
   },
   methods: {
-    closeAlert () {
-      this.tip = false
-      sessionStorage.setItem('tip', false)
+    // 所有数据
+    getDate() {
+      let params = {
+        limit: this.page.Size,
+        count : 1,
+        skip: (this.page.current - 1) * this.page.Size
+      }
+      this.$get(this.type, params).then(res => {
+        this.listData = res.data.results
+        this.page.total = res.data.count
+        // this.listData.forEach(item => {
+        //   if (item.image.substring(0, 4) != 'http') {
+        //     item.image = sessionStorage.getItem('normline') + item.image
+        //   }
+        // })
+      })
     },
+    // 获取推荐列表
+    getVipData() {
+      let params = {
+        count : 1,
+        limit: this.page.Size,
+        skip: (this.page.current - 1) * this.page.Size,
+        where: {"vip": true}
+      }
+      this.$get(this.type, params).then(res => {
+        this.listData = res.data.results
+        this.page.total = res.data.count
+        this.listData.forEach(item => {
+          if (item.image.substring(0, 4) != 'http') {
+            item.image = sessionStorage.getItem('normline') + item.image
+          }
+        })
+      })
+    },
+    // 查看详情
     detail(data) {
-      const loading = this.$loading();
+      // const loading = this.$loading();
       this.$router.push({
-        path: `/detail/${data.id}`,
-        query: {type: this.name}
+        // name: 'detail',
+        path: `/detail/${this.type}/${data.id}`,
+        query: {object: data, name: this.name}
       })
-      sessionStorage.setItem('data', JSON.stringify(data))
-      setTimeout(() => {
-        loading.close()
-      }, 800)
+      // sessionStorage.setItem('data', JSON.stringify(data))
+      // setTimeout(() => {
+      //   loading.close()
+      // }, 800)
     },
+    // 所有列表
     allType () {
-      this.whmm = whmm
       this.active = 'all'
-      this.goPage()
+      this.getDate()
     },
+    // 精品推荐
     vipType () {
+      this.page.current = 1
       this.active = 'vip'
-      let vip = []
-      this.whmm.forEach(item => {
-        if (item.vip) {
-          vip.push(item)
-        }
-      })
-      this.whmm = vip
-      this.current = 1
-      this.goPage()
-    },
-    // 获取分页数据
-    goPage() {
-      this.listData = this.whmm.slice( (this.current-1)*this.pageSize, this.current*this.pageSize)
-      this.listData.forEach(item => {
-        if (item.image.substring(0, 4) != 'http') {
-          item.image = this.normline + item.image
-        }
-      })
+      this.getVipData()
     },
     // 点击分页
     handlpage() {
-      this.$router.push({path: '/whmm', query: {page: this.current}})
+      this.$router.push({path: '/listData', query: {page: this.page.current}})
       const loading = this.$loading();
-      this.goPage()
       setTimeout(() => {
         loading.close()
         document.documentElement.scrollTop = 0

@@ -2,7 +2,7 @@
   <main>
     <mu-container>
       <h3>正在播放：{{video.title}}</h3>
-      <p>视频分类：{{type}}</p>
+      <p>视频分类：{{Name}}</p>
       <p>日期：{{video.creatDate}} <span class="Time">时长：{{video.longTime}}</span></p>
     </mu-container>
     <div class="video">
@@ -14,20 +14,7 @@
         猜你喜欢
       </mu-flex>
 
-      <Card></Card>
-      <!-- <mu-card v-for="(item, index) in favorData" :key="index" @click="goroute(item)">
-        <mu-card-media >
-          <img :src="item.image">
-          <mu-badge class="longTime" :content="item.longTime" color="pinkA200"></mu-badge>
-        </mu-card-media>
-        <mu-card-text>
-          <h3 class="listTitle">{{item.title}}</h3>
-          <mu-flex align-items="center" class="creatTime">
-            <mu-icon size="18" value="access_time"></mu-icon>
-            {{item.creatDate}}
-          </mu-flex>
-        </mu-card-text>
-      </mu-card> -->
+      <Card :name="Name" :type="type"></Card>
     </mu-container>
   </main>
 </template>
@@ -40,35 +27,53 @@ export default {
   },
   data () {
     return {
-      video: '',
-      type: this.$route.query.type,
+      video: {},
+      type: this.$route.params.type,
+      Name: this.$route.query.name,
     }
   },
   created() {
-    // 重定向到首页
-    let vdata = JSON.parse(sessionStorage.getItem("data"))
-    if(vdata) {
-      this.video = vdata
+    console.log(this.$route.params, this.$route.query, 99)
+    if (this.$route.query.object.video) {
+      this.video = this.$route.query.object
     } else {
-      this.$router.push({path: '/'})
+      this.getDetail()
     }
   },
   watch: {
     $route(){
-      this.video = JSON.parse(sessionStorage.getItem("data"))
+      this.video = this.$route.query.object
     }
   },
   methods: {
+    // 详情
+    getDetail() {
+      let params = {
+        where: {"id": this.$route.params.id}
+      }
+      this.$get(this.type, params).then(res => {
+        console.log(res, 22)
+        this.video = res.data.results[0]
+        // if (this.video.image.substring(0, 4) != 'http') {
+        //   this.video.image = sessionStorage.getItem('normline') + this.video.image
+        // }
+      })
+    },
     goroute(data) {
-      const loading = this.$loading();
       this.$router.push({
-        path: `/whmm/${data.id}`
-      })
-      this.video = data
-      sessionStorage.setItem('data', JSON.stringify(data))
-      setTimeout(() => {
-        loading.close()
-      }, 800)
+        // name: 'detail',
+        path: `/detail/${this.type}/${data.id}`,
+        query: {object: data, name: this.name}
+      })      
+      // const loading = this.$loading();
+      // this.$router.push({
+      //   path: `/whmm/${data.id}`
+      // })
+      // this.video = data
+      // sessionStorage.setItem('data', JSON.stringify(data))
+      // setTimeout(() => {
+      //   loading.close()
+      // }, 800)
     }
   }
 }

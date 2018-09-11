@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 axios.defaults.timeout = 10000
-axios.defaults.baseURL = 'https://5b82bae22fd7f2001417915f.mockapi.io/'
+// axios.defaults.baseURL = 'https://5b82bae22fd7f2001417915f.mockapi.io/'
+axios.defaults.baseURL = 'https://leancloud.cn:443/1.1/classes/'
 
 // http request 拦截器
 axios.interceptors.request.use(
@@ -9,7 +10,9 @@ axios.interceptors.request.use(
     // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data)
     config.headers = {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json',
+      'X-LC-Id': 'KKjgoVFbSyRJ2ogrPjnHXIHB-gzGzoHsz',
+      'X-LC-Key': '83LFiIsDgbtlFR7sClBzt36h'
     }
     return config
   },

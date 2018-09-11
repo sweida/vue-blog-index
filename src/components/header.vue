@@ -101,10 +101,11 @@ export default {
     // 路线
     const loading = this.$loading();
     this.$get('line').then(res => {
-      this.line = res.data
+      // console.log(res, 333)
+      this.line = res.data.results
       if(this.normLine=='') {
-        sessionStorage.setItem('normline', res.data[0].address)
-        sessionStorage.setItem('normid', res.data[0].id)
+        sessionStorage.setItem('normline', res.data.results[0].address)
+        sessionStorage.setItem('normid', res.data.results[0].id)
       }
       loading.close()
     })
