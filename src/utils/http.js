@@ -1,116 +1,80 @@
+import Vue from 'vue'
 import axios from 'axios'
 
-axios.defaults.timeout = 10000
-// axios.defaults.baseURL = 'https://5b82bae22fd7f2001417915f.mockapi.io/'
-axios.defaults.baseURL = 'https://leancloud.cn:443/1.1/classes/'
 
-// http request 拦截器
-axios.interceptors.request.use(
-  config => {
-    // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
-    config.data = JSON.stringify(config.data)
-    config.headers = {
-      'Content-Type': 'application/json',
-      'X-LC-Id': 'KKjgoVFbSyRJ2ogrPjnHXIHB-gzGzoHsz',
-      'X-LC-Key': '83LFiIsDgbtlFR7sClBzt36h'
-    }
-    return config
-  },
-  error => {
-    return Promise.reject(err)
+var baseUrl = 'http://127.0.0.1:8888/'
+// var baseUrl = 'http://192.168.4.85:8888/api/'
+// var baseUrl = 'http://localhost:8888/api/'
+// if (process.env.SERVER_VARIETY === 'prod') {
+//   baseUrl = 'https://mapi.bestpay.com.cn/mapi/portal/'
+// } else if (process.env.SERVER_VARIETY === 'pre') {
+//   baseUrl = 'https://mapi-pre.bestpay.com.cn/mapi/portal/'
+// } else {
+//   // baseUrl = 'http://192.168.4.85:8000/api/'
+//   baseUrl = 'http://119.29.27.100:8300/api/'
+//   // baseUrl = 'http://mapi.test1.bestpay.net/mapi/portal/'
+// }
+function filterUrl (_url) {
+  if (_url.startsWith('http')) {
+    return _url
+  } else {
+    return baseUrl + _url
   }
-)
-
-// //http response 拦截器
-// axios.interceptors.response.use(
-//   response => {
-//     if(response.data.errCode ==2){
-//       router.push({
-//         path:"/login",
-//         querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
-//       })
-//     }
-//     return response;
-//   },
-//   error => {
-//     return Promise.reject(error)
-//   }
-// )
-
-/**
- * 封装get方法
- * @param url
- * @param data
- * @returns {Promise}
- */
-
-export function get (url, params = {}) {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(url, {
-        params: params
-      })
-      .then(response => {
-        resolve(response)
-      })
-      .catch(err => {
-        reject(err)
-      })
-  })
 }
-
-/**
- * 封装post请求
- * @param url
- * @param data
- * @returns {Promise}
- */
-
-export function post (url, data = {}) {
-  return new Promise((resolve, reject) => {
-    axios.post(url, data).then(
-      response => {
-        resolve(response)
-      },
-      err => {
-        reject(err)
-      }
-    )
-  })
+export default {
+  get (_url, _params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: filterUrl(_url),
+        method: 'get',
+        data: _params || {},
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        transformRequest: [function (data) {
+          let ret = ''
+          for (let it in data) {
+            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+          }
+          return ret
+        }]
+      }).then((res) => {
+        resolve(res)
+      }).catch((error) => {
+        // Vue.$Messagebox.alert({
+        //   title: '提示',
+        //   message: '网络错误，请稍后再试'
+        // })
+        reject(error)
+      })
+    })
+  },
+  post (_url, _params) {
+    return new Promise((resolve, reject) => {
+      axios({
+        url: filterUrl(_url),
+        method: 'post',
+        data: _params || {},
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        timeout: 20000
+        // transformRequest: [function (data) {
+        //   let ret = ''
+        //   for (let it in data) {
+        //     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+        //   }
+        //   return ret
+        // }]
+      }).then((res) => {
+        resolve(res)
+      }).catch((error) => {
+        // Vue.$Messagebox.alert({
+        //   title: '提示',
+        //   message: '网络错误，请稍后再试'
+        // })
+        reject(error)
+      })
+    })
+  }
 }
-
-//  /**
-//  * 封装patch请求
-//  * @param url
-//  * @param data
-//  * @returns {Promise}
-//  */
-
-// export function patch(url,data = {}){
-//   return new Promise((resolve,reject) => {
-//     axios.patch(url,data)
-//          .then(response => {
-//            resolve(response.data);
-//          },err => {
-//            reject(err)
-//          })
-//   })
-// }
-
-//  /**
-//  * 封装put请求
-//  * @param url
-//  * @param data
-//  * @returns {Promise}
-//  */
-
-// export function put(url,data = {}){
-//   return new Promise((resolve,reject) => {
-//     axios.put(url,data)
-//          .then(response => {
-//            resolve(response.data);
-//          },err => {
-//            reject(err)
-//          })
-//   })
-// }

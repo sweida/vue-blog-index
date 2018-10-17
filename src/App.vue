@@ -1,81 +1,29 @@
 <template>
   <div id="app">
-    <Header></Header>
-    <router-view class="main"/>
-    <!-- <mu-button fab color="secondary" class="gotop" v-if="gotop" @click="goTop" transition="mu-scale-transition">
-      <mu-icon value="airplanemode_active"></mu-icon>
-    </mu-button> -->
-    <footer>
-      <div>本站只是为了技术交流，本站资源均来于互联网，如有侵犯权限请联系本站删除，本站不承担任何相关的法律责任</div>
-      <p>如未满18周岁请自觉离开！</p>
-    </footer>
+    <img alt="Vue logo" src="./assets/logo.png">
+    <el-button type="primary">el-button</el-button>
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
 <script>
-import Header from '@/components/header'
-export default {
-  components: {
-    Header
-  },
-  data () {
-    return {
-      gotop: false
-    }
-  },
-  mounted () {
-    window.addEventListener('scroll', this.handleScroll)
-  },
-  created() {
+import HelloWorld from './components/HelloWorld.vue'
 
-  },
-  methods: {
-    // handleScroll () {
-    //   let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-    //   if (scrollTop > 700) {
-    //     this.gotop = true
-    //   } else {
-    //     this.gotop = false
-    //   }
-    // },
-    // goTop() {
-    //   setTimeout(() => {
-    //     document.documentElement.scrollTop = 0
-    //     document.body.scrollTop = 0
-    //   }, 300)
-    // }
+export default {
+  name: 'app',
+  components: {
+    HelloWorld
   }
 }
 </script>
 
 <style>
-#cnzz_stat_icon_1274645464{
-  font-size: 0;
-  opacity: 0;
-  display: none;
-}
 #app {
-}
-.main{
-  padding-top: 65px;
-}
-.gotop{
-  position: fixed;
-  bottom: 30px;
-  right: 10px;
-}
-footer{
-  padding: 0 20px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-}
-.mu-scale-transition-enter-active,
-.mu-scale-transition-leave-active {
-  transition: transform .45s cubic-bezier(0.23, 1, 0.32, 1), opacity .45s cubic-bezier(0.23, 1, 0.32, 1);
-  backface-visibility: hidden;
-}
-.mu-scale-transition-enter,
-.mu-scale-transition-leave-active {
-  transform: scale(0);
-  opacity: 0;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>

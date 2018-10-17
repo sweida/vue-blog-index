@@ -1,0 +1,26 @@
+[
+  {
+    "authName": "列表",
+    "authIden": "list"
+  },
+  {
+    "authName": "查询",
+    "authIden": "select"
+  },
+  {
+    "authName": "添加",
+    "authIden": "add"
+  },
+  {
+    "authName": "修改",
+    "authIden": "edit"
+  },
+  {
+    "authName": "删除",
+    "authIden": "del"
+  },
+  {
+    "authName": "批量删除",
+    "authIden": "dels"
+  }
+]
