@@ -4,10 +4,12 @@
       <div class="logo"></div>
       <div class="formbox">
         <div>
-          <label for="name">账号</label><input v-model="param.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
+          <label for="name">账号</label>
+          <input v-model="param.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
         </div>
         <div>
-          <label for="password">密码</label><input v-model="param.password" :type="show ? 'password' : 'text'" id="password" placeholder="请输入密码" auto-complete="off"><i :class="show ?'seepassword' : 'el-icon-view'" @click="show=!show"></i>
+          <label for="password">密码</label>
+          <input v-model="param.password" :type="show ? 'password' : 'text'" id="password" placeholder="请输入密码" auto-complete="off"><i :class="show ?'seepassword' : 'el-icon-view'" @click="show=!show"></i>
         </div>
       </div>
       <el-checkbox v-model="checked" checked class="remember" >记住密码</el-checkbox>
@@ -36,9 +38,9 @@
         //   username: '佟丽娅',
         //   password: '123456'
         // }
-        this.$Http.get('apis/user/read?user_id=1')
-        .then(function (res) {
+        this.$post('apis/login', this.param).then(res => {
           console.log(res);
+          this.$router.push('/admin/setting')
         })
       }
     }
@@ -54,7 +56,7 @@
 .login{
   width: 100%;
   height: 100%;
-  background: url(/static/img/loginbg.jpg) no-repeat center top;
+  background: url(../../assets/loginbg.jpg) no-repeat center top;
   background-size: cover;
   position: absolute;
   .el-form {

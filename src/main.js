@@ -6,8 +6,11 @@ import store from './store'
 // Vue.prototype.$Http = http
 
 import Axios from 'axios'
-Vue.prototype.$Http = Axios
+Vue.prototype.$get = Axios.get
+Vue.prototype.$post = Axios.post
+
 import './plugins/element.js'
+import './plugins/mavonEditor.js'
 // import qs from 'qs'
 // Vue.prototype.$qs=qs
 
