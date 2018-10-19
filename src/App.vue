@@ -15,6 +15,7 @@ export default {
 <style lang="stylus">
 html, body, #app
   height 100%
+  min-height 550px
 body
   margin 0
   padding 0

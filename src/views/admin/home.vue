@@ -1,18 +1,19 @@
 <template>
-  <div class="Admin">
-    <headnav class="headnav"></headnav>
-    <main class="content">
+  <div id="Admin">
+    <headnav></headnav>
+    <section class="content">
       <leftnav></leftnav>
-      <router-view class="main" />
-    </main>
+      <router-view class="main animate03" />
+    </section>
   </div>
 </template>
 
 <script>
-
 import headnav from './headnav'
 import leftnav from './leftnav'
 import '@/style/common.styl'
+import '@/style/table.styl'
+
 export default {
   name: 'app',
   components: {
@@ -29,13 +30,19 @@ export default {
 </script>
 
 <style lang="stylus">
-.Admin
-  height: 100%
-  display: flex
-  flex-direction: column
-main
-  flex: 1
-  display: flex
+#Admin
+  width:100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .content
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    box-sizing: border-box;
+    background: #E2E5EE;
+    padding: 20px 40px;
+
 
 /* 退出登录菜单样式 */
 .el-dialog__title

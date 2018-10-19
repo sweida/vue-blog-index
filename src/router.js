@@ -11,10 +11,8 @@ import adminAddArticle from '@/views/Admin/page/addArticle'
 import adminUsers from '@/views/Admin/page/users'
 import adminMessage from '@/views/Admin/page/message'
 import adminComment from '@/views/Admin/page/comment'
-// import adminArticle from '@/view/Admin/article'
-// import adminComment from '@/view/Admin/comment'
-// import adminMessage from '@/view/Admin/message'
-// import adminUsers from '@/view/Admin/users'
+import resetRassword from '@/views/Admin/page/password'
+
 
 Vue.use(Router)
 
@@ -22,8 +20,10 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home
+      component: adminLogin,
+      redirect: {
+        name: 'adminLogin'
+      }
     },
     {
       path: '/about',
@@ -42,11 +42,14 @@ export default new Router({
       name: 'adminHome',
       children: [
         { path: '/admin/setting', component: adminSetting, name: 'adminSetting' }, 
-        { path: '/admin/article', component: adminArticle, name: 'adminArticle' }, 
+        { path: '/admin/articlelist', component: adminArticle, name: 'adminArticle' }, 
         { path: '/admin/article/add', component: adminAddArticle, name: 'adminAddArticle' }, 
+        { path: '/admin/article/edit/:id', component: adminAddArticle, name: 'adminEditArticle',  }, 
         { path: '/admin/users', component: adminUsers, name: 'adminUsers' }, 
         { path: '/admin/message', component: adminMessage, name: 'adminMessage' }, 
         { path: '/admin/comment', component: adminComment, name: 'adminComment' }, 
+        { path: '/admin/resetpassword', component: resetRassword, name: 'resetRassword' }, 
+        { path: '/admin/*', component: adminSetting, redirect: { name: 'adminSetting' } }
       ] 
     }
   ]

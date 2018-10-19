@@ -1,14 +1,16 @@
 <template>
-<div>
-  <!-- <div class="header_title">项目和产品<i class="el-icon-info"></i></div> -->
-
-    <!-- <div class="right_main"> -->
-      <div class="main-head">
-
-      </div>
+  <main>
+    <header>评论列表</header>
+    <section class="wrap scroll">
       <div class="main_table">
-        <el-table :data="comments" stripe style="width: 100%" max-height="600" tooltip-effect="dark">
-          <el-table-column prop="id" label="编号" show-overflow-tooltip >
+        <el-table 
+          v-loading="loading" 
+          :data="comments" 
+          stripe 
+          style="width: 100%" 
+          max-height="600" 
+          tooltip-effect="dark">
+          <el-table-column prop="id" label="编号" width="90" sortable>
           </el-table-column>
           <el-table-column label="用户名" show-overflow-tooltip >
             <template slot-scope="scope">
@@ -22,29 +24,23 @@
           </el-table-column>
           <el-table-column prop="content" label="评论内容" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column prop="article.id" label="文章ID" >
+          <el-table-column prop="article_id" label="文章ID" width="90" sortable>
           </el-table-column>
           <el-table-column prop="article.title" label="文章标题" show-overflow-tooltip >
           </el-table-column>
           <el-table-column prop="created_at" label="创建日期" show-overflow-tooltip >
           </el-table-column>
 
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="120">
             <template slot-scope="scope">
               <el-button type="danger" size="mini" @click="deleteBtn(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="删除">
-            <!-- <template slot-scope="scope">
-                <i class="el-icon-delete" @click="deleteBtn(scope.$index, scope.row)"></i>
-              </template> -->
-          </el-table-column>
         </el-table>
         <!-- <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page> -->
       </div>
-    <!-- </div> -->
-  <!-- </div> -->
-</div>
+    </section>
+  </main>
 </template>
 
 <script>
@@ -52,6 +48,7 @@
 export default {
   data() {
     return {
+      loading: true,
       comments: [],
       pageModel: {
         page: 1,
@@ -66,8 +63,13 @@ export default {
   methods: {
     getComment() {
       this.$post('apis/comment/read').then(res => {
-        console.log(res)
-        this.comments = res.data.data
+        if (res.data.status == 1) {
+          console.log(res.data)
+          this.comments = res.data.data
+        } else {
+          this.$message.error('获取数据失败！')
+        }
+        this.loading = false
       })
     },
     deleteBtn(id) {

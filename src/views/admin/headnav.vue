@@ -25,8 +25,8 @@
             <el-menu-item index="/message">后台</el-menu-item>
             <el-menu-item index="/password">推广</el-menu-item>
             <el-menu-item index="/message">账号信息</el-menu-item> -->
-            <el-menu-item index="/password">修改密码</el-menu-item>
-            <el-menu-item index="" @click.native="logout">退出登录</el-menu-item>
+            <el-menu-item index="/admin/resetpassword">修改密码</el-menu-item>
+            <el-menu-item index="" @click="logout">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
       </div>
@@ -35,7 +35,8 @@
 </template>
 
 <script>
-// import { removeToken } from '@/utils/token'
+import { removeToken } from '@/utils/token'
+
 export default {
   data () {
     return {
@@ -54,10 +55,12 @@ export default {
       this.$confirm('确认退出吗?', '提示', {
         type: 'warning'
       }).then(() => {
-        // removeToken()
-        this.$router.push('/admin/login')
-        location.reload()
-        this.$message.success('已退出登录')
+        this.$get('apis/logout').then(res => {
+          removeToken()
+          this.$router.push('/admin/login')
+          location.reload()
+          this.$message.success('已退出登录')
+        }) 
       }).catch(() => {
       })
     },
@@ -73,7 +76,7 @@ export default {
 .header
   display: flex
   height: 60px
-  background: #3a4354
+  background: #253752
   .nav
     display: flex
     justify-content: flex-end

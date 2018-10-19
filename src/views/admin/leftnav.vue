@@ -25,7 +25,7 @@ export default {
         },
         {
           name: '博客列表',
-          url: '/admin/article'
+          url: '/admin/articlelist'
         },
         {
           name: '会员列表',
@@ -48,8 +48,8 @@ export default {
 <style scoped lang="stylus">
 aside
   background: #2c3c54
-  width: 280px
-  min-width 220px
+  width: 260px
+  min-width 260px
   margin-right: 20px
   height: 100%
   position: relative

@@ -5,11 +5,11 @@
       <div class="formbox">
         <div>
           <label for="name">账号</label>
-          <input v-model="param.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
+          <input v-model="user.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
         </div>
         <div>
           <label for="password">密码</label>
-          <input v-model="param.password" :type="show ? 'password' : 'text'" id="password" placeholder="请输入密码" auto-complete="off"><i :class="show ?'seepassword' : 'el-icon-view'" @click="show=!show"></i>
+          <input v-model="user.password" :type="show ? 'password' : 'text'" id="password" placeholder="请输入密码" auto-complete="off"><i :class="show ?'seepassword' : 'el-icon-view'" @click="show=!show"></i>
         </div>
       </div>
       <el-checkbox v-model="checked" checked class="remember" >记住密码</el-checkbox>
@@ -19,32 +19,31 @@
 </template>
 
 <script>
-  // import { login } from '@/api/login'
+import { setToken, getToken } from '@/utils/token'
 
-  export default {
-    data() {
-      return {
-        show: true,
-        checked: true,
-        param: {
-          username: '佟丽娅',
-          password: '123456'
-        }
-      }
-    },
-    methods: {
-      loginSubmit() {
-        // let param = {
-        //   username: '佟丽娅',
-        //   password: '123456'
-        // }
-        this.$post('apis/login', this.param).then(res => {
-          console.log(res);
-          this.$router.push('/admin/setting')
-        })
+export default {
+  data() {
+    return {
+      show: true,
+      checked: true,
+      user: {
+        username: '佟丽娅',
+        password: '123456'
       }
     }
+  },
+  methods: {
+    loginSubmit() {
+      this.$post('apis/login', this.user).then(res => {
+        if (res.data.status == 1) {
+          this.$router.push('/admin/setting')
+        } else {
+          this.$message.error(res.data.msg)
+        }
+      })
+    }
   }
+}
 </script>
 <style scoped lang="stylus">
 .animate03{
@@ -58,7 +57,6 @@
   height: 100%;
   background: url(../../assets/loginbg.jpg) no-repeat center top;
   background-size: cover;
-  position: absolute;
   .el-form {
     position: absolute;
     right: 12%;

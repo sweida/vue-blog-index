@@ -1,18 +1,17 @@
 <template>
-<div>
-  <!-- <div class="header_title">项目和产品<i class="el-icon-info"></i></div> -->
-
-    <!-- <div class="right_main"> -->
-      <div class="main-head">
-
-        <!-- <el-button type="primary" size="small" @click="addBtn">新　增</el-button> -->
-      </div>
+  <main>
+    <header>会员列表</header>
+    <section class="wrap scroll">
       <div class="main_table">
-        <el-table :data="Users" stripe style="width: 100%" max-height="600" tooltip-effect="dark">
-          
+        <el-table 
+          v-loading="loading" 
+          :data="Users" 
+          stripe 
+          style="width: 100%" 
+          max-height="600" 
+          tooltip-effect="dark">
           <el-table-column prop="id" label="用户ID" width="80">
           </el-table-column>
-
           <el-table-column prop="username" label="用户名" >
           </el-table-column>
           <el-table-column prop="email" label="邮箱地址" show-overflow-tooltip >
@@ -26,17 +25,16 @@
           </el-table-column>
           <el-table-column prop="updated_at" label="最后登录时间" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="操作" width="200">
+          <el-table-column label="操作" width="120">
             <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="detail(scope.row.id, scope.row)">查看</el-button>
+              <el-button type="primary" size="mini" @click="detail(scope.row.id, scope.row)">查看</el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page> -->
       </div>
-    <!-- </div> -->
-  <!-- </div> -->
-</div>
+    </section>
+  </main>
 </template>
 
 <script>
@@ -44,6 +42,7 @@ export default {
 
   data() {
     return {
+      loading: true,
       Users: [],
       pageModel: {
         page: 1,
@@ -57,9 +56,13 @@ export default {
   },
   methods: {
     getUsers() {
-      this.$get('apis/user/read').then(res => {
-        console.log(res)
-        this.Users = res.data.data
+      this.$post('apis/user/read').then(res => {
+        if (res.data.status == 1) {
+          this.Users = res.data.data
+        } else {
+          this.$message.error('获取数据失败！')
+        }
+        this.loading = false
       })
     },
     // 查看用户详情
