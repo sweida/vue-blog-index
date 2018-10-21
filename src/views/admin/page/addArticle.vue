@@ -92,7 +92,7 @@ export default {
           this.$message.success('新增文章成功！')
           this.$router.push('/admin/articlelist')
         } else {
-          this.$message.error('保存失败！')
+          this.$message.error(res.data.msg)
         }
       })
     },

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { setToken, getToken } from '@/utils/token'
+// import { setToken, getToken } from '@/utils/token'
 
 export default {
   data() {

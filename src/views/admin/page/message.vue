@@ -29,7 +29,7 @@
 
           <el-table-column label="操作" width="120">
             <template slot-scope="scope">
-              <el-button type="danger" size="mini" @click="deleteBtn(scope.row.id)">删除</el-button>
+              <el-button type="danger" size="mini" @click="deleteBtn(scope.row.id, scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -72,147 +72,24 @@ export default {
         this.loading = false
       })
     },
-    deleteBtn(id) {
+    deleteBtn(id, item) {
       this.$confirm('是否删除该留言?', '提示', {
         type: 'warning'
       }).then(() => {
         this.$post('apis/message/remove', {id}).then(res => {
           if (res.data.status == 1) {
             this.$message.success(res.data.msg)
+            this.message.splice(this.message.indexOf(item), 1)
           } else {
             this.$message.error(res.data.msg)
           }
         })
       })
     }
-    // // 获取项目产品菜单
-    // getmixMenu() {
-    //   mixppMenu().then(res => {
-    //     // this.menuList = res.data.data
-    //   })
-    // },
-    // // 新增菜单
-    // plusNav(item) {
-    //   event.stopPropagation()
-    //   this.$prompt('请输入新增的类目名称', '提示', {}).then(({ value }) => {
-    //     let param = {
-    //       icon: '',
-    //       name: value,
-    //       parentId: item.id
-    //     }
-    //     if (value == null || !Trim(value)) {
-    //       this.$message.error('不能为空')
-    //     } else {
-    //       addMenu(param).then(res => {
-    //         if (res.data.code == 200) {
-    //           this.getmixMenu()
-    //           this.$message.success('新增菜单成功!')
-    //         } else {
-    //           this.$message.error('新增菜单失败!')
-    //         }
-    //       })
-    //     }
-    //   }).catch(() => {})
-    // },
-    // // 删除菜单
-    // minusNav(item) {
-    //   event.stopPropagation()
-    //   this.$confirm('是否删除该类目?', '提示', {
-    //     type: 'warning'
-    //   }).then(() => {
-    //     delMenu(item.id).then(res => {
-    //       if (res.data.code == 200) {
-    //         this.getmixMenu()
-    //         this.$message.success(res.data.msg)
-    //       } else {
-    //         this.$message.error(res.data.msg)
-    //       }
-    //     })
-    //   }).catch(() => {})
-    // },
-    // // 修改菜单
-    // editNav(item, name) {
-    //   event.stopPropagation()
-    //   this.$prompt('请输入修改的类目名称', '提示', {
-    //     inputValue: name
-    //   }).then(({ value }) => {
-    //     if (value == null || !Trim(value)) {
-    //       this.$message.error('不能为空')
-    //     } else {
-    //       editMenu(item.id, value).then(res => {
-    //         if (res.data.code == 200) {
-    //           this.getmixMenu()
-    //           this.$message.success('修改菜单成功!')
-    //         } else {
-    //           this.$message.error('修改菜单失败!')
-    //         }
-    //       })
-    //     }
-    //   }).catch(() => {})
-    // },
-    // handleSelect(key, keyPath) {
-    //   this.openindex = key
-    // },
-    // handleOpen(key, keyPath) {
-    //   this.openindex = key
-    // },
-    // handleClose(key, keyPath) {
-    //   this.openindex = ''
-    // },
-    // navtitle(index) {
-    //   this.openindex = this.menuList[index].url
-    // },
-    // // 改变菜单时得到列表数据
-    // changeMenu(child) {
-    //   console.log(child);
-    //   this.MenuParam = {
-    //     parentId: child.id
-    //   }
-    //   this.getprojectList()
-    // },
-    // // 获取项目列表
-    // getprojectList() {
-    //   getproject(this.pageModel, this.MenuParam).then(res => {
-    //     this.pageModel.sumCount = res.data.data.total
-    //     this.projectList = res.data.data.rows
-    //   })
-    // },
-    // //搜素客户
-    // searchBtn() {
-    // },
-    // addBtn() {
-    //   this.$router.push('project/addProject')
-    // },
-    // // 删除项目
-    // deleteBtn(index, row) {
-    //   this.$confirm('是否删除该项目?', '提示', {
-    //     type: 'warning'
-    //   }).then(() => {
-    //     delProject(row.id).then(res => {
-    //       if (res.data.code == 200) {
-    //         this.projectList.splice(index, 1)
-    //         this.$message.success(res.data.msg)
-    //         this.getprojectList()
-    //       } else {
-    //         this.$message.error('删除失败!')
-    //       }
-    //     })
-    //   }).catch(() => {})
-    // },
-    // // 编辑项目
-    // editBtn(index, row) {
-    //   this.$router.push('project/edit/' + row.id)
-    // },
-    // selectRoleList() {
-    //   this.getprojectList()
-    // }
   }
 }
 </script>
 
 <style scoped lang="stylus">
-// @import "../../style/project.scss";
-.main-content .right_main {
-    width: 750px;
-}
+
 </style>

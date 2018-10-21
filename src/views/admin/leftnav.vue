@@ -38,6 +38,10 @@ export default {
         {
           name: '留言板',
           url: '/admin/message'
+        },
+        {
+          name: '友情链接',
+          url: '/admin/link'
         }
       ]
     }
