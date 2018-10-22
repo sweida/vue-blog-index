@@ -22,7 +22,7 @@
           <el-table-column label="操作" width="180">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="editBtn(scope.row)">编辑</el-button>
-              <el-button type="danger" size="mini" @click="deleteBtn(scope.row.id, scope.row)">删除</el-button>
+              <el-button type="danger" size="mini" @click="deleteBtn(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -32,11 +32,11 @@
 
     <el-dialog :title="title" :visible.sync="dialogFormVisible">
       <el-form :model="form" label-width="130px">
-        <el-form-item label="标题">
-          <el-input v-model="form.title"></el-input>
+        <el-form-item label="标题" >
+          <el-input v-model="form.title" clearable></el-input>
         </el-form-item>
-        <el-form-item label="链接">
-          <el-input v-model="form.href"></el-input>
+        <el-form-item label="链接" class="href">
+          <el-input v-model="form.href" clearable></el-input>
         </el-form-item>
         <el-form-item label="有效期">
           <el-date-picker
@@ -92,11 +92,11 @@ export default {
         this.loading = false
       })
     },
-    deleteBtn(id, item) {
+    deleteBtn(item) {
       this.$confirm('是否删除该链接?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('apis/link/remove', {id}).then(res => {
+        this.$post('apis/link/remove', {id: item.id}).then(res => {
           if (res.data.status == 1) {
             this.$message.success(res.data.msg)
             this.links.splice(this.links.indexOf(item), 1)
@@ -130,7 +130,8 @@ export default {
     editBtn(item) {
       this.title = '编辑友情链接'
       this.dialogFormVisible = true
-      this.form = item
+      // 复制对象不修改原对象
+      this.form = Object.assign({}, item)
     },
     editSubmit() {
       this.$post('apis/link/change', this.form).then(res => {
@@ -151,4 +152,6 @@ export default {
   margin-top 20px
 .el-form .el-input
   width 220px
+.href .el-input
+  width 400px
 </style>
