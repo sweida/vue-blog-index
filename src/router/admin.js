@@ -9,6 +9,7 @@ import adminMessage from '@/views/admin/page/message'
 import adminComment from '@/views/admin/page/comment'
 import resetRassword from '@/views/admin/page/password'
 import adminLink from '@/views/admin/page/link'
+import adminAd from '@/views/admin/page/ad'
 
 const admin = [
   // {
@@ -48,6 +49,7 @@ const admin = [
       { path: '/admin/comment', component: adminComment, name: 'adminComment' },
       { path: '/admin/resetpassword', component: resetRassword, name: 'resetRassword' },
       { path: '/admin/link', component: adminLink, name: 'adminLink' },
+      { path: '/admin/ad', component: adminAd, name: 'adminAd' },
       { path: '/admin/*', component: adminSetting, redirect: { name: 'adminSetting' } }
     ]
   }

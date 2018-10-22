@@ -37,23 +37,25 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page> -->
+        <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
       </div>
     </section>
   </main>
 </template>
 
 <script>
-
+import page from '@/components/page'
 export default {
+  components: {
+    page
+  },
   data() {
     return {
       loading: true,
       comments: [],
       pageModel: {
         page: 1,
-        rows: 10,
-        sumCount: 0
+        sumCount: 10
       }
     }
   },
@@ -62,15 +64,20 @@ export default {
   },
   methods: {
     getComment() {
-      this.$post('apis/comment/read').then(res => {
+      this.loading = true
+      this.$post('apis/comment/read', this.pageModel).then(res => {
         if (res.data.status == 1) {
           console.log(res.data)
           this.comments = res.data.data
+          this.pageModel.sumCount = res.data.total
         } else {
           this.$message.error('获取数据失败！')
         }
         this.loading = false
       })
+    },
+    selectRoleList() {
+      this.getComment()
     },
     deleteBtn(id) {
       this.$confirm('是否删除该评论?', '提示', {
@@ -90,8 +97,5 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-// @import "../../style/project.scss";
-.main-content .right_main {
-    width: 750px;
-}
+
 </style>

@@ -43,14 +43,19 @@
           </el-table-column>
 
         </el-table>
-        <!-- <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page> -->
+        <!-- <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="1000">
+        </el-pagination> -->
+        <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
       </div>
     </section>
   </main>
 </template>
 
 <script>
-
+import page from '@/components/page'
 export default {
   data() {
     return {
@@ -58,20 +63,25 @@ export default {
       articles: [],
       pageModel: {
         page: 1,
-        rows: 10,
-        sumCount: 0
+        all: 1,
+        sumCount: 10
       }
     }
+  },
+  components: {
+    page
   },
   created() {
     this.getArticles()
   },
   methods: {
     getArticles() {
-      this.$get('apis/article/read?all=1').then(res => {
-        console.log(res.data.data, 'daat')
+      this.loading = true
+      // 获取软删除的数据 all=1
+      this.$post('apis/article/read', this.pageModel).then(res => {
         if (res.data.status == 1) {
           this.articles = res.data.data
+          this.pageModel.sumCount = res.data.total
           // 将已经下架的文章设置为true
           this.articles.forEach(item => {
             if (item.deleted_at) {
@@ -83,6 +93,9 @@ export default {
         }
         this.loading = false
       })
+    },
+    selectRoleList() {
+      this.getArticles()
     },
     detail(id) {
       this.$router.push(`/admin/article/edit/${id}`)

@@ -1,12 +1,12 @@
 <template>
   <main>
-    <header>友情链接</header>
+    <header>广告图</header>
     <section class="wrap scroll">
       <el-button type="primary" size="small" @click="addBtn">添 加</el-button>
       <div class="main_table">
         <el-table 
           v-loading="loading" 
-          :data="links" 
+          :data="adlist" 
           stripe 
           style="width: 100%" 
           max-height="600" 
@@ -15,9 +15,9 @@
           </el-table-column>
           <el-table-column prop="title" label="标题" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column prop="href" label="链接" show-overflow-tooltip >
+          <el-table-column prop="type" label="分类" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column prop="end_time" label="有效期" show-overflow-tooltip >
+          <el-table-column prop="url" label="链接" show-overflow-tooltip >
           </el-table-column>
           <el-table-column label="操作" width="180">
             <template slot-scope="scope">
@@ -35,17 +35,11 @@
         <el-form-item label="标题" >
           <el-input v-model="form.title" clearable></el-input>
         </el-form-item>
-        <el-form-item label="链接" class="href">
-          <el-input v-model="form.href" clearable></el-input>
+        <el-form-item label="分类" >
+          <el-input v-model="form.type" clearable></el-input>
         </el-form-item>
-        <el-form-item label="有效期">
-          <el-date-picker
-            v-model="form.end_time"
-            value-format="yyyy-MM-dd"
-            type="date"
-            size="medium"
-            placeholder="选择日期">
-          </el-date-picker>
+        <el-form-item label="链接" class="href">
+          <el-input v-model="form.url" clearable></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -61,20 +55,15 @@
 export default {
   data() {
     return {
-      title: '新增友情链接',
+      title: '新增广告图',
       dialogFormVisible: false,
       loading: true,
-      links: [],
+      adlist: [],
       form: {
         title: '',
-        href: '',
-        end_time: ''
+        url: '',
+        type: ''
       },
-      pageModel: {
-        page: 1,
-        rows: 10,
-        sumCount: 0
-      }
     }
   },
   created() {
@@ -82,10 +71,10 @@ export default {
   },
   methods: {
     getLink() {
-      this.$get('apis/link/read?all=1').then(res => {
+      this.$post('apis/ad/read').then(res => {
         console.log(res.data)
         if (res.data.status == 1) {
-          this.links = res.data.data
+          this.adlist = res.data.data
         } else {
           this.$message.error('获取数据失败！')
         }
@@ -93,13 +82,13 @@ export default {
       })
     },
     deleteBtn(item) {
-      this.$confirm('是否删除该链接?', '提示', {
+      this.$confirm('是否删除该广告图?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('apis/link/remove', {id: item.id}).then(res => {
+        this.$post('apis/ad/remove', {id: item.id}).then(res => {
           if (res.data.status == 1) {
             this.$message.success(res.data.msg)
-            this.links.splice(this.links.indexOf(item), 1)
+            this.adlist.splice(this.adlist.indexOf(item), 1)
           } else {
             this.$message.error(res.data.msg)
           }
@@ -117,7 +106,7 @@ export default {
       }
     },
     addSubmit() {
-      this.$post('apis/link/add', this.form).then(res => {
+      this.$post('apis/ad/add', this.form).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.dialogFormVisible = false
@@ -128,13 +117,13 @@ export default {
       })
     },
     editBtn(item) {
-      this.title = '编辑友情链接'
+      this.title = '编辑广告图'
       this.dialogFormVisible = true
       // 复制对象不修改原对象
       this.form = Object.assign({}, item)
     },
     editSubmit() {
-      this.$post('apis/link/change', this.form).then(res => {
+      this.$post('apis/ad/change', this.form).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.dialogFormVisible = false

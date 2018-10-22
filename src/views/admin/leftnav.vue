@@ -42,6 +42,10 @@ export default {
         {
           name: '友情链接',
           url: '/admin/link'
+        },
+        {
+          name: '广告图',
+          url: '/admin/ad'
         }
       ]
     }

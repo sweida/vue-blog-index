@@ -31,23 +31,25 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page> -->
+        <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
       </div>
     </section>
   </main>
 </template>
 
 <script>
+import page from '@/components/page'
 export default {
-
+  components: {
+    page
+  },
   data() {
     return {
       loading: true,
       Users: [],
       pageModel: {
         page: 1,
-        rows: 10,
-        sumCount: 0
+        sumCount: 10
       }
     }
   },
@@ -56,18 +58,22 @@ export default {
   },
   methods: {
     getUsers() {
-      this.$post('apis/user/read').then(res => {
+      this.loading = true
+      this.$post('apis/user/read', this.pageModel).then(res => {
         if (res.data.status == 1) {
           this.Users = res.data.data
+          this.pageModel.sumCount = res.data.total
         } else {
           this.$message.error('获取数据失败！')
         }
         this.loading = false
       })
     },
+    selectRoleList() {
+      this.getUsers()
+    },
     // 查看用户详情
     detail(id, row) {
-      // console.log(id)
       let param = {
         user_id: id
       }
