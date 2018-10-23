@@ -50,8 +50,8 @@
           </el-upload>
         </el-form-item>
 
-        <el-form-item label="链接" class="href">
-          <el-input v-model="form.url" clearable></el-input>
+        <el-form-item label="图片链接" class="href">
+          <el-input v-model="form.url" readonly></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -94,17 +94,32 @@ export default {
         this.loading = false
       })
     },
+    // 上传图片，获取图片地址
     handleAvatarSuccess(res, file) {
-      console.log(res, file, 666)
+      // 如果已经有图片则先删除图片
+      if (this.form.url) {
+        this.handleRemove()
+      }
+
       this.imageUrl = URL.createObjectURL(file.raw);
-      // console.log(this.imageUrl)
-      // let param = {
-      //   file: this.imageUrl
-      // }
-      // this.$post('apis/img/upload', param).then(res => {
-      //   console.log(res)
-      // })
+      if (res.status == 1) {
+        this.$message.success('图片上传成功')
+        this.form.url = res.data.replace('public', 'storage')
+      }
     },
+    // 删除图片
+    handleRemove() {
+      let param = {url: this.form.url.replace('storage', 'public')}
+      this.$post('apis/img/delete', param).then(res => {
+        if (res.data.status == 1) {
+          this.$message.success(res.data.msg)
+        } else {
+          this.$message.error(res.data.msg)
+          return false
+        }
+      })
+    },
+    // 限制图片大小和格式
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -132,15 +147,18 @@ export default {
       }).catch(() => {     
       })
     },
+    // 打开新增广告
     addBtn() {
       this.title = '新增友情链接'
       this.dialogFormVisible = true
+      this.imageUrl = ''
       this.form = {
         title: '',
         href: '',
         end_time: ''
       }
     },
+    // 提交新增
     addSubmit() {
       this.$post('apis/ad/add', this.form).then(res => {
         if (res.data.status == 1) {
@@ -152,12 +170,15 @@ export default {
         }
       })
     },
+    // 打开编辑
     editBtn(item) {
       this.title = '编辑广告图'
       this.dialogFormVisible = true
       // 复制对象不修改原对象
       this.form = Object.assign({}, item)
+      this.imageUrl = 'http://localhost:7000/' + this.form.url
     },
+    // 提交编辑
     editSubmit() {
       this.$post('apis/ad/change', this.form).then(res => {
         if (res.data.status == 1) {
