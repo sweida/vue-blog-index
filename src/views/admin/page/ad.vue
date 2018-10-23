@@ -31,13 +31,25 @@
     </section>
 
     <el-dialog :title="title" :visible.sync="dialogFormVisible">
-      <el-form :model="form" label-width="130px">
+      <el-form :model="form" label-width="130px" enctype="multipart/form-data">
         <el-form-item label="标题" >
           <el-input v-model="form.title" clearable></el-input>
         </el-form-item>
         <el-form-item label="分类" >
           <el-input v-model="form.type" clearable></el-input>
         </el-form-item>
+        <el-form-item label="上传图片" >
+          <el-upload
+            class="avatar-uploader"
+            action="/apis/img/upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+
         <el-form-item label="链接" class="href">
           <el-input v-model="form.url" clearable></el-input>
         </el-form-item>
@@ -59,6 +71,7 @@ export default {
       dialogFormVisible: false,
       loading: true,
       adlist: [],
+      imageUrl: '',
       form: {
         title: '',
         url: '',
@@ -80,6 +93,29 @@ export default {
         }
         this.loading = false
       })
+    },
+    handleAvatarSuccess(res, file) {
+      console.log(res, file, 666)
+      this.imageUrl = URL.createObjectURL(file.raw);
+      // console.log(this.imageUrl)
+      // let param = {
+      //   file: this.imageUrl
+      // }
+      // this.$post('apis/img/upload', param).then(res => {
+      //   console.log(res)
+      // })
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
     },
     deleteBtn(item) {
       this.$confirm('是否删除该广告图?', '提示', {
@@ -137,6 +173,35 @@ export default {
 }
 </script>
 
+<style lang="stylus">
+.avatar-uploader .el-upload 
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+.el-upload 
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  
+.avatar-uploader .el-upload:hover 
+  border-color: #409EFF;
+
+.el-upload .avatar-uploader-icon 
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px !important;
+  text-align: center;
+
+.avatar 
+  width: 178px;
+  height: 178px;
+  display: block;
+</style>
+
 <style scoped lang="stylus">
 .main_table
   margin-top 20px
@@ -144,4 +209,5 @@ export default {
   width 220px
 .href .el-input
   width 400px
+
 </style>
