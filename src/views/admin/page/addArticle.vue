@@ -38,7 +38,8 @@
           </el-form-item>
         </el-row>
       </el-form>
-      <mavon-editor v-model="form.content" class="makedown" @imgAdd="$imgAdd" @imgDel="$imgDel"/>
+      <!-- @imgAdd="$imgAdd" @imgDel="$imgDel" -->
+      <mavon-editor v-model="form.content" class="makedown" />
     </section>
     <footer>
       <el-button type="primary" size="small" @click="addBtn" v-if="!$route.params.id">保　存</el-button>
@@ -107,10 +108,10 @@ export default {
       this.$post('apis/article/change', this.form).then(res => {
         console.log(res)
         if (res.data.status == 1) {
-          this.$message.success('保存成功！')
+          this.$message.success(res.data.msg)
           this.$router.push('/admin/articlelist')
         } else {
-          this.$message.error('保存失败！')
+          this.$message.error(res.data.msg)
         }
       })
     },
