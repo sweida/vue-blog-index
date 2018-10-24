@@ -20,13 +20,13 @@ const admin = [
   //     next()
   //   }
   // },
-  {
-    path: '/',
-    component: adminLogin,
-    redirect: {
-      name: 'adminLogin'
-    }
-  },
+  // {
+  //   path: '/',
+  //   component: adminLogin,
+  //   redirect: {
+  //     name: 'adminLogin'
+  //   }
+  // },
   {
     path: '/admin/login',
     component: adminLogin,
