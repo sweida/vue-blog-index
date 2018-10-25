@@ -33,9 +33,9 @@ export default {
   },
   methods: {
     loginSubmit() {
-      this.$post('apis/admin/login', this.user).then(res => {
+      this.$post('apis/login', this.user).then(res => {
         if (res.data.status == 1) {
-          this.$router.push('/admin/setting')
+          this.$router.push('/')
         } else {
           this.$message.error(res.data.msg)
         }

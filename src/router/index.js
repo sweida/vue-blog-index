@@ -5,7 +5,6 @@ import article from '@/views/index/article.vue'
 import detail from '@/views/index/detail.vue'
 import message from '@/views/index/message.vue'
 
-// import adminSetting from '@/views/admin/page/setting'
 
 const index = [
   {
@@ -19,31 +18,33 @@ const index = [
     path: '/home',
     component: home,
     name: 'home',
-  },
-  {
-    path: '/login',
-    component: login,
-    name: 'login',
-  },
-  {
-    path: '/register',
-    component: register,
-    name: 'register',
-  },
-  {
-    path: '/article',
-    component: article,
-    name: 'article',
-  },
-  {
-    path: '/article/:id',
-    component: detail,
-    name: 'detail',
-  },
-  {
-    path: '/message',
-    component: message,
-    name: 'message',
+    children: [
+      {
+        path: '/login',
+        component: login,
+        name: 'login',
+      },
+      {
+        path: '/register',
+        component: register,
+        name: 'register',
+      },
+      {
+        path: '/article',
+        component: article,
+        name: 'article',
+      },
+      {
+        path: '/article/:id',
+        component: detail,
+        name: 'detail',
+      },
+      {
+        path: '/message',
+        component: message,
+        name: 'message',
+      },
+    ]
   },
 ]
 export default index

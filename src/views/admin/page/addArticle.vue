@@ -7,7 +7,9 @@
         <el-form-item label="文章标题">
           <el-input size="medium" v-model="form.title" class="input_title"></el-input>
         </el-form-item>
-
+        <el-form-item label="摘要">
+          <el-input size="medium" v-model="form.desc" class="input_title"></el-input>
+        </el-form-item>
         <el-row type="flex">
           <el-form-item label="所属分类">
             <el-input size="medium" v-model="form.classify"></el-input>
@@ -56,6 +58,7 @@ export default {
       title: '写博客',
       form: {
         title: '',
+        desc: '',
         content: '',
         classify: '',
         tag: '',
@@ -75,6 +78,7 @@ export default {
     $route(to,from){
       this.form =  {
         title: '',
+        desc: '',
         content: '',
         classify: '',
         tag: '',

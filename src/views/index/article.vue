@@ -1,36 +1,23 @@
 <template>
   <div class="article">
-    <div>
-      所有标签
-      <li v-for="item in tags">
-        <router-link :to="{name: 'article', query: { tag: item }}">{{item}}</router-link>
-      </li>
-    </div>
-    <div>
-      所有分类
-      <li v-for="item in classifys">
-        <router-link :to="{name: 'article', query: { classify: item }}">{{item}}</router-link>
-      </li>
-    </div>
     <li v-for="item in articles">
       <router-link :to="{path:`/article/${item.id}`}">{{item.title}}</router-link>
-      <div>标题：{{item.title}}</div>
-      <div>创建时间：{{item.created_at}}</div>
-      <div>点击量：{{item.clicks}}</div>
+      <!-- <div>标题：{{item.title}}</div> -->
+      <div><i class="el-icon-edit"></i>{{item.created_at}}</div>
+      <div><i class="el-icon-view"></i>{{item.clicks}}</div>
       <div>点赞：{{item.like}}</div>
-      <mavon-editor v-model="item.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
       <div>分类：{{item.classify}}</div>
-      标签:<span v-for="tag in item.tag">
-        <span>{{tag}}、</span>
-      </span>
-    </li>
-    <div>
-      时间线
-      <li v-for="item in timeLine">
-        <span>{{item.date}}（{{item.value}}）</span>
-      </li>
-    </div>
+      <div>
+        <img src="../../assets/tag.png" alt="">
+        <span v-for="tag in item.tag">
+          <span>{{tag}}、</span>
+        </span>
+      </div>
 
+      <mavon-editor v-model="item.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
+      
+
+    </li>
 
   </div>
 </template>
@@ -170,10 +157,10 @@ export default {
     background #fff !important
 </style>
 <style scoped lang="stylus">
-.article 
-  width 1000px
-  margin auto
 li
   margin-bottom 20px
-
+i
+  color #959595
+  font-weight bold
+  margin-right 5px
 </style>

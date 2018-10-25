@@ -2,16 +2,17 @@
   <div class="header">
     <div class="menu">
       <div>
-        <div>博客logo</div>
-        <li>首页</li>
-        <li>前端</li>
-        <li>后端</li>
-        <li>工具</li>
-        <li>随写</li>
+        <img src="../../assets/logo.png" class="logo" />
+        <router-link to="/">首页</router-link>
+        <router-link to="/article">博客</router-link>
+        <li v-for="item in classifys">
+          <router-link :to="{name: 'article', query: { classify: item }}">{{item}}</router-link>
+        </li>
+        <router-link to="/message">留言</router-link>
       </div>
       <div>
-        <li>登陆</li>
-        <li>注册</li>
+        <router-link to="/login">登陆</router-link>
+        <router-link to="/register">注册</router-link>
       </div>
     </div>
   </div>
@@ -23,12 +24,20 @@
 export default {
   data () {
     return {
+      classifys: [],
       tip: ''
     }
   },
+  created() {
+    this.getClassify()
+  },
   methods: {
-    logout: function () {
-
+    // 获取所有分类
+    getClassify() {
+      this.$get('apis/article/classify').then(res => {
+        console.log(res.data, 'classifys')
+        this.classifys = res.data.data
+      })
     }
   }
 
@@ -45,23 +54,29 @@ export default {
     display: flex
     justify-content: flex-end
     flex: 1
-  .logo
-    width: 360px
-    display: flex
-    justify-content: center
-    align-content: center
-    img
-      width: 200px
+  // .logo
+  //   width: 360px
+  //   display: flex
+  //   justify-content: center
+  //   align-content: center
+  //   img
+  //     width: 200px
 
 .header .menu
   width 1000px
   margin 0 auto
   display flex
+  color #fff
   justify-content space-between
   font-size 14px
   div
     display flex
     align-items center
+    a 
+      color #fff
     li
       padding 0 15px
+
+.logo
+  width 100px
 </style>

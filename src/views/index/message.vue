@@ -1,145 +1,137 @@
 <template>
-  <div class="login">
-    <div class="el-form">
-      <div class="logo"></div>
-      <div class="formbox">
+  <div >
+
+        <!-- 评论框 -->
         <div>
-          <label for="name">账号</label>
-          <input v-model="user.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
+            <!-- 评论 [{{commentList.length}}] -->
+            <el-input
+              type="textarea"
+              placeholder="留的痕迹"
+              resize='none'
+              :autosize='{minRows: 2}'
+              v-model="message.content">
+            </el-input>
+            <!-- <el-input v-model="comment.content" placeholder="评论"></el-input> -->
+            <div class="submit-box">
+              <el-input v-model="message.username" size="small" placeholder="昵称"></el-input>
+              <el-button type="primary" size="small" @click="submitMessage">提交评论</el-button>
+            </div>
         </div>
+
+        <!-- 评论列表 -->
         <div>
-          <label for="password">密码</label>
-          <input v-model="user.password" :type="show ? 'password' : 'text'" id="password" placeholder="请输入密码" auto-complete="off"><i :class="show ?'seepassword' : 'el-icon-view'" @click="show=!show"></i>
+          <div class="comment" v-for="(item, index) in messageList">
+            <div class="user-ava">
+              <img src="../../assets/avatar/010.jpg" alt="">
+            </div>
+            <div class="comment-box animate03">
+              <div class="username"> 
+                <span>
+                  {{item.user.username || '游客'}} 
+                  <span class="created"><i class="el-icon-time"></i> {{item.created_at}}</span>
+                </span>
+                <span class="floor">{{item.id}}楼</span>
+              </div>
+              <div class="com_detail">{{item.content}}</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <el-checkbox v-model="checked" checked class="remember" >记住密码</el-checkbox>
-      <button class="submit animate03" @click="loginSubmit">登 录</button>
-    </div>
+
+
   </div>
 </template>
 
 <script>
-// import { setToken, getToken } from '@/utils/token'
 
 export default {
   data() {
     return {
-      show: true,
-      checked: true,
-      user: {
-        username: '佟丽娅',
-        password: '123456'
+      messageList: [],
+      message:{
+        content: '',
+        username: ''
       }
     }
   },
+  created() {
+    this.getMessage()
+  },
   methods: {
-    loginSubmit() {
-      this.$post('apis/admin/login', this.user).then(res => {
-        if (res.data.status == 1) {
-          this.$router.push('/admin/setting')
-        } else {
-          this.$message.error(res.data.msg)
-        }
+    // 获取留言
+    getMessage() {
+      this.$get('apis/message/read').then(res => {
+        console.log(res.data, 'message')
+        this.messageList = res.data.data
+      })
+    },
+    // 提交留言
+    submitMessage() {
+      this.$post('apis/message/add', this.message).then(res => {
+        console.log(res.data)
+        this.getMessage()
       })
     }
   }
 }
 </script>
 <style scoped lang="stylus">
-.animate03{
-  -webkit-transition-duration:0.3s;
-   -moz-transition-duration:0.3s;
-    -ms-transition-duration:0.3s;
-    transition-duration:0.3s;
-}
-.login{
-  width: 100%;
-  height: 100%;
-  background: url(../../assets/loginbg.jpg) no-repeat center top;
-  background-size: cover;
-  .el-form {
-    position: absolute;
-    right: 12%;
-    top:15%;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    background-clip: padding-box;
-    width: 280px;
-    padding: 20px 30px;
-    background: #fff;
-    .logo{
-      width: 100%;
-      height: 200px;
-      background: url(/static/img/loginlogo.png) no-repeat center top;
-    }
-    .remember {
-      margin: 0px 0px 35px 0px;
-    }
-    .formbox{
-      background: #fff;
-      width: 100%;
-      height: 80px;
-      box-shadow: 0px 5px 15px #9db7f1;
-      border-radius: 3px;
-      margin-bottom: 20px;
-      line-height: 40px;
-      font-size: 16px;
-      color: #555555;
-      div{
-        margin:0 20px;
-        position: relative;
-        label{
-          width: 45px;
-          display: inline-block;
-          border-right: 1px solid #ddd;
-          line-height: 20px;
-        }
-        i{
-          position: absolute;
-          margin-top: 10px;
-          right: 0px;
-          color:#aaa;
-          font-size: 18px;
-        }
-        .seepassword{
-          width: 24px;
-          height: 20px;
-          background: url(/static/img/password.png) no-repeat;
-          background-size: contain;
-        }
-      }
-      div:first-child{
-        border-bottom: 1px solid #ddd;
-      }
-      input{
-        outline: none;
-        border:0;
-        padding:0 10px;
-        letter-spacing: 1px;
-        font-size: 16px;
-        width: 140px;
-        color: #555;
-      }
-    }
-    .submit{
-      width:88%;
-      margin:auto;
-      background: #83b5ff;
-      margin:0 0 30px 6%;
-      border:0;
-      color: #fff;
-      padding: 8px;
-      border-radius: 30px;
-      outline: none;
-      cursor: pointer;
-    }
-    .submit:hover{
-      box-shadow: 0px 5px 15px #9db7f1;
-      transition: all 0.2;
-    }
-  }
-}
+
+li
+  margin-bottom 10px
 
 
+.submit-box
+  margin-top 15px
+  display flex 
+  justify-content space-between
+  .el-input
+    width 150px
+
+.comment
+  display flex
+  font-size 14px
+  padding 12px 0
+  .user-ava
+    width 60px
+    margin-right 15px
+    img
+      width 100%
+      border-radius 50% 
+      box-shadow: 3px 3px 11px #d6d6d6
+  .comment-box
+    position relative
+    line-height 22px
+    flex 1
+    min-height 120px
+    border: 1px solid #ecf0f1
+    border-radius: 3px
+    box-shadow: 2px 2px 15px #d2e7fd
+    .username
+      line-height 30px
+      font-weight bold
+      color #f7576c
+      background: #ECF0F1
+      padding: 6px 15px
+      display flex
+      justify-content space-between
+      .created
+        margin-left 10px
+        font-weight 100
+        color #7F8C8D
+    .com_detail
+      padding 15px 25px
+    .floor
+      width 42px
+      text-align: right;
+  .comment-box:hover
+    box-shadow: 2px 2px 15px #d2e7fd
+  // .comment-box:after
+  //   content: ""
+  //   width 2px
+  //   height: 30px;
+  //   bottom -30px
+  //   left: 20px;
+  //   background: #ecf0f1;
+  //   position: absolute;
+  //   display: block;
 </style>
