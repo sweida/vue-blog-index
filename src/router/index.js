@@ -1,9 +1,10 @@
-import home from '@/views/index/home.vue'
-import login from '@/views/index/login.vue'
-import register from '@/views/index/register.vue'
-import article from '@/views/index/article.vue'
-import detail from '@/views/index/detail.vue'
-import message from '@/views/index/message.vue'
+import home from '@/views/index/home'
+import login from '@/views/index/login'
+import register from '@/views/index/register'
+import article from '@/views/index/article'
+import detail from '@/views/index/detail'
+import message from '@/views/index/message'
+import link from '@/views/index/link'
 
 
 const index = [
@@ -44,6 +45,11 @@ const index = [
         component: message,
         name: 'message',
       },
+      {
+        path: '/link',
+        component: link,
+        name: 'link',
+      }
     ]
   },
 ]

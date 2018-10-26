@@ -6,7 +6,6 @@
           <div>标题：{{detail.title}}</div>
           <div>创建时间：{{detail.created_at}}</div>
           <div>点击量：{{detail.clicks}}</div>
-          <div>点赞：{{detail.like}}</div>
           <div>分类：{{detail.classify}}</div>
           标签:<span v-for="tag in detail.tag">
             <span>{{tag}}、</span>
@@ -190,6 +189,7 @@ li
       border-radius 50% 
       box-shadow: 3px 3px 11px #d6d6d6
   .comment-box
+    background #fff
     line-height 22px
     flex 1
     min-height 100px

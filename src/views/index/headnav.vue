@@ -3,12 +3,19 @@
     <div class="menu">
       <div>
         <img src="../../assets/logo.png" class="logo" />
-        <router-link to="/">首页</router-link>
-        <router-link to="/article">博客</router-link>
-        <li v-for="item in classifys">
-          <router-link :to="{name: 'article', query: { classify: item }}">{{item}}</router-link>
+        <li>
+          <router-link to="/">首页</router-link>
+
         </li>
-        <router-link to="/message">留言</router-link>
+        <li>
+          <router-link to="/article">博文</router-link>
+        </li>
+        <li>
+          <router-link to="/link">友链</router-link>
+        </li>
+        <li>
+          <router-link to="/message">留言</router-link>
+        </li>
       </div>
       <div>
         <router-link to="/login">登陆</router-link>

@@ -17,6 +17,8 @@
           </el-table-column>
           <el-table-column prop="href" label="链接" show-overflow-tooltip >
           </el-table-column>
+          <el-table-column prop="desc" label="描述" show-overflow-tooltip >
+          </el-table-column>
           <el-table-column prop="end_time" label="有效期" show-overflow-tooltip >
           </el-table-column>
           <el-table-column label="操作" width="180">
@@ -37,6 +39,9 @@
         </el-form-item>
         <el-form-item label="链接" class="href">
           <el-input v-model="form.href" clearable></el-input>
+        </el-form-item>
+        <el-form-item label="描述" class="href">
+          <el-input v-model="form.desc" clearable></el-input>
         </el-form-item>
         <el-form-item label="有效期">
           <el-date-picker
@@ -68,6 +73,7 @@ export default {
       form: {
         title: '',
         href: '',
+        desc: '',
         end_time: ''
       },
       pageModel: {
