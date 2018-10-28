@@ -14,21 +14,11 @@
 export default {
   data () {
     return {
-      classifys: [],
-      tip: ''
     }
   },
-  created() {
-    this.getClassify()
-  },
+
   methods: {
-    // 获取所有分类
-    getClassify() {
-      this.$get('apis/article/classify').then(res => {
-        console.log(res.data, 'classifys')
-        this.classifys = res.data.data
-      })
-    }
+
   }
 
 }

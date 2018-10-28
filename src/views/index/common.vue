@@ -3,7 +3,7 @@
     <div class="box">
       <h3>所有分类</h3>
       <li v-for="item in classifys">
-        <router-link :to="{name: 'article', query: { classify: item }}">{{item}}</router-link>
+        <router-link :to="{name: 'blog', query: { classify: item }}">{{item}}</router-link>
       </li>
     </div>
 
@@ -17,7 +17,7 @@
     <div class="box">
       <h3>所有标签</h3>
       <span class="tagli" v-for="item in tags">
-        <router-link :to="{name: 'article', query: { tag: item }}">{{item}}</router-link>
+        <router-link :to="{name: 'blog', query: { tag: item }}">{{item}}</router-link>
       </span>
     </div>
 
@@ -88,7 +88,7 @@ export default {
       let year = item.substring(0, 4)
       let month = item.substring(5, 7)
       this.$router.push({
-        name: 'article',
+        name: 'blog',
         query: {
           year: year,
           month: month
@@ -110,8 +110,8 @@ export default {
 <style scoped lang="stylus">
 .common
   margin-left 20px
+  width 220px
   .box
-    width 180px
     height 200px
     padding 1px 20px
     margin-bottom 20px

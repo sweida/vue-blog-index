@@ -1,11 +1,10 @@
 import home from '@/views/index/home'
 import login from '@/views/index/login'
 import register from '@/views/index/register'
-import article from '@/views/index/article'
+import blog from '@/views/index/blog'
 import detail from '@/views/index/detail'
 import message from '@/views/index/message'
 import link from '@/views/index/link'
-
 
 const index = [
   {
@@ -31,12 +30,15 @@ const index = [
         name: 'register',
       },
       {
-        path: '/article',
-        component: article,
-        name: 'article',
+        path: '/blog',
+        component: blog,
+        name: 'blog',
+        meta: {
+          keepAlive: true, // 需要被缓存
+        },
       },
       {
-        path: '/article/:id',
+        path: '/blog/:id',
         component: detail,
         name: 'detail',
       },
@@ -44,13 +46,19 @@ const index = [
         path: '/message',
         component: message,
         name: 'message',
+        meta: {
+          keepAlive: true, // 需要被缓存
+        },
       },
       {
         path: '/link',
         component: link,
         name: 'link',
-      }
-    ]
+        meta: {
+          keepAlive: true, // 需要被缓存
+        },
+      },
+    ],
   },
 ]
 export default index

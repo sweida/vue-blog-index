@@ -8,7 +8,7 @@
 
         </li>
         <li>
-          <router-link to="/article">博文</router-link>
+          <router-link to="/blog">博文</router-link>
         </li>
         <li>
           <router-link to="/link">友链</router-link>

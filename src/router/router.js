@@ -8,12 +8,13 @@ import index from './index'
 Vue.use(Router)
 
 export default new Router({
+
   routes: [
     {
       path: '*',
-      component: NotFound
+      component: NotFound,
     },
     ...index,
-    ...admin
+    ...admin,
   ],
 })

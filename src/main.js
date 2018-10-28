@@ -11,8 +11,10 @@ Vue.prototype.$post = Axios.post
 
 import './plugins/element.js'
 import './plugins/mavonEditor.js'
-// import qs from 'qs'
-// Vue.prototype.$qs=qs
+
+// router.afterEach((to, from, next) => {
+//   window.scrollTo(0, 0);
+// });
 
 Vue.config.productionTip = false
 

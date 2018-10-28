@@ -18,7 +18,7 @@
       </div>
       <li v-for="item in articles">
         <div class="created"><i class="iconfont lv-icon-shijian3"></i>发布于{{item.created_at.substring(0,10)}}</div>
-        <router-link :to="{path:`/article/${item.id}`}" class="title">{{item.title}}</router-link>
+        <router-link :to="{path:`/blog/${item.id}`}" class="title">{{item.title}}</router-link>
         <div class="comment">
           <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
           <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
@@ -33,19 +33,13 @@
         </div>
 
         <div class="tag-box">
-          <router-link class="tag" :to="{name: 'article', query: { tag: tag }}" v-for="tag in item.tag" :class="{active:$route.query.tag==tag}">
+          <router-link class="tag" :to="{name: 'blog', query: { tag: tag }}" v-for="tag in item.tag" :class="{active:$route.query.tag==tag}">
             <i class="iconfont lv-icon-biaoqian6"></i>
             {{tag}}
           </router-link>
-          <!-- <span v-for="tag in item.tag">
-            <i class="iconfont lv-icon-biaoqian6"></i>
-            {{tag}}
-          </span> -->
+
         </div>
         
-        <!-- <mavon-editor v-model="item.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" /> -->
-        
-
       </li>
     </div>
 
@@ -75,9 +69,9 @@ export default {
     }
   },
   created() {
-    this.getTimes()
-    this.getTags()
-    this.getClassify() 
+    // this.getTimes()
+    // this.getTags()
+    // this.getClassify() 
 
     console.log(this.$route.query.tag, 44)
     if (this.$route.query.tag) {
@@ -263,4 +257,12 @@ export default {
     margin 5px 10px 0 0   
   .tag.active
     background #fd668e
+
+
+@media screen and (max-width: 750px)
+  #index .content .main 
+    flex-direction: column
+  .common
+    margin-left 0px
+    width 100%
 </style>

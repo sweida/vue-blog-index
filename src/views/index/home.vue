@@ -2,7 +2,11 @@
   <div id="index">
     <headnav></headnav>
     <section class="content">
-      <router-view class="main animate03" />
+      <keep-alive>
+          <router-view v-if="$route.meta.keepAlive" class="main animate03"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view>
+      <!-- <router-view class="main animate03" /> -->
     </section>
     <Footer></Footer>
   </div>
@@ -31,8 +35,8 @@ export default {
 #index
   width:100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
   .content
     display: flex;
     flex-direction: row;
