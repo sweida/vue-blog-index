@@ -27,7 +27,7 @@
             <div class="comment-box animate03">
               <div class="username"> 
                 <span>
-                  {{item.user.username || '游客'}} 
+                  {{item.user ? item.user.username : '游客'}} 
                   <span class="created"><i class="el-icon-time"></i> {{item.created_at}}</span>
                 </span>
                 <span class="floor">{{item.id}}楼</span>
