@@ -2,11 +2,15 @@
   <div id="index">
     <headnav></headnav>
     <section class="content">
-      <keep-alive>
+
+      <!-- <div class="banner">
+        <img src="../../assets/banner.jpg" alt="">
+      </div> -->
+      <!-- <keep-alive>
           <router-view v-if="$route.meta.keepAlive" class="main animate03"></router-view>
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view>
-      <!-- <router-view class="main animate03" /> -->
+      <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view> -->
+      <router-view class="main animate03" />
     </section>
     <Footer></Footer>
   </div>
@@ -26,7 +30,13 @@ export default {
     return {
     }
   },
+  created() {
+    this.$get('/apis/is_login').then(res => {
+      console.log(res, 'islogin')
+    })
+  },
   methods: {
+
   }
 }
 </script>
@@ -35,23 +45,32 @@ export default {
 #index
   width:100%;
   height: 100%;
-  // display: flex;
-  // flex-direction: column;
   .content
-    display: flex;
-    flex-direction: row;
-    flex: 1;
     box-sizing: border-box;
     padding: 80px 3% 20px;
+    overflow: hidden
+    .banner
+      max-width: 640px
+      margin 30px auto 0
+      img 
+        width 100%
     .main
       max-width 940px
       margin auto
-/* 退出登录菜单样式 */
-.el-dialog__title
-  font-size: 16px
-.el-menu--horizontal .el-submenu>.el-menu
-  top: 60px
-  border-radius: 0
-.el-submenu .el-menu-item
-  min-width: 150px
+
+@media screen and (max-width: 640px)
+  #index
+    .content
+      .banner
+        width 80%
+        margin 20px auto 0
+
+// /* 退出登录菜单样式 */
+// .el-dialog__title
+//   font-size: 16px
+// .el-menu--horizontal .el-submenu>.el-menu
+//   top: 60px
+//   border-radius: 0
+// .el-submenu .el-menu-item
+//   min-width: 150px
 </style>

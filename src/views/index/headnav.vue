@@ -1,8 +1,7 @@
 <template>
   <div class="header">
     <div class="menu">
-      <div>
-        <img src="../../assets/logo.png" class="logo" />
+      <div class="left">
         <li>
           <router-link to="/">首页</router-link>
 
@@ -17,7 +16,10 @@
           <router-link to="/message">留言</router-link>
         </li>
       </div>
-      <div>
+      <div class="logo">
+        <img src="../../assets/logo.png" />
+      </div>
+      <div class="right">
         <router-link to="/login">登陆</router-link>
         <router-link to="/register">注册</router-link>
       </div>
@@ -36,16 +38,16 @@ export default {
     }
   },
   created() {
-    this.getClassify()
+    // this.getClassify()
   },
   methods: {
     // 获取所有分类
-    getClassify() {
-      this.$get('apis/article/classify').then(res => {
-        console.log(res.data, 'classifys')
-        this.classifys = res.data.data
-      })
-    }
+    // getClassify() {
+    //   this.$get('/apis/article/classify').then(res => {
+    //     console.log(res.data, 'classifys')
+    //     this.classifys = res.data.data
+    //   })
+    // }
   }
 
 }
@@ -59,6 +61,7 @@ export default {
   color #fff
   position fixed
   width 100%
+  z-index: 1600
   .nav
     display: flex
     justify-content: flex-end
@@ -78,6 +81,12 @@ export default {
   color #fff
   justify-content space-between
   font-size 14px
+  .left, .right
+    width 40%
+  .logo
+    height 100%
+    img
+      height 100%
   div
     display flex
     align-items center
@@ -86,6 +95,5 @@ export default {
     li
       padding 0 15px
 
-.logo
-  width 100px
+
 </style>

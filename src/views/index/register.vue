@@ -1,19 +1,32 @@
 <template>
   <div class="login">
-    <div class="el-form">
-      <div class="logo"></div>
-      <div class="formbox">
-        <div>
-          <label for="name">账号</label>
-          <input v-model="user.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
-        </div>
-        <div>
-          <label for="password">密码</label>
-          <input v-model="user.password" :type="show ? 'password' : 'text'" id="password" placeholder="请输入密码" auto-complete="off"><i :class="show ?'seepassword' : 'el-icon-view'" @click="show=!show"></i>
-        </div>
-      </div>
-      <el-checkbox v-model="checked" checked class="remember" >记住密码</el-checkbox>
-      <button class="submit animate03" @click="loginSubmit">登 录</button>
+    <div class="regiter-box">
+      <h1>注册账号</h1>
+    <el-form label-position="top" :rules="rules" ref="ruleForm" label-width="80px" :model="form">
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="form.username"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="form.email"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" v-model="form.password"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="repassword">
+        <el-input type="password" v-model="form.repassword"></el-input>
+      </el-form-item>
+    </el-form>
+      <!-- <div>
+        <p>用户名</p>
+        <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+        <p>邮箱</p>
+        <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
+        <p>密码</p>
+        <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+        <p>确认密码</p>
+        <el-input v-model="form.password" placeholder="请确认密码"></el-input>
+      </div> -->
+        <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
     </div>
   </div>
 </template>
@@ -22,123 +35,82 @@
 
 export default {
   data() {
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.form.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    }
     return {
       show: true,
       checked: true,
-      user: {
-        username: '佟丽娅',
-        password: '123456'
-      }
+      form: {
+        username: '',
+        email: '',
+        password: '',
+        repassword: '',
+      },
+      rules: {
+          username: [
+            { required: true, message: '请输入用户名', trigger: 'blur' },
+            { min: 3, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur' }
+          ],
+          email: [
+            { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+            { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+          ],
+          password: [
+            { required: true, message: '请填写密码', trigger: 'blur' }
+          ],
+          repassword: [
+            { validator: validatePass2, trigger: 'blur' }
+            // { required: true, message: '请确认密码', trigger: 'blur' }
+          ]
+        }
     }
   },
   methods: {
-    loginSubmit() {
-      this.$post('apis/admin/login', this.user).then(res => {
+    submitForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$post('/apis/signup', this.form).then(res => {
+            console.log(res)
+            if (res.data.status == 1) {
+              this.$message.success(res.data.msg)
+              setTimeout(() => {
+                this.login()
+              }, 1000)
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          })
+        } else {
+          return false;
+        }
+      });
+    },
+    login() {
+      this.$post('/apis/login', this.form).then(res => {
         if (res.data.status == 1) {
-          this.$router.push('/admin/setting')
+          this.$router.push('/')
         } else {
           this.$message.error(res.data.msg)
         }
       })
     }
+
   }
 }
 </script>
 <style scoped lang="stylus">
-.animate03{
-  -webkit-transition-duration:0.3s;
-   -moz-transition-duration:0.3s;
-    -ms-transition-duration:0.3s;
-    transition-duration:0.3s;
-}
-.login{
-  width: 100%;
-  height: 100%;
-  background: url(../../assets/loginbg.jpg) no-repeat center top;
-  background-size: cover;
-  .el-form {
-    position: absolute;
-    right: 12%;
-    top:15%;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    background-clip: padding-box;
-    width: 280px;
-    padding: 20px 30px;
-    background: #fff;
-    .logo{
-      width: 100%;
-      height: 200px;
-      background: url(/static/img/loginlogo.png) no-repeat center top;
-    }
-    .remember {
-      margin: 0px 0px 35px 0px;
-    }
-    .formbox{
-      background: #fff;
-      width: 100%;
-      height: 80px;
-      box-shadow: 0px 5px 15px #9db7f1;
-      border-radius: 3px;
-      margin-bottom: 20px;
-      line-height: 40px;
-      font-size: 16px;
-      color: #555555;
-      div{
-        margin:0 20px;
-        position: relative;
-        label{
-          width: 45px;
-          display: inline-block;
-          border-right: 1px solid #ddd;
-          line-height: 20px;
-        }
-        i{
-          position: absolute;
-          margin-top: 10px;
-          right: 0px;
-          color:#aaa;
-          font-size: 18px;
-        }
-        .seepassword{
-          width: 24px;
-          height: 20px;
-          background: url(/static/img/password.png) no-repeat;
-          background-size: contain;
-        }
-      }
-      div:first-child{
-        border-bottom: 1px solid #ddd;
-      }
-      input{
-        outline: none;
-        border:0;
-        padding:0 10px;
-        letter-spacing: 1px;
-        font-size: 16px;
-        width: 140px;
-        color: #555;
-      }
-    }
-    .submit{
-      width:88%;
-      margin:auto;
-      background: #83b5ff;
-      margin:0 0 30px 6%;
-      border:0;
-      color: #fff;
-      padding: 8px;
-      border-radius: 30px;
-      outline: none;
-      cursor: pointer;
-    }
-    .submit:hover{
-      box-shadow: 0px 5px 15px #9db7f1;
-      transition: all 0.2;
-    }
-  }
-}
 
+.regiter-box
+  max-width 450px 
+  margin auto
+  background #fff
+  font-size 14px
 
 </style>

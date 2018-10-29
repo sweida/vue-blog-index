@@ -32,7 +32,10 @@
                 </span>
                 <span class="floor">{{item.id}}楼</span>
               </div>
-              <div class="com_detail">{{item.content}}</div>
+              <div class="com_detail" v-html="item.content">
+                <!-- <mavon-editor v-html="item.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" /> -->
+                <!-- {{item.content}} -->
+              </div>
             </div>
           </div>
         </div>
@@ -59,16 +62,28 @@ export default {
   methods: {
     // 获取留言
     getMessage() {
-      this.$get('apis/message/read').then(res => {
+      this.$get('/apis/message/read').then(res => {
         console.log(res.data, 'message')
         this.messageList = res.data.data
+        // 转换换行
+        this.messageList.forEach(item => {
+          item.content = item.content.replace(/\n/g, '<br>')
+        })
       })
     },
     // 提交留言
     submitMessage() {
-      this.$post('apis/message/add', this.message).then(res => {
+      this.$post('/apis/message/add', this.message).then(res => {
         console.log(res.data)
         this.getMessage()
+        if (res.data.status == 1) {
+          this.message = {
+            content: '',
+            username: ''
+          }
+        } else {
+          this.$message.error(res.data.msg)
+        }
       })
     }
   }
@@ -121,7 +136,7 @@ li
     .com_detail
       padding 15px 25px
     .floor
-      width 42px
+      flex 0 0 42px
       text-align: right;
   .comment-box:hover
     box-shadow: 2px 2px 15px #d2e7fd

@@ -5,20 +5,23 @@ import blog from '@/views/index/blog'
 import detail from '@/views/index/detail'
 import message from '@/views/index/message'
 import link from '@/views/index/link'
+import about from '@/views/index/about'
 
 const index = [
   {
     path: '/',
     component: home,
-    redirect: {
-      name: 'home',
-    },
   },
   {
     path: '/home',
     component: home,
     name: 'home',
     children: [
+      {
+        path: '/about',
+        component: about,
+        name: 'about',
+      },
       {
         path: '/login',
         component: login,

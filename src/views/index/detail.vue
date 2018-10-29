@@ -15,8 +15,9 @@
 
         <!-- 点赞 -->
         <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
-          <img src="../../assets/yes.png" alt="">
-          <span>赞({{detail.like}})</span>
+          <!-- <img src="../../assets/yes.png" alt=""> -->
+          <i class="iconfont lv-icon-yijin13-zan"></i>
+          <span>{{detail.like}}</span>
         </div>
 
         <!-- 评论框 -->
@@ -79,6 +80,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$route.params, 444)
     this.getDetail()
   },
   watch:{
@@ -89,7 +91,7 @@ export default {
   methods: {
     getDetail() {
       this.loading = true
-      this.$post('apis/article/read', this.$route.params).then(res => {
+      this.$post('/apis/article/read', this.$route.params).then(res => {
         console.log(res.data)
         if (res.data.status == 1) {
           this.detail = res.data.data
@@ -107,7 +109,7 @@ export default {
         id: this.detail.id
       }
       if (!this.hasclick) {
-        this.$post('apis/article/like', param).then(res => {
+        this.$post('/apis/article/like', param).then(res => {
           if (res.data.status == 1) {
             this.detail.like +=1
             this.hasclick = true
@@ -120,14 +122,14 @@ export default {
       let param = {
         article_id: this.detail.id
       }
-      this.$post('apis/comment/read', param).then(res => {
+      this.$post('/apis/comment/read', param).then(res => {
         console.log(res.data, 'comment')
         this.commentList = res.data.data
       })
     },
     // 提交评论
     submitComment() {
-      this.$post('apis/comment/add', this.comment).then(res => {
+      this.$post('/apis/comment/add', this.comment).then(res => {
         console.log(res.data)
         this.getComment()
       })
@@ -165,9 +167,11 @@ li
   cursor pointer
   color: #fff
   font-size: 14px
+  i
+    font-size 34px
 .giveLike.hasclick, .giveLike.hasclick:hover
-  background #d4d4d4
-  color #34495e
+  background #eee
+  color #a9aab1
 .giveLike:hover
   background #ff7b8d
 

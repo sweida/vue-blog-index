@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <footer>
     <div class="foot-text">
       <p>Crafted with <i class="iconfont lv-icon-aixin"></i> by sweida</p>
       <p>© 2018 马里奥 备案：不存在的</p>
       
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -26,7 +26,12 @@ export default {
 
 <style scoped lang="stylus">
 .foot-text
-  text-align center
+  text-align: center;
+  background: #93a6ab;
+  width: 100%;
+  height: 80px;
+  padding: 20px 0;
+  color: #fff;
 .lv-icon-aixin
   color red
 

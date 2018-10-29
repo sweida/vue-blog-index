@@ -48,7 +48,7 @@ export default {
     getArticles() {
       this.loading = true
       // 获取软删除的数据 all=1
-      this.$post('apis/article/read', this.pageModel).then(res => {
+      this.$post('/apis/article/read', this.pageModel).then(res => {
         console.log(res.data)
         if (res.data.status == 1) {
           this.articles = res.data.data
@@ -61,14 +61,14 @@ export default {
     },
     // 获取时间线
     getTimes() {
-      this.$get('apis/article/times').then(res => {
+      this.$get('/apis/article/times').then(res => {
         console.log(res.data, 'times')
         this.timeLine = res.data.data
       })
     },
     // 获取所有标签
     getTags() {
-      this.$get('apis/tag/read').then(res => {
+      this.$get('/apis/tag/read').then(res => {
         console.log(res.data, 'tags')
         this.tags = res.data.data
       })
@@ -78,7 +78,7 @@ export default {
     },
     // 获取所有分类
     getClassify() {
-      this.$get('apis/article/classify').then(res => {
+      this.$get('/apis/article/classify').then(res => {
         console.log(res.data, 'classifys')
         this.classifys = res.data.data
       })

@@ -43,7 +43,7 @@ export default {
   methods: {
     // 获取留言
     getLink() {
-      this.$get('apis/link/read?all=1').then(res => {
+      this.$get('/apis/link/read?all=1').then(res => {
         console.log(res.data, 'link')
         this.links = res.data.data
       })
