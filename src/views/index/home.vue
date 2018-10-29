@@ -31,7 +31,7 @@ export default {
     }
   },
   created() {
-    this.$get('/apis/is_login').then(res => {
+    this.$get('/apis/login_Status').then(res => {
       console.log(res, 'islogin')
     })
   },
