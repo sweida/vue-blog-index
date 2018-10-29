@@ -57,6 +57,8 @@ export default {
   height: 60px
   background: #253752
   color #fff
+  position fixed
+  width 100%
   .nav
     display: flex
     justify-content: flex-end

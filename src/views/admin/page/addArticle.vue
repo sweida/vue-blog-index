@@ -1,6 +1,6 @@
 <template>
   <main>
-    <header>{{title}} - {{form.id}}</header>
+    <!-- <header>{{title}} - {{form.id}}</header> -->
     <section class="wrap scroll">
       <el-form ref="form" v-model="form" label-width="70px" label-position='left'>
 

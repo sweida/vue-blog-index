@@ -1,6 +1,6 @@
 <template>
   <main>
-    <header>基础设置</header>
+    <!-- <header>基础设置</header> -->
     <section class="wrap scroll">
       <el-form v-model="webinfo" label-width="130px">
         <el-form-item label="网站标题">

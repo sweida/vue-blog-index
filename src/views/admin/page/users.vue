@@ -1,6 +1,6 @@
 <template>
   <main>
-    <header>会员列表</header>
+    <!-- <header>会员列表</header> -->
     <section class="wrap scroll">
       <div class="main_table">
         <el-table 

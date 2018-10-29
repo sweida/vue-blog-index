@@ -1,10 +1,12 @@
 <template>
   <div class="header">
-    <div class="logo"><img src="../../assets/logo.png" alt=""></div>
+    <div class="title">
+      {{$route.name}}
+    </div>
     <div class="nav">
       <div class="right-nav">
 
-        <div class="bell" @click="tip=!tip">
+        <!-- <div class="bell" @click="tip=!tip">
           <i class="el-icon-bell"></i>
           <span class="num">2</span>
         </div>
@@ -12,19 +14,16 @@
         <div class="tip" v-if="tip">
           <div class="tip-top"></div>
           <p>这是通知提示</p>
-        </div>
+        </div> -->
 
-        <el-menu :router="true" :default-active="$route.path" class="el-menu-demo2" mode="horizontal" background-color="#3a4354" text-color="#fff" active-text-color="#ffd04b">
+        <el-menu :router="true" :default-active="$route.path" class="el-menu-demo2" mode="horizontal" background-color="#2a2c40" text-color="#fff" active-text-color="#ffd04b">
+          <el-menu-item index="/">前台博客</el-menu-item>
           <el-submenu class="user-nav" index="">
             <template slot="title">
               <img :src="admin.img" alt="" class="userimg">
               <span class="admin-name">{{admin.name}}
               </span>
             </template>
-            <!-- <el-menu-item index="/coustomer" @click="url('http://customer.wscq518.com')">客户</el-menu-item>
-            <el-menu-item index="/message">后台</el-menu-item>
-            <el-menu-item index="/password">推广</el-menu-item>
-            <el-menu-item index="/message">账号信息</el-menu-item> -->
             <el-menu-item index="/admin/resetpassword">修改密码</el-menu-item>
             <el-menu-item index="" @click="logout">退出登录</el-menu-item>
           </el-submenu>
@@ -76,18 +75,16 @@ export default {
 .header
   display: flex
   height: 60px
-  background: #253752
+  background: #2a2c40
   .nav
     display: flex
     justify-content: flex-end
     flex: 1
-  .logo
-    width: 360px
-    display: flex
-    justify-content: center
-    align-content: center
-    img
-      width: 200px
+  .title
+    color #fff
+    line-height 60px
+    margin-left 30px
+    font-size: 18px
 .el-menu-demo li
   width: 100px
   text-align: center

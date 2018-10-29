@@ -1,6 +1,6 @@
 <template>
   <main>
-    <header>修改密码</header>
+    <!-- <header>修改密码</header> -->
     <section class="wrap scroll">
       <el-form ref="form" v-model="form" label-width="70px" label-position='left'>
         <el-form-item label="原密码">

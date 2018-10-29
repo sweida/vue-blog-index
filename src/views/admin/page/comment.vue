@@ -1,6 +1,6 @@
 <template>
   <main>
-    <header>评论列表</header>
+    <!-- <header>评论列表</header> -->
     <section class="wrap scroll">
       <div class="main_table">
         <el-table 

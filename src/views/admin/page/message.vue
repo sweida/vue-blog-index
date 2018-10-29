@@ -1,9 +1,9 @@
 <template>
   <main>
-    <header>
+    <!-- <header>
       留言板
+    </header> -->
       <el-button type="danger" size="mini" @click="selectDelete" class="left" v-show="selectMessage.length!=0">删除选中</el-button>
-    </header>
     <section class="wrap scroll">
       <div class="main_table">
         <el-table 

@@ -1,6 +1,6 @@
 <template>
   <main>
-    <header>广告图</header>
+    <!-- <header>广告图</header> -->
     <section class="wrap scroll">
       <el-button type="primary" size="small" @click="addBtn">添 加</el-button>
       <div class="main_table">

@@ -42,7 +42,7 @@ export default {
     flex-direction: row;
     flex: 1;
     box-sizing: border-box;
-    padding: 20px 3%;
+    padding: 80px 3% 20px;
     .main
       max-width 940px
       margin auto

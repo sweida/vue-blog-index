@@ -1,8 +1,8 @@
 <template>
   <div id="Admin">
-    <headnav></headnav>
+    <leftnav></leftnav>
     <section class="content">
-      <leftnav></leftnav>
+      <headnav></headnav>
       <router-view class="main animate03" />
     </section>
   </div>
@@ -34,14 +34,13 @@ export default {
   width:100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   .content
+    flex-direction: column;
     display: flex;
-    flex-direction: row;
     flex: 1;
     box-sizing: border-box;
     background: #E2E5EE;
-    padding: 20px 40px;
+    // padding: 20px 40px;
 
 
 /* 退出登录菜单样式 */

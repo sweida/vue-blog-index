@@ -1,5 +1,6 @@
 <template>
   <aside class="scroll">
+    <div class="logo"><img src="../../assets/logo.png" alt=""></div>
     <router-link :to="item.url" tag="li" v-for="(item, index) in nav" :key="index" v-if="!item.hidden">
       <i class="animate05 i"></i>
       <i class="el-icon-document"></i><span>{{item.name}}</span>
@@ -55,16 +56,20 @@ export default {
 
 <style scoped lang="stylus">
 aside
-  background: #2c3c54
+  background: #273146
   width: 260px
   min-width 260px
-  margin-right: 20px
   height: 100%
   position: relative
   box-shadow: 2px 2px 10px #b5b4b4
   padding: 40px 0
   box-sizing: border-box
   overflow: auto
+  .logo
+    width 180px
+    margin: 20px auto
+    img
+      width 100%
   li
     line-height: 55px
     height: 55px
