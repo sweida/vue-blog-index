@@ -16,11 +16,15 @@
           <router-link to="/message">留言</router-link>
         </li>
       </div>
-      <div class="logo">
+      <!-- <div class="logo">
         <img src="../../assets/logo.png" />
-      </div>
+      </div> -->
       <div class="right">
-        <router-link to="/login">登陆</router-link>
+        <!-- <router-link to="/login">登陆</router-link> -->
+        <!-- <Button type="success" to="/register" class="register">注册</Button> -->
+
+        <router-link to="/login">登录</router-link>
+        <span class="register">/</span>
         <router-link to="/register">注册</router-link>
       </div>
     </div>
@@ -57,7 +61,7 @@ export default {
 .header
   display: flex
   height: 60px
-  background: #253752
+  background: #93a6ab
   color #fff
   position fixed
   width 100%
@@ -81,8 +85,9 @@ export default {
   color #fff
   justify-content space-between
   font-size 14px
-  .left, .right
-    width 40%
+  padding: 0 10px
+  // .left, .right
+  //   width 40%
   .logo
     height 100%
     img
@@ -95,5 +100,7 @@ export default {
     li
       padding 0 15px
 
+.register
+  margin 0 10px
 
 </style>

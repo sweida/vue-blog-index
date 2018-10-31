@@ -1,39 +1,38 @@
 <template>
   <div>
-    <div class="regiter-box">
-      <div class="title">注册账号</div>
+    
+    <div class="success-box" v-if="success">
+      <Icon type="ios-checkmark-circle" size="80" color="Success"/>
+      <h2>密码修改成功</h2>
+      <p>您的密码已经修改成功，请牢记新密码。现在可以重新登录了。</p>
+      <Button type="primary" to="/login" size="large">跳转到登录页</Button>
+    </div>
+
+    <div class="regiter-box" v-else>
+      <div class="title">重置密码</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
         <Alert :type="error.type" show-icon v-if="error.msg">{{error.msg}}</Alert>
-        <FormItem label="用户名" prop="username">
-          <Input type="password" size="large" v-model="formCustom.username">
-            <Icon type="md-happy" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem label="电子邮箱" prop="email">
-          <Input type="text" size="large" v-model="formCustom.email">
-            <Icon type="md-mail" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem label="设置密码" prop="password">
+
+        <FormItem label="新密码" prop="password">
           <Input type="password" size="large" v-model="formCustom.password">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
-        <FormItem label="确认密码" prop="repassword">
+        <FormItem label="确认新密码" prop="repassword">
           <Input type="password" size="large" v-model="formCustom.repassword">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">提交</Button>
-          <!-- <Button @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button> -->
+          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">重置密码</Button>
         </FormItem>
       </Form>
-      <p class="text-center">已经拥有账户？
-        <router-link to="/login">登录</router-link>
-      </p>
     </div>
+
+
+
   </div>
+
 
 </template>
 
@@ -50,54 +49,17 @@ export default {
         callback();
       }
     };
-    const validateUsername = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please enter your password'));
-      } else {
-        if (this.formCustom.passwdCheck !== '') {
-          // 对第二个密码框单独验证
-          this.$refs.formCustom.validateField('passwdCheck');
-        }
-        callback();
-      }
-    };
-    const validateAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('Age cannot be empty'));
-      }
-      // 模拟异步验证效果
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('Please enter a numeric value'));
-        } else {
-          if (value < 18) {
-            callback(new Error('Must be over 18 years of age'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-
     return {
+      success: '',
       error: {
         type: 'success',
         msg: ''
       },
       formCustom: {
-        username: '',
         password: '',
         repassword: '',
-        email: ''
       },
       ruleCustom: {
-        username: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
-        ],
-        email: [
-          { required: true, message: '邮箱不能为空', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的电子邮箱', trigger: 'blur' }
-        ],
         password: [
           { required: true, trigger: 'blur', message: '密码不能为空', }
         ],
@@ -177,5 +139,20 @@ export default {
   box-shadow: 1px 1px 5px #cddde2
   .ivu-form
     padding: 15px 15px 0
+
+.success-box
+  margin 50px 0
+  text-align center
+  color #19be6b
+  h2
+    font-weight 100
+    margin: 18px;
+    font-size: 24px;
+    color: #17233d;
+  p
+    width: 70%;
+    margin: 0 auto 30px;
+    color: #808695;
+    font-size: 14px;
 
 </style>

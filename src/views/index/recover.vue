@@ -1,29 +1,21 @@
 <template>
   <div>
     <div class="regiter-box">
-      <div class="title">登录</div>
+      <div class="title">通过邮箱重置密码</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
-        <FormItem label="用户名" prop="username">
-          <Input type="password" size="large" v-model="formCustom.username">
-            <Icon type="md-happy" slot="prefix" />
+        <FormItem label="电子邮箱" prop="email">
+          <Input type="text" size="large" v-model="formCustom.email" placeholder="请输入注册时的邮箱地址">
+            <Icon type="md-mail" slot="prefix" />
           </Input>
         </FormItem>
 
-        <FormItem label="密码" prop="password">
-          <Input type="password" size="large" v-model="formCustom.password">
-            <Icon type="md-lock" slot="prefix" />
-          </Input>
-        </FormItem>
+
 
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">登录</Button>
+          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">发送邮箱验证码</Button>
         </FormItem>
+        <p class="text-center">我们会向您注册的邮箱发送一封验证邮件，请通过邮件中的链接完成剩余操作。</p>
       </Form>
-      
-      <router-link to="/recover" class="forger">忘记密码</router-link>
-      <p class="text-center">尚未拥有账户？
-        <router-link to="/register">注册</router-link>
-      </p>
     </div>
   </div>
 </template>
@@ -37,12 +29,10 @@ export default {
         password: '',
       },
       ruleCustom: {
-        username: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
+        email: [
+          { required: true, message: '邮箱不能为空', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的电子邮箱', trigger: 'blur' }
         ],
-        password: [
-          { required: true, trigger: 'blur', message: '密码不能为空', }
-        ]
       }
     }
   },
@@ -110,6 +100,8 @@ export default {
   box-shadow: 1px 1px 5px #cddde2
   .ivu-form
     padding: 15px 15px 0
+  .login
+    text-align: center
   .forger
     width 100%
     display block

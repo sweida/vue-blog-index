@@ -6,6 +6,9 @@ import detail from '@/views/index/detail'
 import message from '@/views/index/message'
 import link from '@/views/index/link'
 import about from '@/views/index/about'
+import recover from '@/views/index/recover'
+import reset from '@/views/index/reset'
+import password from '@/views/index/password'
 
 const index = [
   {
@@ -60,6 +63,21 @@ const index = [
         meta: {
           keepAlive: true, // 需要被缓存
         },
+      },
+      {
+        path: '/recover',
+        component: recover,
+        name: 'recover'
+      },
+      {
+        path: '/reset',
+        component: reset,
+        name: 'reset'
+      },
+      {
+        path: '/password',
+        component: password,
+        name: 'password'
       },
     ],
   },

@@ -8,7 +8,14 @@
 
 
 export default {
-  name: 'app'
+  name: 'app',
+  created() {
+    this.$Loading.config({
+      color: '#fff',
+      failedColor: '#000',
+      height: 50
+  });
+  }
 }
 </script>
 

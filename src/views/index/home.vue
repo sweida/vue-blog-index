@@ -10,7 +10,18 @@
           <router-view v-if="$route.meta.keepAlive" class="main animate03"></router-view>
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view> -->
-      <router-view class="main animate03" />
+      <!-- <transition name="el-fade-in">
+        <router-view class="main animate03" />
+      </transition> -->
+      <!-- <transition name="page-move"> -->
+        <router-view class="main animate03" />
+        <BackTop :height="300" :bottom="100">
+          <div class="top animate03">
+            <Icon type="ios-arrow-up" />
+          </div>
+        </BackTop>
+      <!-- </transition> -->
+      <!-- <router-view class="main animate03" /> -->
     </section>
     <Footer></Footer>
   </div>
@@ -26,10 +37,9 @@ export default {
     headnav,
     Footer
   },
-  data () {
-    return {
-    }
-  },
+  data: () => ({
+
+  }),
   created() {
     this.$get('/apis/login_Status').then(res => {
       console.log(res, 'islogin')
@@ -49,6 +59,7 @@ export default {
     box-sizing: border-box;
     padding: 80px 3% 20px;
     overflow: hidden
+    background: #f8f8f9;
     .banner
       max-width: 640px
       margin 30px auto 0
@@ -58,13 +69,53 @@ export default {
       max-width 940px
       margin auto
 
+  .transition-box {
+    margin-bottom: 10px;
+    width: 200px;
+    height: 100px;
+    border-radius: 4px;
+    background-color: #409EFF;
+    text-align: center;
+    color: #fff;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    margin-right: 20px;
+  }
+
+.top
+  background: #93a6ab
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  cursor: pointer;
+.top:hover
+  background #73878c
+.ivu-back-top i 
+  padding: 6px 8px !important
+
+.main {
+  animation: main 1s;
+}
+@keyframes main{
+  0%{
+    opacity:0
+    transform:translateY(0px)
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0)
+  }
+}
+
 @media screen and (max-width: 640px)
   #index
     .content
       .banner
         width 80%
         margin 20px auto 0
-
+  .ivu-back-top
+    bottom 25px !important
+    right 20px !important
 // /* 退出登录菜单样式 */
 // .el-dialog__title
 //   font-size: 16px

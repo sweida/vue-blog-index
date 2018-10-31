@@ -12,9 +12,19 @@ Vue.prototype.$post = Axios.post
 import './plugins/element.js'
 import './plugins/mavonEditor.js'
 
-// router.afterEach((to, from, next) => {
-//   window.scrollTo(0, 0);
-// });
+// 引入ivew, 路由跳转开启进度条
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+Vue.use(iView)
+
+router.beforeEach((to, from, next) => {
+  iView.LoadingBar.start();
+  next();
+});
+router.afterEach(route => {
+  iView.LoadingBar.finish();
+});
+
 
 Vue.config.productionTip = false
 

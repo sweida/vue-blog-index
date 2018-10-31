@@ -4,17 +4,23 @@
         <!-- 评论框 -->
         <div>
             <!-- 评论 [{{commentList.length}}] -->
-            <el-input
+            <!-- <el-input
               type="textarea"
               placeholder="留的痕迹"
               resize='none'
               :autosize='{minRows: 2}'
               v-model="message.content">
-            </el-input>
-            <!-- <el-input v-model="comment.content" placeholder="评论"></el-input> -->
+            </el-input> -->
+            <Input 
+              v-model="message.content" 
+              type="textarea" 
+              :autosize="{minRows: 2}" 
+              placeholder="留的痕迹" />
             <div class="submit-box">
-              <el-input v-model="message.username" size="small" placeholder="昵称"></el-input>
-              <el-button type="primary" size="small" @click="submitMessage">提交评论</el-button>
+              <Input v-model="message.username" placeholder="游客可以选填昵称" style="width: 150px" />
+              <Button type="primary" @click="submitMessage" >提交评论</Button>
+              <!-- <el-input v-model="message.username" size="small" placeholder="昵称"></el-input> -->
+              <!-- <el-button type="primary" size="small" @click="submitMessage">提交评论</el-button> -->
             </div>
         </div>
 
@@ -28,7 +34,7 @@
               <div class="username"> 
                 <span>
                   {{item.user ? item.user.username : '游客'}} 
-                  <span class="created"><i class="el-icon-time"></i> {{item.created_at}}</span>
+                  <span class="created"><i class="el-icon-time"></i>  <Time :time="item.created_at" /></span>
                 </span>
                 <span class="floor">{{item.id}}楼</span>
               </div>

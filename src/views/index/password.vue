@@ -1,37 +1,31 @@
 <template>
   <div>
     <div class="regiter-box">
-      <div class="title">注册账号</div>
+      <div class="title">修改密码</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
         <Alert :type="error.type" show-icon v-if="error.msg">{{error.msg}}</Alert>
-        <FormItem label="用户名" prop="username">
-          <Input type="password" size="large" v-model="formCustom.username">
-            <Icon type="md-happy" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem label="电子邮箱" prop="email">
-          <Input type="text" size="large" v-model="formCustom.email">
-            <Icon type="md-mail" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem label="设置密码" prop="password">
-          <Input type="password" size="large" v-model="formCustom.password">
+
+        <FormItem label="当前密码" prop="password">
+          <Input type="text" size="large" v-model="formCustom.password">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
-        <FormItem label="确认密码" prop="repassword">
+        <FormItem label="新密码" prop="newpassword">
+          <Input type="password" size="large" v-model="formCustom.newpassword">
+            <Icon type="md-lock" slot="prefix" />
+          </Input>
+        </FormItem>
+        <FormItem label="确认新密码" prop="repassword">
           <Input type="password" size="large" v-model="formCustom.repassword">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">提交</Button>
+          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">修改密码</Button>
           <!-- <Button @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button> -->
         </FormItem>
       </Form>
-      <p class="text-center">已经拥有账户？
-        <router-link to="/login">登录</router-link>
-      </p>
+
     </div>
   </div>
 
@@ -44,39 +38,11 @@ export default {
     const validatePassCheck = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('确认密码不能为空'));
-      } else if (value !== this.formCustom.password) {
+      } else if (value !== this.formCustom.repassword) {
         callback(new Error('两次输入的密码不一致!'));
       } else {
         callback();
       }
-    };
-    const validateUsername = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please enter your password'));
-      } else {
-        if (this.formCustom.passwdCheck !== '') {
-          // 对第二个密码框单独验证
-          this.$refs.formCustom.validateField('passwdCheck');
-        }
-        callback();
-      }
-    };
-    const validateAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('Age cannot be empty'));
-      }
-      // 模拟异步验证效果
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('Please enter a numeric value'));
-        } else {
-          if (value < 18) {
-            callback(new Error('Must be over 18 years of age'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
     };
 
     return {
@@ -85,21 +51,16 @@ export default {
         msg: ''
       },
       formCustom: {
-        username: '',
         password: '',
+        newpassword: '',
         repassword: '',
-        email: ''
       },
       ruleCustom: {
-        username: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
-        ],
-        email: [
-          { required: true, message: '邮箱不能为空', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的电子邮箱', trigger: 'blur' }
-        ],
         password: [
-          { required: true, trigger: 'blur', message: '密码不能为空', }
+          { required: true, message: '密码不能为空', trigger: 'blur' }
+        ],
+        newpassword: [
+          { required: true, trigger: 'blur', message: '新密码不能为空', }
         ],
         repassword: [
           { required: true, validator: validatePassCheck, trigger: 'blur' }
