@@ -3,8 +3,9 @@
     <div class="regiter-box">
       <div class="title">登录</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
+        <Alert :type="error.type" show-icon v-if="error.msg">{{error.msg}}</Alert>
         <FormItem label="用户名" prop="username">
-          <Input type="password" size="large" v-model="formCustom.username">
+          <Input type="text" size="large" v-model="formCustom.username">
             <Icon type="md-happy" slot="prefix" />
           </Input>
         </FormItem>
@@ -16,11 +17,12 @@
         </FormItem>
 
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">登录</Button>
+          <Button type="primary" @click="handleSubmit('formCustom')" long size="large" :loading="loading">登录</Button>
         </FormItem>
       </Form>
-      
-      <router-link to="/recover" class="forger">忘记密码</router-link>
+      <div class="text-center">
+        <router-link to="/recover">忘记密码</router-link>
+      </div>
       <p class="text-center">尚未拥有账户？
         <router-link to="/register">注册</router-link>
       </p>
@@ -32,16 +34,21 @@
 export default {
   data () {
     return {
+      error: {
+        type: 'success',
+        msg: ''
+      },    
+      loading: false,  
       formCustom: {
         username: '',
         password: '',
       },
       ruleCustom: {
         username: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
+          { required: true, message: '用户名不能为空', trigger: 'change' }
         ],
         password: [
-          { required: true, trigger: 'blur', message: '密码不能为空', }
+          { required: true, message: '密码不能为空', trigger: 'change'}
         ]
       }
     }
@@ -50,40 +57,34 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!');
-        } else {
-          this.$Message.error('Fail!');
+          this.login()
         }
       })
     },
+    // 清空输入框
     handleReset (name) {
       this.$refs[name].resetFields();
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$post('/apis/signup', this.form).then(res => {
-            console.log(res)
-            if (res.data.status == 1) {
-              this.$message.success(res.data.msg)
-              setTimeout(() => {
-                this.login()
-              }, 1000)
-            } else {
-              this.$message.error(res.data.msg)
-            }
-          })
-        } else {
-          return false;
-        }
-      });
-    },
     login () {
-      this.$post('/apis/login', this.form).then(res => {
+      this.loading = true
+      this.error.msg = ''
+      this.$post('/apis/login', this.formCustom).then(res => {
+        this.loading = false
         if (res.data.status == 1) {
+          // this.error = {
+          //   type: 'success',
+          //   msg: res.data.msg
+          // }
+          this.$Message.success(res.data.msg);
           this.$router.push('/')
+          // setTimeout(() => {
+          // }, 1000)
         } else {
-          this.$message.error(res.data.msg)
+          // this.error = {
+          //   type: 'error',
+          //   msg: res.data.msg
+          // }
+          this.$Message.error(res.data.msg);
         }
       })
     }
@@ -110,8 +111,5 @@ export default {
   box-shadow: 1px 1px 5px #cddde2
   .ivu-form
     padding: 15px 15px 0
-  .forger
-    width 100%
-    display block
-    text-align center
+
 </style>

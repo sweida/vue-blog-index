@@ -3,9 +3,8 @@
     <div class="regiter-box">
       <div class="title">注册账号</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
-        <Alert :type="error.type" show-icon v-if="error.msg">{{error.msg}}</Alert>
         <FormItem label="用户名" prop="username">
-          <Input type="password" size="large" v-model="formCustom.username">
+          <Input type="text" size="large" v-model="formCustom.username">
             <Icon type="md-happy" slot="prefix" />
           </Input>
         </FormItem>
@@ -25,7 +24,7 @@
           </Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">提交</Button>
+          <Button type="primary" @click="handleSubmit('formCustom')" long size="large" :loading="laoding">提交</Button>
           <!-- <Button @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button> -->
         </FormItem>
       </Form>
@@ -50,40 +49,8 @@ export default {
         callback();
       }
     };
-    const validateUsername = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please enter your password'));
-      } else {
-        if (this.formCustom.passwdCheck !== '') {
-          // 对第二个密码框单独验证
-          this.$refs.formCustom.validateField('passwdCheck');
-        }
-        callback();
-      }
-    };
-    const validateAge = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('Age cannot be empty'));
-      }
-      // 模拟异步验证效果
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('Please enter a numeric value'));
-        } else {
-          if (value < 18) {
-            callback(new Error('Must be over 18 years of age'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-
     return {
-      error: {
-        type: 'success',
-        msg: ''
-      },
+      laoding: false,
       formCustom: {
         username: '',
         password: '',
@@ -92,17 +59,17 @@ export default {
       },
       ruleCustom: {
         username: [
-          { required: true, message: '用户名不能为空', trigger: 'blur' }
+          { required: true, message: '用户名不能为空', trigger: 'change' }
         ],
         email: [
-          { required: true, message: '邮箱不能为空', trigger: 'blur' },
-          { type: 'email', message: '请输入正确的电子邮箱', trigger: 'blur' }
+          { required: true, message: '邮箱不能为空', trigger: 'change' },
+          { type: 'email', message: '请输入正确的电子邮箱', trigger: 'change' }
         ],
         password: [
-          { required: true, trigger: 'blur', message: '密码不能为空', }
+          { required: true, trigger: 'change', message: '密码不能为空', }
         ],
         repassword: [
-          { required: true, validator: validatePassCheck, trigger: 'blur' }
+          { required: true, validator: validatePassCheck, trigger: 'change' }
         ]
       }
     }
@@ -111,46 +78,33 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!');
-        } else {
-          this.$Message.error('Fail!');
+          this.register()
         }
       })
     },
+    // 清空
     handleReset (name) {
       this.$refs[name].resetFields();
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$post('/apis/signup', this.form).then(res => {
-            console.log(res)
-            if (res.data.status == 1) {
-              this.error = {
-                type: 'success',
-                msg: res.data.msg
-              }
-              setTimeout(() => {
-                this.login()
-              }, 1000)
-            } else {
-              this.error = {
-                type: 'error',
-                msg: res.data.msg
-              }
-            }
-          })
+    register() {
+      this.laoding = true
+      this.$post('/apis/signup', this.formCustom).then(res => {
+        console.log(res)
+        if (res.data.status == 1) {
+          this.$Message.success(res.data.msg)
+          this.login()
         } else {
-          return false;
+          this.$Message.error(res.data.msg)
         }
-      });
+        this.laoding = false
+      })
     },
-    login () {
-      this.$post('/apis/login', this.form).then(res => {
+    login() {
+      this.$post('/apis/login', this.formCustom).then(res => {
         if (res.data.status == 1) {
           this.$router.push('/')
         } else {
-          this.$message.error(res.data.msg)
+          this.$Message.error(res.data.msg)
         }
       })
     }
