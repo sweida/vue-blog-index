@@ -57,7 +57,7 @@ export default {
   height: 100%;
   .content
     box-sizing: border-box;
-    padding: 80px 3% 20px;
+    padding: 20px 3%;
     overflow: hidden
     background: #f8f8f9;
     .banner
@@ -69,18 +69,7 @@ export default {
       max-width 940px
       margin auto
 
-  .transition-box {
-    margin-bottom: 10px;
-    width: 200px;
-    height: 100px;
-    border-radius: 4px;
-    background-color: #409EFF;
-    text-align: center;
-    color: #fff;
-    padding: 40px 20px;
-    box-sizing: border-box;
-    margin-right: 20px;
-  }
+
 
 .top
   background: #93a6ab

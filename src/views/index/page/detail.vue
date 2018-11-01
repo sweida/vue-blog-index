@@ -26,8 +26,6 @@
           <p>基于上的作品创作。</p>
         </div>
 
-
-
         <!-- 评论列表 -->
         <div>
           <div class="commentList" v-for="(item, index) in commentList">
@@ -52,7 +50,9 @@
             :autosize="{minRows: 3}" 
             placeholder="说点什么.." />
           <div class="submit-box">
-            <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
+            <div class="ykname">
+              <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
+            </div>
             <Button type="primary" @click="submitComment" >提交评论</Button>
           </div>
         </div>
@@ -162,8 +162,8 @@ export default {
   .v-note-wrapper
     z-index 9 !important
 
-
 </style>
+
 <style scoped lang="stylus">
 li
   margin-bottom 20px
@@ -246,8 +246,8 @@ li
     margin-top 15px
     display flex 
     justify-content flex-end
-    .el-input
-      width 150px
-      border: 2px solid #dce4ec !important
+    .ykname
+      flex 1
+
 
 </style>
