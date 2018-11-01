@@ -19,7 +19,7 @@
               <p>{{item.desc}}</p>
             </div>
             <div class="imgbox">
-              <img src="../../assets/avatar/010.jpg" alt="">
+              <img src="../../../assets/avatar/010.jpg" alt="">
             </div>
           </a>
 

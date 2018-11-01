@@ -20,36 +20,40 @@
           <span>{{detail.like}}</span>
         </div>
 
-        <!-- 评论框 -->
-        <div>
-            <!-- 评论 [{{commentList.length}}] -->
-            <el-input
-              type="textarea"
-              placeholder="留的痕迹"
-              resize='none'
-              :autosize='{minRows: 2}'
-              v-model="comment.content">
-            </el-input>
-            <!-- <el-input v-model="comment.content" placeholder="评论"></el-input> -->
-            <div class="submit-box">
-              <el-input v-model="comment.username" placeholder="用户名" width="150"></el-input>
-              <el-button type="primary" size="small" @click="submitComment">提交评论</el-button>
-            </div>
+        <div class="posmition">
+          由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
+          <p>基于上的作品创作。</p>
         </div>
+
+
 
         <!-- 评论列表 -->
         <div>
           <div class="commentList" v-for="(item, index) in commentList">
             <div class="user-ava">
-              <img src="../../assets/avatar/001.jpg" alt="">
+              <img src="../../../assets/avatar/001.jpg" alt="">
             </div>
             <div class="comment-box animate03">
               <div class="username">
                 {{item.user.username || '游客'}} 
                 <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
               </div>
-              <div class="com_detail">{{item.content}}</div>
+              <div class="com_detail" v-html="item.content"></div>
             </div>
+          </div>
+        </div>
+
+        <!-- 评论 -->
+        <div class="input-box">
+          <Input 
+            v-model="comment.content" 
+            type="textarea" 
+            :autosize="{minRows: 3}" 
+            placeholder="说点什么.." />
+          <div class="submit-box">
+            <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
+            <Button type="primary" @click="submitComment" >提交评论</Button>
           </div>
         </div>
 
@@ -60,6 +64,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
+
 export default {
   data() {
     return {
@@ -79,6 +85,9 @@ export default {
       }
     }
   },
+  computed: mapState({
+    user:state=>state.user
+  }),
   created() {
     console.log(this.$route.params, 444)
     this.getDetail()
@@ -125,12 +134,17 @@ export default {
       this.$post('/apis/comment/read', param).then(res => {
         console.log(res.data, 'comment')
         this.commentList = res.data.data
+
+        this.commentList.forEach(item => {
+          item.content = item.content.replace(/\n/g, '<br>')
+        })
       })
     },
     // 提交评论
     submitComment() {
       this.$post('/apis/comment/add', this.comment).then(res => {
         console.log(res.data)
+        this.comment.content = ''
         this.getComment()
       })
     }
@@ -145,6 +159,14 @@ export default {
     border none !important
   .v-show-content
     background #fff !important
+  .v-note-wrapper
+    z-index 9 !important
+
+.input-box
+  textarea.ivu-input
+    border: 2px solid #dce4ec
+    border-radius: 5px
+    resize:none
 </style>
 <style scoped lang="stylus">
 li
@@ -158,8 +180,8 @@ li
   display flex
   margin 15px auto
   background #f7576c
-  width 100px
-  height 100px
+  width 90px
+  height 90px
   border-radius 50%
   align-items: center;
   justify-content: center
@@ -175,12 +197,16 @@ li
 .giveLike:hover
   background #ff7b8d
 
-.submit-box
-  margin-top 15px
-  display flex 
-  justify-content space-between
-  .el-input
-    width 150px
+.posmition
+  background #ecf0f1
+  font-size 14px
+  line-height 22px
+  padding 15px 20px
+  border-radius 4px
+  margin 20px auto
+
+
+
 .commentList
   display flex
   font-size 14px
@@ -214,5 +240,18 @@ li
           margin-right 5px
     .com_detail
       padding 15px 25px
-    
+
+.input-box
+  margin 15px 0
+  textarea.ivu-input
+    border: 2px solid #dce4ec
+    border-radius: 5px
+  .submit-box
+    margin-top 15px
+    display flex 
+    justify-content flex-end
+    .el-input
+      width 150px
+      border: 2px solid #dce4ec !important
+
 </style>

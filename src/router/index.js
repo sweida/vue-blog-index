@@ -1,14 +1,20 @@
 import home from '@/views/index/home'
-import login from '@/views/index/login'
-import register from '@/views/index/register'
-import blog from '@/views/index/blog'
-import detail from '@/views/index/detail'
-import message from '@/views/index/message'
-import link from '@/views/index/link'
-import about from '@/views/index/about'
-import recover from '@/views/index/recover'
-import reset from '@/views/index/reset'
-import password from '@/views/index/password'
+
+import blog from '@/views/index/page/blog'
+import detail from '@/views/index/page/detail'
+import message from '@/views/index/page/message'
+import link from '@/views/index/page/link'
+import about from '@/views/index/page/about'
+import shang from '@/views/index/page/shang'
+
+import login from '@/views/index/user/login'
+import register from '@/views/index/user/register'
+import recover from '@/views/index/user/recover'
+import password from '@/views/index/user/password'
+import person from '@/views/index/user/person'
+
+
+
 
 const index = [
   {
@@ -70,15 +76,20 @@ const index = [
         name: 'recover'
       },
       {
-        path: '/reset',
-        component: reset,
-        name: 'reset'
-      },
-      {
         path: '/password',
         component: password,
         name: 'password'
       },
+      {
+        path: '/shang',
+        component: shang,
+        name: 'shang'
+      },  
+      {
+        path: '/person',
+        component: person,
+        name: 'person'
+      },   
     ],
   },
 ]

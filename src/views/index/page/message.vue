@@ -2,7 +2,7 @@
   <div >
 
         <!-- 评论框 -->
-        <div>
+        <div class="input-box">
             <!-- 评论 [{{commentList.length}}] -->
             <!-- <el-input
               type="textarea"
@@ -15,9 +15,9 @@
               v-model="message.content" 
               type="textarea" 
               :autosize="{minRows: 2}" 
-              placeholder="留的痕迹" />
+              placeholder="留点痕迹" />
             <div class="submit-box">
-              <Input v-model="message.username" placeholder="游客可以选填昵称" style="width: 150px" />
+              <Input v-model="message.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
               <Button type="primary" @click="submitMessage" >提交评论</Button>
               <!-- <el-input v-model="message.username" size="small" placeholder="昵称"></el-input> -->
               <!-- <el-button type="primary" size="small" @click="submitMessage">提交评论</el-button> -->
@@ -28,7 +28,7 @@
         <div>
           <div class="comment" v-for="(item, index) in messageList">
             <div class="user-ava">
-              <img src="../../assets/avatar/010.jpg" alt="">
+              <img src="../../../assets/avatar/010.jpg" alt="">
             </div>
             <div class="comment-box animate03">
               <div class="username"> 
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 
 export default {
   data() {
@@ -62,6 +63,9 @@ export default {
       }
     }
   },
+  computed: mapState({
+    user:state=>state.user
+  }),
   created() {
     this.getMessage()
   },
@@ -139,6 +143,8 @@ li
         margin-left 10px
         font-weight 100
         color #7F8C8D
+        i 
+          margin-right 5px
     .com_detail
       padding 15px 25px
     .floor

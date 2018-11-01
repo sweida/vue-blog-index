@@ -1,31 +1,36 @@
 <template>
   <div>
     <div class="regiter-box">
-      <div class="title">修改密码</div>
+      <div class="title">注册账号</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
-        <Alert :type="error.type" show-icon v-if="error.msg">{{error.msg}}</Alert>
-
-        <FormItem label="当前密码" prop="password">
-          <Input type="text" size="large" v-model="formCustom.password">
+        <FormItem label="用户名" prop="username">
+          <Input type="text" size="large" v-model="formCustom.username">
+            <Icon type="md-happy" slot="prefix" />
+          </Input>
+        </FormItem>
+        <FormItem label="电子邮箱" prop="email">
+          <Input type="text" size="large" v-model="formCustom.email">
+            <Icon type="md-mail" slot="prefix" />
+          </Input>
+        </FormItem>
+        <FormItem label="设置密码" prop="password">
+          <Input type="password" size="large" v-model="formCustom.password">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
-        <FormItem label="新密码" prop="newpassword">
-          <Input type="password" size="large" v-model="formCustom.newpassword">
-            <Icon type="md-lock" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem label="确认新密码" prop="repassword">
+        <FormItem label="确认密码" prop="repassword">
           <Input type="password" size="large" v-model="formCustom.repassword">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')" long size="large">修改密码</Button>
+          <Button type="primary" @click="handleSubmit('formCustom')" long size="large" :loading="laoding">提交</Button>
           <!-- <Button @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button> -->
         </FormItem>
       </Form>
-
+      <p class="text-center">已经拥有账户？
+        <router-link to="/login">登录</router-link>
+      </p>
     </div>
   </div>
 
@@ -38,29 +43,30 @@ export default {
     const validatePassCheck = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('确认密码不能为空'));
-      } else if (value !== this.formCustom.repassword) {
+      } else if (value !== this.formCustom.password) {
         callback(new Error('两次输入的密码不一致!'));
       } else {
         callback();
       }
     };
-
     return {
-      error: {
-        type: 'success',
-        msg: ''
-      },
+      laoding: false,
       formCustom: {
+        username: '',
         password: '',
-        newpassword: '',
         repassword: '',
+        email: ''
       },
       ruleCustom: {
-        password: [
-          { required: true, message: '密码不能为空', trigger: 'blur' }
+        username: [
+          { required: true, message: '用户名不能为空', trigger: 'change' }
         ],
-        newpassword: [
-          { required: true, trigger: 'blur', message: '新密码不能为空', }
+        email: [
+          { required: true, message: '邮箱不能为空', trigger: 'change' },
+          { type: 'email', message: '请输入正确的电子邮箱', trigger: 'change' }
+        ],
+        password: [
+          { required: true, trigger: 'change', message: '密码不能为空', }
         ],
         repassword: [
           { required: true, validator: validatePassCheck, trigger: 'blur' }
@@ -72,46 +78,33 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!');
-        } else {
-          this.$Message.error('Fail!');
+          this.register()
         }
       })
     },
+    // 清空
     handleReset (name) {
       this.$refs[name].resetFields();
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$post('/apis/signup', this.form).then(res => {
-            console.log(res)
-            if (res.data.status == 1) {
-              this.error = {
-                type: 'success',
-                msg: res.data.msg
-              }
-              setTimeout(() => {
-                this.login()
-              }, 1000)
-            } else {
-              this.error = {
-                type: 'error',
-                msg: res.data.msg
-              }
-            }
-          })
+    register() {
+      this.laoding = true
+      this.$post('/apis/signup', this.formCustom).then(res => {
+        console.log(res)
+        if (res.data.status == 1) {
+          this.$Message.success(res.data.msg)
+          this.login()
         } else {
-          return false;
+          this.$Message.error(res.data.msg)
         }
-      });
+        this.laoding = false
+      })
     },
-    login () {
-      this.$post('/apis/login', this.form).then(res => {
+    login() {
+      this.$post('/apis/login', this.formCustom).then(res => {
         if (res.data.status == 1) {
           this.$router.push('/')
         } else {
-          this.$message.error(res.data.msg)
+          this.$Message.error(res.data.msg)
         }
       })
     }

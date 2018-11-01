@@ -5,12 +5,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    user: '111'
+    user: localStorage.getItem('user') || ''
   },
   mutations: {
-
+    increment (state, data) {
+      state.user = data
+    }
   },
   actions: {
-
   }
 })

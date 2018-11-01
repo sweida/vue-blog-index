@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import common from './common'
+import common from '../common'
+
 export default {
   components: {
     common

@@ -26,11 +26,14 @@
       <p class="text-center">尚未拥有账户？
         <router-link to="/register">注册</router-link>
       </p>
+      {{user}}
     </div>
   </div>
 </template>
 
 <script>
+import {mapState, mapGetters} from "vuex";  // 引入mapState 
+
 export default {
   data () {
     return {
@@ -52,6 +55,19 @@ export default {
         ]
       }
     }
+  },
+  // computed: {...mapState([user])},
+  computed: mapState({
+    user:state=>state.user
+  }),
+  // computed: {
+  //   ...mapGetters(['user']),
+  // },
+  created() {
+
+    // store.commit('increment')
+
+    // console.log(this.$store.state.user, 33) // -> 1
   },
   methods: {
     handleSubmit (name) {
@@ -76,9 +92,10 @@ export default {
           //   msg: res.data.msg
           // }
           this.$Message.success(res.data.msg);
+          // 保存数据到 localStorage 和 store
+          localStorage.setItem('user', this.formCustom.username)
+          this.$store.commit('increment', this.formCustom.username)
           this.$router.push('/')
-          // setTimeout(() => {
-          // }, 1000)
         } else {
           // this.error = {
           //   type: 'error',
