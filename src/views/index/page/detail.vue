@@ -162,11 +162,7 @@ export default {
   .v-note-wrapper
     z-index 9 !important
 
-.input-box
-  textarea.ivu-input
-    border: 2px solid #dce4ec
-    border-radius: 5px
-    resize:none
+
 </style>
 <style scoped lang="stylus">
 li
