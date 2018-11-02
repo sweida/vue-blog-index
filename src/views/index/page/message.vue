@@ -3,14 +3,6 @@
 
         <!-- 评论框 -->
         <div class="input-box">
-            <!-- 评论 [{{commentList.length}}] -->
-            <!-- <el-input
-              type="textarea"
-              placeholder="留的痕迹"
-              resize='none'
-              :autosize='{minRows: 2}'
-              v-model="message.content">
-            </el-input> -->
             <Input 
               v-model="message.content" 
               type="textarea" 
@@ -21,8 +13,6 @@
                 <Input v-model="message.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
               </div>
               <Button type="primary" @click="submitMessage" >提交评论</Button>
-              <!-- <el-input v-model="message.username" size="small" placeholder="昵称"></el-input> -->
-              <!-- <el-button type="primary" size="small" @click="submitMessage">提交评论</el-button> -->
             </div>
         </div>
 
@@ -41,8 +31,6 @@
                 <span class="floor">{{item.id}}楼</span>
               </div>
               <div class="com_detail" v-html="item.content">
-                <!-- <mavon-editor v-html="item.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" /> -->
-                <!-- {{item.content}} -->
               </div>
             </div>
           </div>
