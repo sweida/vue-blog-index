@@ -18,8 +18,8 @@
           </el-table-column>
           <el-table-column label="标签" width="200">
             <template slot-scope="scope">
-              <template v-for="item in scope.row.tag">
-                <el-tag size="mini">{{item}}</el-tag>
+              <template v-for="(item, index) in scope.row.tag">
+                <el-tag size="mini" :key="index">{{item}}</el-tag>
               </template>
             </template>
           </el-table-column>

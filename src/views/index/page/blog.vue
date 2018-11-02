@@ -1,58 +1,59 @@
 <template>
   <div class="flex">
     <div class="article">
-
-      <div v-if="$route.query.tag">
-        <i class="iconfont lv-icon-biaoqian6"></i>
-        {{$route.query.tag}}
-      </div>
-
-      <div v-if="$route.query.classify">
-        <i class="iconfont lv-icon-wenjianjia"></i>
-        {{$route.query.classify}}
-      </div>
-
-      <div v-if="$route.query.year">
-        <i class="iconfont lv-icon-wenjianjia"></i>
-        {{$route.query.year}}年{{$route.query.month}}月
-      </div>
-      <li v-for="item in articles">
-        <div class="created"><i class="iconfont lv-icon-shijian3"></i>发布于{{item.created_at.substring(0,10)}}</div>
-        <router-link :to="{path:`/blog/${item.id}`}" class="title">{{item.title}}</router-link>
-        <div class="comment">
-          <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
-          <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
-          <span><i class="iconfont lv-icon-wenjianjia"></i>{{item.classify}}</span>
-        </div>
-        
-        <div class="desc">
-          这是摘要这是摘要这是摘要这是摘要这是摘要
-          这是摘要这是摘要这是摘要这是摘要这是摘要
-          这是摘要这是摘要这是摘要这是摘要这是摘要
-          {{item.desc}}
+      <div>
+        <div v-if="$route.query.tag">
+          <i class="iconfont lv-icon-biaoqian6"></i>
+          {{$route.query.tag}}
         </div>
 
-        <div class="tag-box">
-          <router-link class="tag" :to="{name: 'blog', query: { tag: tag }}" v-for="tag in item.tag" :class="{active:$route.query.tag==tag}">
-            <i class="iconfont lv-icon-biaoqian6"></i>
-            {{tag}}
-          </router-link>
-
+        <div v-if="$route.query.classify">
+          <i class="iconfont lv-icon-wenjianjia"></i>
+          {{$route.query.classify}}
         </div>
-        
-      </li>
+
+        <div v-if="$route.query.year">
+          <i class="iconfont lv-icon-wenjianjia"></i>
+          {{$route.query.year}}年{{$route.query.month}}月
+        </div>
+        <li v-for="(item, index) in articles" :key="index">
+          <div class="created"><i class="iconfont lv-icon-shijian3"></i>发布于{{item.created_at.substring(0,10)}}</div>
+          <router-link :to="{path:`/blog/${item.id}`}" class="title">{{item.title}}</router-link>
+          <div class="comment">
+            <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
+            <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
+            <span><i class="iconfont lv-icon-wenjianjia"></i>{{item.classify}}</span>
+          </div>
+          
+          <div class="desc">
+            这是摘要这是摘要这是摘要这是摘要这是摘要
+            这是摘要这是摘要这是摘要这是摘要这是摘要
+            这是摘要这是摘要这是摘要这是摘要这是摘要
+            {{item.desc}}
+          </div>
+
+          <div class="tag-box">
+            <router-link class="tag" :to="{name: 'blog', query: { tag: tag }}" v-for="(tag,index) in item.tag" :key="index" :class="{active:$route.query.tag==tag}">
+              <i class="iconfont lv-icon-biaoqian6"></i>
+              {{tag}}
+            </router-link>
+          </div>
+        </li>
+      </div>
+      <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
     </div>
-
     <common></common>
   </div>
 </template>
 
 <script>
 import common from '../common'
+import page from '@/components/page'
 
 export default {
   components: {
-    common
+    common,
+    page
   },
   data() {
     return {
@@ -120,6 +121,9 @@ export default {
         }
         this.loading = false
       })
+    },
+    selectRoleList() {
+      this.getArticles()
     },
     // 按标签获取
     ArticlesOrderByTag() {

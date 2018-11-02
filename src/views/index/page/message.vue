@@ -46,18 +46,19 @@
               </div>
             </div>
           </div>
-          <div class="more">
+          <!-- <div class="more">
             <Button @click="getMore" v-if="hasMore">加载更多</Button>
             <p v-else>没有更多了..</p>
-          </div>
+          </div> -->
+          <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
         </div>
-
 
   </div>
 </template>
 
 <script>
 import {mapState} from "vuex"
+import page from '@/components/page'
 
 export default {
   data() {
@@ -67,9 +68,16 @@ export default {
         content: '',
         username: ''
       },
+      pageModel: {
+        page: 1,
+        sumCount: 10
+      },
       page: 2,
       hasMore: true
     }
+  },
+  components: {
+    page
   },
   computed: mapState({
     user:state=>state.user
@@ -80,17 +88,21 @@ export default {
   methods: {
     // 获取留言
     getMessage() {
-      this.$get('/apis/message/read').then(res => {
+      this.$post('/apis/message/read', this.pageModel).then(res => {
         console.log(res.data, 'message')
-        if (res.data.data.length < 10) {
-          this.hasMore = false
-        }
+        // if (res.data.data.length < 10) {
+        //   this.hasMore = false
+        // }
+        this.pageModel.sumCount = res.data.total
         this.messageList = res.data.data
         // 转换换行
         this.messageList.forEach(item => {
           item.content = item.content.replace(/\n/g, '<br>')
         })
       })
+    },    
+    selectRoleList() {
+      this.getMessage()
     },
     // 提交留言
     submitMessage() {
@@ -107,23 +119,24 @@ export default {
         }
       })
     },
-    getMore() {
-      let param = {
-        page: this.page
-      }
-      this.$post('/apis/message/read', param).then(res => {
-        console.log(res.data, 'message2')
-        this.page +=1
-        if (res.data.data.length < 10) {
-          this.hasMore = false
-        }
-        // // 转换换行
-        res.data.data.forEach(item => {
-          item.content = item.content.replace(/\n/g, '<br>')
-        })
-        this.messageList.push(...res.data.data)
-      })
-    }
+    // 加载更多
+    // getMore() {
+    //   let param = {
+    //     page: this.page
+    //   }
+    //   this.$post('/apis/message/read', param).then(res => {
+    //     console.log(res.data, 'message2')
+    //     this.page +=1
+    //     if (res.data.data.length < 10) {
+    //       this.hasMore = false
+    //     }
+    //     // // 转换换行
+    //     res.data.data.forEach(item => {
+    //       item.content = item.content.replace(/\n/g, '<br>')
+    //     })
+    //     this.messageList.push(...res.data.data)
+    //   })
+    // }
   }
 }
 </script>
