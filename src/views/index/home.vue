@@ -105,6 +105,8 @@ export default {
   .ivu-back-top
     bottom 80px !important
     right 20px !important
+  .top
+    background #73878c
 // /* 退出登录菜单样式 */
 // .el-dialog__title
 //   font-size: 16px
