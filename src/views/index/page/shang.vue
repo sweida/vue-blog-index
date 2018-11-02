@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="backg">
     
     <div class="text">
       <p>本站的所有源码已经开源</p>
-      <p>如果你觉得该项目对你有助，不妨打赏我一下，这样我就有更大的动力去完善它，优化它。~非常感激！</p>
+      <p>如果你觉得该项目对你有助，欢迎赞赏支持（/∇＼），这样我就有更大的动力去完善它，优化它。~非常感激！</p>
     </div>
 
     <div class="img-box">
@@ -36,6 +36,12 @@ export default {
 
 
 <style scoped lang="stylus">
+.backg
+  background #fff
+  padding 20px
+  box-sizing border-box
+  box-shadow: 2px 2px 15px #d9ddde
+
 .text
   font-size 18px
   text-align center

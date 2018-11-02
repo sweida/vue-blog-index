@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     addBtn() {
-      this.$post('apis/article/add', this.form).then(res => {
+      this.$post('/apis/article/add', this.form).then(res => {
         console.log(res)
         if (res.data.status == 1) {
           this.$message.success('新增文章成功！')
@@ -102,14 +102,14 @@ export default {
       })
     },
     getArticle() {
-      this.$post('apis/article/read', this.$route.params).then(res => {
+      this.$post('/apis/article/read', this.$route.params).then(res => {
         console.log(res.data.data)
         this.form = res.data.data
         this.form.tag = res.data.data.tag.join(',')
       })
     },
     editBtn() {
-      this.$post('apis/article/change', this.form).then(res => {
+      this.$post('/apis/article/change', this.form).then(res => {
         console.log(res)
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)

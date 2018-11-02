@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     getLink() {
-      this.$get('apis/link/read?all=1').then(res => {
+      this.$get('/apis/link/read?all=1').then(res => {
         console.log(res.data)
         if (res.data.status == 1) {
           this.links = res.data.data
@@ -102,7 +102,7 @@ export default {
       this.$confirm('是否删除该链接?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('apis/link/remove', {id: item.id}).then(res => {
+        this.$post('/apis/link/remove', {id: item.id}).then(res => {
           if (res.data.status == 1) {
             this.$message.success(res.data.msg)
             this.links.splice(this.links.indexOf(item), 1)
@@ -123,7 +123,7 @@ export default {
       }
     },
     addSubmit() {
-      this.$post('apis/link/add', this.form).then(res => {
+      this.$post('/apis/link/add', this.form).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.dialogFormVisible = false
@@ -140,7 +140,7 @@ export default {
       this.form = Object.assign({}, item)
     },
     editSubmit() {
-      this.$post('apis/link/change', this.form).then(res => {
+      this.$post('/apis/link/change', this.form).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.dialogFormVisible = false

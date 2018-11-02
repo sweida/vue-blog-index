@@ -4,10 +4,6 @@
 
   <div class="header">
 
-    <!-- <div class="mobliNav">
-      <Icon type="md-menu" @click="show3 = !show3" class=""/>
-    </div> -->
-    <!-- <el-button @click="show3 = !show3">Click Me</el-button> -->
     <div class="menu">
       <div class="left">
         <li>
@@ -36,12 +32,12 @@
           <a href="javascript:void(0)" class="user-info">
             <img src="../../assets/avatar/005.jpg" alt="">
             {{user}}
-            <!-- <Icon type="ios-arrow-down"></Icon> -->
+            <Icon type="md-arrow-dropdown" />
           </a>
           <DropdownMenu slot="list">
-            <DropdownItem name="person"><Icon type="ios-hammer" />个人中心</DropdownItem>
-            <DropdownItem name="changePasswd"><Icon type="ios-hammer" />修改密码</DropdownItem>
-            <DropdownItem name="logout"><Icon type="ios-log-out" />退出登录</DropdownItem>
+            <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
+            <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
+            <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>
@@ -62,32 +58,55 @@
       <span></span>
       <span></span>
       <div class="mobliNav-main" slot="content">
-        <router-link to="/">首页</router-link>
-        <router-link to="/blog">博文</router-link>
-        <router-link to="/link">友链</router-link>
-        <router-link to="/shang">打赏</router-link>
-        <router-link to="/message">留言</router-link>
+        <li>
+          <Icon type="md-home" />
+          <router-link to="/">首页</router-link>
+        </li>
+        <li>
+          <Icon type="ios-book" />
+          <router-link to="/blog">博文</router-link>
+        </li>
+        <li>
+          <Icon type="logo-octocat" />
+          <router-link to="/link">友链</router-link>
+        </li>
+        <li>
+          <Icon type="logo-usd" />
+          <router-link to="/shang">打赏</router-link>
+        </li>
+        <li>
+          <Icon type="md-chatboxes" />
+          <router-link to="/message">留言</router-link>
+        </li>
+        <template v-if="user">
+          <li>
+            <!-- <Icon type="md-happy" /> -->
+            <img src="../../assets/avatar/005.jpg" alt="" class="user-img">
+            {{user}}
+            <Icon type="md-arrow-dropdown" />
+          </li>
+          <li class="second">
+            <Icon type="md-settings" />
+            <router-link to="/password">修改密码</router-link>
+          </li>
+          <li class="second">
+            <Icon type="md-exit" />
+            <a @click="changeMenu('logout')">退出登录</a>
+          </li>
+        </template>
+        <template v-else>
+          <li>
+            <Icon type="logo-reddit" />
+            <router-link to="/login">登录</router-link>
+          </li>
+          <li>
+            <Icon type="md-person-add" />
+            <router-link to="/register">注册</router-link>
+          </li>
+        </template>
       </div>
     </Panel>
   </Collapse>
-
-  <!-- <div class="mobliNav-main animate05"  :class="{active: show3}">
-    <li>
-      <router-link to="/">首页</router-link>
-    </li>
-    <li>
-      <router-link to="/blog">博文</router-link>
-    </li>
-    <li>
-      <router-link to="/link">友链</router-link>
-    </li>
-    <li>
-      <router-link to="/shang">打赏</router-link>
-    </li>
-    <li>
-      <router-link to="/message">留言</router-link>
-    </li>
-  </div> -->
 
 
 </div>
@@ -232,13 +251,25 @@ export default {
 .mobliNav-main
   width 100%
   background #93a6ab
-  a
-    display block
-    color #fff
-    font-size 14px
+  li
+    display flex
+    align-items center
     padding 10px 20px
-  a:hover
-    color: #6289ad
+    color #fff
+    .user-img
+      width 20px
+      border-radius 50%
+    i
+      font-size 18px
+      margin-right 10px
+    a
+      width: 100%
+      color #fff
+      font-size 14px
+    a:hover
+      color: #6289ad
+  .second
+    padding-left 40px
 
 
 

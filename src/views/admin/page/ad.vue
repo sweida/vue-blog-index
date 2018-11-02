@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     getLink() {
-      this.$post('apis/ad/read').then(res => {
+      this.$post('/apis/ad/read').then(res => {
         console.log(res.data)
         if (res.data.status == 1) {
           this.adlist = res.data.data
@@ -110,7 +110,7 @@ export default {
     // 删除图片
     handleRemove() {
       let param = {url: this.form.url.replace('storage', 'public')}
-      this.$post('apis/img/delete', param).then(res => {
+      this.$post('/apis/img/delete', param).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
         } else {
@@ -136,7 +136,7 @@ export default {
       this.$confirm('是否删除该广告图?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('apis/ad/remove', {id: item.id}).then(res => {
+        this.$post('/apis/ad/remove', {id: item.id}).then(res => {
           if (res.data.status == 1) {
             this.$message.success(res.data.msg)
             this.adlist.splice(this.adlist.indexOf(item), 1)
@@ -160,7 +160,7 @@ export default {
     },
     // 提交新增
     addSubmit() {
-      this.$post('apis/ad/add', this.form).then(res => {
+      this.$post('/apis/ad/add', this.form).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.dialogFormVisible = false
@@ -180,7 +180,7 @@ export default {
     },
     // 提交编辑
     editSubmit() {
-      this.$post('apis/ad/change', this.form).then(res => {
+      this.$post('/apis/ad/change', this.form).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.dialogFormVisible = false

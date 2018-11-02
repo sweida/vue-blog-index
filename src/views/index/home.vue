@@ -103,7 +103,7 @@ export default {
         width 80%
         margin 20px auto 0
   .ivu-back-top
-    bottom 25px !important
+    bottom 80px !important
     right 20px !important
 // /* 退出登录菜单样式 */
 // .el-dialog__title

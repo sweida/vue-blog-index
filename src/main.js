@@ -11,19 +11,20 @@ Vue.prototype.$post = Axios.post
 
 import './plugins/element.js'
 import './plugins/mavonEditor.js'
+import './plugins/iview.js'
 
-// 引入ivew, 
-import iView from 'iview'
-import 'iview/dist/styles/iview.css'
-Vue.use(iView)
-// 路由跳转开启进度条
-router.beforeEach((to, from, next) => {
-  iView.LoadingBar.start();
-  next();
-});
-router.afterEach(route => {
-  iView.LoadingBar.finish();
-});
+// // 引入ivew, 
+// import iView from 'iview'
+// import 'iview/dist/styles/iview.css'
+// Vue.use(iView)
+// // 路由跳转开启进度条
+// router.beforeEach((to, from, next) => {
+//   iView.LoadingBar.start();
+//   next();
+// });
+// router.afterEach(route => {
+//   iView.LoadingBar.finish();
+// });
 
 // store.commit('increment')
 

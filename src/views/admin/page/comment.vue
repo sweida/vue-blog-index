@@ -65,7 +65,7 @@ export default {
   methods: {
     getComment() {
       this.loading = true
-      this.$post('apis/comment/read', this.pageModel).then(res => {
+      this.$post('/apis/comment/read', this.pageModel).then(res => {
         if (res.data.status == 1) {
           console.log(res.data)
           this.comments = res.data.data
@@ -83,7 +83,7 @@ export default {
       this.$confirm('是否删除该评论?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('apis/comment/remove', {id}).then(res => {
+        this.$post('/apis/comment/remove', {id}).then(res => {
           if (res.data.status == 1) {
             this.$message.success(res.data.msg)
           } else {

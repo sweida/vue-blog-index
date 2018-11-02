@@ -7,7 +7,7 @@
           <div>创建时间：{{detail.created_at}}</div>
           <div>点击量：{{detail.clicks}}</div>
           <div>分类：{{detail.classify}}</div>
-          标签:<span v-for="tag in detail.tag">
+          标签:<span v-for="(tag,index) in detail.tag" :key="index">
             <span>{{tag}}、</span>
           </span>
           <mavon-editor v-model="detail.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
@@ -15,11 +15,11 @@
 
         <!-- 点赞 -->
         <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
-          <!-- <img src="../../assets/yes.png" alt=""> -->
           <i class="iconfont lv-icon-yijin13-zan"></i>
           <span>{{detail.like}}</span>
         </div>
 
+        <!-- 许可 -->
         <div class="posmition">
           由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
           <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
@@ -27,8 +27,8 @@
         </div>
 
         <!-- 评论列表 -->
-        <div>
-          <div class="commentList" v-for="(item, index) in commentList">
+        <div v-if="commentList">
+          <div class="commentList" v-for="(item, index) in commentList" :key="index">
             <div class="user-ava">
               <img src="../../../assets/avatar/001.jpg" alt="">
             </div>
@@ -40,6 +40,13 @@
               <div class="com_detail" v-html="item.content"></div>
             </div>
           </div>
+          <div class="more">
+            <Button @click="getMore" v-if="hasMore">加载更多</Button>
+            <p v-else>没有更多了..</p>
+          </div>
+        </div>
+        <div v-else>
+          还没有评论，抢沙发。
         </div>
 
         <!-- 评论 -->
@@ -82,7 +89,9 @@ export default {
       },
       pageModel: {
         id: 1
-      }
+      },
+      page: 2,
+      hasMore: true
     }
   },
   computed: mapState({
@@ -134,10 +143,14 @@ export default {
       this.$post('/apis/comment/read', param).then(res => {
         console.log(res.data, 'comment')
         this.commentList = res.data.data
-
-        this.commentList.forEach(item => {
-          item.content = item.content.replace(/\n/g, '<br>')
-        })
+        if (res.data.data.length < 10) {
+          this.hasMore = false
+        }
+        if (this.commentList) {
+          this.commentList.forEach(item => {
+            item.content = item.content.replace(/\n/g, '<br>')
+          })
+        }
       })
     },
     // 提交评论
@@ -146,6 +159,25 @@ export default {
         console.log(res.data)
         this.comment.content = ''
         this.getComment()
+      })
+    },
+    // 加载评论
+    getMore() {
+      let param = {
+        article_id: this.detail.id,
+        page: this.page
+      }
+      this.$post('/apis/comment/read', param).then(res => {
+        console.log(res.data, 'commentList')
+        this.page +=1
+        if (res.data.data.length < 10) {
+          this.hasMore = false
+        }
+        // 转换换行
+        res.data.data.forEach(item => {
+          item.content = item.content.replace(/\n/g, '<br>')
+        })
+        this.commentList.push(...res.data.data)
       })
     }
   }
@@ -168,9 +200,17 @@ export default {
 li
   margin-bottom 20px
 
+.more
+  margin-top 10px
+  text-align center
+
 .detail
   max-width 800px
   margin auto
+  background #fff
+  padding 20px
+  box-sizing border-box
+  box-shadow: 2px 2px 15px #d9ddde
 
 .giveLike
   display flex

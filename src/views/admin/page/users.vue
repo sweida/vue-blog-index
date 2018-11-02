@@ -59,7 +59,7 @@ export default {
   methods: {
     getUsers() {
       this.loading = true
-      this.$post('apis/user/read', this.pageModel).then(res => {
+      this.$post('/apis/user/read', this.pageModel).then(res => {
         if (res.data.status == 1) {
           this.Users = res.data.data
           this.pageModel.sumCount = res.data.total
@@ -77,7 +77,7 @@ export default {
       let param = {
         user_id: id
       }
-      this.$post('apis/user/read', param).then(res => {
+      this.$post('/apis/user/read', param).then(res => {
         console.log(res)
       })
     },
@@ -184,7 +184,7 @@ export default {
       this.$confirm('是否删除该项目?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('api/user/remove').then(res => {
+        this.$post('/api/user/remove').then(res => {
           console.log(res)
           // if (res.data.code == 200) {
           //   this.projectList.splice(index, 1)

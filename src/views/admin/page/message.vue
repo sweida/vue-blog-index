@@ -67,7 +67,7 @@ export default {
   methods: {
     getMessage() {
       this.loading = true
-      this.$post('apis/message/read', this.pageModel).then(res => {
+      this.$post('/apis/message/read', this.pageModel).then(res => {
         if (res.data.status == 1) {
           this.message = res.data.data
           this.pageModel.sumCount = res.data.total
@@ -85,7 +85,7 @@ export default {
       this.$confirm('是否删除该留言?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('apis/message/remove', {id: item.id}).then(res => {
+        this.$post('/apis/message/remove', {id: item.id}).then(res => {
           if (res.data.status == 1) {
             console.log(res.data)
             // this.$message.success(res.data.msg)
@@ -110,7 +110,7 @@ export default {
       this.$confirm('是否删除选中的留言?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('apis/message/remove', this.selectMessage).then(res => {
+        this.$post('/apis/message/remove', this.selectMessage).then(res => {
           if (res.data.status == 1) {
             // console.log(res.data)
             this.$message.success(res.data.msg)

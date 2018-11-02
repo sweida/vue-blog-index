@@ -44,7 +44,7 @@ export default {
       if (this.form.new_password != this.form.re_password) {
         this.$message.error('2次输入的密码不一致！')
       }
-      this.$post('apis/user/change_password', this.form).then(res => {
+      this.$post('/apis/user/change_password', this.form).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.form = {
