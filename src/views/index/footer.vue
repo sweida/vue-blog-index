@@ -1,5 +1,6 @@
 <template>
   <footer>
+    <img src="../../assets/big-map.jpg" class="footer-bg">
     <div class="foot-text">
       <a href="https://github.com/sweida" target="_blank" class="link">
         <Icon type="logo-github" />
@@ -50,6 +51,20 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+footer
+  position relative
+  overflow hidden
+  background-image: linear-gradient(167deg,#2b274b,#771787 49%,rgba(201,28,136,.91));
+.footer-bg
+  position: absolute;
+  opacity: .25;
+  bottom: 0;
+  margin: auto;
+  right: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  mix-blend-mode: multiply;
 .link
   color #fff
   i
@@ -58,15 +73,18 @@ export default {
 
 .foot-text
   line-height 30px
+  z-index 20
+  position relative
   font-size 14px
   text-align: center;
-  background: #93a6ab;
+  // background: #93a6ab;
   width: 100%;
   padding: 15px 0 20px;
   color: #fff;
   .base
     span
-      color #295163
+      color #ffed4a
+      font-size 16px
       margin 0 2px
 .lv-icon-aixin
   color red

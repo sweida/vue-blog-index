@@ -41,9 +41,9 @@ export default {
 
   }),
   created() {
-    this.$get('/apis/login_Status').then(res => {
-      console.log(res, 'islogin')
-    })
+    // this.$get('/apis/login_Status').then(res => {
+    //   console.log(res, 'islogin')
+    // })
   },
   methods: {
 
@@ -54,12 +54,14 @@ export default {
 <style lang="stylus">
 #index
   width:100%;
-  height: 100%;
+  // background url(../../assets/parchment.jpg) repeat-y
   .content
     box-sizing: border-box;
-    padding: 20px 3%;
+    padding: 60px 4%;
     overflow: hidden
-    background: #f8f8f9;
+    color: #3d4852
+    font-weight: bold
+    // background: #f8f8f9;
     .banner
       max-width: 640px
       margin 30px auto 0
@@ -70,15 +72,16 @@ export default {
       margin auto
 
 
-
+.ivu-back-top
+  z-index 30
 .top
-  background: #93a6ab
+  background: #b8297e
   color: #fff;
   text-align: center;
   border-radius: 2px;
   cursor: pointer;
 .top:hover
-  background #73878c
+  background #64156e
 .ivu-back-top i 
   padding: 6px 8px !important
 
@@ -106,7 +109,7 @@ export default {
     bottom 80px !important
     right 20px !important
   .top
-    background #73878c
+    background #b8297e
 // /* 退出登录菜单样式 */
 // .el-dialog__title
 //   font-size: 16px

@@ -56,18 +56,10 @@ export default {
       }
     }
   },
-  // computed: {...mapState([user])},
   computed: mapState({
     user:state=>state.user
   }),
-  // computed: {
-  //   ...mapGetters(['user']),
-  // },
   created() {
-
-    // store.commit('increment')
-
-    // console.log(this.$store.state.user, 33) // -> 1
   },
   methods: {
     handleSubmit (name) {
@@ -93,8 +85,12 @@ export default {
           // }
           this.$Message.success(res.data.msg);
           // 保存数据到 localStorage 和 store
-          localStorage.setItem('user', this.formCustom.username)
-          this.$store.commit('increment', this.formCustom.username)
+          let user = {
+            id: res.data.user_id,
+            username: this.formCustom.username
+          }
+          localStorage.setItem('user', JSON.stringify(user))
+          this.$store.commit('increment', user)
           this.$router.push('/')
         } else {
           // this.error = {

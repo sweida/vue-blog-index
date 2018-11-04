@@ -37,10 +37,12 @@ export default {
 
 <style scoped lang="stylus">
 .backg
-  background #fff
-  padding 20px
-  box-sizing border-box
-  box-shadow: 2px 2px 15px #d9ddde
+  color: #3d4852;
+  font-weight: blod
+//   background #fff
+//   padding 20px
+//   box-sizing border-box
+//   box-shadow: 2px 2px 15px #d9ddde
 
 .text
   font-size 18px

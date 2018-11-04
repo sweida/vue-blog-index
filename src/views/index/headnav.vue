@@ -3,7 +3,7 @@
 
 
   <div class="header">
-
+    <img src="../../assets/big-map.jpg" class="footer-bg">
     <div class="menu">
       <div class="left">
         <li>
@@ -31,7 +31,7 @@
         <Dropdown @on-click="changeMenu">
           <a href="javascript:void(0)" class="user-info">
             <img src="../../assets/avatar/005.jpg" alt="">
-            {{user}}
+            {{user.username}}
             <Icon type="md-arrow-dropdown" />
           </a>
           <DropdownMenu slot="list">
@@ -82,7 +82,7 @@
           <li>
             <!-- <Icon type="md-happy" /> -->
             <img src="../../assets/avatar/005.jpg" alt="" class="user-img">
-            {{user}}
+            {{user.username}}
             <Icon type="md-arrow-dropdown" />
           </li>
           <li class="second">
@@ -189,8 +189,9 @@ export default {
 <style scoped lang="stylus">
 .header
   display: flex
-  min-height: 60px
-  background: #93a6ab
+  min-height: 80px
+  // background: #93a6ab
+  background-image: linear-gradient(167deg,#2b274b,#771787 49%,rgba(201,28,136,.91));
   color #fff
   position relative
   width 100%
@@ -207,7 +208,18 @@ export default {
   //   img
   //     width: 200px
 
+.footer-bg
+  position: absolute;
+  opacity: .25;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  mix-blend-mode: multiply;
+
 .header .menu
+  z-index 20px
+  position relative
   width 1000px
   margin 0 auto
   display flex

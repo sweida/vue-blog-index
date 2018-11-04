@@ -1,32 +1,32 @@
 <template>
   <div>
-    <div class="regiter-box">
-      <div class="title">修改密码</div>
-      <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
-        <Alert :type="alert.type" show-icon v-if="alert.msg">{{alert.msg}}</Alert>
-
-        <FormItem label="当前密码" prop="old_password">
-          <Input type="password" size="large" v-model="formCustom.old_password">
-            <Icon type="md-lock" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem label="新密码" prop="new_password">
-          <Input type="password" size="large" v-model="formCustom.new_password">
-            <Icon type="md-lock" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem label="确认新密码" prop="rep_password">
-          <Input type="password" size="large" v-model="formCustom.rep_password">
-            <Icon type="md-lock" slot="prefix" />
-          </Input>
-        </FormItem>
-        <FormItem>
-          <Button type="primary" @click="handleSubmit('formCustom')" long size="large" :loading="loading">修改密码</Button>
-          <!-- <Button @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button> -->
-        </FormItem>
-      </Form>
-      <div class="text-center">
-        忘记密码?你可以<router-link to="/recover">重置密码</router-link>
+    <div class="">
+      <img src="" alt="">
+      <div>
+        <p>用户名 {{userInfo.username}}</p>
+        <p>第{{userInfo.id}}个注册的用户</p> 
+        <p>邮箱 {{userInfo.email}}</p>
+        <p>注册时间 {{userInfo.created_at}}</p>
+        <p>头像 {{userInfo.avatar_url}}</p>
+        <p>手机{{user.phone}}</p>
+        <p>会员 {{userInfo.is_admin ? '超级管理员' : '普通用户'}}</p>
+      </div>
+    </div>
+    <div>
+      <div>
+        <h4>我的评论</h4>
+        <li v-for="item in userInfo.comments.data">
+          <p>{{item.article_id}}</p>
+          <p>{{item.content}}</p>
+          <p>{{item.created_at}}</p>
+        </li>
+      </div>
+      <div>
+        <h4>我的留言</h4>
+        <li v-for="item in userInfo.messages.data">
+          <p>{{item.content}}</p>
+          <p>{{item.created_at}}</p>
+        </li>
       </div>
     </div>
   </div>
@@ -35,72 +35,32 @@
 
 
 <script>
+import {mapState} from "vuex"
+
 export default {
   data () {
-    const validatePassCheck = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('确认新密码不能为空'));
-      } else if (value !== this.formCustom.new_password) {
-        callback(new Error('两次输入的密码不一致!'));
-      } else {
-        callback();
-      }
-    };
-
     return {
       loading: false,
-      alert: {
-        type: 'error',
-        msg: ''
-      },
-      formCustom: {
-        old_password: '',
-        new_password: '',
-        rep_password: '',
-      },
-      ruleCustom: {
-        old_password: [
-          { required: true, message: '密码不能为空', trigger: 'change' }
-        ],
-        new_password: [
-          { required: true, message: '新密码不能为空', trigger: 'change'}
-        ],
-        rep_password: [
-          { required: true, validator: validatePassCheck, trigger: 'blur' }
-        ]
+      userInfo: {
+        comments: {},
+        messages: {}
       }
     }
   },
+  computed: mapState({
+    user:state=>state.user
+  }),  
+  created() {
+    this.getUserInfo()
+  },
   methods: {
-    // 修改密码按钮
-    handleSubmit (name) {
-      this.$refs[name].validate((valid) => {
-        if (valid) {
-          this.changePasswd()
-        }
-      })
-    },
-    // 修改密码接口
-    changePasswd() {
-      this.loading = true
-      this.$post('/apis/user/change_password', this.formCustom).then(res => {
-        console.log(res)
-        if (res.data.status == 1) {
-          this.alert = {
-            type: 'success',
-            msg: res.data.msg
-          }
-          this.loading = false
-          setTimeout(() => {
-            this.$router.push('/')
-          }, 800)
-        } else {
-          this.alert = {
-            type: 'error',
-            msg: res.data.msg
-          }
-          this.loading = false
-        }
+    getUserInfo() {
+      let param = {
+        user_id: this.user.id
+      }
+      this.$post('/apis/user/read', param).then(res => {
+        console.log(res.data, 'UserInfo')
+        this.userInfo = res.data.data
       })
     }
   }
