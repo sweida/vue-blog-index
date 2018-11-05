@@ -6,7 +6,7 @@
         <Icon type="logo-github" />
       </a>
       <p>本站已萌萌哒运行{{longTime}}</p>
-      <p class="base">Crafted with <i class="iconfont lv-icon-aixin"></i> by @sweida&nbsp;&nbsp;base on <span>Laravel</span> + <span>Vue</span></p>
+      <p class="base">Crafted with <i class="iconfont lv-icon-aixin"></i> by <span>@sweida</span>&nbsp;&nbsp;base on <span>Laravel</span> + <span>Vue</span></p>
       <p>© 2018 放羊的猩猩 &nbsp;&nbsp;备案：不存在的</p>
       
     </div>

@@ -2,37 +2,48 @@
   <div class="flex">
     <div class="article">
       <div>
-        <div v-if="$route.query.tag">
+        <!-- <div v-if="$route.query.tag" class="typeTitle">
           <i class="iconfont lv-icon-biaoqian6"></i>
           {{$route.query.tag}}
         </div>
 
-        <div v-if="$route.query.classify">
+        <div v-if="$route.query.classify" class="typeTitle">
           <i class="iconfont lv-icon-wenjianjia"></i>
           {{$route.query.classify}}
         </div>
 
-        <div v-if="$route.query.year">
-          <i class="iconfont lv-icon-wenjianjia"></i>
+        <div v-if="$route.query.year" class="typeTitle">
+          <i class="iconfont lv-icon-kalendar"></i>
           {{$route.query.year}}年{{$route.query.month}}月
-        </div>
+        </div> -->
 
 
         <!-- 新样式 -->
-        <router-link :to="{path:`/blog/${item.id}`}" class="list" v-for="(item, index) in articles" :key="index">
+        <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
           <img src="../../../assets/big-map.jpg" class="footer-bg">
           <div class="bg"></div>
           <div class="classify">{{item.classify}}</div>
           <div class="list-main">
             <h4>{{item.created_at.substring(0,10)}}</h4>
             <h3>{{item.title}}</h3>
+            <div class="tag-box">
+              <i class="iconfont lv-icon-biaoqian6"></i>
+              <span v-for="(tag,index) in item.tag" :key="index" >
+                {{tag}}
+              </span>
+            </div>
+            <div class="comment">
+              <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
+              <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
+              <!-- <span><i class="iconfont lv-icon-wenjianjia"></i>{{item.classify}}</span> -->
+            </div>
           </div>
         </router-link>
 
 
         <!-- 旧样式 -->
-        <li v-for="(item, index) in articles" :key="index">
-          <div class="created"><i class="iconfont lv-icon-shijian3"></i>发布于{{item.created_at.substring(0,10)}}</div>
+        <!-- <li v-for="(item, index) in articles" :key="index">
+          <div class="created"><i class="iconfont lv-icon-kalendar"></i>发布于{{item.created_at.substring(0,10)}}</div>
           <router-link :to="{path:`/blog/${item.id}`}" class="title">{{item.title}}</router-link>
           <div class="comment">
             <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
@@ -48,12 +59,12 @@
           </div>
 
           <div class="tag-box">
-            <router-link class="tag" :to="{name: 'blog', query: { tag: tag }}" v-for="(tag,index) in item.tag" :key="index" :class="{active:$route.query.tag==tag}">
+            <router-link class="tag" :to="{name: 'blog', query: { tag: tag }}" v-for="(tag,index) in item.tag" :key="index" >
               <i class="iconfont lv-icon-biaoqian6"></i>
               {{tag}}
             </router-link>
           </div>
-        </li>
+        </li> -->
       </div>
       <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
     </div>
@@ -233,13 +244,18 @@ export default {
     font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
     color #34495e
 
+.typeTitle
+  padding: 5px 15px 5px;
+  margin-bottom: 17px;
+  background: #ecf0f1
+  font-size: 16px;
 
 .article
   flex 1
   li
     margin: 0 0 20px 0;
     padding: 14px 25px;
-    border-radius: 8px;
+    border-radius: 5px;
     box-shadow: 2px 2px 14px #c0dbe6
 
 .created
@@ -257,7 +273,7 @@ export default {
   line-height 30px
   span
     margin-right 20px
-    color #888
+    color #fff
     font-size 12px
   i 
     margin-right 4px
@@ -267,6 +283,9 @@ export default {
 .tag-box
   line-height 24px
   font-size 14px
+  color #fff
+  span
+    padding-right 8px
   i 
     font-size 12px 
   .tag
@@ -274,12 +293,16 @@ export default {
     padding 2px 8px
     border-radius 3px
     background #e8e8e8
-    margin 5px 10px 0 0   
+    margin 5px 5px   
   .tag.active
     background #fd668e
 
 
 // 新样式
+.list:hover
+  transform: translateY(-6px)
+  transition: transform .5s
+  box-shadow 0px 10px 15px #aaa
 .list
   position relative
   display block
@@ -289,7 +312,8 @@ export default {
   font-size 14px
   .bg
     // background #5b3b86
-    background-image: linear-gradient(167deg,#d93533,#c91c88 69%,#771787);
+    background-color: #5b3b86;
+    // background-image: linear-gradient(167deg,#d93533,#c91c88 69%,#771787);
     z-index 10
     opacity .5
     mix-blend-mode: screen;
@@ -303,14 +327,14 @@ export default {
     position absolute
     top 0
     object-fit: cover;
-    max-height: 100%;
+    height: 100%;
     border-radius: 5px;
   .list-main
     position absolute
     z-index 1
     bottom: 0;
     width: 100%;
-    padding: 50px 20px 20px
+    padding: 50px 20px 10px
     border-radius 0 0 5px 5px 
     background-image: linear-gradient(7deg,rgba(0,0,0,.75) 30%,transparent 65%);
     h3

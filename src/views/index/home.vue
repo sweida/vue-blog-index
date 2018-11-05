@@ -60,8 +60,8 @@ export default {
     padding: 60px 4%;
     overflow: hidden
     color: #3d4852
-    font-weight: bold
-    // background: #f8f8f9;
+    // font-weight: bold
+
     .banner
       max-width: 640px
       margin 30px auto 0
@@ -73,7 +73,7 @@ export default {
 
 
 .ivu-back-top
-  z-index 30
+  z-index 30 !important
 .top
   background: #b8297e
   color: #fff;

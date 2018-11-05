@@ -6,22 +6,11 @@
     <img src="../../assets/big-map.jpg" class="footer-bg">
     <div class="menu">
       <div class="left">
-        <li>
-          <router-link to="/">首页</router-link>
-        </li>
-        <li>
-          <router-link to="/blog">博文</router-link>
-        </li>
-        <li>
-          <router-link to="/link">友链</router-link>
-        </li>
-        <li>
-          <router-link to="/shang">打赏</router-link>
-        </li>
-        <li>
-          <router-link to="/message">留言</router-link>
+        <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
+          <router-link :to="item.url">{{item.name}}</router-link>
         </li>
       </div>
+
       <!-- <div class="logo">
         <img src="../../assets/logo.png" />
       </div> -->
@@ -58,29 +47,14 @@
       <span></span>
       <span></span>
       <div class="mobliNav-main" slot="content">
-        <li>
-          <Icon type="md-home" />
-          <router-link to="/">首页</router-link>
+        <img src="../../assets/big-map.jpg" class="nav-bg">
+        <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
+          <Icon :type="item.icon" />
+          <router-link :to="item.url">{{item.name}}</router-link>
         </li>
-        <li>
-          <Icon type="ios-book" />
-          <router-link to="/blog">博文</router-link>
-        </li>
-        <li>
-          <Icon type="logo-octocat" />
-          <router-link to="/link">友链</router-link>
-        </li>
-        <li>
-          <Icon type="logo-usd" />
-          <router-link to="/shang">打赏</router-link>
-        </li>
-        <li>
-          <Icon type="md-chatboxes" />
-          <router-link to="/message">留言</router-link>
-        </li>
+
         <template v-if="user">
           <li>
-            <!-- <Icon type="md-happy" /> -->
             <img src="../../assets/avatar/005.jpg" alt="" class="user-img">
             {{user.username}}
             <Icon type="md-arrow-dropdown" />
@@ -118,16 +92,19 @@ import {mapState} from "vuex"
 export default {
   data () {
     return {
+      nav: [
+        {name: '首页', url: '/', icon: 'md-home'},
+        {name: '博文', url: '/blog', icon: 'ios-book'},
+        {name: '友链', url: '/link', icon: 'logo-octocat'},
+        {name: '打赏', url: '/shang', icon: 'logo-usd'},
+        {name: '留言', url: '/message', icon: 'md-chatboxes'}
+      ],
       mobnav: '2'
     }
   },
   computed: mapState({
     user:state=>state.user
   }),
-  created() {
-    // console.log(, 22)
-    // this.getClassify()
-  },
   watch:{
     $route(to,from){
       this.mobnav = '2'
@@ -165,7 +142,7 @@ export default {
 <style>
 /* 手机菜单 */
 .nav-content .ivu-collapse-header{
-  height: 60px !important;
+  height: 70px !important;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -173,13 +150,13 @@ export default {
   width: 60px;
   position: absolute !important;
   right: 20px;
-  top: -60px;
+  top: -70px;
 }
 
 .nav-content .ivu-collapse-content{
   padding: 0 !important;
   border-radius: 0 !important;
-  border-top: 1px solid #b0b9bb;
+  border-top: 1px solid #d8ddde;
 }
 .nav-content .ivu-collapse-content>.ivu-collapse-content-box{
   padding: 0 !important;
@@ -189,7 +166,7 @@ export default {
 <style scoped lang="stylus">
 .header
   display: flex
-  min-height: 80px
+  min-height: 70px
   // background: #93a6ab
   background-image: linear-gradient(167deg,#2b274b,#771787 49%,rgba(201,28,136,.91));
   color #fff
@@ -200,6 +177,7 @@ export default {
     display: flex
     justify-content: flex-end
     flex: 1
+
   // .logo
   //   width: 360px
   //   display: flex
@@ -208,14 +186,18 @@ export default {
   //   img
   //     width: 200px
 
-.footer-bg
+.footer-bg, .nav-bg
   position: absolute;
   opacity: .25;
   bottom: 0;
   right: 0;
   left: 0;
-  width: 100%;
   mix-blend-mode: multiply;
+.footer-bg
+  width: 100%
+.nav-bg
+  top: 0
+  display none
 
 .header .menu
   z-index 20px
@@ -227,8 +209,7 @@ export default {
   justify-content space-between
   font-size 14px
   padding: 0 10px
-  // .left, .right
-  //   width 40%
+  font-size 16px
   .logo
     height 100%
     img
@@ -239,7 +220,14 @@ export default {
     a 
       color #fff
   .left li
-    padding 0 15px
+    padding 1px 15px
+    margin 0 2px
+  .left li.active
+    background: #7c1879;
+    border-radius: 3px;
+  .left li a:hover
+    border-bottom: 1px solid;
+    // text-decoration 
 
 .register
   margin 0 10px
@@ -253,7 +241,7 @@ export default {
   border: 0 !important;
   span
     background: #fff;
-    margin-bottom: 4px;
+    margin: 3px;
     display: table;
     width: 25px;
     height: 3px;
@@ -262,9 +250,13 @@ export default {
 
 .mobliNav-main
   width 100%
-  background #93a6ab
+  position relative
+  overflow hidden
+  background-image: linear-gradient(167deg,#2b274b,#771787 49%,rgba(201,28,136,.91));
   li
     display flex
+    position relative
+    z-index 20
     align-items center
     padding 10px 20px
     color #fff
@@ -280,6 +272,8 @@ export default {
       font-size 14px
     a:hover
       color: #6289ad
+  li.active
+    background rgba(166, 37, 141, .6)
   .second
     padding-left 40px
 
@@ -300,8 +294,10 @@ export default {
       margin-right 10px
 
 @media screen and (max-width: 750px)
-  .header .menu
-    display none
-  .nav-content
+  .header 
+    .footer-bg, .menu
+      display none
+  .nav-bg, .nav-content
     display block
+
 </style>
