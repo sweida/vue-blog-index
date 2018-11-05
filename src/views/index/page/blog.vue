@@ -1,6 +1,7 @@
 <template>
   <div class="flex">
-    <div class="article">
+    <MyLoading v-if="loading"></MyLoading>
+    <div class="article" v-else>
       <div>
         <!-- <div v-if="$route.query.tag" class="typeTitle">
           <i class="iconfont lv-icon-biaoqian6"></i>
@@ -20,7 +21,7 @@
 
         <!-- 新样式 -->
         <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
-          <img src="../../../assets/big-map.jpg" class="footer-bg">
+          <img src="../../../assets/blog/001.png" class="footer-bg">
           <div class="bg"></div>
           <div class="classify">{{item.classify}}</div>
           <div class="list-main">
@@ -66,7 +67,7 @@
           </div>
         </li> -->
       </div>
-      <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
+      <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
     </div>
     <common></common>
   </div>
@@ -74,17 +75,15 @@
 
 <script>
 import common from '../common'
-import page from '@/components/page'
 
 export default {
   components: {
-    common,
-    page
+    common
   },
   data() {
     return {
       show: true,
-      loading: true,
+      loading: false,
       checked: true,
       articles: [],
       timeLine: [],
@@ -97,42 +96,58 @@ export default {
     }
   },
   created() {
+    console.log(this.$route, 44444)
     // this.getTimes()
     // this.getTags()
     // this.getClassify() 
 
-    console.log(this.$route.query.tag, 44)
-    if (this.$route.query.tag) {
-      console.log(1)
+    // console.log(this.$route.params.tag, 44)
+    // if (this.$route.params.tag) {
+    //   console.log(1)
+    //   this.ArticlesOrderByTag()
+    // } else if (this.$route.params.classify) {
+    //   console.log(2)
+    //   this.ArticlesOrderByClassify()
+    // } else if (this.$route.params.year) {
+    //   console.log('year month')
+    //   this.ArticlesOrderByTime()
+    // } else {
+    //   console.log(3)
+    //   this.getArticles()
+    // }
+
+    if (this.$route.params.tag) {
+      console.log('tag')
       this.ArticlesOrderByTag()
-    } else if (this.$route.query.classify) {
-      console.log(2)
+    } else if (this.$route.params.classify) {
+      console.log('classify')
       this.ArticlesOrderByClassify()
-    } else if (this.$route.query.year) {
+    } else if (this.$route.params.year) {
       console.log('year month')
       this.ArticlesOrderByTime()
     } else {
-      console.log(3)
+      console.log('all')
       this.getArticles()
     }
+    // this.getArticles()
   },
-  watch:{
-    $route(to,from){
-      if (this.$route.query.tag) {
-        console.log(1)
-        this.ArticlesOrderByTag()
-      } else if (this.$route.query.classify) {
-        console.log(2)
-        this.ArticlesOrderByClassify()
-      } else if (this.$route.query.year) {
-        console.log('year month')
-        this.ArticlesOrderByTime()
-      } else {
-        console.log(3)
-        this.getArticles()
-      }
-    }
-  },
+  // watch:{
+  //   $route(to,from){
+  //     if (this.$route.params.tag) {
+  //       console.log('watch tag')
+  //       this.ArticlesOrderByTag()
+  //     } else if (this.$route.params.classify) {
+  //       console.log('watch classify')
+  //       this.ArticlesOrderByClassify()
+  //     } else if (this.$route.params.year) {
+  //       console.log('watch year month')
+  //       this.ArticlesOrderByTime()
+  //     } else {
+  //       console.log('watch all')
+  //       this.getArticles()
+  //     }
+  //   }
+  // },
   methods: {
     getArticles() {
       this.loading = true
@@ -140,12 +155,14 @@ export default {
       this.$post('/apis/article/read', this.pageModel).then(res => {
         console.log(res.data)
         if (res.data.status == 1) {
+          this.loading = false
           this.articles = res.data.data
           this.pageModel.sumCount = res.data.total
         } else {
           this.$message.error('获取数据失败！')
+          this.loading = false
         }
-        this.loading = false
+        
       })
     },
     selectRoleList() {
@@ -155,7 +172,7 @@ export default {
     ArticlesOrderByTag() {
       this.loading = true
       let param = {
-        tag: this.$route.query.tag
+        tag: this.$route.params.tag
       }
       this.$post('/apis/tag/read', param).then(res => {
         if (res.data.status == 1) {
@@ -174,7 +191,7 @@ export default {
     ArticlesOrderByClassify() {
       this.loading = true
       let param = {
-        classify: this.$route.query.classify
+        classify: this.$route.params.classify
       }
       this.$post('/apis/article/read', param).then(res => {
         console.log(res.data, 'class')
@@ -190,8 +207,8 @@ export default {
     ArticlesOrderByTime() {
       this.loading = true
       let param = {
-        year: this.$route.query.year,
-        month: this.$route.query.month
+        year: this.$route.params.year,
+        month: this.$route.params.month
       }
       this.$post('/apis/article/times', param).then(res => {
         console.log(res.data, 'class')

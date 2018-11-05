@@ -17,7 +17,8 @@
         </div>
 
         <!-- 评论列表 -->
-        <div>
+        <MyLoading v-if="loading"></MyLoading>
+        <div v-else>
           <div class="comment" v-for="(item, index) in messageList" :key="index">
             <div class="user-ava">
               <img src="../../../assets/avatar/010.jpg" alt="">
@@ -38,7 +39,7 @@
             <Button @click="getMore" v-if="hasMore">加载更多</Button>
             <p v-else>没有更多了..</p>
           </div> -->
-          <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
+          <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
         </div>
 
   </div>
@@ -46,11 +47,11 @@
 
 <script>
 import {mapState} from "vuex"
-import page from '@/components/page'
 
 export default {
   data() {
     return {
+      loading: true,
       messageList: [],
       message:{
         content: '',
@@ -64,9 +65,6 @@ export default {
       hasMore: true
     }
   },
-  components: {
-    page
-  },
   computed: mapState({
     user:state=>state.user
   }),
@@ -76,8 +74,10 @@ export default {
   methods: {
     // 获取留言
     getMessage() {
+      // this.loading = true
       this.$post('/apis/message/read', this.pageModel).then(res => {
         console.log(res.data, 'message')
+        this.loading = false
         // if (res.data.data.length < 10) {
         //   this.hasMore = false
         // }
@@ -188,5 +188,6 @@ export default {
       text-align: right;
   .comment-box:hover
     box-shadow: 2px 2px 15px #d2e7fd
+
 
 </style>

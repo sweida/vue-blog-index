@@ -13,9 +13,6 @@ import recover from '@/views/index/user/recover'
 import password from '@/views/index/user/password'
 import person from '@/views/index/user/person'
 
-
-
-
 const index = [
   {
     path: '/',
@@ -50,6 +47,22 @@ const index = [
         },
       },
       {
+        path: '/blog/tag/:tag',
+        component: blog,
+        name: 'blogTag',
+        meta: {
+          keepAlive: true, // 需要被缓存
+        },
+      },
+      {
+        path: '/blog/classify/:classify',
+        component: blog,
+        name: 'blogClassify',
+        meta: {
+          keepAlive: true, // 需要被缓存
+        },
+      },
+      {
         path: '/blog/:id',
         component: detail,
         name: 'detail',
@@ -73,23 +86,26 @@ const index = [
       {
         path: '/recover',
         component: recover,
-        name: 'recover'
+        name: 'recover',
       },
       {
         path: '/password',
         component: password,
-        name: 'password'
+        name: 'password',
       },
       {
         path: '/shang',
         component: shang,
-        name: 'shang'
-      },  
+        name: 'shang',
+        meta: {
+          keepAlive: true, // 需要被缓存
+        },
+      },
       {
         path: '/person',
         component: person,
-        name: 'person'
-      },   
+        name: 'person',
+      },
     ],
   },
 ]

@@ -13,7 +13,13 @@ import './plugins/element.js'
 import './plugins/mavonEditor.js'
 import './plugins/iview.js'
 
-// // 引入ivew, 
+// 全局自定义组件
+import MyLoading from './components/MyLoading'
+Vue.use(MyLoading)
+
+import MyPage from './components/MyPage'
+Vue.use(MyPage)
+// // 引入ivew,
 // import iView from 'iview'
 // import 'iview/dist/styles/iview.css'
 // Vue.use(iView)
@@ -35,5 +41,5 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app')

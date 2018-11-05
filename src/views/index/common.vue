@@ -6,7 +6,7 @@
         <router-link to="/blog">全部博文</router-link>
       </li>
       <li class="classify animate03" v-for="(item, index) in classifys" :key="index" :class="{active:$route.query.classify==item}">
-        <router-link :to="{name: 'blog', query: { classify: item }}">{{item}}</router-link>
+        <router-link :to="{path:`/blog/classify/${item}`}" >{{item}}</router-link>
       </li>
 
     </div>
@@ -43,7 +43,6 @@ export default {
     this.getTimes()
     this.getTags()
     this.getClassify() 
-    console.log(this.$route.query, 444)
   },
   computed: {
     // 倒序时间线
@@ -69,14 +68,14 @@ export default {
     // 获取时间线
     getTimes() {
       this.$get('/apis/article/times').then(res => {
-        console.log(res.data, 'times')
+        // console.log(res.data, 'times')
         this.timeLine = res.data.data
       })
     },
     // 获取所有标签
     getTags() {
       this.$get('/apis/tag/read').then(res => {
-        console.log(res.data, 'tags')
+        // console.log(res.data, 'tags')
         this.tags = res.data.data
       })
     },
@@ -86,7 +85,7 @@ export default {
     // 获取所有分类
     getClassify() {
       this.$get('/apis/article/classify').then(res => {
-        console.log(res.data, 'classifys')
+        // console.log(res.data, 'classifys')
         this.classifys = res.data.data
       })
     },
@@ -122,6 +121,7 @@ export default {
     padding 15px 0
     margin-bottom 20px
     box-shadow: 2px 2px 14px #c0dbe6
+    background #fff
     h3
       border-bottom 1px solid #ddd
       padding 5px 0

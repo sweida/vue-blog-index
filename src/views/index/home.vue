@@ -3,18 +3,15 @@
     <headnav></headnav>
     <section class="content">
 
-      <!-- <div class="banner">
-        <img src="../../assets/banner.jpg" alt="">
-      </div> -->
-      <!-- <keep-alive>
+      <keep-alive>
           <router-view v-if="$route.meta.keepAlive" class="main animate03"></router-view>
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view> -->
+      <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view>
       <!-- <transition name="el-fade-in">
         <router-view class="main animate03" />
       </transition> -->
       <!-- <transition name="page-move"> -->
-        <router-view class="main animate03" />
+        <!-- <router-view class="main animate03" /> -->
         <BackTop :height="300" :bottom="100">
           <div class="top animate03">
             <Icon type="ios-arrow-up" />
@@ -54,7 +51,7 @@ export default {
 <style lang="stylus">
 #index
   width:100%;
-  // background url(../../assets/parchment.jpg) repeat-y
+  background url(../../assets/parchment.jpg) repeat-y
   .content
     box-sizing: border-box;
     padding: 60px 4%;
@@ -91,7 +88,7 @@ export default {
 @keyframes main{
   0%{
     opacity:0
-    transform:translateY(0px)
+    transform:translateY(10px)
   }
   100%{
     opacity:1;
@@ -110,12 +107,5 @@ export default {
     right 20px !important
   .top
     background #b8297e
-// /* 退出登录菜单样式 */
-// .el-dialog__title
-//   font-size: 16px
-// .el-menu--horizontal .el-submenu>.el-menu
-//   top: 60px
-//   border-radius: 0
-// .el-submenu .el-menu-item
-//   min-width: 150px
+
 </style>

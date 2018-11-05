@@ -25,6 +25,7 @@
           </a>
           <DropdownMenu slot="list">
             <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
+            <DropdownItem name="admin" v-if="user.is_admin == true"><Icon type="md-person" />后台管理</DropdownItem>
             <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
             <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
           </DropdownMenu>
@@ -58,6 +59,10 @@
             <img src="../../assets/avatar/005.jpg" alt="" class="user-img">
             {{user.username}}
             <Icon type="md-arrow-dropdown" />
+          </li>
+          <li class="second">
+            <Icon type="md-person" />
+            <router-link to="/person">个人中心</router-link>
           </li>
           <li class="second">
             <Icon type="md-settings" />
@@ -118,6 +123,9 @@ export default {
       if (item == 'person') {
         this.$router.push('/person')
       } 
+      if (item == 'admin') {
+        this.$router.push('/admin/setting')
+      }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
           this.$Message.success(res.data.msg)
@@ -241,7 +249,7 @@ export default {
   border: 0 !important;
   span
     background: #fff;
-    margin: 3px;
+    margin: 2.5px;
     display: table;
     width: 25px;
     height: 3px;
