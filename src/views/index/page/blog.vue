@@ -3,22 +3,6 @@
     <MyLoading v-if="loading"></MyLoading>
     <div class="article" v-else>
       <div>
-        <!-- <div v-if="$route.query.tag" class="typeTitle">
-          <i class="iconfont lv-icon-biaoqian6"></i>
-          {{$route.query.tag}}
-        </div>
-
-        <div v-if="$route.query.classify" class="typeTitle">
-          <i class="iconfont lv-icon-wenjianjia"></i>
-          {{$route.query.classify}}
-        </div>
-
-        <div v-if="$route.query.year" class="typeTitle">
-          <i class="iconfont lv-icon-kalendar"></i>
-          {{$route.query.year}}年{{$route.query.month}}月
-        </div> -->
-
-
         <!-- 新样式 -->
         <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
           <img src="../../../assets/blog/001.png" class="footer-bg">
@@ -27,49 +11,29 @@
           <div class="list-main">
             <h4>{{item.created_at.substring(0,10)}}</h4>
             <h3>{{item.title}}</h3>
-            <div class="tag-box">
+            <!-- 有标签才显示 -->
+            <div class="tag-box" v-if="item.tag.length">
               <i class="iconfont lv-icon-biaoqian6"></i>
-              <span v-for="(tag,index) in item.tag" :key="index" >
+              <span v-for="(tag,index) in item.tag" :key="index" :class="{active:$route.query.tag==tag}">
                 {{tag}}
               </span>
             </div>
             <div class="comment">
               <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
               <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
-              <!-- <span><i class="iconfont lv-icon-wenjianjia"></i>{{item.classify}}</span> -->
             </div>
           </div>
         </router-link>
 
-
-        <!-- 旧样式 -->
-        <!-- <li v-for="(item, index) in articles" :key="index">
-          <div class="created"><i class="iconfont lv-icon-kalendar"></i>发布于{{item.created_at.substring(0,10)}}</div>
-          <router-link :to="{path:`/blog/${item.id}`}" class="title">{{item.title}}</router-link>
-          <div class="comment">
-            <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
-            <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
-            <span><i class="iconfont lv-icon-wenjianjia"></i>{{item.classify}}</span>
-          </div>
-          
-          <div class="desc">
-            这是摘要这是摘要这是摘要这是摘要这是摘要
-            这是摘要这是摘要这是摘要这是摘要这是摘要
-            这是摘要这是摘要这是摘要这是摘要这是摘要
-            {{item.desc}}
-          </div>
-
-          <div class="tag-box">
-            <router-link class="tag" :to="{name: 'blog', query: { tag: tag }}" v-for="(tag,index) in item.tag" :key="index" >
-              <i class="iconfont lv-icon-biaoqian6"></i>
-              {{tag}}
-            </router-link>
-          </div>
-        </li> -->
       </div>
       <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
     </div>
-    <common></common>
+    <common 
+      @getArticles="getArticles"
+      @ArticlesOrderByClassify="ArticlesOrderByClassify" 
+      @ArticlesOrderByTag="ArticlesOrderByTag" 
+      @ArticlesOrderByTime="ArticlesOrderByTime">
+    </common>
   </div>
 </template>
 
@@ -101,14 +65,14 @@ export default {
     // this.getTags()
     // this.getClassify() 
 
-    // console.log(this.$route.params.tag, 44)
-    // if (this.$route.params.tag) {
+    // console.log(this.$route.query.tag, 44)
+    // if (this.$route.query.tag) {
     //   console.log(1)
     //   this.ArticlesOrderByTag()
-    // } else if (this.$route.params.classify) {
+    // } else if (this.$route.query.classify) {
     //   console.log(2)
     //   this.ArticlesOrderByClassify()
-    // } else if (this.$route.params.year) {
+    // } else if (this.$route.query.year) {
     //   console.log('year month')
     //   this.ArticlesOrderByTime()
     // } else {
@@ -116,30 +80,29 @@ export default {
     //   this.getArticles()
     // }
 
-    if (this.$route.params.tag) {
+    if (this.$route.query.tag) {
       console.log('tag')
       this.ArticlesOrderByTag()
-    } else if (this.$route.params.classify) {
+    } else if (this.$route.query.classify) {
       console.log('classify')
       this.ArticlesOrderByClassify()
-    } else if (this.$route.params.year) {
+    } else if (this.$route.query.year) {
       console.log('year month')
       this.ArticlesOrderByTime()
     } else {
       console.log('all')
       this.getArticles()
     }
-    // this.getArticles()
   },
   // watch:{
   //   $route(to,from){
-  //     if (this.$route.params.tag) {
+  //     if (this.$route.query.tag) {
   //       console.log('watch tag')
   //       this.ArticlesOrderByTag()
-  //     } else if (this.$route.params.classify) {
+  //     } else if (this.$route.query.classify) {
   //       console.log('watch classify')
   //       this.ArticlesOrderByClassify()
-  //     } else if (this.$route.params.year) {
+  //     } else if (this.$route.query.year) {
   //       console.log('watch year month')
   //       this.ArticlesOrderByTime()
   //     } else {
@@ -172,10 +135,11 @@ export default {
     ArticlesOrderByTag() {
       this.loading = true
       let param = {
-        tag: this.$route.params.tag
+        tag: this.$route.query.tag
       }
       this.$post('/apis/tag/read', param).then(res => {
         if (res.data.status == 1) {
+          this.pageModel.sumCount = 0
           this.articles = []
           res.data.data.forEach(item => {
             this.articles.push(item.article)
@@ -191,11 +155,12 @@ export default {
     ArticlesOrderByClassify() {
       this.loading = true
       let param = {
-        classify: this.$route.params.classify
+        classify: this.$route.query.classify
       }
       this.$post('/apis/article/read', param).then(res => {
         console.log(res.data, 'class')
         if (res.data.status == 1) {
+          this.pageModel.sumCount = 0
           this.articles = res.data.data
         } else {
           this.$message.error(res.data.msg)
@@ -207,12 +172,13 @@ export default {
     ArticlesOrderByTime() {
       this.loading = true
       let param = {
-        year: this.$route.params.year,
-        month: this.$route.params.month
+        year: this.$route.query.year,
+        month: this.$route.query.month
       }
       this.$post('/apis/article/times', param).then(res => {
         console.log(res.data, 'class')
         if (res.data.status == 1) {
+          this.pageModel.sumCount = 0
           this.articles = res.data.data
         } else {
           this.$message.error(res.data.msg)
@@ -258,8 +224,9 @@ export default {
 </style>
 <style scoped lang="stylus">
 .article, a 
-    font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
-    color #34495e
+  font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
+  color #34495e
+
 
 .typeTitle
   padding: 5px 15px 5px;
@@ -302,7 +269,7 @@ export default {
   font-size 14px
   color #fff
   span
-    padding-right 8px
+    padding 0 4px
   i 
     font-size 12px 
   .tag
@@ -311,8 +278,8 @@ export default {
     border-radius 3px
     background #e8e8e8
     margin 5px 5px   
-  .tag.active
-    background #fd668e
+  span.active
+    color #ffed4a
 
 
 // 新样式
@@ -348,7 +315,7 @@ export default {
     border-radius: 5px;
   .list-main
     position absolute
-    z-index 1
+    z-index 11
     bottom: 0;
     width: 100%;
     padding: 50px 20px 10px
@@ -357,18 +324,28 @@ export default {
     h3
       color #fff
       font-size 22px
+      font-weight 400
     h4
-      font-family: cursive;
-      font-size 18px
+      font-size 16px
       color #ffed4a
   .classify
     position absolute
-    padding 4px 10px
+    padding 4px 15px
     right -10px
     top 12px
     z-index: 30;
     background #ead9cc
     color #3d4852
+    font-weight 600
+  .classify:after
+    content: "";      
+    display: block;
+    position: absolute;
+    right: 0px;
+    border-top: 8px solid #ead9cc;
+    border-left: 0px solid transparent;
+    border-right: 10px solid transparent;
+    top: 28px;
 
 @media screen and (max-width: 750px)
   #index .content .main 

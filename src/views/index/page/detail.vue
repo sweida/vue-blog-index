@@ -27,17 +27,32 @@
         </div>
 
         <!-- 评论列表 -->
-        <div v-if="commentList">
-          <div class="commentList" v-for="(item, index) in commentList" :key="index">
+        <div v-if="!detail.comment">
+          还没有评论，抢沙发。
+        </div>
+        <div v-else>
+          <MyLoading v-if="loading"></MyLoading>
+          <div class="commentList" v-for="(item, index) in commentList" :key="index" v-else>
             <div class="user-ava">
               <img src="../../../assets/avatar/001.jpg" alt="">
             </div>
             <div class="comment-box animate03">
               <div class="username">
-                {{item.user.username || '游客'}} 
+                <Icon type="md-person" />
+                {{item.user ? item.user.username : item.username ? `游客（${item.username}）` : '游客'}} 
+                <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
                 <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
               </div>
               <div class="com_detail" v-html="item.content"></div>
+              <!-- 显示自己的留言的删除按钮 -->
+              <div class="delete" v-if="item.user_id==user.id" >
+                <Poptip
+                  confirm
+                  title="是否删除该评论?"
+                  @on-ok="deleteComment(item)">
+                  <Icon type="md-trash" />
+                </Poptip>
+              </div>
             </div>
           </div>
           <div class="more">
@@ -45,9 +60,7 @@
             <p v-else>没有更多了..</p>
           </div>
         </div>
-        <div v-else>
-          还没有评论，抢沙发。
-        </div>
+
 
         <!-- 评论 -->
         <div class="input-box">
@@ -98,7 +111,7 @@ export default {
     user:state=>state.user
   }),
   created() {
-    console.log(this.$route.params, 444)
+    console.log(this.$route, 444)
     this.getDetail()
   },
   watch:{
@@ -108,17 +121,18 @@ export default {
   },
   methods: {
     getDetail() {
-      this.loading = true
       this.$post('/apis/article/read', this.$route.params).then(res => {
         console.log(res.data)
         if (res.data.status == 1) {
           this.detail = res.data.data
           this.comment.article_id = this.detail.id
-          this.getComment()
+          // 有评论是才请求这个接口
+          if (this.detail.comment){
+            this.getComment()
+          }
         } else {
           this.$message.error('文章请求失败')
         }
-        this.loading = false
       })
     },
     // 点赞
@@ -142,14 +156,17 @@ export default {
       }
       this.$post('/apis/comment/read', param).then(res => {
         console.log(res.data, 'comment')
-        this.commentList = res.data.data
-        if (res.data.data.length < 10) {
-          this.hasMore = false
-        }
-        if (this.commentList) {
-          this.commentList.forEach(item => {
-            item.content = item.content.replace(/\n/g, '<br>')
-          })
+        if (res.data.status == 1) {
+          this.commentList = res.data.data
+          if (res.data.data.length < 10) {
+            this.hasMore = false
+          }
+          if (this.commentList) {
+            this.commentList.forEach(item => {
+              item.content = item.content.replace(/\n/g, '<br>')
+            })
+          }
+          this.loading = false
         }
       })
     },
@@ -179,6 +196,17 @@ export default {
         })
         this.commentList.push(...res.data.data)
       })
+    },
+    // 删除自己的留言
+    deleteComment(item) {
+      this.$post('/apis/comment/remove', {id: item.id}).then(res => {
+        if (res.data.status == 1) {
+          this.commentList.splice(this.commentList.indexOf(item), 1)
+          this.$Message.success(res.data.msg)
+        } else {
+          this.$Message.error(res.data.msg)
+        }
+      })
     }
   }
 }
@@ -191,26 +219,24 @@ export default {
     border none !important
   .v-show-content
     background #fff !important
+    padding 0 !important
   .v-note-wrapper
     z-index 9 !important
 
 </style>
 
 <style scoped lang="stylus">
-li
-  margin-bottom 20px
-
 .more
   margin-top 10px
   text-align center
 
 .detail
-  max-width 800px
-  margin auto
-  background #fff
-  padding 20px
-  box-sizing border-box
-  box-shadow: 2px 2px 15px #d9ddde
+  // max-width 800px
+  // margin auto
+  // background #fff
+  // padding 20px
+  // box-sizing border-box
+  // box-shadow: 2px 2px 15px #d9ddde
 
 .giveLike
   display flex
@@ -255,6 +281,7 @@ li
       border-radius 50% 
       box-shadow: 3px 3px 11px #d6d6d6
   .comment-box
+    position relative
     background #fff
     line-height 22px
     flex 1
@@ -274,8 +301,18 @@ li
         color #7F8C8D
         i
           margin-right 5px
+      em
+        color #009688
     .com_detail
       padding 15px 25px
+    .delete
+      position: absolute;
+      right: 10px;
+      bottom: 7px;
+      font-size: 20px;
+      color: #657f86;
+      cursor: pointer;
+
 
 .input-box
   margin 15px 0
@@ -289,5 +326,7 @@ li
     .ykname
       flex 1
 
-
+@media screen and (max-width: 750px)
+  .commentList .user-ava
+    display none
 </style>

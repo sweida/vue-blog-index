@@ -3,7 +3,7 @@
 
 
   <div class="header">
-    <img src="../../assets/big-map.jpg" class="footer-bg">
+    <img src="../../assets/nav-map.jpg" class="footer-bg">
     <div class="menu">
       <div class="left">
         <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
@@ -281,7 +281,7 @@ export default {
     a:hover
       color: #6289ad
   li.active
-    background rgba(166, 37, 141, .6)
+    background rgba(166, 37, 141, .4)
   .second
     padding-left 40px
 

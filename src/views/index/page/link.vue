@@ -13,7 +13,8 @@
       </div>
 
       <h3>小伙伴们</h3>
-      <el-row :gutter="20">
+      <MyLoading v-if="loading"></MyLoading>
+      <el-row :gutter="20" v-else>
         <el-col :xs="24" :sm="12" :md="8" v-for="(item, index) in links" :key="index" class="animate03">
           <a :href="item.href" target="_blank" class="link-box animate03">
             <div class="imgbox">
@@ -36,6 +37,7 @@
 export default {
   data() {
     return {
+      loading: true,
       links: []
     }
   },
@@ -48,6 +50,7 @@ export default {
       this.$get('/apis/link/read?all=1').then(res => {
         console.log(res.data, 'link')
         this.links = res.data.data
+        this.loading = false
       })
     }
   }
@@ -82,6 +85,7 @@ export default {
   font-size 14px
   border-left: 3px solid #c3d0d4;
   padding-left: 10px;
+  margin-bottom 20px
   h4
     font-size 16px
     padding 10px 0 4px

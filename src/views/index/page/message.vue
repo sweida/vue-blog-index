@@ -10,7 +10,7 @@
               placeholder="留点痕迹" />
             <div class="submit-box">
               <div class="ykname">
-                <Input v-model="message.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
+                <Input v-model="message.ykname" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
               </div>
               <Button type="primary" @click="submitMessage" >提交评论</Button>
             </div>
@@ -25,13 +25,24 @@
             </div>
             <div class="comment-box animate03">
               <div class="username"> 
+                <!-- <Icon type="md-happy" /> -->
                 <span>
-                  {{item.user ? item.user.username : '游客'}} 
-                  <span class="created"><i class="el-icon-time"></i>  <Time :time="item.created_at" /></span>
+                  <Icon type="md-person" />
+                  {{item.user ? item.user.username : item.ykname ? `游客（${item.ykname}）` : '游客'}} 
+                  <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
+                  <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
                 </span>
                 <span class="floor">{{item.id}}楼</span>
               </div>
-              <div class="com_detail" v-html="item.content">
+              <div class="com_detail" v-html="item.content"></div>
+              <!-- 显示自己的留言的删除按钮 -->
+              <div class="delete" v-if="item.user_id==user.id" >
+                <Poptip
+                  confirm
+                  title="是否删除该留言?"
+                  @on-ok="deleteComment(item)">
+                  <Icon type="md-trash" />
+                </Poptip>
               </div>
             </div>
           </div>
@@ -55,7 +66,7 @@ export default {
       messageList: [],
       message:{
         content: '',
-        username: ''
+        ykname: ''
       },
       pageModel: {
         page: 1,
@@ -100,13 +111,24 @@ export default {
         if (res.data.status == 1) {
           this.message = {
             content: '',
-            username: ''
+            ykname: ''
           }
         } else {
           this.$message.error(res.data.msg)
         }
       })
     },
+    // 删除自己的留言
+    deleteComment(item) {
+      this.$post('/apis/message/remove', {id: item.id}).then(res => {
+        if (res.data.status == 1) {
+          this.messageList.splice(this.messageList.indexOf(item), 1)
+          this.$Message.success(res.data.msg)
+        } else {
+          this.$Message.error(res.data.msg)
+        }
+      })
+    }
     // 加载更多
     // getMore() {
     //   let param = {
@@ -174,6 +196,7 @@ export default {
       background: #ECF0F1
       padding: 6px 15px
       display flex
+      align-items center
       justify-content space-between
       .created
         margin-left 10px
@@ -181,13 +204,25 @@ export default {
         color #7F8C8D
         i 
           margin-right 5px
+      em
+        color #009688
     .com_detail
       padding 15px 25px
     .floor
       flex 0 0 42px
       text-align: right;
+    .delete
+      position: absolute;
+      right: 10px;
+      bottom: 7px;
+      font-size: 20px;
+      color: #657f86;
+      cursor: pointer;
   .comment-box:hover
     box-shadow: 2px 2px 15px #d2e7fd
 
 
+@media screen and (max-width: 750px)
+  .comment .user-ava
+    display none
 </style>

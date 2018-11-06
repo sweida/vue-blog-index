@@ -51,7 +51,7 @@ export default {
 <style lang="stylus">
 #index
   width:100%;
-  background url(../../assets/parchment.jpg) repeat-y
+  // background url(../../assets/parchment.jpg) repeat-y
   .content
     box-sizing: border-box;
     padding: 60px 4%;

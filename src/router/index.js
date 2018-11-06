@@ -47,22 +47,6 @@ const index = [
         },
       },
       {
-        path: '/blog/tag/:tag',
-        component: blog,
-        name: 'blogTag',
-        meta: {
-          keepAlive: true, // 需要被缓存
-        },
-      },
-      {
-        path: '/blog/classify/:classify',
-        component: blog,
-        name: 'blogClassify',
-        meta: {
-          keepAlive: true, // 需要被缓存
-        },
-      },
-      {
         path: '/blog/:id',
         component: detail,
         name: 'detail',

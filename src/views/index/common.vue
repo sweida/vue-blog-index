@@ -2,20 +2,23 @@
   <div class="common">
     <div class="box">
       <!-- <h3>所有分类</h3> -->
-      <li class="classify animate03" :class="{active:this.$route.fullPath == '/blog'}">
-        <router-link to="/blog">全部博文</router-link>
+      <li class="classify animate03" :class="{active:this.$route.fullPath == '/blog'}" @click="allArticles">
+        全部博文
+        <!-- <router-link to="/blog">全部博文</router-link> -->
       </li>
-      <li class="classify animate03" v-for="(item, index) in classifys" :key="index" :class="{active:$route.query.classify==item}">
-        <router-link :to="{path:`/blog/classify/${item}`}" >{{item}}</router-link>
+      <li class="classify animate03" :class="{active:$route.query.classify==item}" v-for="(item, index) in classifys" :key="index" @click="OrderByClassify(item)" >
+        {{item}}
+        <!-- <router-link :to="{path:`/blog/classify/${item}`}" >{{item}}</router-link> -->
       </li>
 
     </div>
 
     <div class="box">
-      <h3>所有标签<i class="iconfont lv-icon-biaoqian6"></i></h3>
+      <h3>所有标签<i class="iconfont lv-icon-biaoqian"></i></h3>
       <div class="tagBox">
-        <span class="tagli animate03" v-for="(item, index) in tags" :key="index">
-          <router-link :to="{name: 'blog', query: { tag: item }}">{{item}}</router-link>
+        <span class="tagli animate03" v-for="(item, index) in tags" :key="index" @click="OrderByTag(item)">
+          {{item}}
+          <!-- <router-link :to="{name: 'blog', query: { tag: item }}">{{item}}</router-link> -->
         </span>
       </div>
     </div>
@@ -51,20 +54,32 @@ export default {
     }
   },
   methods: {
-    getArticles() {
-      this.loading = true
-      // 获取软删除的数据 all=1
-      this.$post('/apis/article/read', this.pageModel).then(res => {
-        console.log(res.data)
-        if (res.data.status == 1) {
-          this.articles = res.data.data
-          this.pageModel.sumCount = res.data.total
-        } else {
-          this.$message.error('获取数据失败！')
-        }
-        this.loading = false
-      })
+    allArticles() {
+      this.$router.push('/blog')
+      this.$emit('getArticles');
     },
+    OrderByClassify(item) {
+      this.$router.push({path:'/blog', query:{classify: item}})
+      this.$emit('ArticlesOrderByClassify');
+    },
+    OrderByTag(item) {
+      this.$router.push({path:'/blog', query:{tag: item}})
+      this.$emit('ArticlesOrderByTag');
+    }, 
+    // 点击时间线
+    TiemLine(item) {
+      let year = item.substring(0, 4)
+      let month = item.substring(5, 7)
+      this.$router.push({
+        name: 'blog',
+        query: {
+          year: year,
+          month: month
+        }
+      })
+      this.$emit('ArticlesOrderByTime');
+    },
+
     // 获取时间线
     getTimes() {
       this.$get('/apis/article/times').then(res => {
@@ -87,18 +102,6 @@ export default {
       this.$get('/apis/article/classify').then(res => {
         // console.log(res.data, 'classifys')
         this.classifys = res.data.data
-      })
-    },
-    // 点击时间线
-    TiemLine(item) {
-      let year = item.substring(0, 4)
-      let month = item.substring(5, 7)
-      this.$router.push({
-        name: 'blog',
-        query: {
-          year: year,
-          month: month
-        }
       })
     }
   }
@@ -125,7 +128,7 @@ export default {
     h3
       border-bottom 1px solid #ddd
       padding 5px 0
-      margin 0 20px
+      margin 0 20px 5px
       font-size 16px
       font-weight 100 
       display flex
@@ -134,6 +137,7 @@ export default {
       padding 5px 15px
     .tagli
       font-size 12px
+      cursor pointer
       display: inline-block;
       padding 3px 8px
       border-radius 3px
@@ -149,13 +153,14 @@ export default {
       font-size 14px
       padding 8px 20px
     .timeli:hover
-      color #34495e
+      color #ab267f
     
 // 分类    
 .classify
   font-size 14px
   padding: 9px 30px
   font-weight: 100
+  cursor pointer
   a
     color #80817f
     display block
