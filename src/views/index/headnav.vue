@@ -197,9 +197,9 @@ export default {
 .footer-bg, .nav-bg
   position: absolute;
   opacity: .25;
-  bottom: 0;
-  right: 0;
-  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
   mix-blend-mode: multiply;
 .footer-bg
   width: 100%

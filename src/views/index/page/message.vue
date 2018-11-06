@@ -7,7 +7,8 @@
               v-model="message.content" 
               type="textarea" 
               :autosize="{minRows: 4}" 
-              placeholder="留点痕迹" />
+              :autofocus="autofocus"
+              :placeholder="textarea" />
             <div class="submit-box">
               <div class="ykname">
                 <Input v-model="message.ykname" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
@@ -25,7 +26,6 @@
             </div>
             <div class="comment-box animate03">
               <div class="username"> 
-                <!-- <Icon type="md-happy" /> -->
                 <span>
                   <Icon type="md-person" />
                   {{item.user ? item.user.username : item.ykname ? `游客（${item.ykname}）` : '游客'}} 
@@ -34,18 +34,24 @@
                 </span>
                 <span class="floor">{{item.id}}楼</span>
               </div>
-              <div class="com_detail" v-html="item.content"></div>
+              <p class="reply" v-if="item.reply_id">回复<span>{{item.reply_id}}楼</span>“{{item.replyContent}}</p>
+              <div class="com_detail" v-html="item.content">
+
+              </div>
               <!-- 显示自己的留言的删除按钮 -->
-              <div class="delete" v-if="item.user_id==user.id" >
+              <div class="delete"  >
                 <Poptip
                   confirm
                   title="是否删除该留言?"
                   @on-ok="deleteComment(item)">
-                  <Icon type="md-trash" />
+                  <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
                 </Poptip>
+                <i class="iconfont lv-icon-xiaoxi2" @click="reply(item.id)"></i>
               </div>
+              
             </div>
           </div>
+          
           <!-- <div class="more">
             <Button @click="getMore" v-if="hasMore">加载更多</Button>
             <p v-else>没有更多了..</p>
@@ -62,6 +68,8 @@ import {mapState} from "vuex"
 export default {
   data() {
     return {
+      textarea: '留点痕迹',
+      autofocus: false,
       loading: true,
       messageList: [],
       message:{
@@ -128,7 +136,16 @@ export default {
           this.$Message.error(res.data.msg)
         }
       })
+    },
+    // 回复
+    reply(id) {
+      console.log(id)
+      this.autofocus = true
+      this.message.content = ''
+      this.message.reply_id = id
+      this.textarea = `回复 ${id}楼`
     }
+
     // 加载更多
     // getMore() {
     //   let param = {
@@ -188,6 +205,7 @@ export default {
     min-height 120px
     border: 1px solid #ecf0f1
     border-radius: 3px
+    width: 100%;
     // box-shadow: 2px 2px 15px #d2e7fd
     .username
       line-height 30px
@@ -218,9 +236,23 @@ export default {
       font-size: 20px;
       color: #657f86;
       cursor: pointer;
+      i 
+        font-size 20px
+        margin: -7px 0 0 10px;
   .comment-box:hover
     box-shadow: 2px 2px 15px #d2e7fd
-
+  .reply
+    border-bottom: 1px solid #ecf0f1;
+    color: #8fa0a5;
+    padding: 9px 0;
+    margin: 0 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    span
+      font-weight bold
+      margin 0 5px
+      color #f7576c
 
 @media screen and (max-width: 750px)
   .comment .user-ava
