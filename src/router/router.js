@@ -17,6 +17,15 @@ const router = new Router({
     ...index,
     ...admin,
   ],
+  // 新开页面滚动条回到顶部，后退回到之前位置
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
+
 })
 
 router.beforeEach((to, from, next) => {

@@ -10,7 +10,7 @@
           标签:<span v-for="(tag,index) in detail.tag" :key="index">
             <span>{{tag}}、</span>
           </span>
-          <mavon-editor v-model="detail.content" :subfield="false" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
+          <mavon-editor v-model="detail.content" :subfield="false" codeStyle="googlecode" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
         </div>
 
         <!-- 点赞 -->

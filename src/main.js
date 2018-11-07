@@ -11,7 +11,10 @@ Vue.prototype.$post = Axios.post
 
 import './plugins/element.js'
 import './plugins/mavonEditor.js'
-import './plugins/iview.js'
+import "./plugins/iview.js"
+import './plugins/vuescroll.js'
+
+
 
 // 全局自定义组件
 import MyLoading from './components/MyLoading'
@@ -19,6 +22,7 @@ Vue.use(MyLoading)
 
 import MyPage from './components/MyPage'
 Vue.use(MyPage)
+
 // // 引入ivew,
 // import iView from 'iview'
 // import 'iview/dist/styles/iview.css'
@@ -32,9 +36,7 @@ Vue.use(MyPage)
 //   iView.LoadingBar.finish();
 // });
 
-// store.commit('increment')
 
-// console.log(store.state.user, 33) // -> 1
 
 Vue.config.productionTip = false
 

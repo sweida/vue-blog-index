@@ -19,13 +19,14 @@
       <div class="user" v-if="user">
         <Dropdown @on-click="changeMenu">
           <a href="javascript:void(0)" class="user-info">
-            <img src="../../assets/avatar/005.jpg" alt="">
+            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" >
+            <!-- <img src="../../assets/avatar/005.jpg" alt=""> -->
             {{user.username}}
             <Icon type="md-arrow-dropdown" />
           </a>
           <DropdownMenu slot="list">
             <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
-            <DropdownItem name="admin" v-if="user.is_admin == true"><Icon type="md-person" />后台管理</DropdownItem>
+            <DropdownItem name="admin" v-if="user.id == 1"><Icon type="logo-xbox" />后台管理</DropdownItem>
             <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
             <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
           </DropdownMenu>
@@ -56,7 +57,8 @@
 
         <template v-if="user">
           <li>
-            <img src="../../assets/avatar/005.jpg" alt="" class="user-img">
+            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" class="user-img">
+            <!-- <img src="../../assets/avatar/005.jpg" alt="" class="user-img"> -->
             {{user.username}}
             <Icon type="md-arrow-dropdown" />
           </li>
@@ -124,7 +126,9 @@ export default {
         this.$router.push('/person')
       } 
       if (item == 'admin') {
-        this.$router.push('/admin/setting')
+        let routeData = this.$router.resolve({ path: '/admin/setting'});
+        // this.$router.push('/admin/setting')
+        window.open(routeData.href, '_blank');
       }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
@@ -150,7 +154,7 @@ export default {
 <style>
 /* 手机菜单 */
 .nav-content .ivu-collapse-header{
-  height: 70px !important;
+  height: 60px !important;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -158,7 +162,7 @@ export default {
   width: 60px;
   position: absolute !important;
   right: 20px;
-  top: -70px;
+  top: -60px;
 }
 
 .nav-content .ivu-collapse-content{
@@ -174,7 +178,7 @@ export default {
 <style scoped lang="stylus">
 .header
   display: flex
-  min-height: 70px
+  min-height: 60px
   // background: #93a6ab
   background-image: linear-gradient(167deg,#2b274b,#771787 49%,rgba(201,28,136,.91));
   color #fff

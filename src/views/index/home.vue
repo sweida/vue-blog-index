@@ -1,27 +1,32 @@
 <template>
+    <!-- <vue-scroll :ops="ops"> -->
+      <!-- <el-scrollbar class="height"> -->
   <div id="index">
-    <headnav></headnav>
-    <section class="content">
+      <headnav></headnav>
+      <section class="content">
 
-      <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="main animate03"></router-view>
-      </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view>
-      <!-- <transition name="el-fade-in">
-        <router-view class="main animate03" />
-      </transition> -->
-      <!-- <transition name="page-move"> -->
+        <keep-alive>
+            <router-view v-if="$route.meta.keepAlive" class="main animate03"></router-view>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive" class="main animate03"></router-view>
+        <!-- <transition name="el-fade-in">
+          <router-view class="main animate03" />
+        </transition> -->
+        <!-- <transition name="page-move"> -->
+          <!-- <router-view class="main animate03" /> -->
+          <BackTop :height="300" :bottom="100">
+            <div class="top animate03">
+              <Icon type="ios-arrow-up" />
+            </div>
+          </BackTop>
+        <!-- </transition> -->
         <!-- <router-view class="main animate03" /> -->
-        <BackTop :height="300" :bottom="100">
-          <div class="top animate03">
-            <Icon type="ios-arrow-up" />
-          </div>
-        </BackTop>
-      <!-- </transition> -->
-      <!-- <router-view class="main animate03" /> -->
-    </section>
-    <Footer></Footer>
+      </section>
+      <Footer></Footer>
+
   </div>
+  <!-- </el-scrollbar> -->
+    <!-- </vue-scroll> -->
 </template>
 
 <script>
@@ -35,7 +40,33 @@ export default {
     Footer
   },
   data: () => ({
-
+    ops: {
+      vuescroll: {},
+      scrollPanel: {},
+      rail: {
+        background: '#01a99a',
+        opacity: 0,
+        /** Rail's size(Height/Width) , default -> 6px */
+        size: '6px',
+        /** Specify rail and bar's border-radius, or the border-radius of rail and bar will be equal to the rail's size. default -> false **/
+        specifyBorderRadius: false,
+        /** Rail the distance from the two ends of the X axis and Y axis. **/
+        gutterOfEnds: '2px',
+        /** Rail the distance from the side of container. **/
+        gutterOfSide: '2px',
+        /** Whether to keep rail show or not, default -> false, event content height is not enough */
+        keepShow: false
+      },
+      bar: {
+        showDelay: 500,
+        onlyShowBarOnScroll: true,
+        keepShow: false,
+        background: '#c5ced7',
+        opacity: 1,
+        hoverStyle: false,
+        keepShow: false
+      }
+    }
   }),
   created() {
     // this.$get('/apis/login_Status').then(res => {
@@ -49,6 +80,8 @@ export default {
 </script>
 
 <style lang="stylus">
+.height
+  height 100%
 #index
   width:100%;
   // background url(../../assets/parchment.jpg) repeat-y
