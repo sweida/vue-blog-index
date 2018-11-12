@@ -5,13 +5,22 @@
 
         <div v-else>
           <div>
-            <div>标题：{{detail.title}}</div>
-            <div>创建时间：{{detail.created_at}}</div>
-            <div>点击量：{{detail.clicks}}</div>
-            <div>分类：{{detail.classify}}</div>
-            标签:<span v-for="(tag,index) in detail.tag" :key="index">
-              <span>{{tag}}、</span>
-            </span>
+            <h2>{{detail.title}}</h2>
+            <div class="post-meta"> 
+              <div><i class="iconfont lv-icon-kalendar"></i>{{detail.created_at.substring(0,10)}}</div>
+              <span>•</span>
+              <div><i class="iconfont lv-icon-huore"></i>{{detail.clicks}}热度</div>
+              <span>•</span>
+              <div><i class="iconfont lv-icon-wenjianjia"></i>{{detail.classify}}</div>
+            </div>
+
+            <!-- <div class="post-tag">
+              <i class="iconfont lv-icon-fenlei-copy"></i>
+              <span v-for="(tag,index) in detail.tag" :key="index">
+                {{tag}}
+              </span>
+            </div> -->
+
             <mavon-editor v-model="detail.content" :subfield="false" codeStyle="googlecode" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
           </div>
 
@@ -36,17 +45,30 @@
 
         <!-- 评论 -->
         <div class="input-box">
-          <Input 
-            v-model="comment.content" 
-            type="textarea" 
-            :autosize="{minRows: 3}" 
-            placeholder="说点什么.." />
-          <div class="submit-box">
-            <div class="ykname">
-              <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
+          <div class="userbox">
+            <div class="user-img" v-if="user.id">
+              <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" >
+              <h4>{{user.username}}</h4>
             </div>
-            <Button type="primary" @click="submitComment" >提交评论</Button>
+            <div class="user-img" v-else>
+              <img src="../../../assets/avatar/009.jpg" >
+              <h4>游客</h4>
+            </div>
           </div>
+          <div class="textbox">
+            <Input 
+                v-model="comment.content" 
+                type="textarea" 
+                :autosize="{minRows: 3}" 
+                placeholder="说点什么.." />
+            <div class="submit-box">
+              <div class="ykname">
+                <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
+              </div>
+              <Button type="primary" @click="submitComment" >提交评论</Button>
+            </div>
+          </div>
+
         </div>
 
 
@@ -62,10 +84,12 @@
             </div>
             <div class="comment-box animate03">
               <div class="username">
-                <Icon type="md-person" />
-                {{item.user ? item.user.username : item.username ? `游客（${item.username}）` : '游客'}} 
-                <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
-                <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
+                <span>
+                  <Icon type="md-person" />
+                  {{item.user ? item.user.username : item.username ? `游客（${item.username}）` : '游客'}} 
+                  <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
+                  <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
+                </span>
               </div>
               <div class="com_detail" v-html="item.content"></div>
               <!-- 显示自己的留言的删除按钮 -->
@@ -96,6 +120,7 @@
 
 <script>
 import {mapState} from "vuex"
+import '@/style/message.styl'
 
 export default {
   data() {
@@ -234,6 +259,7 @@ export default {
     background #fff !important
     padding 0 !important
   .v-note-wrapper
+    min-height 50px !important
     z-index 9 !important
 
 </style>
@@ -254,6 +280,24 @@ export default {
   // padding 20px
   // box-sizing border-box
   // box-shadow: 2px 2px 15px #d9ddde
+
+h2
+  font-size 28px
+  text-align center
+.post-meta
+  display flex
+  justify-content center
+  line-height 40px
+  margin-bottom 15px
+  // border-bottom 1px solid #eee
+  span
+    margin 0 10px
+  i
+    margin-right 6px
+.post-tag
+  line-height 40px
+  span
+    margin 0 10px
 
 .giveLike
   display flex
@@ -296,64 +340,13 @@ export default {
     margin-top: -6px;
     position: absolute;
 
-.commentList
-  display flex
-  font-size 14px
-  padding 12px 0
-  .user-ava
-    width 60px
-    margin-right 15px
-    img
-      width 100%
-      border-radius 50% 
-      box-shadow: 3px 3px 11px #d6d6d6
-  .comment-box
-    position relative
-    background #fff
-    line-height 22px
-    flex 1
-    min-height 100px
-    border: 1px solid #ecf0f1
-    border-radius: 3px
-    box-shadow: 2px 2px 15px #d2e7fd
-    .username
-      line-height 30px
-      font-weight bold
-      color #f7576c
-      background: #ECF0F1
-      padding: 6px 15px
-      .created
-        margin-left 15px
-        font-weight 100
-        color #7F8C8D
-        i
-          margin-right 5px
-      em
-        color #009688
-    .com_detail
-      padding 15px 25px
-    .delete
-      position: absolute;
-      right: 10px;
-      bottom: 7px;
-      font-size: 20px;
-      color: #657f86;
-      cursor: pointer;
 
 
-.input-box
-  margin 15px 0
-  textarea.ivu-input
-    border: 2px solid #dce4ec
-    border-radius: 5px
-  .submit-box
-    margin-top 15px
-    display flex 
-    justify-content flex-end
-    .ykname
-      flex 1
+
 
 @media screen and (max-width: 750px)
-  .commentList .user-ava
-    display none
+  h2
+    text-align left
+  .post-meta
+    justify-content flex-start
 </style>

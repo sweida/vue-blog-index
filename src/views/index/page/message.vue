@@ -3,7 +3,7 @@
 
     <!-- 评论框 -->
     <div class="input-box">
-      <div class="text-box">
+      <div class="userbox">
         <div class="user-img" v-if="user.id">
           <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" >
           <h4>{{user.username}}</h4>
@@ -12,25 +12,28 @@
           <img src="../../../assets/avatar/009.jpg" >
           <h4>游客</h4>
         </div>
+      </div>
+
+      <div class="textbox">
         <Input 
           v-model="message.content" 
           type="textarea" 
           :autosize="{minRows: 4, maxRows: 8}" 
           :maxlength="200"
           :placeholder="textarea" />
-      </div>
-      <div class="submit-box">
-        <div class="ykname">
-          <Input v-model="message.ykname" placeholder="游客可以选填昵称" style="width: 120px" v-if="!user"/>
+        <div class="submit-box">
+          <div class="ykname">
+            <Input v-model="message.ykname" placeholder="游客可以选填昵称" style="width: 120px" v-if="!user"/>
+          </div>
+          <Button type="primary" @click="submitMessage" >提交评论</Button>
         </div>
-        <Button type="primary" @click="submitMessage" >提交评论</Button>
       </div>
     </div>
 
     <!-- 评论列表 -->
     <MyLoading v-if="loading"></MyLoading>
     <div v-else>
-      <div class="comment" v-for="(item, index) in messageList" :key="index">
+      <div class="commentList" v-for="(item, index) in messageList" :key="index">
         <div class="user-ava" >
           <img :src="require(`@/assets/avatar/00${item.user_id%10}.jpg`)" alt="" v-if="item.user_id">
           <img src="../../../assets/avatar/009.jpg" alt="" v-else>
@@ -74,6 +77,7 @@
 
 <script>
 import {mapState} from "vuex"
+import '@/style/message.styl'
 
 export default {
   data() {
@@ -159,97 +163,9 @@ export default {
   }
 }
 </script>
+
 <style scoped lang="stylus">
 
-
-.text-box
-  display flex
-  .user-img
-    width 60px
-    margin-right 15px
-    h4
-      line-height 26px
-      font-size: 14px
-      text-align center
-      color #f7576c
-    img 
-      width 100%
-      border-radius 50% 
-      box-shadow: 3px 3px 11px #d6d6d6 
-
-.submit-box
-  margin 15px 0 15px 70px
-  display flex 
-  justify-content space-between
-  .ykname
-    flex 1
-
-
-.comment
-  display flex
-  font-size 14px
-  padding 12px 0
-  .user-ava
-    width 60px
-    margin-right 15px
-    img
-      width 100%
-      border-radius 50% 
-      box-shadow: 3px 3px 11px #d6d6d6
-  .comment-box
-    position relative
-    line-height 22px
-    flex 1
-    min-height 120px
-    border: 1px solid #ecf0f1
-    border-radius: 3px
-    width: 100%;
-    .username
-      line-height 30px
-      font-weight bold
-      color #f7576c
-      background: #ECF0F1
-      padding: 6px 15px
-      display flex
-      align-items center
-      justify-content space-between
-      .created
-        margin-left 10px
-        font-weight 100
-        color #7F8C8D
-        i 
-          margin-right 5px
-      em
-        color #009688
-    .com_detail
-      padding 15px 25px
-    .floor
-      flex 0 0 42px
-      text-align: right;
-    .delete
-      position: absolute;
-      right: 10px;
-      bottom: 7px;
-      font-size: 20px;
-      color: #657f86;
-      cursor: pointer;
-      i 
-        font-size 20px
-        margin: -7px 0 0 10px;
-  .comment-box:hover
-    box-shadow: 2px 2px 15px #d2e7fd
-  .reply
-    border-bottom: 1px solid #ecf0f1;
-    color: #8fa0a5;
-    padding: 9px 0;
-    margin: 0 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    span
-      font-weight bold
-      margin 0 5px
-      color #f7576c
 
 @media screen and (min-width: 750px)
   .backg
@@ -259,10 +175,7 @@ export default {
     box-shadow: 2px 2px 15px #d9ddde
 
 @media screen and (max-width: 750px)
-  .comment .user-ava
-    display none
-  .submit-box
-    margin 15px 0 15px 63px
   .comment-box
     box-shadow: 2px 2px 15px #d2e7fd
+
 </style>

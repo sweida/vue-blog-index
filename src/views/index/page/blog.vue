@@ -314,6 +314,7 @@ export default {
     height: 100%;
     border-radius: 5px;
   .list-main
+    font-family: sans-serif;
     position absolute
     z-index 11
     bottom: 0;
@@ -325,6 +326,7 @@ export default {
       color #fff
       font-size 22px
       font-weight 400
+      // font-family: cursive;
     h4
       font-size 16px
       color #ffed4a
@@ -353,4 +355,9 @@ export default {
   .common
     margin-left 0px
     width 100%
+
+  .list .list-main h4
+    font-size 18px
+    font-family: cursive;
+  
 </style>

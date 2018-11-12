@@ -1,0 +1,103 @@
+// 输入框
+.input-box
+  margin 15px 0
+  display flex
+  .textbox
+    flex 1
+    textarea.ivu-input
+      border 2px solid #dce4ec
+      border-radius 5px
+    .submit-box
+      margin-top 15px
+      display flex
+      justify-content flex-end
+      .ykname
+        flex 1
+  .userbox
+    display flex
+    .user-img
+      width 60px
+      margin-right 15px
+      h4
+        line-height 26px
+        font-size 14px
+        text-align center
+        color #f7576c
+      img
+        width 100%
+        border-radius 50%
+        box-shadow 3px 3px 11px #d6d6d6
+
+.commentList
+  display flex
+  font-size 14px
+  padding 12px 0
+  .user-ava
+    width 60px
+    margin-right 15px
+    img
+      width 100%
+      border-radius 50%
+      box-shadow 3px 3px 11px #d6d6d6
+  .comment-box
+    position relative
+    line-height 22px
+    flex 1
+    min-height 120px
+    border 1px solid #ecf0f1
+    border-radius 3px
+    width 100%
+    .username
+      line-height 30px
+      font-weight bold
+      color #f7576c
+      background #ECF0F1
+      padding 6px 15px
+      display flex
+      align-items center
+      justify-content space-between
+      .created
+        margin-left 10px
+        font-weight 100
+        color #7F8C8D
+        i
+          margin-right 5px
+      em
+        color #009688
+    .com_detail
+      padding 15px 25px
+    .floor
+      flex 0 0 42px
+      text-align right
+    .delete
+      position absolute
+      right 10px
+      bottom 7px
+      font-size 20px
+      color #657f86
+      cursor pointer
+      i
+        font-size 20px
+        margin -7px 0 0 10px
+  .comment-box:hover
+    box-shadow 2px 2px 15px #d2e7fd
+  .reply
+    border-bottom 1px solid #ecf0f1
+    color #8fa0a5
+    padding 9px 0
+    margin 0 20px
+    overflow hidden
+    text-overflow ellipsis
+    white-space nowrap
+    span
+      font-weight bold
+      margin 0 5px
+      color #f7576c
+
+@media screen and (max-width: 750px)
+  .commentList .user-ava
+    display none
+  .commentList .comment-box .username .created
+    font-family: sans-serif 
+  .comment-box
+    box-shadow 2px 2px 15px #d2e7fd

@@ -77,7 +77,7 @@
         </template>
         <template v-else>
           <li>
-            <Icon type="logo-reddit" />
+            <Icon type="logo-snapchat" />
             <router-link to="/login">登录</router-link>
           </li>
           <li>
@@ -101,7 +101,7 @@ export default {
     return {
       nav: [
         {name: '首页', url: '/', icon: 'md-home'},
-        {name: '博文', url: '/blog', icon: 'ios-book'},
+        {name: '文章', url: '/blog', icon: 'ios-book'},
         {name: '友链', url: '/link', icon: 'logo-octocat'},
         {name: '打赏', url: '/shang', icon: 'logo-usd'},
         {name: '留言', url: '/message', icon: 'md-chatboxes'}

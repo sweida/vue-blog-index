@@ -12,7 +12,6 @@ Vue.prototype.$post = Axios.post
 import './plugins/element.js'
 import './plugins/mavonEditor.js'
 import "./plugins/iview.js"
-import './plugins/vuescroll.js'
 
 
 

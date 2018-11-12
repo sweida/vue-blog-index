@@ -22,12 +22,12 @@ export default {
 
 <style scoped lang="stylus">
 .text_loading
-  width 100%
+  flex 1
   .text
     max-width 500px
     height 150px
     background #ecf0f1
-    margin-bottom 10px
+    margin-bottom 30px
   .box
     display flex
     p

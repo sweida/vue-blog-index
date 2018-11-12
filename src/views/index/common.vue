@@ -26,7 +26,7 @@
     <div class="box">
       <h3>归档<i class="iconfont lv-icon-kalendar"></i></h3>
       <li class="timeli" v-for="(item, index) in timeLines" :key="index" @click="TiemLine(item.date)" >
-        <span>{{item.date}}（{{item.value}}）</span>
+        <span>{{item.date}}<em>（{{item.value}}）</em></span>
       </li>
     </div>
 
@@ -120,6 +120,7 @@ export default {
 .common
   margin-left 20px
   width 240px
+  font-family: sans-serif;
   .box
     padding 15px 0
     margin-bottom 20px
@@ -136,13 +137,14 @@ export default {
     .tagBox
       padding 5px 15px
     .tagli
-      font-size 12px
+      font-size 14px
       cursor pointer
       display: inline-block;
-      padding 3px 8px
+      padding 3px 10px
       border-radius 3px
       background #e8e8e8
-      margin 4px 5px
+      margin 4px 6px
+      font-family: sans-serif;
       a
         color #34495e
     .tagli:hover
@@ -152,6 +154,8 @@ export default {
       font-weight 100
       font-size 14px
       padding 8px 20px
+      em
+        color #f7576c
     .timeli:hover
       color #ab267f
     
