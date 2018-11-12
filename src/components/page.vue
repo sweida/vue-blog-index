@@ -46,7 +46,7 @@
     }
   }
 </script>
-<style>
+<style scoped lang="stylus">
   #page {
     text-align: center;
     margin: 20px 0;

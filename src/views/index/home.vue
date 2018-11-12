@@ -1,6 +1,5 @@
 <template>
-    <!-- <vue-scroll :ops="ops"> -->
-      <!-- <el-scrollbar class="height"> -->
+
   <div id="index">
       <headnav></headnav>
       <section class="content">
@@ -12,24 +11,22 @@
         <!-- <transition name="el-fade-in">
           <router-view class="main animate03" />
         </transition> -->
-        <!-- <transition name="page-move"> -->
-          <!-- <router-view class="main animate03" /> -->
+
           <BackTop :height="300" :bottom="100">
             <div class="top animate03">
               <Icon type="ios-arrow-up" />
             </div>
           </BackTop>
-        <!-- </transition> -->
-        <!-- <router-view class="main animate03" /> -->
+
       </section>
       <Footer></Footer>
 
   </div>
-  <!-- </el-scrollbar> -->
-    <!-- </vue-scroll> -->
+
 </template>
 
 <script>
+import {mapState} from "vuex"
 import headnav from './headnav'
 import Footer from './footer'
 import '@/style/index.styl'
@@ -42,36 +39,27 @@ export default {
   data: () => ({
     ops: {
       vuescroll: {},
-      scrollPanel: {},
-      rail: {
-        background: '#01a99a',
-        opacity: 0,
-        /** Rail's size(Height/Width) , default -> 6px */
-        size: '6px',
-        /** Specify rail and bar's border-radius, or the border-radius of rail and bar will be equal to the rail's size. default -> false **/
-        specifyBorderRadius: false,
-        /** Rail the distance from the two ends of the X axis and Y axis. **/
-        gutterOfEnds: '2px',
-        /** Rail the distance from the side of container. **/
-        gutterOfSide: '2px',
-        /** Whether to keep rail show or not, default -> false, event content height is not enough */
-        keepShow: false
-      },
-      bar: {
-        showDelay: 500,
-        onlyShowBarOnScroll: true,
-        keepShow: false,
-        background: '#c5ced7',
-        opacity: 1,
-        hoverStyle: false,
-        keepShow: false
-      }
+      scrollPanel: {}
     }
   }),
+  computed: mapState({
+    user:state=>state.user
+  }),  
   created() {
-    // this.$get('/apis/login_Status').then(res => {
-    //   console.log(res, 'islogin')
-    // })
+    // 登录状态
+    this.$get('/apis/login_Status').then(res => {
+      if (res.data.status == 2) {
+        localStorage.removeItem('user')
+        this.$store.commit('increment', '')
+      } else if (res.data.status == 1) {
+        let user = {
+          id: res.data.id,
+          username: res.data.username
+        }
+        localStorage.setItem('user', JSON.stringify(user))
+        this.$store.commit('increment', user)
+      }
+    })
   },
   methods: {
 

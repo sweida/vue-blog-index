@@ -1,34 +1,58 @@
 <template>
 
     <div class="detail" >
-      
-        <div>
-          <div>标题：{{detail.title}}</div>
-          <div>创建时间：{{detail.created_at}}</div>
-          <div>点击量：{{detail.clicks}}</div>
-          <div>分类：{{detail.classify}}</div>
-          标签:<span v-for="(tag,index) in detail.tag" :key="index">
-            <span>{{tag}}、</span>
-          </span>
-          <mavon-editor v-model="detail.content" :subfield="false" codeStyle="googlecode" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
+        <TextLoading v-if="text_loading"></TextLoading>
+
+        <div v-else>
+          <div>
+            <div>标题：{{detail.title}}</div>
+            <div>创建时间：{{detail.created_at}}</div>
+            <div>点击量：{{detail.clicks}}</div>
+            <div>分类：{{detail.classify}}</div>
+            标签:<span v-for="(tag,index) in detail.tag" :key="index">
+              <span>{{tag}}、</span>
+            </span>
+            <mavon-editor v-model="detail.content" :subfield="false" codeStyle="googlecode" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
+          </div>
+
+          <!-- 许可 -->
+          <div class="posmition">
+            由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
+            <p>基于上的作品创作。</p>
+          </div>
+
+          <!-- 点赞 -->
+          <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
+            <i class="iconfont lv-icon-yijin13-zan"></i>
+            <span>{{detail.like}}</span>
+          </div>
         </div>
 
-        <!-- 点赞 -->
-        <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
-          <i class="iconfont lv-icon-yijin13-zan"></i>
-          <span>{{detail.like}}</span>
+
+        <div class="comment-title">
+          <h3>评论 <span>「 {{detail.comment}} 」</span></h3>
         </div>
 
-        <!-- 许可 -->
-        <div class="posmition">
-          由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
-          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
-          <p>基于上的作品创作。</p>
+        <!-- 评论 -->
+        <div class="input-box">
+          <Input 
+            v-model="comment.content" 
+            type="textarea" 
+            :autosize="{minRows: 3}" 
+            placeholder="说点什么.." />
+          <div class="submit-box">
+            <div class="ykname">
+              <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
+            </div>
+            <Button type="primary" @click="submitComment" >提交评论</Button>
+          </div>
         </div>
+
 
         <!-- 评论列表 -->
-        <div v-if="!detail.comment">
-          还没有评论，抢沙发。
+        <div class="none" v-if="!detail.comment">
+          还没有评论，快来抢沙发。
         </div>
         <div v-else>
           <MyLoading v-if="loading"></MyLoading>
@@ -50,7 +74,7 @@
                   confirm
                   title="是否删除该评论?"
                   @on-ok="deleteComment(item)">
-                  <Icon type="md-trash" />
+                  <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
                 </Poptip>
               </div>
             </div>
@@ -62,20 +86,7 @@
         </div>
 
 
-        <!-- 评论 -->
-        <div class="input-box">
-          <Input 
-            v-model="comment.content" 
-            type="textarea" 
-            :autosize="{minRows: 3}" 
-            placeholder="说点什么.." />
-          <div class="submit-box">
-            <div class="ykname">
-              <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
-            </div>
-            <Button type="primary" @click="submitComment" >提交评论</Button>
-          </div>
-        </div>
+
 
       </div>
 
@@ -89,6 +100,7 @@ import {mapState} from "vuex"
 export default {
   data() {
     return {
+      text_loading: true,
       show: true,
       loading: true,
       checked: true,
@@ -125,6 +137,7 @@ export default {
         console.log(res.data)
         if (res.data.status == 1) {
           this.detail = res.data.data
+          this.text_loading = false
           this.comment.article_id = this.detail.id
           // 有评论是才请求这个接口
           if (this.detail.comment){
@@ -226,11 +239,15 @@ export default {
 </style>
 
 <style scoped lang="stylus">
+
 .more
   margin-top 10px
   text-align center
-
+.none
+  font-size 14px
+  text-align center
 .detail
+  font-size: 14px;
   // max-width 800px
   // margin auto
   // background #fff
@@ -240,7 +257,7 @@ export default {
 
 .giveLike
   display flex
-  margin 15px auto
+  margin 25px auto
   background #f7576c
   width 90px
   height 90px
@@ -268,6 +285,16 @@ export default {
   margin 20px auto
 
 
+.comment-title
+  font-size 16px
+  margin: 30px 0 15px
+  border-left: 4px solid #f7576c;
+  padding-left: 10px;
+  line-height: 22px;
+  span 
+    font-size: 14px;
+    margin-top: -6px;
+    position: absolute;
 
 .commentList
   display flex

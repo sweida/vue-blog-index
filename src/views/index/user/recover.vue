@@ -10,7 +10,7 @@
     <div class="regiter-box" v-else>
       <div class="title">通过邮箱重置密码</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
-        <Alert type="success" show-icon v-if="seedEmail">邮件发送成功，请注意查收邮件</Alert>
+        <Alert :type="alert.type" show-icon v-if="alert.text">{{alert.text}}</Alert>
         <FormItem label="电子邮箱" prop="email">
           <Input type="text" size="large" v-model="formCustom.email" placeholder="请输入注册时的邮箱地址">
             <Icon type="md-mail" slot="prefix" />
@@ -22,13 +22,13 @@
       </Form>
 
       <Form ref="resetCustom" :model="formCustom" label-position="top" :rules="rulePasswd">
-        <FormItem label="验证码" prop="code">
-          <Input type="text" size="large" v-model="formCustom.code" placeholder="请输入邮件中的验证码">
+        <FormItem label="验证码" prop="phone_captcha">
+          <Input type="text" size="large" v-model="formCustom.phone_captcha" placeholder="请输入邮件中的验证码">
             <Icon type="md-mail-open" slot="prefix" />
           </Input>
         </FormItem>
-        <FormItem label="新密码" prop="password">
-          <Input type="password" size="large" v-model="formCustom.password">
+        <FormItem label="新密码" prop="new_password">
+          <Input type="password" size="large" v-model="formCustom.new_password">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
@@ -53,22 +53,25 @@ export default {
     const validatePassCheck = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('确认新密码不能为空'));
-      } else if (value !== this.formCustom.password) {
+      } else if (value !== this.formCustom.new_password) {
         callback(new Error('两次输入的密码不一致!'));
       } else {
         callback();
       }
     };
     return {
+      alert: {
+        type: '',
+        text: ''
+      },
       success: false,
-      seedEmail: false,
       loading: false,
       loading2: false,
       btnText: '发送邮箱验证码',
       formCustom: {
         email: '',
-        code: '',
-        password: '',
+        phone_captcha: '',
+        new_password: '',
         repassword: ''
       },
       ruleCustom: {
@@ -78,10 +81,10 @@ export default {
         ],
       },
       rulePasswd: {
-        code: [
+        phone_captcha: [
           { required: true, message: '验证码不能为空', trigger: 'change' },
         ],
-        password: [
+        new_password: [
           { required: true, message: '密码不能为空', trigger: 'change'}
         ],
         repassword: [
@@ -94,51 +97,59 @@ export default {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.loading = true
-          this.seedEmail = true
           this.seedEmailFun()
-          this.btnText = '重新发送邮件'
-          // this.$Message.success('Success!');
+          this.loading = true
         }
       })
     },
-    handleReset (name) {
-      this.$refs[name].resetFields();
-    },
     // 发送邮件
     seedEmailFun() {
-      setTimeout(() => {
+      let param = {
+        email: this.formCustom.email
+      }
+      this.$post('/apis/user/mail', param).then(res => {
+        console.log(res.data)
+        if (res.data.status == 1) {
+          this.alert = {
+            type: 'success',
+            text: res.data.msg
+          }
+        } else {
+          this.alert = {
+            type: 'error',
+            text: res.data.msg
+          }
+        }
         this.loading = false
-      }, 1000)
+        this.btnText = '重新发送邮件'
+      })
     },
     // 提交新密码
     codeSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.loading2 = true
-          this.success = true
-          // this.$router.push({name: 'reset', query: this.formCustom})
+          this.submitForm()
         }
       })
     },
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$post('/apis/signup', this.form).then(res => {
-            console.log(res)
-            if (res.data.status == 1) {
-              this.$message.success(res.data.msg)
-              setTimeout(() => {
-                this.login()
-              }, 1000)
-            } else {
-              this.$message.error(res.data.msg)
-            }
-          })
+    submitForm() {
+      this.$post('/apis/user/email_valid', this.formCustom).then(res => {
+        console.log(res.data)
+        if (res.data.status == 1) {
+          this.success = true
         } else {
-          return false;
+          this.alert = {
+            type: 'error',
+            text: res.data.msg
+          }
         }
-      });
+        this.loading2 = false
+      })
+    },
+    // 重置表单
+    handleReset (name) {
+      this.$refs[name].resetFields();
     },
     login () {
       this.$post('/apis/login', this.form).then(res => {

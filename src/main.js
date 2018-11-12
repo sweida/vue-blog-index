@@ -23,6 +23,9 @@ Vue.use(MyLoading)
 import MyPage from './components/MyPage'
 Vue.use(MyPage)
 
+import TextLoading from "./components/TextLoading";
+Vue.use(TextLoading);
+
 // // 引入ivew,
 // import iView from 'iview'
 // import 'iview/dist/styles/iview.css'

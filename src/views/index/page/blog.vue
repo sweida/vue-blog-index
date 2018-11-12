@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <MyLoading v-if="loading"></MyLoading>
+    <TextLoading v-if="loading"></TextLoading>
     <div class="article" v-else>
       <div>
         <!-- 新样式 -->

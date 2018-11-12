@@ -15,82 +15,82 @@ import person from '@/views/index/user/person'
 
 const index = [
   {
-    path: '/',
-    component: home,
+    path: "/",
+    component: home
   },
   {
-    path: '/home',
+    path: "/home",
     component: home,
-    name: 'home',
+    name: "home",
     children: [
       {
-        path: '/about',
+        path: "/about",
         component: about,
-        name: 'about',
+        name: "about"
       },
       {
-        path: '/login',
+        path: "/login",
         component: login,
-        name: 'login',
+        name: "login"
       },
       {
-        path: '/register',
+        path: "/register",
         component: register,
-        name: 'register',
+        name: "register"
       },
       {
-        path: '/blog',
+        path: "/blog",
         component: blog,
-        name: 'blog',
+        name: "blog",
         meta: {
-          keepAlive: true, // 需要被缓存
-        },
+          keepAlive: true // 需要被缓存
+        }
       },
       {
-        path: '/blog/:id',
+        path: "/blog/:id",
         component: detail,
-        name: 'detail',
+        name: "detail"
       },
       {
-        path: '/message',
+        path: "/message",
         component: message,
-        name: 'message',
+        name: "message",
         meta: {
-          keepAlive: true, // 需要被缓存
-        },
+          keepAlive: true // 需要被缓存
+        }
       },
       {
-        path: '/link',
+        path: "/link",
         component: link,
-        name: 'link',
+        name: "link",
         meta: {
-          keepAlive: true, // 需要被缓存
-        },
+          keepAlive: true // 需要被缓存
+        }
       },
       {
-        path: '/recover',
+        path: "/recover",
         component: recover,
-        name: 'recover',
+        name: "recover"
       },
       {
-        path: '/password',
+        path: "/password",
         component: password,
-        name: 'password',
+        name: "password"
       },
       {
-        path: '/shang',
+        path: "/shang",
         component: shang,
-        name: 'shang',
+        name: "shang",
         meta: {
-          keepAlive: true, // 需要被缓存
-        },
+          keepAlive: true // 需要被缓存
+        }
       },
       {
-        path: '/person',
+        path: "/person",
         component: person,
-        name: 'person',
-      },
-    ],
-  },
-]
+        name: "person"
+      }
+    ]
+  }
+];
 export default index

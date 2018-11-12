@@ -166,7 +166,7 @@ export default {
     display block
 .classify:hover, .classify.active
   background #ecf0f1
-  border-right 4px solid #999
+  border-right 4px solid #7a8996
   a
     color #525251
 

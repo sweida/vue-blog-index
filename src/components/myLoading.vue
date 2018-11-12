@@ -15,7 +15,7 @@ export default {
 }
 </script>
 
-<style >
+<style scoped lang="stylus">
 .spinner {
   margin: 100px auto 0;
   width: 150px;

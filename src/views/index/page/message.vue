@@ -263,4 +263,6 @@ export default {
     display none
   .submit-box
     margin 15px 0 15px 63px
+  .comment-box
+    box-shadow: 2px 2px 15px #d2e7fd
 </style>

@@ -3,7 +3,7 @@
     <div class="regiter-box">
       <div class="title">登录</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
-        <Alert :type="error.type" show-icon v-if="error.msg">{{error.msg}}</Alert>
+        <Alert :type="alert.type" show-icon v-if="alert.msg">{{alert.msg}}</Alert>
         <FormItem label="用户名" prop="username">
           <Input type="text" size="large" v-model="formCustom.username">
             <Icon type="md-happy" slot="prefix" />
@@ -15,7 +15,6 @@
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
-
         <FormItem>
           <Button type="primary" @click="handleSubmit('formCustom')" long size="large" :loading="loading">登录</Button>
         </FormItem>
@@ -37,10 +36,10 @@ import {mapState, mapGetters} from "vuex";  // 引入mapState
 export default {
   data () {
     return {
-      error: {
+      alert: {
         type: 'success',
         msg: ''
-      },    
+      },
       loading: false,  
       formCustom: {
         username: '',
@@ -59,7 +58,8 @@ export default {
   computed: mapState({
     user:state=>state.user
   }),
-  created() {
+  mounted() {
+    this.formCustom.username = localStorage.getItem('username') || ''
   },
   methods: {
     handleSubmit (name) {
@@ -75,11 +75,11 @@ export default {
     },
     login () {
       this.loading = true
-      this.error.msg = ''
+
       this.$post('/apis/login', this.formCustom).then(res => {
         this.loading = false
         if (res.data.status == 1) {
-          // this.error = {
+          // this.alert = {
           //   type: 'success',
           //   msg: res.data.msg
           // }
@@ -92,12 +92,13 @@ export default {
           localStorage.setItem('user', JSON.stringify(user))
           this.$store.commit('increment', user)
           this.$router.push('/')
+          localStorage.setItem('username', this.formCustom.username)
         } else {
-          // this.error = {
-          //   type: 'error',
-          //   msg: res.data.msg
-          // }
-          this.$Message.error(res.data.msg);
+          this.alert = {
+            type: 'error',
+            msg: res.data.msg
+          }
+          // this.$Message.error(res.data.msg);
         }
       })
     }
@@ -108,6 +109,8 @@ export default {
 
 
 <style scoped lang="stylus">
+.ivu-checkbox-wrapper
+  margin-top 6px
 .title
   border-bottom: 1px solid #e8eaec
   padding: 14px 15px

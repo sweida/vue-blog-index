@@ -15,7 +15,7 @@
     <div>
       <div>
         <h4>我的评论</h4>
-        <li v-for="item in userInfo.comments.data">
+        <li v-for="(item, index) in userInfo.comments.data" :key="index">
           <p>{{item.article_id}}</p>
           <p>{{item.content}}</p>
           <p>{{item.created_at}}</p>
@@ -23,7 +23,7 @@
       </div>
       <div>
         <h4>我的留言</h4>
-        <li v-for="item in userInfo.messages.data">
+        <li v-for="(item, index) in userInfo.messages.data" :key="index">
           <p>{{item.content}}</p>
           <p>{{item.created_at}}</p>
         </li>
