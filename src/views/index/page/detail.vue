@@ -284,6 +284,7 @@ export default {
 h2
   font-size 28px
   text-align center
+  font-weight 400
 .post-meta
   display flex
   justify-content center

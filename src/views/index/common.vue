@@ -137,7 +137,7 @@ export default {
     .tagBox
       padding 5px 15px
     .tagli
-      font-size 14px
+      font-size 12px
       cursor pointer
       display: inline-block;
       padding 3px 10px
@@ -175,6 +175,7 @@ export default {
     color #525251
 
 
-
-
+@media screen and (max-width: 750px)
+  .common .box .tagli
+      font-size: 14px
 </style>
