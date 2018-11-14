@@ -58,7 +58,6 @@
         <template v-if="user">
           <li>
             <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" class="user-img">
-            <!-- <img src="../../assets/avatar/005.jpg" alt="" class="user-img"> -->
             {{user.username}}
             <Icon type="md-arrow-dropdown" />
           </li>

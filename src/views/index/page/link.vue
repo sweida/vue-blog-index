@@ -57,6 +57,7 @@ export default {
 }
 </script>
 <style scoped lang="stylus">
+
 .comment-box
   display flex
   flex-wrap: wrap

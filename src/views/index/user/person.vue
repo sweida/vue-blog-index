@@ -35,7 +35,7 @@
         <div class="comment">
           <h4>我的评论<span class="pink"> ({{userInfo.comments.data.length}})</span></h4>
           <ul>
-            <li v-for="(item, index) in userInfo.comments.data" :key="index">
+            <router-link tag="li" :to="{path:`/blog/${item.article.id}`}" v-for="(item, index) in userInfo.comments.data" :key="index">
               <p>评论文章：{{item.article.title}}</p>
               <p>内容：{{item.content}}</p>
               <p>时间：{{item.created_at}}</p>
@@ -47,7 +47,7 @@
                   <Icon type="md-trash" />
                 </Poptip>
               </div>
-            </li>
+            </router-link>
           </ul>
         </div>
         <div class="message">
