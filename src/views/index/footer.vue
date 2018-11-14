@@ -69,7 +69,9 @@ footer
   color #fff
   i
     margin-bottom 15px
-    font-size 24px
+    font-size 28px
+  i:hover
+    color #929292
 
 .foot-text
   line-height 30px

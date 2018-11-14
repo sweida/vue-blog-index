@@ -2,7 +2,7 @@
   <div class="common">
     <div class="box">
       <!-- <h3>所有分类</h3> -->
-      <li class="classify animate03" :class="{active:this.$route.fullPath == '/blog'}" @click="allArticles">
+      <li class="classify animate03" :class="{active:$route.fullPath == '/blog'}" @click="allArticles">
         全部博文
         <!-- <router-link to="/blog">全部博文</router-link> -->
       </li>
