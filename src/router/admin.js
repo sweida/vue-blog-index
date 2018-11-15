@@ -1,32 +1,29 @@
-import adminLogin from '@/views/admin/login.vue'
-import adminHome from '@/views/admin/home.vue'
+// import adminLogin from '@/views/admin/login.vue'
+// import adminHome from '@/views/admin/home.vue'
+// import adminSetting from '@/views/admin/page/setting'
+// import adminArticle from '@/views/admin/page/article'
+// import adminAddArticle from '@/views/admin/page/addArticle'
+// import adminUsers from '@/views/admin/page/users'
+// import adminMessage from '@/views/admin/page/message'
+// import adminComment from '@/views/admin/page/comment'
+// import resetRassword from '@/views/admin/page/password'
+// import adminLink from '@/views/admin/page/link'
+// import adminAd from '@/views/admin/page/ad'
 
-import adminSetting from '@/views/admin/page/setting'
-import adminArticle from '@/views/admin/page/article'
-import adminAddArticle from '@/views/admin/page/addArticle'
-import adminUsers from '@/views/admin/page/users'
-import adminMessage from '@/views/admin/page/message'
-import adminComment from '@/views/admin/page/comment'
-import resetRassword from '@/views/admin/page/password'
-import adminLink from '@/views/admin/page/link'
-import adminAd from '@/views/admin/page/ad'
+const adminLogin      = resolve => require(["@/views/admin/login"], resolve);
+const adminHome       = resolve => require(["@/views/admin/home.vue"], resolve);
+const adminSetting    = resolve => require(["@/views/admin/page/setting"], resolve);
+const adminArticle    = resolve => require(["@/views/admin/page/article"], resolve);
+const adminAddArticle = resolve => require(["@/views/admin/page/addArticle"], resolve);
+const adminUsers      = resolve => require(["@/views/admin/page/users"], resolve);
+const adminMessage    = resolve => require(["@/views/admin/page/message"], resolve);
+const adminComment    = resolve => require(["@/views/admin/page/comment"], resolve);
+const resetRassword   = resolve => require(["@/views/admin/page/password"], resolve);
+const adminLink       = resolve => require(["@/views/admin/page/link"], resolve);
+const adminAd         = resolve => require(["@/views/admin/page/ad"], resolve);
+
 
 const admin = [
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   component: Login,
-  //   beforeEnter: (to, from, next) => {
-  //     next()
-  //   }
-  // },
-  // {
-  //   path: '/',
-  //   component: adminLogin,
-  //   redirect: {
-  //     name: 'adminLogin'
-  //   }
-  // },
   {
     path: '/admin/login',
     component: adminLogin,

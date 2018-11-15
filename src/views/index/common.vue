@@ -1,7 +1,6 @@
 <template>
   <div class="common">
     <div class="box">
-      <!-- <h3>所有分类</h3> -->
       <li class="classify animate03" :class="{active:$route.fullPath == '/blog'}" @click="allArticles">
         全部博文
         <!-- <router-link to="/blog">全部博文</router-link> -->
@@ -108,14 +107,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-// markmown样式
-.article 
-  .v-note-wrapper .v-note-panel
-    border none !important
-  .v-show-content
-    background #fff !important
-</style>
+
 <style scoped lang="stylus">
 .common
   margin-left 20px
@@ -126,6 +118,7 @@ export default {
     margin-bottom 20px
     box-shadow: 2px 2px 14px #c0dbe6
     background #fff
+    border-radius 5px
     h3
       border-bottom 1px solid #ddd
       padding 5px 0
@@ -155,7 +148,7 @@ export default {
       font-size 14px
       padding 8px 20px
       em
-        color #f7576c
+        color #ab267f
     .timeli:hover
       color #ab267f
     

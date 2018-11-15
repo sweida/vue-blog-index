@@ -1,5 +1,5 @@
 <template>
-  <div class="backg">
+  <div>
 
     <!-- 评论框 -->
     <div class="input-box">
@@ -58,6 +58,7 @@
             <!-- 自己的留言显示删除按钮 -->
             <Poptip
               confirm
+              placement="left"
               title="是否删除该留言?"
               @on-ok="deleteComment(item)">
               <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
@@ -165,14 +166,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-
-
-@media screen and (min-width: 750px)
-  .backg
-    background #fff
-    padding 20px
-    box-sizing border-box
-    box-shadow: 2px 2px 15px #d9ddde
 
 @media screen and (max-width: 750px)
   .comment-box
