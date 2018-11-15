@@ -19,7 +19,6 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@huiji/vue-cli-plugin-markdown": "^1.0.3",
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
