@@ -34,10 +34,10 @@ router.beforeEach((to, from, next) => {
   // 如果用户已经登录，访问登录和注册时，自动跳转到首页
   if (role && (to.path == '/login' || to.path == '/register')) {
     next('/blog')
-  } else if (!role && to.path == '/password') {
-    next('/blog')
+  } else if (!role && (to.path == "/password" || to.path == "/person")) {
+    next("/blog");
   } else {
-    next()
+    next();
   }
 })
 

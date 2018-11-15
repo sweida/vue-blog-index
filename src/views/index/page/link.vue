@@ -1,7 +1,7 @@
 <template>
-  <div class="backg">
+  <div>
     <!-- 友情连接 -->
-      <div class="text">
+      <div class="linkText">
         <p>这里是一群可爱的小伙伴们，欢迎交换友链 ٩(ˊᗜˋ*)و</p>
         <p>希望添加友链的小伙伴按这个格式写在留言区，我都会看的～</p>
 
@@ -58,31 +58,7 @@ export default {
 </script>
 <style scoped lang="stylus">
 
-.comment-box
-  display flex
-  flex-wrap: wrap
-  justify-content space-between
-  .comment
-    flex: 0 0 32%   
-    // width 260px
-    height 200px
-    padding 20px
-    box-sizing border-box
-    line-height 24px
-    border 1px solid #ddd
-    border-radius 4px
-    margin 2% 0
-
-.backg
-  background #fff
-  padding 20px
-  box-sizing border-box
-  box-shadow: 2px 2px 15px #d9ddde
-  h3
-    font-size 20px
-    text-align center
-
-.text
+.linkText
   font-size 14px
   border-left: 3px solid #c3d0d4;
   padding-left: 10px;
@@ -91,6 +67,10 @@ export default {
     font-size 16px
     padding 10px 0 4px
 
+h3
+  text-align center
+  font-size 26px
+  padding 5px 0
 
 
 .el-row 
