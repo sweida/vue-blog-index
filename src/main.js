@@ -11,9 +11,8 @@ Vue.prototype.$post = Axios.post
 
 import './plugins/element.js'
 import './plugins/mavonEditor.js'
-import "./plugins/iview.js"
-
-
+import './plugins/iview.js'
+import './plugins/highlightjs'
 
 // 全局自定义组件
 import MyLoading from './components/MyLoading'
@@ -22,8 +21,8 @@ Vue.use(MyLoading)
 import MyPage from './components/MyPage'
 Vue.use(MyPage)
 
-import TextLoading from "./components/TextLoading";
-Vue.use(TextLoading);
+import TextLoading from './components/TextLoading'
+Vue.use(TextLoading)
 
 // // 引入ivew,
 // import iView from 'iview'
@@ -37,15 +36,6 @@ Vue.use(TextLoading);
 // router.afterEach(route => {
 //   iView.LoadingBar.finish();
 // });
-import hljs from 'highlight.js'
-import 'highlight.js/styles/googlecode.css' //样式文件
-Vue.directive('highlight', function (el) {
-  let blocks = el.querySelectorAll('pre code');
-  blocks.forEach((block) => {
-    hljs.highlightBlock(block)
-  })
-})
-
 
 Vue.config.productionTip = false
 

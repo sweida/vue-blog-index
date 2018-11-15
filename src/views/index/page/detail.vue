@@ -21,7 +21,6 @@
               </span>
             </div> -->
             <div v-html="compiledMarkdown" v-highlight></div>
-            <!-- <mavon-editor v-model="detail.content" :subfield="false" codeStyle="googlecode" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" /> -->
           </div>
 
           <!-- 许可 -->
@@ -154,7 +153,6 @@ export default {
       pageModel: {
         id: 1
       },
-      user: {id: 1, username: "佟丽娅"},
       page: 2,
       hasMore: true
     }
@@ -164,6 +162,9 @@ export default {
   //   user:state=>state.user
   // }),
   computed: {
+    ...mapState([
+        'user'
+    ]),
     compiledMarkdown: function () {
       return marked(this.detail.content, { sanitize: true })
     }
