@@ -20,8 +20,8 @@
                 {{tag}}
               </span>
             </div> -->
-
-            <mavon-editor v-model="detail.content" :subfield="false" codeStyle="googlecode" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" />
+            <div v-html="compiledMarkdown" v-highlight></div>
+            <!-- <mavon-editor v-model="detail.content" :subfield="false" codeStyle="googlecode" defaultOpen="preview" :toolbarsFlag="false" :boxShadow="false" /> -->
           </div>
 
           <!-- 许可 -->
@@ -120,7 +120,21 @@
 
 <script>
 import {mapState} from "vuex"
+import marked from 'marked'
 import '@/style/message.styl'
+
+// var rendererMD = new marked.Renderer()
+// marked.setOptions({
+//   renderer: rendererMD,
+//   gfm: true,
+//   tables: true,
+//   breaks: false,
+//   pedantic: false,
+//   sanitize: false,
+//   smartLists: true,
+//   smartypants: false
+// })
+
 
 export default {
   data() {
@@ -140,13 +154,20 @@ export default {
       pageModel: {
         id: 1
       },
+      user: {id: 1, username: "佟丽娅"},
       page: 2,
       hasMore: true
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),
+  // components: {Marked},
+  // computed: mapState({
+  //   user:state=>state.user
+  // }),
+  computed: {
+    compiledMarkdown: function () {
+      return marked(this.detail.content, { sanitize: true })
+    }
+  },
   created() {
     console.log(this.$route, 444)
     this.getDetail()
