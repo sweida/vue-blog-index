@@ -152,7 +152,6 @@ export default {
       em
         color #ab267f
     .timeli:hover, .timeli.active
-      // color #ab267f
       background #ecf0f1
       border-right 4px solid #7a8996
     
