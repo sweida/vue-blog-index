@@ -16,7 +16,6 @@
 
         <ul>
           <li>邮箱： {{userInfo.email}}</li>
-          <!-- <p>手机{{user.phone}}</p> -->
           <li>权限： {{userInfo.is_admin ? '站长' : '普通用户'}}</li>
           <li>修改头像</li>
           <router-link tag="li" to="password" class="link">
@@ -37,11 +36,12 @@
           <ul>
             <li v-for="(item, index) in userInfo.comments.data" :key="index">
               <router-link :to="{path:`/blog/${item.article.id}`}">评论文章：{{item.article.title}}</router-link>
-              <p>内容：{{item.content}}</p>
-              <p>时间：{{item.created_at}}</p>
+              <div class="mark" v-html="item.content" v-highlight></div>
+              <p class="time"><Icon type="md-time" />{{item.created_at}}</p>
               <div class="delete"  >
                 <Poptip
                   confirm
+                  placement="left"
                   title="是否删除该评论?"
                   @on-ok="deleteComment(item)">
                   <Icon type="md-trash" />
@@ -54,11 +54,12 @@
           <h4>我的留言<span class="pink"> ({{userInfo.messages.data.length}})</span></h4>
           <ul>
             <li v-for="(item, index) in userInfo.messages.data" :key="index">
-              <p>内容：{{item.content}}</p>
-              <p class="time">时间：{{item.created_at}}</p>
+              <div class="mark" v-html="item.content" v-highlight></div>
+              <p class="time"><Icon type="md-time" />{{item.created_at}}</p>
               <div class="delete"  >
                 <Poptip
                   confirm
+                  placement="left"
                   title="是否删除该留言?"
                   @on-ok="deleteMessage(item)">
                   <Icon type="md-trash" />
@@ -75,6 +76,7 @@
 
 
 <script>
+import marked from 'marked'
 import {mapState} from "vuex"
 
 export default {
@@ -106,8 +108,15 @@ export default {
         console.log(res.data, 'UserInfo')
         this.userInfo = res.data.data
         this.loading = false
+        this.userInfo.comments.data.forEach(item => {
+          item.content = marked(item.content, { sanitize: true })
+        })
+        this.userInfo.messages.data.forEach(item => {
+          item.content = marked(item.content, { sanitize: true })
+        })
       })
     },
+    // 删除评论
     deleteComment(item) {
       this.$post('/apis/comment/remove', {id: item.id}).then(res => {
         if (res.data.status == 1) {
@@ -118,6 +127,7 @@ export default {
         }
       })
     }, 
+    // 删除留言
     deleteMessage(item) {
       this.$post('/apis/message/remove', {id: item.id}).then(res => {
         if (res.data.status == 1) {
@@ -192,9 +202,13 @@ export default {
       padding 10px 0 15px
       position relative
       border-bottom 1px solid #ddebf1
+      .mark
+        padding 5px 0
       .time
         padding-top 5px
         color #858a8c
+        i
+          margin -2px 6px 0 0
     li:last-child
       border none
     .delete

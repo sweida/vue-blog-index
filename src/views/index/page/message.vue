@@ -2,7 +2,9 @@
   <div>
     <div class="about-bg">
       <img src="../../../assets/blog.jpg" class="bg-img">
-      <div class="bg"></div>
+      <div class="bg">
+          <p>留言板</p>
+      </div>
       <!-- 评论框 -->
       <div class="input-main">
         <div class="input-box main">
@@ -22,7 +24,7 @@
               v-model="message.content" 
               type="textarea" 
               :autosize="{minRows: 4, maxRows: 8}" 
-              :maxlength="200"
+              :maxlength="400"
               :placeholder="textarea" />
             <div class="submit-box">
               <div class="ykname">
@@ -59,9 +61,7 @@
           </div>
           <!-- 回复功能后续再做 -->
           <!-- <p class="reply" v-if="item.reply_id">回复<span>{{item.reply_id}}楼</span>“{{item.replyContent}}</p> -->
-          <div class="com_detail" v-html="item.content">
-
-          </div>
+          <div class="com_detail" v-html="item.content" v-highlight></div>
           <div class="delete"  >
             <!-- 自己的留言显示删除按钮 -->
             <Poptip
@@ -86,12 +86,13 @@
 
 <script>
 import {mapState} from "vuex"
+import marked from 'marked'
 import '@/style/message.styl'
 
 export default {
   data() {
     return {
-      textarea: '留点痕迹，最长200个字',
+      textarea: '留点痕迹，支持markdown语法，尾部2个空格后回车才会换行，最长400个字',
       autofocus: false,
       loading: true,
       messageList: [],
@@ -110,6 +111,14 @@ export default {
   computed: mapState({
     user:state=>state.user
   }),
+    computed: {
+    ...mapState([
+        'user'
+    ]),
+    compiledMarkdown: function () {
+      return marked(this.detail.content, { sanitize: true })
+    }
+  },
   created() {
     this.getMessage()
   },
@@ -120,14 +129,13 @@ export default {
       this.$post('/apis/message/read', this.pageModel).then(res => {
         console.log(res.data, 'message')
         this.loading = false
-        // if (res.data.data.length < 10) {
-        //   this.hasMore = false
-        // }
         this.pageModel.sumCount = res.data.total
         this.messageList = res.data.data
-        // 转换换行
+        // 转markdown语法
         this.messageList.forEach(item => {
-          item.content = item.content.replace(/\n/g, '<br>')
+          item.content = marked(item.content, { sanitize: true })
+          // 转换换行
+          // item.content = item.content.replace(/\n/g, '<br>')
         })
       })
     },    

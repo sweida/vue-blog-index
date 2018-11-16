@@ -58,8 +58,9 @@
             <Input 
                 v-model="comment.content" 
                 type="textarea" 
-                :autosize="{minRows: 3}" 
-                placeholder="说点什么.." />
+                :autosize="{minRows: 4, maxRows: 8}" 
+                :maxlength="400"
+                placeholder="说点什么。。支持markdown语法，尾部2个空格后回车才会换行，最长400个字" />
             <div class="submit-box">
               <div class="ykname">
                 <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
@@ -90,11 +91,12 @@
                   <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
                 </span>
               </div>
-              <div class="com_detail" v-html="item.content"></div>
+              <div class="com_detail" v-html="item.content" v-highlight></div>
               <!-- 显示自己的留言的删除按钮 -->
               <div class="delete" v-if="item.user_id==user.id" >
                 <Poptip
                   confirm
+                  placement="left"
                   title="是否删除该评论?"
                   @on-ok="deleteComment(item)">
                   <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
@@ -122,19 +124,6 @@ import {mapState} from "vuex"
 import marked from 'marked'
 import '@/style/message.styl'
 
-// var rendererMD = new marked.Renderer()
-// marked.setOptions({
-//   renderer: rendererMD,
-//   gfm: true,
-//   tables: true,
-//   breaks: false,
-//   pedantic: false,
-//   sanitize: false,
-//   smartLists: true,
-//   smartypants: false
-// })
-
-
 export default {
   data() {
     return {
@@ -157,10 +146,6 @@ export default {
       hasMore: true
     }
   },
-  // components: {Marked},
-  // computed: mapState({
-  //   user:state=>state.user
-  // }),
   computed: {
     ...mapState([
         'user'
@@ -223,7 +208,7 @@ export default {
           }
           if (this.commentList) {
             this.commentList.forEach(item => {
-              item.content = item.content.replace(/\n/g, '<br>')
+              item.content = marked(item.content, { sanitize: true })
             })
           }
           this.loading = false

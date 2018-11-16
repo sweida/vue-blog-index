@@ -16,8 +16,8 @@
             <!-- 有标签才显示 -->
             <div class="tag-box" v-if="item.tag.length">
               <i class="iconfont lv-icon-biaoqian6"></i>
-              <span v-for="(tag,index) in item.tag" :key="index" :class="{active:$route.query.tag==tag}">
-                {{tag}}
+              <span v-for="(tagli, index) in item.tag" :key="index" :class="{active:tag==tagli}">
+                {{tagli}}
               </span>
             </div>
             <div class="comment">
@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 import common from '../common'
 
 export default {
@@ -62,26 +63,11 @@ export default {
     }
   },
   created() {
+    if (this.classify) {
+      this.$route.query.classify = this.classify
+      console.log(this.$route.query.classify, 7777)
+    }
     console.log(this.$route, 44444)
-    // this.getTimes()
-    // this.getTags()
-    // this.getClassify() 
-
-    // console.log(this.$route.query.tag, 44)
-    // if (this.$route.query.tag) {
-    //   console.log(1)
-    //   this.ArticlesOrderByTag()
-    // } else if (this.$route.query.classify) {
-    //   console.log(2)
-    //   this.ArticlesOrderByClassify()
-    // } else if (this.$route.query.year) {
-    //   console.log('year month')
-    //   this.ArticlesOrderByTime()
-    // } else {
-    //   console.log(3)
-    //   this.getArticles()
-    // }
-
     if (this.$route.query.tag) {
       console.log('tag')
       this.ArticlesOrderByTag()
@@ -96,23 +82,11 @@ export default {
       this.getArticles()
     }
   },
-  // watch:{
-  //   $route(to,from){
-  //     if (this.$route.query.tag) {
-  //       console.log('watch tag')
-  //       this.ArticlesOrderByTag()
-  //     } else if (this.$route.query.classify) {
-  //       console.log('watch classify')
-  //       this.ArticlesOrderByClassify()
-  //     } else if (this.$route.query.year) {
-  //       console.log('watch year month')
-  //       this.ArticlesOrderByTime()
-  //     } else {
-  //       console.log('watch all')
-  //       this.getArticles()
-  //     }
-  //   }
-  // },
+  computed: {
+    ...mapState([
+        'classify', 'tag', 'timeline'
+    ])
+  },
   methods: {
     getArticles() {
       this.loading = true
@@ -122,6 +96,9 @@ export default {
         if (res.data.status == 1) {
           this.loading = false
           this.articles = res.data.data
+          this.$store.commit('inclassify', 'all')
+          this.$store.commit('intag', '')
+          this.$store.commit('intimeline', '')
           this.pageModel.sumCount = res.data.total
         } else {
           this.$message.error('获取数据失败！')
@@ -146,6 +123,9 @@ export default {
           res.data.data.forEach(item => {
             this.articles.push(item.article)
           })
+          this.$store.commit('inclassify', '')
+          this.$store.commit('intag', this.$route.query.tag)
+          this.$store.commit('intimeline', '')
           console.log(this.articles, param)
         } else {
           this.$message.error(res.data.msg)
@@ -164,6 +144,9 @@ export default {
         if (res.data.status == 1) {
           this.pageModel.sumCount = 0
           this.articles = res.data.data
+          this.$store.commit('inclassify', this.$route.query.classify)
+          this.$store.commit('intag', '')
+          this.$store.commit('intimeline', '')
         } else {
           this.$message.error(res.data.msg)
         }
@@ -182,36 +165,16 @@ export default {
         if (res.data.status == 1) {
           this.pageModel.sumCount = 0
           this.articles = res.data.data
+          this.$store.commit('inclassify', '')
+          this.$store.commit('intag', '')
+          this.$store.commit('intimeline', `${param.year}年${param.month}月`)
         } else {
           this.$message.error(res.data.msg)
         }
         this.loading = false
       })
     },
-    // 获取时间线
-    getTimes() {
-      this.$get('/apis/article/times').then(res => {
-        console.log(res.data, 'times')
-        this.timeLine = res.data.data
-      })
-    },
-    // 获取所有标签
-    getTags() {
-      this.$get('/apis/tag/read').then(res => {
-        console.log(res.data, 'tags')
-        this.tags = res.data.data
-      })
-    },
-    goTag(item) {
-      this.$router.query({tag: item})
-    },
-    // 获取所有分类
-    getClassify() {
-      this.$get('/apis/article/classify').then(res => {
-        console.log(res.data, 'classifys')
-        this.classifys = res.data.data
-      })
-    }
+
   }
 }
 </script>
@@ -292,11 +255,11 @@ export default {
   position: relative;
   border-radius: 5px;
 .list:hover
-  box-shadow 0px 10px 15px #aaa
+  box-shadow:1 1px 20px -6px rgba(0,0,0,.5)
   transition: transform .5s
 .list:hover img
-  transform: scale(1.05)
-  transition: transform .5s
+  transform: scale(1.1)
+  transition: transform .6s
   // transform: translateY(-6px)
 
 .list

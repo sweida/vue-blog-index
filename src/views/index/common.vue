@@ -1,13 +1,11 @@
 <template>
   <div class="common">
     <div class="box">
-      <li class="classify animate03" :class="{active:$route.fullPath == '/blog'}" @click="allArticles">
+      <li class="classify animate03" :class="{active:classify=='all'}" @click="allArticles">
         全部博文
-        <!-- <router-link to="/blog">全部博文</router-link> -->
       </li>
-      <li class="classify animate03" :class="{active:$route.query.classify==item}" v-for="(item, index) in classifys" :key="index" @click="OrderByClassify(item)" >
+      <li class="classify animate03" :class="{active:classify==item}" v-for="(item, index) in classifys" :key="index" @click="OrderByClassify(item)" >
         {{item}}
-        <!-- <router-link :to="{path:`/blog/classify/${item}`}" >{{item}}</router-link> -->
       </li>
 
     </div>
@@ -17,14 +15,13 @@
       <div class="tagBox">
         <span class="tagli animate03" v-for="(item, index) in tags" :key="index" @click="OrderByTag(item)">
           {{item}}
-          <!-- <router-link :to="{name: 'blog', query: { tag: item }}">{{item}}</router-link> -->
         </span>
       </div>
     </div>
 
     <div class="box">
       <h3>归档<i class="iconfont lv-icon-kalendar"></i></h3>
-      <li class="timeli" v-for="(item, index) in timeLines" :key="index" @click="TiemLine(item.date)" >
+      <li class="timeli animate03" v-for="(item, index) in timeLines" :key="index" @click="TiemLine(item.date)" :class="{active:timeline==item.date}">
         <span>{{item.date}}<em>（{{item.value}}）</em></span>
       </li>
     </div>
@@ -33,6 +30,8 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
+
 export default {
   data() {
     return {
@@ -47,6 +46,9 @@ export default {
     this.getClassify() 
   },
   computed: {
+    ...mapState([
+        'classify', 'tag', 'timeline'
+    ]),
     // 倒序时间线
     timeLines() {
       return this.timeLine.reverse();
@@ -149,8 +151,10 @@ export default {
       padding 8px 20px
       em
         color #ab267f
-    .timeli:hover
-      color #ab267f
+    .timeli:hover, .timeli.active
+      // color #ab267f
+      background #ecf0f1
+      border-right 4px solid #7a8996
     
 // 分类    
 .classify
