@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div class="regiter-box">
       <div class="title">登录</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">

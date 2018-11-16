@@ -56,7 +56,7 @@ const index = [
         component: message,
         name: "message",
         meta: {
-          keepAlive: true // 需要被缓存
+          keepAlive: true
         }
       },
       {
@@ -64,7 +64,7 @@ const index = [
         component: link,
         name: "link",
         meta: {
-          keepAlive: true // 需要被缓存
+          keepAlive: true
         }
       },
       {
@@ -82,7 +82,7 @@ const index = [
         component: shang,
         name: "shang",
         meta: {
-          keepAlive: true // 需要被缓存
+          keepAlive: true
         }
       },
       {

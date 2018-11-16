@@ -1,11 +1,13 @@
 <template>
-  <div class="flex">
+  <div class="main flex">
     <TextLoading v-if="loading"></TextLoading>
     <div class="article" v-else>
       <div>
         <!-- 新样式 -->
         <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
-          <img src="../../../assets/blog/001.png" class="footer-bg">
+          <div class="img-box">
+            <img src="../../../assets/blog/001.png" class="footer-bg animate03">
+          </div>
           <div class="bg"></div>
           <div class="classify">{{item.classify}}</div>
           <div class="list-main">
@@ -283,10 +285,20 @@ export default {
 
 
 // 新样式
+.img-box
+  overflow hidden
+  width 100%
+  height 100%
+  position: relative;
+  border-radius: 5px;
 .list:hover
-  transform: translateY(-6px)
-  transition: transform .5s
   box-shadow 0px 10px 15px #aaa
+  transition: transform .5s
+.list:hover img
+  transform: scale(1.05)
+  transition: transform .5s
+  // transform: translateY(-6px)
+
 .list
   position relative
   display block

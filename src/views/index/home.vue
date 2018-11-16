@@ -6,9 +6,9 @@
         <About class="slide animate03" v-if="$route.path == '/'"></About>
         
         <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="main slide animate03"></router-view>
+          <router-view v-if="$route.meta.keepAlive" class="slide animate03"></router-view>
         </keep-alive>
-        <router-view v-if="!$route.meta.keepAlive" class="main slide animate03"></router-view>
+        <router-view v-if="!$route.meta.keepAlive" class="slide animate03"></router-view>
         
         <!-- <transition name="el-fade-in">
           <router-view class="main animate03" />

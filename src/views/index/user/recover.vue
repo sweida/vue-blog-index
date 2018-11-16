@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <div class="success-box" v-if="success">
       <Icon type="ios-checkmark-circle" size="80" color="Success"/>
       <h2>密码修改成功</h2>

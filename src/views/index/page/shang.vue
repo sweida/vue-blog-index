@@ -1,5 +1,5 @@
 <template>
-  <div class="backg">
+  <div class="main">
     
     <div class="text">
       <p>本站的所有源码都是开源的</p>
@@ -40,22 +40,11 @@ export default {
 
 
 <style scoped lang="stylus">
-.backg
-  color: #3d4852;
-  font-weight: blod
-//   background #fff
-//   padding 20px
-//   box-sizing border-box
-//   box-shadow: 2px 2px 15px #d9ddde
 
 .text
   font-size 18px
   text-align center
 .img-box
-  // display: flex
-  // align-items: center
-  // justify-content: center
-  // flex-wrap: wrap;
   text-align center
   img
     width 250px

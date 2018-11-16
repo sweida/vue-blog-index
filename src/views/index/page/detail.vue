@@ -1,6 +1,6 @@
 <template>
 
-    <div class="detail" >
+    <div class="main detail" >
         <TextLoading v-if="text_loading"></TextLoading>
 
         <div v-else>
@@ -296,12 +296,7 @@ export default {
   text-align center
 .detail
   font-size: 14px;
-  // max-width 800px
-  // margin auto
-  // background #fff
-  // padding 20px
-  // box-sizing border-box
-  // box-shadow: 2px 2px 15px #d9ddde
+
 
 h2
   font-size 28px
@@ -354,7 +349,7 @@ h2
 
 .comment-title
   font-size 16px
-  margin: 30px 0 15px
+  margin: 60px 0 15px
   border-left: 4px solid #f7576c;
   padding-left: 10px;
   line-height: 22px;

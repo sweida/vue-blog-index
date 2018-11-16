@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     <!-- 友情连接 -->
       <div class="linkText">
         <p>这里是一群可爱的小伙伴们，欢迎交换友链 ٩(ˊᗜˋ*)و</p>

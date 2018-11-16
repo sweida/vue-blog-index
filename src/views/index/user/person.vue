@@ -1,5 +1,5 @@
 <template>
-  <div class="person">
+  <div class="main person">
     <TextLoading v-if="loading"></TextLoading>
 
     <template v-else>
