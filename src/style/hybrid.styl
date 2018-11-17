@@ -1,0 +1,74 @@
+// 代码高亮
+.higtlight
+  pre
+    position relative
+    margin 10px 0 
+  .hljs
+    font-size 14px !important
+    padding 18px !important
+    color #f7f7f7 !important
+    background #282a36 !important
+    border-top 34px solid #222329 !important
+    -webkit-overflow-scrolling touch
+    // font-family: inherit
+    // font-size 15px
+  pre:before
+    content ' '
+    position absolute
+    -webkit-border-radius 50%
+    border-radius 50%
+    background #ff5f56
+    width 12px
+    height 12px
+    left 20px
+    margin-top 10px
+    -webkit-box-shadow 20px 0 #ffbd2e, 40px 0 #27c93f
+    box-shadow 20px 0 #ffbd2e, 40px 0 #27c93f
+    z-index 2
+  // 注释
+  .hljs-comment, .hljs-quote
+    color #6272a4 !important
+    font-style normal !important
+  // 布尔
+  .hljs-literal
+    color #ffde2f !important
+  // import
+  .hljs-keyword, .hljs-operator
+    color #66d9ef !important
+
+  .hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta-string
+    color #ae81ff !important
+  .hljs-attr, .hljs-variable, .hljs-template-variable, .hljs-type, .hljs-selector-class, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-number
+    color #a6e22e !important
+  .hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst
+    color #f92672 !important
+  .hljs-symbol, .hljs-bullet, .hljs-link, .hljs-meta, .hljs-selector-id, .hljs-title
+    color #03A9F4 !important
+  .hljs-built_in, .hljs-class .hljs-title
+    color #ffae37 !important
+
+  h3, h2
+    padding 14px 0 5px !important
+    font-weight: 600
+  code
+    background: #e8e8e8
+    padding: 1px 8px;
+    border-radius: 3px;
+  h4
+    padding 8px 0 4px !important
+  h5
+    padding 6px 0 3px !important
+  blockquote
+    background: #f5f7f9
+    padding: 6px 15px !important;
+    border-left: 3px solid #fb4b87;
+    margin: 8px 0 20px !important
+  table
+    border-spacing 0px
+    border-collapse collapse  
+  th
+    padding 6px 8px !important
+    border 1px solid #dadada
+  td
+    padding 4px 8px !important
+    border 1px solid #dadada

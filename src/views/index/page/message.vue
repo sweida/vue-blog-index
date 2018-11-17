@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="higtlight">
     <div class="about-bg">
       <img src="../../../assets/blog.jpg" class="bg-img">
       <div class="bg">

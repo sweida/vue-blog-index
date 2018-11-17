@@ -1,6 +1,6 @@
 <template>
 
-    <div class="main detail" >
+    <div class="main detail higtlight">
         <TextLoading v-if="text_loading"></TextLoading>
 
         <div v-else>
@@ -39,7 +39,7 @@
 
 
         <div class="comment-title">
-          <h3>评论 <span>「 {{detail.comment}} 」</span></h3>
+          <p>评论 <span>「 {{detail.comment}} 」</span></p>
         </div>
 
         <!-- 评论 -->
@@ -257,30 +257,19 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-// markmown样式
-.detail 
-  .v-note-wrapper .v-note-panel
-    border none !important
-  .v-show-content
-    background #fff !important
-    padding 0 !important
-  .v-note-wrapper
-    min-height 50px !important
-    z-index 9 !important
-
-</style>
 
 <style scoped lang="stylus">
-
 .more
   margin-top 10px
   text-align center
+  font-size: 14px;
 .none
   font-size 14px
   text-align center
 .detail
-  font-size: 14px;
+  max-width 840px
+  font-size: 16px;
+  color #444
 
 
 h2
@@ -290,8 +279,11 @@ h2
 .post-meta
   display flex
   justify-content center
+  font-size 14px
   line-height 40px
-  margin-bottom 15px
+  margin-bottom 20px
+  color: #8c8ea0
+  border-bottom: 1px solid #eee  
   // border-bottom 1px solid #eee
   span
     margin 0 10px
@@ -333,7 +325,7 @@ h2
 
 
 .comment-title
-  font-size 16px
+  font-size 20px
   margin: 60px 0 15px
   border-left: 4px solid #f7576c;
   padding-left: 10px;
@@ -342,6 +334,7 @@ h2
     font-size: 14px;
     margin-top: -6px;
     position: absolute;
+
 
 
 

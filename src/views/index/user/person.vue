@@ -1,5 +1,5 @@
 <template>
-  <div class="main person">
+  <div class="main person higtlight">
     <TextLoading v-if="loading"></TextLoading>
 
     <template v-else>
@@ -32,7 +32,7 @@
 
       <div class="rightmain">
         <div class="comment">
-          <h4>我的评论<span class="pink"> ({{userInfo.comments.data.length}})</span></h4>
+          <h6>我的评论<span class="pink"> ({{userInfo.comments.data.length}})</span></h6>
           <ul>
             <li v-for="(item, index) in userInfo.comments.data" :key="index">
               <router-link :to="{path:`/blog/${item.article.id}`}">评论文章：{{item.article.title}}</router-link>
@@ -51,7 +51,7 @@
           </ul>
         </div>
         <div class="message">
-          <h4>我的留言<span class="pink"> ({{userInfo.messages.data.length}})</span></h4>
+          <h6我的留言<span class="pink"> ({{userInfo.messages.data.length}})</span></h6>
           <ul>
             <li v-for="(item, index) in userInfo.messages.data" :key="index">
               <div class="mark" v-html="item.content" v-highlight></div>
@@ -149,6 +149,7 @@ export default {
   font-size 14px
 .leftinfo
   width 270px
+  min-width 270px
   line-height 30px
   margin-right 30px
   margin-bottom 30px
@@ -188,10 +189,11 @@ export default {
 
 .rightmain
   flex 1 
+  width 0
   >div 
     box-shadow: 2px 2px 14px #c0dbe6
     margin-bottom 30px
-    h4
+    h6
       background: #ecf0f1
       padding: 8px 20px;
       font-size: 16px;
@@ -227,5 +229,6 @@ export default {
     flex 1
     width 100%
     margin-right 0
-  
+  .rightmain
+    width 100%
 </style>

@@ -33,6 +33,7 @@ import headnav from './headnav'
 import Footer from './footer'
 import About from './page/about'
 import '@/style/index.styl'
+import '@/style/hybrid.styl'
 
 export default {
   components: {
