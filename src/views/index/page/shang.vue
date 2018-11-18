@@ -1,10 +1,14 @@
 <template>
-  <div class="main">
-    
-    <div class="text">
-      <p>本站的所有源码都是开源的</p>
-      <p>如果你觉得该项目对你有助，欢迎赞赏支持（/∇＼），这样我就有更大的动力去完善它，优化它。~非常感激！</p>
-    </div>
+  <div >
+    <div class="banner">
+      <img src="../../../assets/shang.jpg" alt="">
+      <div class="bg"></div>
+      
+      <div class="text-box">
+        <p>本站的所有源码都是开源的</p>
+        <p>如果你觉得该项目对你有助，欢迎赞赏支持（/∇＼），这样我就有更大的动力去完善它，优化它。~非常感激！</p>
+      </div>
+    </div>    
 
     <div class="img-box">
       <img :src="webinfo.zhifubao" alt="">
@@ -41,12 +45,16 @@ export default {
 
 <style scoped lang="stylus">
 
-.text
-  font-size 18px
-  text-align center
 .img-box
   text-align center
+  margin-top 30px
   img
     width 250px
     margin 20px
+
+
+@media screen and (max-width: 750px)
+  .banner
+    height 320px
+
 </style>

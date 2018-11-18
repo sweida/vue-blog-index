@@ -4,17 +4,16 @@
 
   <div class="header">
     <img src="../../assets/nav-map.jpg" class="footer-bg">
+
     <div class="menu">
       <div class="left">
+        <div class="logo">
+          <img src="../../assets/logo.png" alt="">
+        </div>
         <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
           <router-link :to="item.url">{{item.name}}</router-link>
         </li>
       </div>
-
-      <!-- <div class="logo">
-        <img src="../../assets/logo.png" />
-      </div> -->
-
 
       <div class="user" v-if="user">
         <Dropdown @on-click="changeMenu">
@@ -43,6 +42,9 @@
   </div>
 
   <!-- 手机菜单 -->
+  <div class="phone-logo">
+    <img src="../../assets/logo.png" />
+  </div>
   <Collapse simple v-model="mobnav" class="nav-content">
     <Panel name="1" hide-arrow>
       <span></span>
@@ -188,14 +190,13 @@ export default {
     display: flex
     justify-content: flex-end
     flex: 1
+  .logo
+    width 100px
+    height 60px
+    margin-right 20px
+    img
+      width 100%
 
-  // .logo
-  //   width: 360px
-  //   display: flex
-  //   justify-content: center
-  //   align-content: center
-  //   img
-  //     width: 200px
 
 .footer-bg, .nav-bg
   position: absolute;
@@ -219,12 +220,8 @@ export default {
   color #fff
   justify-content space-between
   font-size 14px
-  padding: 0 10px
+  padding: 0 20px
   font-size 16px
-  .logo
-    height 100%
-    img
-      height 100%
   div
     display flex
     align-items center
@@ -288,7 +285,8 @@ export default {
   .second
     padding-left 40px
 
-
+.phone-logo
+  display none
 
 .user
   .user-info
@@ -310,5 +308,13 @@ export default {
       display none
   .nav-bg, .nav-content
     display block
-
+  .phone-logo
+    display block
+    position: absolute;
+    top: 9px;
+    z-index: 20;
+    width: 100px;
+    left: 20px
+    img
+      width 100%
 </style>

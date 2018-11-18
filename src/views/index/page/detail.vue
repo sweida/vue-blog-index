@@ -1,42 +1,47 @@
 <template>
 
-    <div class="main detail higtlight">
-        <TextLoading v-if="text_loading"></TextLoading>
+    <div class=" detail higtlight">
 
-        <div v-else>
-          <div>
-            <h2>{{detail.title}}</h2>
-            <div class="post-meta"> 
-              <div><i class="iconfont lv-icon-kalendar"></i>{{detail.created_at.substring(0,10)}}</div>
-              <span>•</span>
-              <div><i class="iconfont lv-icon-huore"></i>{{detail.clicks}}热度</div>
-              <span>•</span>
-              <div><i class="iconfont lv-icon-wenjianjia"></i>{{detail.classify}}</div>
-            </div>
+      <div class="banner">
+        <img src="../../../assets/article.jpg" alt="">
+        <div class="bg"></div>
+        
+        <div class="text-box" v-if="!text_loading">
+          <h2>{{detail.title}}</h2>
+          <div class="post-tag">
 
-            <!-- <div class="post-tag">
-              <i class="iconfont lv-icon-fenlei-copy"></i>
-              <span v-for="(tag,index) in detail.tag" :key="index">
-                {{tag}}
-              </span>
-            </div> -->
-            <div v-html="compiledMarkdown" v-highlight></div>
+            <span v-for="(tag,index) in detail.tag" :key="index">{{tag}}</span>
           </div>
-
-          <!-- 许可 -->
-          <div class="posmition">
-            由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
-            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
-            <p>基于上的作品创作。</p>
-          </div>
-
-          <!-- 点赞 -->
-          <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
-            <i class="iconfont lv-icon-yijin13-zan"></i>
-            <span>{{detail.like}}</span>
+          <div class="post-meta"> 
+            <div><i class="iconfont lv-icon-kalendar"></i>{{detail.created_at.substring(0,10)}}</div>
+            <span>•</span>
+            <div><i class="iconfont lv-icon-huore"></i>{{detail.clicks}}热度</div>
+            <span>•</span>
+            <div><i class="iconfont lv-icon-wenjianjia"></i>{{detail.classify}}</div>
           </div>
         </div>
+      </div>
 
+      <TextLoading class="article" v-if="text_loading"></TextLoading>
+
+      <div class="article" v-else>
+        <div v-html="compiledMarkdown" v-highlight></div>
+
+        <!-- 许可 -->
+        <div class="posmition">
+          由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
+          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
+          <p>基于上的作品创作。</p>
+        </div>
+
+        <!-- 点赞 -->
+        <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
+          <i class="iconfont lv-icon-yijin13-zan"></i>
+          <span>{{detail.like}}</span>
+        </div>
+      </div>
+
+      <div class="commentbox">
 
         <div class="comment-title">
           <p>评论 <span>「 {{detail.comment}} 」</span></p>
@@ -109,13 +114,9 @@
             <p v-else>没有更多了..</p>
           </div>
         </div>
-
-
-
-
       </div>
 
-
+    </div>
 
 </template>
 
@@ -267,7 +268,10 @@ export default {
   font-size 14px
   text-align center
 .detail
-  max-width 840px
+  // max-width 840px
+  // margin auto
+  // padding 40px 0
+  // min-width 100%
   font-size: 16px;
   color #444
 
@@ -278,21 +282,29 @@ h2
   font-weight 400
 .post-meta
   display flex
+  text-align center
   justify-content center
   font-size 14px
-  line-height 40px
-  margin-bottom 20px
-  color: #8c8ea0
-  border-bottom: 1px solid #eee  
-  // border-bottom 1px solid #eee
+  margin-bottom 30px
+  color: #fff
+  // border-bottom: 1px solid #eee;
+  line-height 36px
   span
     margin 0 10px
   i
     margin-right 6px
 .post-tag
-  line-height 40px
+  display none
+  float: left;
+  margin-right: 10px;
   span
-    margin 0 10px
+    margin-right: 10px;
+    background: #ebf5f3;
+    padding: 2px 6px;
+    border-radius: 2px;
+    color: #fff
+    font-weight: 400;
+    font-size: 14px;
 
 .giveLike
   display flex
@@ -324,9 +336,18 @@ h2
   margin 20px auto
 
 
+.article
+  max-width: 840px;
+  margin: auto;
+  padding: 30px 20px 20px
+
+.commentbox
+  max-width: 840px;
+  margin: auto;  
+  padding 20px 20px 40px  
 .comment-title
   font-size 20px
-  margin: 60px 0 15px
+  margin: 10px 0 15px
   border-left: 4px solid #f7576c;
   padding-left: 10px;
   line-height: 22px;
@@ -335,14 +356,21 @@ h2
     margin-top: -6px;
     position: absolute;
 
-
+  
 
 
 
 
 @media screen and (max-width: 750px)
+  .banner 
+    height 320px
   h2
-    text-align left
+    // text-align left
   .post-meta
-    justify-content flex-start
+    // justify-content flex-start
+  .post-tag
+    float: none
+    margin-bottom: 10px
+  .commentbox
+    border-top: 30px solid #f5f6f7
 </style>

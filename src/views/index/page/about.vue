@@ -1,27 +1,7 @@
 <template>
   <div class="home" >
-    <!-- <div class="banner">
-      <img src="../../../assets/banner.jpg" >
-    </div>
-    <div class="webbase">
-      <h3>本站尝试使用如下技术/工具构建</h3>
-      <h3>配合单页架构营造响应式设计、顺滑体验</h3>
-    </div>
-
-    <div class="make">
-
-      <div>
-        <img src="../../../assets/laravel.jpg" alt="">
-        <p class="laravel">Laravel</p>
-      </div>
-      <i class="iconfont lv-icon-aixin"></i>
-      <div>
-        <img src="../../../assets/vue.jpg" alt="">
-        <p class="vue">Vue</p> 
-      </div>
-    </div> -->
     <div class="about-bg">
-      <img src="../../../assets/blog2.jpg" >
+      <img src="../../../assets/index1.jpg" >
       <div class="bg bg2"></div>
       <div class="title">
         <h2>写在前面</h2>
@@ -62,7 +42,7 @@
 
 
     <div class="about-bg">
-      <img src="../../../assets/about.jpg" >
+      <img src="../../../assets/index2.jpg" >
       <div class="bg"></div>
       <div class="title">
         <h2>关于我</h2>

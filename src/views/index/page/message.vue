@@ -1,10 +1,9 @@
 <template>
   <div class="higtlight">
     <div class="about-bg">
-      <img src="../../../assets/blog.jpg" class="bg-img">
-      <div class="bg">
-          <p>留言板</p>
-      </div>
+      <img src="../../../assets/message.jpg" class="bg-img">
+      <div class="bg"></div>
+      <p class="mgs-title">Say Hello~</p>
       <!-- 评论框 -->
       <div class="input-main">
         <div class="input-box main">
@@ -197,6 +196,15 @@ export default {
     background #ecf4ff
     mix-blend-mode: multiply
     height: 100%
+  .mgs-title
+    text-align: center;
+    font-size: 40px;
+    color: #fff;
+    z-index: 100;
+    position: absolute;
+    top: 12%;
+    width: 100%;
+    font-weight: bold;
 
 .input-main
   height: 100%;
@@ -212,5 +220,7 @@ export default {
   .comment-box
     box-shadow: 2px 2px 15px #d2e7fd
   .about-bg
-    height 300px
+    height 320px
+    .mgs-title
+      font-size 24px
 </style>

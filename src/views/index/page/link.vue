@@ -1,17 +1,27 @@
 <template>
-  <div class="main">
-    <!-- 友情连接 -->
-      <div class="linkText">
+  <div>
+    <div class="banner">
+      <img src="../../../assets/link.jpg" alt="">
+      <div class="bg"></div>
+      
+      <div class="text-box">
         <p>这里是一群可爱的小伙伴们，欢迎交换友链 ٩(ˊᗜˋ*)و</p>
         <p>希望添加友链的小伙伴按这个格式写在留言区，我都会看的～</p>
 
-        <h4>格式示例</h4>
-        <p>名称: 马里奥</p>
-        <p>链接: https://minemine.cc</p>
-        <p>头像: https://s.gravatar.com/avatar</p>
-        <p>简介: 集颜值和技术于一身的程序猿</p>
-      </div>
+        <div class="examp">
+          <h4>格式示例</h4>
+          <p>名称: 马里奥</p>
+          <p>链接: https://minemine.cc</p>
+          <p>头像: https://s.gravatar.com/avatar</p>
+          <p>简介: 集颜值和技术于一身的程序猿</p>
+        </div>
 
+      </div>
+    </div> 
+
+    <!-- 友情连接 -->
+
+    <div class="main">
       <h3>小伙伴们</h3>
       <MyLoading v-if="loading"></MyLoading>
       <el-row :gutter="20" v-else>
@@ -28,6 +38,9 @@
 
         </el-col>
       </el-row>
+    </div>
+
+
 
   </div>
 </template>
@@ -57,16 +70,25 @@ export default {
 }
 </script>
 <style scoped lang="stylus">
-
-.linkText
-  font-size 14px
-  border-left: 3px solid #c3d0d4;
-  padding-left: 10px;
-  margin-bottom 20px
+.main 
+  margin: 40px auto
+.banner .bg
+  background: #8a8a8a;
+.text-box
+  max-width: 600px;
+  position relative
+  margin auto
+  font-size 16px
+  line-height 26px
+.examp
+  padding-top 15px
+  text-align left
+  width: 100%
+  font-size: 14px
+  line-height 22px
   h4
+    line-height 30px
     font-size 16px
-    padding 10px 0 4px
-
 h3
   text-align center
   font-size 26px
@@ -137,6 +159,8 @@ h3
 
 
 @media screen and (max-width: 750px)
+  .banner
+    height 320px
   .comment-box
     .comment
       flex: 0 0 48%    

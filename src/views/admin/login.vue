@@ -9,7 +9,7 @@
         </div>
         <div>
           <label for="password">密码</label>
-          <input v-model="user.password" :type="show ? 'password' : 'text'" id="password" placeholder="请输入密码" auto-complete="off"><i :class="show ?'seepassword' : 'el-icon-view'" @click="show=!show"></i>
+          <input v-model="user.password" type="password" id="password" placeholder="请输入密码" auto-complete="off">
         </div>
       </div>
       <el-checkbox v-model="checked" checked class="remember" >记住密码</el-checkbox>
@@ -55,7 +55,7 @@ export default {
 .login{
   width: 100%;
   height: 100%;
-  background: url(../../assets/loginbg.jpg) no-repeat center top;
+  background: url(../../assets/message.jpg) no-repeat center top;
   background-size: cover;
   .el-form {
     position: absolute;
@@ -65,7 +65,7 @@ export default {
     border-radius: 5px;
     -moz-border-radius: 5px;
     background-clip: padding-box;
-    width: 280px;
+    width: 300px;
     padding: 20px 30px;
     background: #fff;
     .logo{
@@ -120,6 +120,7 @@ export default {
         font-size: 16px;
         width: 140px;
         color: #555;
+        line-height: 30px;
       }
     }
     .submit{
