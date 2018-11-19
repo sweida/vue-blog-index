@@ -40,7 +40,7 @@
 
 
     <!-- 评论列表 -->
-    <MyLoading class="main" v-if="loading"></MyLoading>
+    <MyLoading v-if="loading"></MyLoading>
     <div class="main" v-else>
       <div class="commentList" v-for="(item, index) in messageList" :key="index">
         <div class="user-ava" >
