@@ -109,7 +109,7 @@ export default {
           if (res.data.status == 1) {
             this.$message.success(`文章${id}下架操作成功`)
           } else {
-            this.$message.error('操作失败')
+            this.$Message.error(res.data.msg+'55')
           }
         })
       } else {
@@ -118,7 +118,7 @@ export default {
           if (res.data.status == 1) {
             this.$message.success(`文章${id}恢复成功`)
           } else {
-            this.$message.error('操作失败')
+            this.$Message.error(res.data.msg+'44')
           }
         })
       }

@@ -37,28 +37,6 @@ export default {
     user:state=>state.user
   }),
   created() {
-    console.log(this.$route.query.redirect, 5555)
-    // 登录状态
-    this.$get('/apis/login_Status').then(res => {
-      console.log(res.data, 4444)
-      if (res.data.status == 2) {
-        localStorage.removeItem('user')
-        this.$store.commit('increment', '')
-      } else if (res.data.status == 1 && res.data.is_admin == 1) {
-        let user = {
-          id: res.data.id,
-          username: res.data.username,
-          is_admin: res.data.is_admin
-        }
-        this.$store.commit('increment', user)
-        localStorage.setItem('user', JSON.stringify(user))
-        if (this.$route.query.redirect) {
-          this.$router.push(this.$route.query.redirect)
-        } else {
-          this.$router.push('/admin/articlelist')
-        }
-      }
-    })
   },
   methods: {
     loginSubmit() {
@@ -72,7 +50,7 @@ export default {
             username: this.formCustom.username,
             is_admin: res.data.is_admin
           }
-          // localStorage.setItem('user', JSON.stringify(user))
+          localStorage.setItem('user', JSON.stringify(user))
           this.$store.commit('increment', user)
           if (this.$route.query.redirect) {
             this.$router.push(this.$route.query.redirect)

@@ -55,13 +55,13 @@ export default {
     console.log(this.$route, 4444)
     // 登录状态
     this.$get('/apis/login_Status').then(res => {
-      if (res.data.status == 2) {
-        localStorage.removeItem('user')
-        this.$store.commit('increment', '')
-      } else if (res.data.status == 1) {
+      if (res.data.status == 1) {
         let user = {
           id: res.data.id,
           username: res.data.username
+        }
+        if (res.data.is_admin) {
+          user.is_admin = res.data.is_admin
         }
         localStorage.setItem('user', JSON.stringify(user))
         this.$store.commit('increment', user)

@@ -2,12 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
 import store from './store/store'
-// import http from '@/utils/http'
-// Vue.prototype.$Http = http
 
-import Axios from 'axios'
-Vue.prototype.$get = Axios.get
-Vue.prototype.$post = Axios.post
+import http from '@/utils/http'
+Vue.prototype.$get = http.get
+Vue.prototype.$post = http.post
+
+// import Axios from 'axios'
+// Vue.prototype.$get = Axios.get
+// Vue.prototype.$post = Axios.post
 
 import './plugins/element.js'
 import './plugins/mavonEditor.js'

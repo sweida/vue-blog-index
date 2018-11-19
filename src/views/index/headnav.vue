@@ -25,7 +25,7 @@
           </a>
           <DropdownMenu slot="list">
             <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
-            <DropdownItem name="admin" v-if="user.id == 1"><Icon type="logo-xbox" />后台管理</DropdownItem>
+            <DropdownItem name="admin" v-if="user.is_admin == 1"><Icon type="logo-xbox" />后台管理</DropdownItem>
             <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
             <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
           </DropdownMenu>
