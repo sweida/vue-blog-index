@@ -27,7 +27,7 @@
           </el-table-column>
           <el-table-column prop="like" label="点赞量" width="80">
           </el-table-column>
-          <el-table-column prop="comment" label="评论量" width="80">
+          <el-table-column prop="commentCount" label="评论量" width="80">
           </el-table-column>
           <el-table-column prop="created_at" label="创建日期" show-overflow-tooltip >
           </el-table-column>

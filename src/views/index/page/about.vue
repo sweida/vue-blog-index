@@ -221,4 +221,11 @@ export default {
       margin-bottom: 20px;
     em
       font-family: cursive;    
+
+@media screen and (min-width: 1368px)
+  .about-bg:first-child
+    height 700px
+@media screen and (min-width: 1660px)
+  .about-bg:first-child
+    height 830px      
 </style>

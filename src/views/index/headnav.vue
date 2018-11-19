@@ -127,7 +127,7 @@ export default {
         this.$router.push('/person')
       } 
       if (item == 'admin') {
-        let routeData = this.$router.resolve({ path: '/admin/setting'});
+        let routeData = this.$router.resolve({ path: '/admin/articlelist'});
         // this.$router.push('/admin/setting')
         window.open(routeData.href, '_blank');
       }

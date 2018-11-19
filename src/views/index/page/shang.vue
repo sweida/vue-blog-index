@@ -11,8 +11,8 @@
     </div>    
 
     <div class="img-box">
-      <img :src="webinfo.zhifubao" alt="">
-      <img :src="webinfo.weixin" alt="">
+      <img src="../../../assets/zfb.jpg">
+      <img src="../../../assets/wx.jpg">
     </div>
 
   </div>
@@ -47,7 +47,7 @@ export default {
 
 .img-box
   text-align center
-  margin-top 30px
+  margin 30px 0
   img
     width 250px
     margin 20px

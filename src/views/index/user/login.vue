@@ -79,15 +79,15 @@ export default {
       this.$post('/apis/login', this.formCustom).then(res => {
         this.loading = false
         if (res.data.status == 1) {
-          // this.alert = {
-          //   type: 'success',
-          //   msg: res.data.msg
-          // }
+          console.log(res, 5555)
           this.$Message.success(res.data.msg);
           // 保存数据到 localStorage 和 store
           let user = {
             id: res.data.user_id,
             username: this.formCustom.username
+          }
+          if (res.data.is_admin) {
+            user.is_admin = res.data.is_admin
           }
           localStorage.setItem('user', JSON.stringify(user))
           this.$store.commit('increment', user)

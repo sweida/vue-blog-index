@@ -51,7 +51,7 @@
           </ul>
         </div>
         <div class="message">
-          <h6我的留言<span class="pink"> ({{userInfo.messages.data.length}})</span></h6>
+          <h6>我的留言<span class="pink"> ({{userInfo.messages.data.length}})</span></h6>
           <ul>
             <li v-for="(item, index) in userInfo.messages.data" :key="index">
               <div class="mark" v-html="item.content" v-highlight></div>

@@ -260,6 +260,7 @@ export default {
 
 
 <style scoped lang="stylus">
+
 .more
   margin-top 10px
   text-align center
@@ -358,8 +359,9 @@ h2
 
   
 
-
-
+@media screen and (min-width: 900px)
+  .banner .bg
+    background #989898
 
 @media screen and (max-width: 750px)
   .banner 

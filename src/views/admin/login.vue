@@ -5,11 +5,11 @@
       <div class="formbox">
         <div>
           <label for="name">账号</label>
-          <input v-model="user.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
+          <input v-model="formCustom.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
         </div>
         <div>
           <label for="password">密码</label>
-          <input v-model="user.password" type="password" id="password" placeholder="请输入密码" auto-complete="off">
+          <input v-model="formCustom.password" type="password" id="password" placeholder="请输入密码" auto-complete="off">
         </div>
       </div>
       <el-checkbox v-model="checked" checked class="remember" >记住密码</el-checkbox>
@@ -20,23 +20,65 @@
 
 <script>
 // import { setToken, getToken } from '@/utils/token'
+import {mapState, mapGetters} from "vuex"
 
 export default {
   data() {
     return {
       show: true,
       checked: true,
-      user: {
+      formCustom: {
         username: '佟丽娅',
         password: '123456'
       }
     }
   },
+  computed: mapState({
+    user:state=>state.user
+  }),
+  created() {
+    console.log(this.$route.query.redirect, 5555)
+    // 登录状态
+    this.$get('/apis/login_Status').then(res => {
+      console.log(res.data, 4444)
+      if (res.data.status == 2) {
+        localStorage.removeItem('user')
+        this.$store.commit('increment', '')
+      } else if (res.data.status == 1 && res.data.is_admin == 1) {
+        let user = {
+          id: res.data.id,
+          username: res.data.username,
+          is_admin: res.data.is_admin
+        }
+        this.$store.commit('increment', user)
+        localStorage.setItem('user', JSON.stringify(user))
+        if (this.$route.query.redirect) {
+          this.$router.push(this.$route.query.redirect)
+        } else {
+          this.$router.push('/admin/articlelist')
+        }
+      }
+    })
+  },
   methods: {
     loginSubmit() {
-      this.$post('/apis/admin/login', this.user).then(res => {
+      this.$post('/apis/admin/login', this.formCustom).then(res => {
         if (res.data.status == 1) {
-          this.$router.push('/admin/setting')
+          this.$message.success(res.data.msg);
+
+          // 保存数据到 localStorage 和 store
+          let user = {
+            id: res.data.user_id,
+            username: this.formCustom.username,
+            is_admin: res.data.is_admin
+          }
+          // localStorage.setItem('user', JSON.stringify(user))
+          this.$store.commit('increment', user)
+          if (this.$route.query.redirect) {
+            this.$router.push(this.$route.query.redirect)
+          } else {
+            this.$router.push('/admin/articlelist')
+          }
         } else {
           this.$message.error(res.data.msg)
         }
@@ -70,8 +112,8 @@ export default {
     background: #fff;
     .logo{
       width: 100%;
-      height: 200px;
-      background: url(/static/img/loginlogo.png) no-repeat center top;
+      height: 170px;
+      background: url(../../assets/loginlogo.png) no-repeat center bottom
     }
     .remember {
       margin: 0px 0px 35px 0px;
@@ -94,19 +136,6 @@ export default {
           display: inline-block;
           border-right: 1px solid #ddd;
           line-height: 20px;
-        }
-        i{
-          position: absolute;
-          margin-top: 10px;
-          right: 0px;
-          color:#aaa;
-          font-size: 18px;
-        }
-        .seepassword{
-          width: 24px;
-          height: 20px;
-          background: url(/static/img/password.png) no-repeat;
-          background-size: contain;
         }
       }
       div:first-child{

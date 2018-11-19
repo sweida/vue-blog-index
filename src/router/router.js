@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import store from "../store/store"
+
 import Router from 'vue-router'
 import NotFound from '../404'
 
@@ -31,12 +33,37 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   // 使用钩子函数对路由进行权限跳转
   const role = localStorage.getItem('user')
+
+
+
   // 如果用户已经登录，访问登录和注册时，自动跳转到首页
   if (role && (to.path == '/login' || to.path == '/register')) {
     next('/blog')
   } else if (!role && (to.path == "/password" || to.path == "/person")) {
-    next("/blog");
+    next("/blog")
   } else {
+    next();
+  }
+
+  // 如果是超级管理员并且已经登陆状态则直接跳转到文章列表页面
+  const isadmin = store.state.user.is_admin
+  if (isadmin && to.path == "/admin/login") {
+    next("/admin/articlelist")
+  }
+
+  // 判断该路由是否需要登录权限
+  if (to.meta.requireAuth) {  
+    if (isadmin) {  // 通过vuex state获取当前的token是否存在
+      next();
+    }
+    else {
+      next({
+        path: '/admin/login',
+        query: { redirect: to.fullPath }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      })
+    }
+  }
+  else {
     next();
   }
 })

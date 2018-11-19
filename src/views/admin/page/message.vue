@@ -3,7 +3,7 @@
     <!-- <header>
       留言板
     </header> -->
-      <el-button type="danger" size="mini" @click="selectDelete" class="left" v-show="selectMessage.length!=0">删除选中</el-button>
+    <el-button type="danger" size="mini" @click="selectDelete" class="delete" v-show="selectMessage.length!=0">删除选中</el-button>
     <section class="wrap scroll">
       <div class="main_table">
         <el-table 
@@ -127,6 +127,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.left
-  margin 10px 0 0 20px
+.delete
+  position: absolute;
+  top: 17px;
+  left: 110px;
 </style>

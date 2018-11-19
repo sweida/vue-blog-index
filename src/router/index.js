@@ -1,17 +1,17 @@
-import home from '@/views/index/home'
+import home from "@/views/index/home"
+import blog from "@/views/index/page/blog"
+import about from "@/views/index/page/about"
 
-import blog from '@/views/index/page/blog'
-import detail from '@/views/index/page/detail'
-import message from '@/views/index/page/message'
-import link from '@/views/index/page/link'
-import about from '@/views/index/page/about'
-import shang from '@/views/index/page/shang'
+const detail   = resolve => require(["@/views/index/page/detail"], resolve);
+const message  = resolve => require(["@/views/index/page/message"], resolve);
+const link     = resolve => require(["@/views/index/page/link"], resolve);
+const shang    = resolve => require(["@/views/index/page/shang"], resolve);
 
-import login from '@/views/index/user/login'
-import register from '@/views/index/user/register'
-import recover from '@/views/index/user/recover'
-import password from '@/views/index/user/password'
-import person from '@/views/index/user/person'
+const login    = resolve => require(["@/views/index/user/login"], resolve);
+const register = resolve => require(["@/views/index/user/register"], resolve);
+const recover  = resolve => require(["@/views/index/user/recover"], resolve);
+const password = resolve => require(["@/views/index/user/password"], resolve);
+const person   = resolve => require(["@/views/index/user/person"], resolve);
 
 const index = [
   {

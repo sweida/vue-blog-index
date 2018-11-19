@@ -17,7 +17,7 @@
         </div> -->
 
         <el-menu :router="true" :default-active="$route.path" class="el-menu-demo2" mode="horizontal" background-color="#2a2c40" text-color="#fff" active-text-color="#ffd04b">
-          <el-menu-item index="/">前台博客</el-menu-item>
+          <el-menu-item index="1" @click="goindex">前台博客</el-menu-item>
           <el-submenu class="user-nav" index="">
             <template slot="title">
               <img :src="admin.img" alt="" class="userimg">
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import { removeToken } from '@/utils/token'
 
 export default {
   data () {
@@ -55,13 +54,18 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$get('apis/logout').then(res => {
-          removeToken()
+          // 清除 localStorage 和 store
+          localStorage.removeItem('user')
+          this.$store.commit('increment', '')
           this.$router.push('/admin/login')
-          location.reload()
           this.$message.success('已退出登录')
         }) 
       }).catch(() => {
       })
+    },
+    goindex() {
+      let routeData = this.$router.resolve({ path: '/'});
+      window.open(routeData.href, '_blank');
     },
     url (val) {
       window.location = val

@@ -17,7 +17,7 @@ export default {
 
 <style scoped lang="stylus">
 .spinner {
-  margin: 100px auto 0;
+  margin: 100px auto 60px;
   width: 150px;
   text-align: center;
 }
