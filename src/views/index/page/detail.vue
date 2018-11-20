@@ -3,7 +3,8 @@
     <div class=" detail higtlight">
 
       <div class="banner">
-        <img src="../../../assets/article.jpg" alt="">
+        <!-- <img src="../../../assets/article.jpg" alt=""> -->
+        <img :src="$baseUrl+detail.img" class="animate03">
         <div class="bg"></div>
         
         <div class="text-box" v-if="!text_loading">
@@ -221,6 +222,7 @@ export default {
       this.$post('/apis/comment/add', this.comment).then(res => {
         console.log(res.data)
         this.comment.content = ''
+        this.detail.comment += 1
         this.getComment()
       })
     },
@@ -249,6 +251,7 @@ export default {
         if (res.data.status == 1) {
           this.commentList.splice(this.commentList.indexOf(item), 1)
           this.$Message.success(res.data.msg)
+          this.detail.comment -= 1
         } else {
           this.$Message.error(res.data.msg)
         }
@@ -340,7 +343,7 @@ h2
 .article
   max-width: 840px;
   margin: auto;
-  padding: 30px 20px 20px
+  padding: 50px 20px 20px
 
 .commentbox
   max-width: 840px;
@@ -366,10 +369,6 @@ h2
 @media screen and (max-width: 750px)
   .banner 
     height 320px
-  h2
-    // text-align left
-  .post-meta
-    // justify-content flex-start
   .post-tag
     float: none
     margin-bottom: 10px

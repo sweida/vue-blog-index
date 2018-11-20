@@ -1,47 +1,59 @@
 <template>
   <main>
-    <!-- <header>{{title}} - {{form.id}}</header> -->
     <section class="wrap scroll">
+
       <el-form ref="form" v-model="form" label-width="70px" label-position='left'>
 
-        <el-form-item label="文章标题">
-          <el-input size="medium" v-model="form.title" class="input_title"></el-input>
-        </el-form-item>
-        <el-form-item label="摘要">
-          <el-input size="medium" v-model="form.desc" class="input_title"></el-input>
-        </el-form-item>
-        <el-row type="flex">
-          <el-form-item label="所属分类">
-            <el-input size="medium" v-model="form.classify"></el-input>
+        <div class="leftbox">
+          <el-form-item label="文章标题">
+            <el-input size="small" v-model="form.title" class="input_title"></el-input>
           </el-form-item>
-          <el-form-item label="标签">
-            <el-input size="medium" v-model="form.tag" placeholder="多个标签用英文逗号隔开"></el-input>
-          </el-form-item>
-          <!-- <el-form-item label="是否下架">
-            <el-switch v-model="form.deleted_at" ></el-switch>
+          <!-- <el-form-item label="摘要">
+            <el-input size="small" v-model="form.desc" class="input_title"></el-input>
           </el-form-item> -->
-        </el-row>
+          <el-row type="flex">
+            <el-form-item label="所属分类">
+              <el-input size="small" v-model="form.classify"></el-input>
+            </el-form-item>
+            <el-form-item label="标签">
+              <el-input size="small" v-model="form.tag" placeholder="多个标签用英文逗号隔开"></el-input>
+            </el-form-item>
+          </el-row>
 
-        <el-row type="flex">
-          <el-form-item label="创建日期">
-            <el-date-picker
-              v-model="form.created_at"
-              value-format="yyyy-MM-dd"
-              type="date"
-              size="medium"
-              placeholder="选择日期">
-            </el-date-picker>
+          <el-row type="flex">
+            <el-form-item label="创建日期">
+              <el-date-picker
+                v-model="form.created_at"
+                value-format="yyyy-MM-dd"
+                type="date"
+                size="small"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item label="浏览量">
+              <el-input-number size="small" v-model="form.clicks" :precision="0" :min="0" :controls="false"></el-input-number>
+            </el-form-item>
+            <el-form-item label="点赞量">
+              <el-input-number size="small" v-model="form.like" :precision="0" :min="0" :controls="false"></el-input-number>
+            </el-form-item>
+          </el-row>
+        </div>
+        <div class="rightbox">
+          <el-form-item label="文章封面" >
+            <el-upload
+              class="avatar-uploader"
+              action="/apis/img/blogbanner"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="blogBanner" :src="blogBanner" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
           </el-form-item>
-          <el-form-item label="浏览量">
-            <el-input-number size="medium" v-model="form.clicks" :precision="0" :min="0" :controls="false"></el-input-number>
-          </el-form-item>
-          <el-form-item label="点赞量">
-            <el-input-number size="medium" v-model="form.like" :precision="0" :min="0" :controls="false"></el-input-number>
-          </el-form-item>
-        </el-row>
+        </div>
       </el-form>
       <!-- @imgAdd="$imgAdd" @imgDel="$imgDel" -->
-      <mavon-editor v-model="form.content" class="makedown" />
+      <mavon-editor ref=md @imgAdd="$imgAdd" v-model="form.content" class="makedown" />
     </section>
     <footer>
       <el-button type="primary" size="small" @click="addBtn" v-if="!$route.params.id">保　存</el-button>
@@ -51,14 +63,17 @@
 </template>
 
 <script>
+import Axios from 'axios'
 
 export default {
   data() {
     return {
       title: '写博客',
+      blogBanner: '',
       form: {
         title: '',
         desc: '',
+        img: '',
         content: '',
         classify: '',
         tag: '',
@@ -76,9 +91,11 @@ export default {
   },
   watch:{
     $route(to,from){
+      this.blogBanner = '',
       this.form =  {
         title: '',
         desc: '',
+        img: '',
         content: '',
         classify: '',
         tag: '',
@@ -106,6 +123,7 @@ export default {
         console.log(res.data.data)
         this.form = res.data.data
         this.form.tag = res.data.data.tag.join(',')
+        this.blogBanner = this.$baseUrl+this.form.img
       })
     },
     editBtn() {
@@ -119,40 +137,86 @@ export default {
         }
       })
     },
+    // 上传图片，获取图片地址
+    handleAvatarSuccess(res, file) {
+      // 如果已经有图片则先删除图片
+      if (this.form.img) {
+        this.handleRemove()
+      }
+
+      this.blogBanner = URL.createObjectURL(file.raw);
+      if (res.status == 1) {
+        this.$message.success('图片上传成功')
+        this.form.img = res.data.replace('public', 'storage')
+      }
+    },
+    // 删除图片
+    handleRemove() {
+      let param = {url: this.form.img.replace('storage', 'public')}
+      this.$post('/apis/img/delete', param).then(res => {
+        if (res.data.status == 1) {
+          this.$message.success(res.data.msg)
+        } else {
+          this.$message.error(res.data.msg)
+          return false
+        }
+      })
+    },
+    // 限制图片大小和格式
+    beforeAvatarUpload(file) {
+      console.log(file, 222)
+      const isJPG = file.type === 'image/jpeg';
+      const isLt3M = file.size / 1024 / 1024 < 3;
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt3M) {
+        this.$message.error('上传头像图片大小不能超过 3MB!');
+      }
+      return isJPG && isLt3M;
+    },
+
     // 绑定@imgAdd event 上传图片
     $imgAdd(pos, $file){
-        // 第一步.将图片上传到服务器.
-        var formdata = new FormData();
-        formdata.append('image', $file);
-        axios({
-            url: 'server url',
+        let formdata = new FormData();
+        formdata.append('picture', $file);
+        Axios({
+            url: '/apis/img/blogdetail',
             method: 'post',
             data: formdata,
-            headers: { 'Content-Type': 'multipart/form-data' },
+            headers:{'Content-Type':'multipart/form-data'}
         }).then((url) => {
+          console.log(111, url.data.path, $file)
             // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
             /**
            * $vm 指为mavonEditor实例，可以通过如下两种方式获取
            * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
            * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
            */
-            $vm.$img2Url(pos, url);
+            this.$refs.md.$img2Url(pos, this.$baseUrl+url.data.path);
         })
     }
   }
 }
 </script>
 
+
+
 <style scoped lang="stylus">
-.el-form .el-input
-  width 220px
+.el-form 
+  display flex
+  .el-input
+    width 220px
+
+
 .input_title
   width 380px !important
 .el-form-item
   margin-bottom: 12px
-  margin-right: 80px;
-.el-input-number--medium
-  width 100px
+  margin-right: 50px;
+.el-input-number--small
+  width 80px
 .makedown
-  min-height: 355px;
+  min-height: 400px;
 </style>

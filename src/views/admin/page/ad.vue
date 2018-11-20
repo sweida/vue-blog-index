@@ -30,13 +30,13 @@
       </div>
     </section>
 
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" top="10vh" class="addimg">
       <el-form :model="form" label-width="130px" enctype="multipart/form-data">
         <el-form-item label="标题" >
-          <el-input v-model="form.title" clearable></el-input>
+          <el-input v-model="form.title" clearable size="small"></el-input>
         </el-form-item>
         <el-form-item label="分类" >
-          <el-input v-model="form.type" clearable></el-input>
+          <el-input v-model="form.type" clearable size="small"></el-input>
         </el-form-item>
         <el-form-item label="上传图片" >
           <el-upload
@@ -45,13 +45,13 @@
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+            <img v-if="imageUrl" :src="$baseUrl+imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
 
         <el-form-item label="图片链接" class="href">
-          <el-input v-model="form.url" readonly></el-input>
+          <el-input v-model="form.url" readonly ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -121,6 +121,7 @@ export default {
     },
     // 限制图片大小和格式
     beforeAvatarUpload(file) {
+      console.log(file, 222)
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -176,7 +177,7 @@ export default {
       this.dialogFormVisible = true
       // 复制对象不修改原对象
       this.form = Object.assign({}, item)
-      this.imageUrl = 'http://localhost:7000/' + this.form.url
+      this.imageUrl = this.form.url
     },
     // 提交编辑
     editSubmit() {
@@ -195,32 +196,9 @@ export default {
 </script>
 
 <style lang="stylus">
-.avatar-uploader .el-upload 
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-
-.el-upload 
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  
-.avatar-uploader .el-upload:hover 
-  border-color: #409EFF;
-
-.el-upload .avatar-uploader-icon 
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px !important;
-  text-align: center;
-
-.avatar 
-  width: 178px;
-  height: 178px;
-  display: block;
+.addimg .el-dialog{
+  min-width: 600px;
+}
 </style>
 
 <style scoped lang="stylus">

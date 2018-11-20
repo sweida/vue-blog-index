@@ -17,16 +17,16 @@ export default {
       navindex: 0,
       nav: [
         {
-          name: '基础设置',
-          url: '/admin/setting'
+          name: '博客列表',
+          url: '/admin/articlelist'
         },
         {
           name: '写博客',
           url: '/admin/article/add'
         },
         {
-          name: '博客列表',
-          url: '/admin/articlelist'
+          name: '基础设置',
+          url: '/admin/setting'
         },
         {
           name: '会员列表',

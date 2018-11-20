@@ -52,7 +52,6 @@ module.exports = {
         // proxy: 'http://localhost:4000' // 配置跨域处理,只有一个代理
         proxy: {
             '/apis': {
-                // target: 'http://119.29.27.100:8300/api',   // 需要请求的地址
                 target: 'http://127.0.0.1:7000/api',   // 需要请求的地址
                 changeOrigin: true,  // 是否跨域
                 pathRewrite: {

@@ -26,6 +26,14 @@ Vue.use(MyPage)
 import TextLoading from './components/TextLoading'
 Vue.use(TextLoading)
 
+
+var baseUrl = "";
+if (process.env.NODE_ENV === "production") {
+  baseUrl = "https://119.29.27.100:8300/";
+} else {
+  baseUrl = "http://localhost:7000/";
+}
+Vue.prototype.$baseUrl = baseUrl;
 // // 引入ivew,
 // import iView from 'iview'
 // import 'iview/dist/styles/iview.css'

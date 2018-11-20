@@ -50,7 +50,7 @@ export default {
   margin 30px 0
   img
     width 250px
-    margin 20px
+    margin 20px 40px
 
 
 @media screen and (max-width: 750px)

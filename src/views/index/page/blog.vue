@@ -6,7 +6,8 @@
         <!-- 新样式 -->
         <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
           <div class="img-box">
-            <img src="../../../assets/blog/001.png" class="footer-bg animate03">
+            <!-- <img src="../../../assets/blog/001.png" class="footer-bg animate03"> -->
+            <img :src="$baseUrl+item.img" class="footer-bg animate03">
           </div>
           <div class="bg"></div>
           <div class="classify">{{item.classify}}</div>
