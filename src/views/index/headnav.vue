@@ -104,7 +104,7 @@ export default {
         {name: '首页', url: '/', icon: 'md-home'},
         {name: '文章', url: '/blog', icon: 'ios-book'},
         {name: '友链', url: '/link', icon: 'logo-octocat'},
-        {name: '打赏', url: '/shang', icon: 'logo-usd'},
+        {name: '打赏', url: '/donate', icon: 'logo-usd'},
         {name: '留言', url: '/message', icon: 'md-chatboxes'}
       ],
       mobnav: '2'

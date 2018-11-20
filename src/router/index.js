@@ -5,7 +5,7 @@ import about from "@/views/index/page/about"
 const detail   = resolve => require(["@/views/index/page/detail"], resolve);
 const message  = resolve => require(["@/views/index/page/message"], resolve);
 const link     = resolve => require(["@/views/index/page/link"], resolve);
-const shang    = resolve => require(["@/views/index/page/shang"], resolve);
+const donate   = resolve => require(["@/views/index/page/donate"], resolve);
 
 const login    = resolve => require(["@/views/index/user/login"], resolve);
 const register = resolve => require(["@/views/index/user/register"], resolve);
@@ -78,9 +78,9 @@ const index = [
         name: "password"
       },
       {
-        path: "/shang",
-        component: shang,
-        name: "shang",
+        path: "/donate",
+        component: donate,
+        name: "donate",
         meta: {
           keepAlive: true
         }

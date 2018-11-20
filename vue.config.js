@@ -1,9 +1,6 @@
-// vue.config.js 配置说明
-// 这里只列一部分，具体配置惨考文档啊
 module.exports = {
     // baseUrl  type:{string} default:'/'
     // 将部署应用程序的基本URL
-    // 将部署应用程序的基本URL。
     // 默认情况下，Vue CLI假设您的应用程序将部署在域的根目录下。
     // https://www.my-app.com/。如果应用程序部署在子路径上，则需要使用此选项指定子路径。例如，如果您的应用程序部署在https://www.foobar.com/my-app/，集baseUrl到'/my-app/'.
 
@@ -20,21 +17,28 @@ module.exports = {
       的字符串，
       注意：请保证pages里配置的路径和文件名 在你的文档目录都存在 否则启动服务会报错的
     */
+    // multi-page 多页面配置
     // pages: {
-    // index: {
-    // entry for the page
-    // entry: 'src/index/main.js',
-    // the source template
-    // template: 'public/index.html',
-    // output as dist/index.html
-    // filename: 'index.html'
-    // },
-    // when using the entry-only string format,
-    // template is inferred to be `public/subpage.html`
-    // and falls back to `public/index.html` if not found.
-    // Output filename is inferred to be `subpage.html`.
-    // subpage: 'src/subpage/main.js'
-    // },
+    //     index: {
+    //         // page 的入口
+    //         entry: 'src/index/main.js',
+    //         // 模板来源
+    //         template: 'public/index.html',
+    //         // 在 dist/index.html 的输出
+    //         filename: 'index.html',
+    //         // 当使用 title 选项时，
+    //         // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
+    //         title: 'Index Page',
+    //         // 在这个页面中包含的块，默认情况下会包含
+    //         // 提取出来的通用 chunk 和 vendor chunk。
+    //         chunks: ['chunk-vendors', 'chunk-common', 'index']
+    //     },
+    //     // 当使用只有入口的字符串格式时，
+    //     // 模板会被推导为 `public/subpage.html`
+    //     // 并且如果找不到的话，就回退到 `public/index.html`。
+    //     // 输出文件名会被推导为 `subpage.html`。
+    //     subpage: 'src/subpage/main.js'
+    // }
 
     //   lintOnSave：{ type:Boolean default:true } 问你是否使用eslint
     lintOnSave: true,
@@ -57,8 +61,11 @@ module.exports = {
                 pathRewrite: {
                     '^/apis': ''  // 替换target中的请求地址，也就是说，在请求的时候，url用'/proxy'代替'http://ip.taobao.com'
                 }
-            }
-
-        },  // 配置多个代理
+            },
+            // '/foo': {
+            //     target: '<other_url>'
+            // }
+            // 配置多个代理
+        },  
     }
 }

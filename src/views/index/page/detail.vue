@@ -3,8 +3,8 @@
     <div class=" detail higtlight">
 
       <div class="banner">
-        <!-- <img src="../../../assets/article.jpg" alt=""> -->
-        <img :src="$baseUrl+detail.img" class="animate03">
+        <img src="../../../assets/article.jpg" alt="">
+        <!-- <img :src="$baseUrl+detail.img" class="animate03"> -->
         <div class="bg"></div>
         
         <div class="text-box" v-if="!text_loading">
