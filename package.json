@@ -1,15 +1,19 @@
 {
   "name": "lv-blog",
   "version": "0.1.0",
+  "homepage": "https://sweida.github.io/lv-blog",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "predeploy": "vue-cli-service build",
+    "deploy": "gh-pages -d dist",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.5",
+    "gh-pages": "^2.0.1",
     "highlight.js": "^9.13.1",
     "iview": "^3.0.1",
     "js-cookie": "^2.2.0",

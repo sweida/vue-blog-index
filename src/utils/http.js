@@ -4,10 +4,27 @@ import { Message } from "element-ui"
 
 import { removeLogin } from './loginStatus'
 
+// const service = axios.create({
+//   baseURL: process.env.BASE_API, // api的base_url
+//   timeout: 10000 // 请求超时时间
+// });
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api的base_url
+  baseURL: process.env.VUE_APP_URL,
   timeout: 10000 // 请求超时时间
 });
+console.log(process.env.BASE_API, process.env.VUE_APP_URL, 7777);
+
+// request拦截器
+service.interceptors.request.use(config => {
+  config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+  // if (config.url == 'apis/authentication/form') {
+  // } else {
+  //   config.headers['Content-Type'] = 'application/json;charset=utf-8'
+  // }
+  return config
+}, error => {
+  Promise.reject(error)
+})
 
 // respone拦截器
 service.interceptors.response.use(

@@ -53,6 +53,7 @@ export default {
   }),  
   created() {
     console.log(this.$route, 4444)
+    console.log(process.env.VUE_APP_URL, 5656)
     // 登录状态
     this.$get('/apis/login_Status').then(res => {
       if (res.data.status == 1) {

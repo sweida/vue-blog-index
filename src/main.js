@@ -29,8 +29,10 @@ Vue.use(TextLoading)
 
 var baseUrl = "";
 if (process.env.NODE_ENV === "production") {
+  console.log('pro', 1)
   baseUrl = "https://119.29.27.100:8300/";
 } else {
+  console.log('dev', 2)
   baseUrl = "http://localhost:7000/";
 }
 Vue.prototype.$baseUrl = baseUrl;
@@ -48,7 +50,8 @@ Vue.prototype.$baseUrl = baseUrl;
 // });
 
 Vue.config.productionTip = false
-
+console.log(process.env.VUE_APP_URL, 5657);
+console.log(process.env.NODE_ENV, 5658);
 new Vue({
   router,
   store,
