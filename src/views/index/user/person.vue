@@ -78,6 +78,7 @@
 <script>
 import marked from 'marked'
 import {mapState} from "vuex"
+import qs from 'qs'
 
 export default {
   data () {
@@ -104,7 +105,7 @@ export default {
       let param = {
         user_id: this.user.id
       }
-      this.$post('/apis/user/read', param).then(res => {
+      this.$post('/apis/user/read', qs.stringify(param)).then(res => {
         console.log(res.data, 'UserInfo')
         this.userInfo = res.data.data
         this.loading = false
@@ -118,7 +119,10 @@ export default {
     },
     // 删除评论
     deleteComment(item) {
-      this.$post('/apis/comment/remove', {id: item.id}).then(res => {
+      let param = {
+        id: item.id
+      }
+      this.$post('/apis/comment/remove', qs.stringify(param)).then(res => {
         if (res.data.status == 1) {
           this.userInfo.comments.data.splice(this.userInfo.comments.data.indexOf(item), 1)
           this.$Message.success(res.data.msg)
@@ -129,7 +133,10 @@ export default {
     }, 
     // 删除留言
     deleteMessage(item) {
-      this.$post('/apis/message/remove', {id: item.id}).then(res => {
+      let param = {
+        id: item.id
+      }
+      this.$post('/apis/message/remove', qs.stringify(param)).then(res => {
         if (res.data.status == 1) {
           this.userInfo.messages.data.splice(this.userInfo.messages.data.indexOf(item), 1)
           this.$Message.success(res.data.msg)

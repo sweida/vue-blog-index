@@ -1,30 +1,26 @@
 import axios from 'axios'
-import router from "@/router/router"
-import { Message } from "element-ui"
+import router from '@/router/router'
+import { Message } from 'element-ui'
 
 import { removeLogin } from './loginStatus'
 
-// const service = axios.create({
-//   baseURL: process.env.BASE_API, // api的base_url
-//   timeout: 10000 // 请求超时时间
-// });
+// 配置开发和生产的请求接口
 const service = axios.create({
   baseURL: process.env.VUE_APP_URL,
-  timeout: 10000 // 请求超时时间
-});
-console.log(process.env.BASE_API, process.env.VUE_APP_URL, 7777);
-
-// request拦截器
-service.interceptors.request.use(config => {
-  config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-  // if (config.url == 'apis/authentication/form') {
-  // } else {
-  //   config.headers['Content-Type'] = 'application/json;charset=utf-8'
-  // }
-  return config
-}, error => {
-  Promise.reject(error)
+  timeout: 10000
 })
+
+// 设置header请求头
+service.interceptors.request.use(
+  config => {
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    return config
+  },
+  error => {
+    console.log(error) // for debug
+    Promise.reject(error)
+  },
+)
 
 // respone拦截器
 service.interceptors.response.use(
@@ -33,29 +29,27 @@ service.interceptors.response.use(
       // 管理员登录过期
       Message({
         message: res.data.msg,
-        type: "error",
+        type: 'error',
         duration: 2000,
         onClose() {
-          removeLogin();
-          router.push("/admin/login");
-        }
-      });
-      return res;
+          removeLogin()
+          router.push('/admin/login')
+        },
+      })
+      return res
     } else if (res.data.status == 2) {
-      removeLogin();
-      return res;
+      removeLogin()
+      return res
     } else {
       return res
     }
   },
   error => {
-    return Promise.reject(error);
-  }
+    return Promise.reject(error)
+  },
 )
 
-export default service;
-
-
+export default service
 
 // export default {
 //   get (_url, _params) {

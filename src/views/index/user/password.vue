@@ -35,6 +35,8 @@
 
 
 <script>
+import qs from 'qs'
+
 export default {
   data () {
     const validatePassCheck = (rule, value, callback) => {
@@ -83,7 +85,7 @@ export default {
     // 修改密码接口
     changePasswd() {
       this.loading = true
-      this.$post('/apis/user/change_password', this.formCustom).then(res => {
+      this.$post('/apis/user/change_password', qs.stringify(this.formCustom)).then(res => {
         console.log(res)
         if (res.data.status == 1) {
           this.alert = {
