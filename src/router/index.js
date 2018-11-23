@@ -16,7 +16,10 @@ const person   = resolve => require(["@/views/index/user/person"], resolve);
 const index = [
   {
     path: "/",
-    component: home
+    component: home,
+    meta: {
+      keepAlive: true // 需要被缓存
+    }
   },
   {
     path: "/home",

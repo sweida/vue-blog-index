@@ -1,4 +1,4 @@
-// const API_ROOT = process.env.NODE_ENV === 'production' ? 'http://119.29.27.100:8300/api' : 'http://127.0.0.1:7000/api'
+const config = require("./config.js")
 
 module.exports = {
   // baseUrl  type:{string} default:'/'
@@ -55,6 +55,16 @@ module.exports = {
     host: "0.0.0.0",
     https: false, // https:{type:Boolean}
     open: true, //配置自动启动浏览器
+    // proxy: {
+    //   [config.ROOT]: {    //将www.exaple.com印射为/apis
+    //     target: config.PROXYROOT,  // 接口域名
+    //     secure: false,  // 如果是https接口，需要配置这个参数
+    //     changeOrigin: true,  //是否跨域
+    //     pathRewrite: {
+    //       [`^${config.ROOT}`]: ''   //需要rewrite的
+    //     }
+    //   }
+    // }
     // proxy: 'http://localhost:4000' // 配置跨域处理,只有一个代理
     proxy: {
       "/apis": {

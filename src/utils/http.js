@@ -1,26 +1,34 @@
 import axios from 'axios'
 import router from '@/router/router'
 import { Message } from 'element-ui'
-
+import store from "@/store/store";
 import { removeLogin } from './loginStatus'
 
 // 配置开发和生产的请求接口
 const service = axios.create({
-  baseURL: process.env.VUE_APP_URL,
+  // baseURL: process.env.VUE_APP_URL,
   timeout: 10000
 })
 
-// 设置header请求头
-service.interceptors.request.use(
-  config => {
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    return config
-  },
-  error => {
-    console.log(error) // for debug
-    Promise.reject(error)
-  },
-)
+
+// // 设置header请求头
+// service.interceptors.request.use(
+//   config => {
+//     console.log(config, 9999);
+//     // if (store.state.user) {
+//     //   let Authorization = "bearer" + store.state.user.token;
+//     //   config.headers['Authorization'] = Authorization
+//     //   // config.headers["X-Token"] = store.state.user.token; // 让每个请求携带token--['X-Token']为自定义key 请根据实际情况自行修改
+//     // }
+//     config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+//     // config.headers['Accept'] = "application/json, text/plain, */*"
+//     return config
+//   },
+//   error => {
+//     console.log(error) // for debug
+//     Promise.reject(error)
+//   },
+// )
 
 // respone拦截器
 service.interceptors.response.use(
@@ -32,15 +40,18 @@ service.interceptors.response.use(
         type: 'error',
         duration: 2000,
         onClose() {
+          console.log("进来了",1)
           removeLogin()
           router.push('/admin/login')
         },
       })
       return res
     } else if (res.data.status == 2) {
+      console.log("进来了",2)
       removeLogin()
       return res
     } else {
+      console.log('进来了')
       return res
     }
   },

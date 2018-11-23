@@ -87,6 +87,7 @@
 import {mapState} from "vuex"
 import marked from 'marked'
 import '@/style/message.styl'
+import qs from 'qs'
 
 export default {
   data() {
@@ -143,7 +144,7 @@ export default {
     },
     // 提交留言
     submitMessage() {
-      this.$post('/apis/message/add', this.message).then(res => {
+      this.$post('/apis/message/add', qs.stringify(this.message)).then(res => {
         console.log(res.data)
         this.getMessage()
         if (res.data.status == 1) {
@@ -203,7 +204,9 @@ export default {
     z-index: 100;
     position: absolute;
     top: 12%;
-    width: 100%;
+    width: 220px;
+    margin-left: -110px;
+    left: 50%;
     font-weight: bold;
 
 .input-main

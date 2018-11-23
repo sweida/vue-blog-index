@@ -85,7 +85,8 @@ export default {
           // 保存数据到 localStorage 和 store
           let user = {
             id: res.data.user_id,
-            username: this.formCustom.username
+            username: this.formCustom.username,
+            token: res.data.token
           }
           if (res.data.is_admin) {
             user.is_admin = res.data.is_admin
