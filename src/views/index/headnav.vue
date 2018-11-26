@@ -18,7 +18,8 @@
       <div class="user" v-if="user">
         <Dropdown @on-click="changeMenu">
           <a href="javascript:void(0)" class="user-info">
-            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" >
+            <img src="../../assets/avatar/admin.jpg" v-if="user.is_admin">
+            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" v-else>
             <!-- <img src="../../assets/avatar/005.jpg" alt=""> -->
             {{user.username}}
             <Icon type="md-arrow-dropdown" />
@@ -51,7 +52,7 @@
       <span></span>
       <span></span>
       <div class="mobliNav-main" slot="content">
-        <img src="../../assets/big-map.jpg" class="nav-bg">
+        <img src="../../assets/nav-bg.jpg" class="nav-bg">
         <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
           <Icon :type="item.icon" />
           <router-link :to="item.url">{{item.name}}</router-link>
@@ -59,7 +60,8 @@
 
         <template v-if="user">
           <li>
-            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" class="user-img">
+            <img src="../../assets/avatar/admin.jpg" class="user-img" v-if="user.is_admin">
+            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" class="user-img" v-else>
             {{user.username}}
             <Icon type="md-arrow-dropdown" />
           </li>

@@ -32,7 +32,6 @@
 
 <script>
 import {mapState, mapGetters} from "vuex";  // 引入mapState 
-import qs from 'qs'
 
 export default {
   data () {
@@ -77,7 +76,7 @@ export default {
     login () {
       this.loading = true
 
-      this.$post('/apis/login', qs.stringify(this.formCustom)).then(res => {
+      this.$post('/apis/login', this.formCustom).then(res => {
         this.loading = false
         if (res.data.status == 1) {
           console.log(res, 5555)

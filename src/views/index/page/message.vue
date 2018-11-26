@@ -9,7 +9,8 @@
         <div class="input-box main">
           <div class="userbox">
             <div class="user-img" v-if="user.id">
-              <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" >
+              <img src="../../../assets/avatar/admin.jpg" v-if="user.is_admin==1">
+              <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" v-else>
               <h4>{{user.username}}</h4>
             </div>
             <div class="user-img" v-else>
@@ -44,8 +45,9 @@
     <div class="main" v-else>
       <div class="commentList" v-for="(item, index) in messageList" :key="index">
         <div class="user-ava" >
-          <img :src="require(`@/assets/avatar/00${item.user_id%10}.jpg`)" alt="" v-if="item.user_id">
-          <img src="../../../assets/avatar/009.jpg" alt="" v-else>
+          <img src="../../../assets/avatar/admin.jpg" v-if="item.user_id==1">
+          <img :src="require(`@/assets/avatar/00${item.user_id%10}.jpg`)" alt="" v-else-if="item.user_id">
+          <img src="../../../assets/avatar/yk.jpg" alt="" v-else>
         </div>
 
         <div class="comment-box animate03">
@@ -87,12 +89,11 @@
 import {mapState} from "vuex"
 import marked from 'marked'
 import '@/style/message.styl'
-import qs from 'qs'
 
 export default {
   data() {
     return {
-      textarea: '留点痕迹，支持markdown语法，尾部2个空格后回车才会换行，最长400个字',
+      textarea: '支持markdown语法，尾部2个空格后回车才会换行，最长400个字',
       autofocus: false,
       loading: true,
       messageList: [],
@@ -144,7 +145,7 @@ export default {
     },
     // 提交留言
     submitMessage() {
-      this.$post('/apis/message/add', qs.stringify(this.message)).then(res => {
+      this.$post('/apis/message/add', this.message).then(res => {
         console.log(res.data)
         this.getMessage()
         if (res.data.status == 1) {

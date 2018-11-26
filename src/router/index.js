@@ -25,6 +25,9 @@ const index = [
     path: "/home",
     component: home,
     name: "home",
+    meta: {
+      keepAlive: true
+    },
     children: [
       {
         path: "/about",

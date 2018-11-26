@@ -17,6 +17,8 @@
           </el-table-column>
           <el-table-column prop="href" label="链接" show-overflow-tooltip >
           </el-table-column>
+          <el-table-column prop="img" label="头像" show-overflow-tooltip >
+          </el-table-column>
           <el-table-column prop="desc" label="描述" show-overflow-tooltip >
           </el-table-column>
           <el-table-column prop="end_time" label="有效期" show-overflow-tooltip >
@@ -32,7 +34,7 @@
       </div>
     </section>
 
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" class="link">
       <el-form :model="form" label-width="130px">
         <el-form-item label="标题" >
           <el-input v-model="form.title" clearable></el-input>
@@ -40,6 +42,10 @@
         <el-form-item label="链接" class="href">
           <el-input v-model="form.href" clearable></el-input>
         </el-form-item>
+        <el-form-item label="头像" class="href">
+          <el-input v-model="form.img" clearable></el-input>
+        </el-form-item>
+          <img :src="form.img" class="link-ava" v-if="form.img">
         <el-form-item label="描述" class="href">
           <el-input v-model="form.desc" clearable></el-input>
         </el-form-item>
@@ -73,6 +79,7 @@ export default {
       form: {
         title: '',
         href: '',
+        img: '',
         desc: '',
         end_time: ''
       },
@@ -154,6 +161,13 @@ export default {
 }
 </script>
 
+<style>
+.link .el-dialog{
+  min-width: 600px;
+}
+</style>
+
+
 <style scoped lang="stylus">
 .main_table
   margin-top 20px
@@ -161,4 +175,10 @@ export default {
   width 220px
 .href .el-input
   width 400px
+
+.link-ava
+  width 100px
+  height 100px
+  margin: 0 0 20px 130px
+  object-fit: cover
 </style>

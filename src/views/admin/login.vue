@@ -28,8 +28,8 @@ export default {
       show: true,
       checked: true,
       formCustom: {
-        username: '佟丽娅',
-        password: '123456'
+        username: '',
+        password: ''
       }
     }
   },

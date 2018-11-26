@@ -52,7 +52,8 @@
         <div class="input-box">
           <div class="userbox">
             <div class="user-img" v-if="user.id">
-              <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" >
+              <img src="../../../assets/avatar/admin.jpg" v-if="user.is_admin==1">
+              <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" v-else>
               <h4>{{user.username}}</h4>
             </div>
             <div class="user-img" v-else>
@@ -86,7 +87,9 @@
           <MyLoading v-if="loading"></MyLoading>
           <div class="commentList" v-for="(item, index) in commentList" :key="index" v-else>
             <div class="user-ava">
-              <img src="../../../assets/avatar/001.jpg" alt="">
+              <img src="../../../assets/avatar/admin.jpg" v-if="item.user_id==1">
+              <img :src="require(`@/assets/avatar/00${item.user_id%10}.jpg`)" alt="" v-else-if="item.user_id">
+              <img src="../../../assets/avatar/009.jpg" v-else>
             </div>
             <div class="comment-box animate03">
               <div class="username">

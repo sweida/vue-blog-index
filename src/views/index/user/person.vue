@@ -5,8 +5,9 @@
     <template v-else>
       <div class="leftinfo">
         <div class="info-top">
-          <img :src="require(`@/assets/avatar/00${userInfo.id%10}.jpg`)" alt="" v-if="userInfo.id">
-          <img src="../../../assets/avatar/009.jpg" alt="" v-else>
+          <img src="../../../assets/avatar/admin.jpg" class="user-img" v-if="user.is_admin">
+          <img :src="require(`@/assets/avatar/00${userInfo.id%10}.jpg`)" alt="" v-else>
+          <!-- <img src="../../../assets/avatar/009.jpg" alt="" v-else> -->
           <div class="top-text">
             <p class="name">{{userInfo.username}}</p>
             <p>第<span class="pink">{{userInfo.id}}</span>位注册的用户</p> 
@@ -16,7 +17,7 @@
 
         <ul>
           <li>邮箱： {{userInfo.email}}</li>
-          <li>权限： {{userInfo.is_admin ? '站长' : '普通用户'}}</li>
+          <li>权限： {{userInfo.is_admin ? '博主' : '普通用户'}}</li>
           <li>修改头像</li>
           <router-link tag="li" to="password" class="link">
             修改密码
@@ -32,7 +33,7 @@
 
       <div class="rightmain">
         <div class="comment">
-          <h6>我的评论<span class="pink"> ({{userInfo.comments.data.length}})</span></h6>
+          <h6>我的评论<span class="pink" v-if="userInfo.comments.data"> ({{userInfo.comments.data.length}})</span></h6>
           <ul>
             <li v-for="(item, index) in userInfo.comments.data" :key="index">
               <router-link :to="{path:`/blog/${item.article.id}`}">评论文章：{{item.article.title}}</router-link>
@@ -49,9 +50,12 @@
               </div>
             </li>
           </ul>
+          <ul class="noneli" v-if="!userInfo.comments.data">
+            你还没有评论
+          </ul>
         </div>
         <div class="message">
-          <h6>我的留言<span class="pink"> ({{userInfo.messages.data.length}})</span></h6>
+          <h6>我的留言<span class="pink" v-if="userInfo.messages.data"> ({{userInfo.messages.data.length}})</span></h6>
           <ul>
             <li v-for="(item, index) in userInfo.messages.data" :key="index">
               <div class="mark" v-html="item.content" v-highlight></div>
@@ -67,6 +71,9 @@
               </div>
             </li>
           </ul>
+          <ul class="noneli" v-if="!userInfo.messages.data">
+            你还没有留言
+          </ul>
         </div>
       </div>
     </template>
@@ -78,7 +85,6 @@
 <script>
 import marked from 'marked'
 import {mapState} from "vuex"
-import qs from 'qs'
 
 export default {
   data () {
@@ -105,16 +111,20 @@ export default {
       let param = {
         user_id: this.user.id
       }
-      this.$post('/apis/user/read', qs.stringify(param)).then(res => {
+      this.$post('/apis/user/read', param).then(res => {
         console.log(res.data, 'UserInfo')
         this.userInfo = res.data.data
         this.loading = false
-        this.userInfo.comments.data.forEach(item => {
-          item.content = marked(item.content, { sanitize: true })
-        })
-        this.userInfo.messages.data.forEach(item => {
-          item.content = marked(item.content, { sanitize: true })
-        })
+        if (this.userInfo.comments.data) {
+          this.userInfo.comments.data.forEach(item => {
+            item.content = marked(item.content, { sanitize: true })
+          })
+        }
+        if (this.userInfo.messages.data) {
+          this.userInfo.messages.data.forEach(item => {
+            item.content = marked(item.content, { sanitize: true })
+          })
+        }
       })
     },
     // 删除评论
@@ -122,7 +132,7 @@ export default {
       let param = {
         id: item.id
       }
-      this.$post('/apis/comment/remove', qs.stringify(param)).then(res => {
+      this.$post('/apis/comment/remove', param).then(res => {
         if (res.data.status == 1) {
           this.userInfo.comments.data.splice(this.userInfo.comments.data.indexOf(item), 1)
           this.$Message.success(res.data.msg)
@@ -136,7 +146,7 @@ export default {
       let param = {
         id: item.id
       }
-      this.$post('/apis/message/remove', qs.stringify(param)).then(res => {
+      this.$post('/apis/message/remove', param).then(res => {
         if (res.data.status == 1) {
           this.userInfo.messages.data.splice(this.userInfo.messages.data.indexOf(item), 1)
           this.$Message.success(res.data.msg)
@@ -228,6 +238,9 @@ export default {
       i
         font-size 20px
         color #98aaaf
+
+.noneli
+  line-height: 35px;
 
 @media screen and (max-width: 750px)
   .person

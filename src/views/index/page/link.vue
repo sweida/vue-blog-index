@@ -20,7 +20,6 @@
     </div> 
 
     <!-- 友情连接 -->
-
     <div class="main">
       <h3>小伙伴们</h3>
       <MyLoading v-if="loading"></MyLoading>
@@ -28,7 +27,8 @@
         <el-col :xs="24" :sm="12" :md="8" v-for="(item, index) in links" :key="index" class="animate03">
           <a :href="item.href" target="_blank" class="link-box animate03">
             <div class="imgbox">
-              <img src="../../../assets/avatar/010.jpg" alt="">
+              <img :src="item.img" v-if="item.img">
+              <img src="../../../assets/avatar/link-img.jpg" v-else>
             </div>
             <div class="desc">
               <h4>{{item.title}}</h4>
@@ -39,8 +39,6 @@
         </el-col>
       </el-row>
     </div>
-
-
 
   </div>
 </template>
@@ -128,6 +126,8 @@ h3
     img
       border-radius 50%
       width 100%
+      height: 100%
+      object-fit: cover
 .el-col:before
   content: "";      
   border: 0.5px solid #dedede;

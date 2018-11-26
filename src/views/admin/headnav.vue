@@ -6,22 +6,12 @@
     <div class="nav">
       <div class="right-nav">
 
-        <!-- <div class="bell" @click="tip=!tip">
-          <i class="el-icon-bell"></i>
-          <span class="num">2</span>
-        </div>
-
-        <div class="tip" v-if="tip">
-          <div class="tip-top"></div>
-          <p>这是通知提示</p>
-        </div> -->
-
         <el-menu :router="true" :default-active="$route.path" class="el-menu-demo2" mode="horizontal" background-color="#2a2c40" text-color="#fff" active-text-color="#ffd04b">
           <el-menu-item index="1" @click="goindex">前台博客</el-menu-item>
           <el-submenu class="user-nav" index="">
             <template slot="title">
-              <img :src="admin.img" alt="" class="userimg">
-              <span class="admin-name">{{admin.name}}
+              <img src="../../assets/avatar/admin.jpg" class="userimg">
+              <span class="admin-name">{{user.username}}
               </span>
             </template>
             <el-menu-item index="/admin/resetpassword">修改密码</el-menu-item>
@@ -34,20 +24,17 @@
 </template>
 
 <script>
+import {mapState} from "vuex"
 
 export default {
   data () {
     return {
-      tip: '',
-      admin: {
-        id: 'admin',
-        name: '佟丽娅',
-        region: '超级管理员',
-        img: 'https://avatars2.githubusercontent.com/u/23181508?s=460&v=4',
-        password: '123456'
-      }
+
     }
   },
+  computed: mapState({
+    user:state=>state.user
+  }),
   methods: {
     logout: function () {
       this.$confirm('确认退出吗?', '提示', {
@@ -66,9 +53,6 @@ export default {
     goindex() {
       let routeData = this.$router.resolve({ path: '/'});
       window.open(routeData.href, '_blank');
-    },
-    url (val) {
-      window.location = val
     }
   }
 
