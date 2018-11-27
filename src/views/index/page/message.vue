@@ -14,7 +14,7 @@
               <h4>{{user.username}}</h4>
             </div>
             <div class="user-img" v-else>
-              <img src="../../../assets/avatar/009.jpg" >
+              <img src="../../../assets/avatar/yk.jpg" >
               <h4>游客</h4>
             </div>
           </div>

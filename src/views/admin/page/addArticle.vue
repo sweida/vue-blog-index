@@ -164,11 +164,11 @@ export default {
     },
     // 限制图片大小和格式
     beforeAvatarUpload(file) {
-      const isJPG = file.type === ('image/jpeg' && 'image/png')
+      const isJPG = file.type == 'image/jpeg' || 'image/png'
       const isLt3M = file.size / 1024 / 1024 < 3
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+        this.$message.error('上传图片只能是 JPG 格式!')
       }
       if (!isLt3M) {
         this.$message.error('上传头像图片大小不能超过 3MB!')

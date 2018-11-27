@@ -57,7 +57,7 @@
               <h4>{{user.username}}</h4>
             </div>
             <div class="user-img" v-else>
-              <img src="../../../assets/avatar/009.jpg" >
+              <img src="../../../assets/avatar/yk.jpg" >
               <h4>游客</h4>
             </div>
           </div>
@@ -89,7 +89,7 @@
             <div class="user-ava">
               <img src="../../../assets/avatar/admin.jpg" v-if="item.user_id==1">
               <img :src="require(`@/assets/avatar/00${item.user_id%10}.jpg`)" alt="" v-else-if="item.user_id">
-              <img src="../../../assets/avatar/009.jpg" v-else>
+              <img src="../../../assets/avatar/yk.jpg" v-else>
             </div>
             <div class="comment-box animate03">
               <div class="username">
