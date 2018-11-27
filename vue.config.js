@@ -1,5 +1,3 @@
-const config = require("./config.js")
-
 module.exports = {
   // baseUrl  type:{string} default:'/'
   // 将部署应用程序的基本URL
