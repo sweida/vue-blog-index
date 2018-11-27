@@ -271,8 +271,7 @@ export default {
   height 250px
   font-size 14px
   .bg
-    // background #5b3b86
-    background-color: #5b3b86;
+    // background-color: #3F51B5
     // background-image: linear-gradient(167deg,#d93533,#c91c88 69%,#771787);
     z-index 10
     opacity .5
@@ -295,9 +294,9 @@ export default {
     z-index 11
     bottom: 0;
     width: 100%;
-    padding: 50px 20px 10px
+    padding: 60px 20px 10px
     border-radius 0 0 5px 5px 
-    background-image: linear-gradient(7deg,rgba(0,0,0,.75) 30%,transparent 65%);
+    background-image: linear-gradient(7deg,rgba(0,0,0,.8) 30%,transparent 70%);
     h3
       color #fff
       font-size 22px

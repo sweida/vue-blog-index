@@ -1,7 +1,6 @@
 import axios from 'axios'
 import router from '@/router/router'
 import { Message } from 'element-ui'
-import store from "@/store/store";
 import { removeLogin } from './loginStatus'
 
 // 配置开发和生产的请求接口
@@ -40,18 +39,15 @@ service.interceptors.response.use(
         type: 'error',
         duration: 2000,
         onClose() {
-          console.log("进来了",1)
           removeLogin()
           router.push('/admin/login')
         },
       })
       return res
     } else if (res.data.status == 2) {
-      console.log("进来了",2)
       removeLogin()
       return res
     } else {
-      console.log('进来了')
       return res
     }
   },
