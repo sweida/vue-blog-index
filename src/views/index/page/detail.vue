@@ -32,7 +32,7 @@
         <div class="posmition">
           由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
           <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
-          <p>基于上的作品创作。</p>
+          <p>基于<a href="http://sweida.me" target="_black">sweida</a>上的作品创作。</p>
         </div>
 
         <!-- 点赞 -->
@@ -340,7 +340,7 @@ h2
   line-height 22px
   padding 15px 20px
   border-radius 4px
-  margin 20px auto
+  margin 30px auto
 
 
 .article

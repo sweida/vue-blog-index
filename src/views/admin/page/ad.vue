@@ -121,17 +121,16 @@ export default {
     },
     // 限制图片大小和格式
     beforeAvatarUpload(file) {
-      console.log(file, 222)
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type === ('image/jpeg' && 'image/png')
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     },
     deleteBtn(item) {
       this.$confirm('是否删除该广告图?', '提示', {

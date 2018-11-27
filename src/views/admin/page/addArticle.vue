@@ -164,23 +164,22 @@ export default {
     },
     // 限制图片大小和格式
     beforeAvatarUpload(file) {
-      console.log(file, 222)
-      const isJPG = file.type === 'image/jpeg';
-      const isLt3M = file.size / 1024 / 1024 < 3;
+      const isJPG = file.type === ('image/jpeg' && 'image/png')
+      const isLt3M = file.size / 1024 / 1024 < 3
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 JPG 格式!')
       }
       if (!isLt3M) {
-        this.$message.error('上传头像图片大小不能超过 3MB!');
+        this.$message.error('上传头像图片大小不能超过 3MB!')
       }
-      return isJPG && isLt3M;
+      return isJPG && isLt3M
     },
 
     // 绑定@imgAdd event 上传图片
     $imgAdd(pos, $file){
-        let formdata = new FormData();
-        formdata.append('picture', $file);
+        let formdata = new FormData()
+        formdata.append('picture', $file)
         Axios({
             url: '/apis/img/blogdetail',
             method: 'post',
@@ -189,12 +188,7 @@ export default {
         }).then((url) => {
           console.log(111, url.data.path, $file)
             // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-            /**
-           * $vm 指为mavonEditor实例，可以通过如下两种方式获取
-           * 1. 通过引入对象获取: `import {mavonEditor} from ...` 等方式引入后，`$vm`为`mavonEditor`
-           * 2. 通过$refs获取: html声明ref : `<mavon-editor ref=md ></mavon-editor>，`$vm`为 `this.$refs.md`
-           */
-            this.$refs.md.$img2Url(pos, this.$baseUrl+url.data.path);
+            this.$refs.md.$img2Url(pos, this.$baseUrl+url.data.path)
         })
     }
   }
