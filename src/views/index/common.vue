@@ -40,6 +40,7 @@ export default {
       classifys: []
     }
   },
+  props: {pageModel: {}},
   created() {
     this.getTimes()
     this.getTags()
@@ -55,16 +56,20 @@ export default {
     }
   },
   methods: {
+    // 切换分类标签时，页码变为1
     allArticles() {
       this.$router.push('/blog')
+      this.pageModel.page = 1
       this.$emit('getArticles');
     },
     OrderByClassify(item) {
       this.$router.push({path:'/blog', query:{classify: item}})
+      this.pageModel.page = 1
       this.$emit('ArticlesOrderByClassify');
     },
     OrderByTag(item) {
       this.$router.push({path:'/blog', query:{tag: item}})
+      this.pageModel.page = 1
       this.$emit('ArticlesOrderByTag');
     }, 
     // 点击时间线
@@ -78,6 +83,7 @@ export default {
           month: month
         }
       })
+      this.pageModel.page = 1
       this.$emit('ArticlesOrderByTime');
     },
 
@@ -113,7 +119,7 @@ export default {
 <style scoped lang="stylus">
 .common
   margin-left 20px
-  width 240px
+  width 255px
   font-family: sans-serif;
   .box
     padding 15px 0
@@ -122,6 +128,7 @@ export default {
     background #fff
     border-radius 5px
     h3
+      position relative
       border-bottom 1px solid #ddd
       padding 5px 0
       margin 0 20px 5px
@@ -129,6 +136,14 @@ export default {
       font-weight 100 
       display flex
       justify-content space-between
+    h3:before
+      content ''
+      position: absolute;
+      width: 65px;
+      height: 2px;
+      background: #b8297e;
+      bottom: -2px;
+      left: 0px;
     .tagBox
       padding 5px 15px
     .tagli

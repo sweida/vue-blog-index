@@ -30,9 +30,8 @@
 
         <!-- 许可 -->
         <div class="posmition">
-          由 <a href="http://github.com/sweida" target="_black">sweida</a> 创作，采用 
-          <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。
-          <p>基于<a href="http://sweida.me" target="_black">sweida</a>上的作品创作。</p>
+          <p>文章版权所有：<a href="http://sweida.me" target="_black">sweida</a>，采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。</p>
+          <p>欢迎分享，转载务必保留出处及原文链接 <a :href="href" target="_blank">{{href}}</a></p>
         </div>
 
         <!-- 点赞 -->
@@ -148,7 +147,8 @@ export default {
         id: 1
       },
       page: 2,
-      hasMore: true
+      hasMore: true,
+      href: ''
     }
   },
   computed: {
@@ -160,7 +160,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$route, 444)
+    this.href = window.location.href
     this.getDetail()
   },
   watch:{
@@ -263,6 +263,28 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.higtlight .article
+  h2
+    font-size 26px
+  h3
+    font-size 22px
+  h4
+    font-size 18px
+.higtlight .article 
+  h1, h2,  h3, h4,  h5, h6
+    position relative
+    text-indent 1.2em
+.higtlight .article 
+  h1:before, h2:before, h3:before, h4:before, h5:before, h6:before
+    position: absolute
+    left -1em
+    display block
+    content '#'
+    color #f72d84
+</style>
+
 
 
 <style scoped lang="stylus">

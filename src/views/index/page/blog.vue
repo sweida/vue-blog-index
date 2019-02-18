@@ -2,36 +2,45 @@
   <div class="main flex">
     <TextLoading v-if="loading"></TextLoading>
     <div class="article" v-else>
-      <div>
-        <!-- 新样式 -->
-        <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
-          <div class="img-box">
-            <!-- <img src="../../../assets/blog/001.png" class="footer-bg animate03"> -->
-            <img :src="$baseUrl+item.img" class="footer-bg animate03">
-          </div>
-          <div class="bg"></div>
-          <div class="classify">{{item.classify}}</div>
-          <div class="list-main">
-            <h4>{{item.created_at.substring(0,10)}}</h4>
-            <h3>{{item.title}}</h3>
-            <!-- 有标签才显示 -->
-            <div class="tag-box" v-if="item.tag.length">
-              <i class="iconfont lv-icon-biaoqian6"></i>
-              <span v-for="(tagli, index) in item.tag" :key="index" :class="{active:tag==tagli}">
-                {{tagli}}
-              </span>
-            </div>
-            <div class="comment">
-              <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
-              <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
-            </div>
-          </div>
-        </router-link>
 
+      <div class="topTab" v-if="classify && classify!='all'">
+        分类：{{classify}}
+      </div>      
+      <div class="topTab" v-if="tag">
+        标签：{{tag}}
+      </div>      
+      <div class="topTab" v-if="timeline">
+        归档：{{timeline}}
       </div>
+
+      <!-- 新样式 -->
+      <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
+        <div class="img-box">
+          <img :src="$baseUrl+item.img" class="footer-bg animate03">
+        </div>
+        <div class="bg"></div>
+        <div class="classify">{{item.classify}}</div>
+        <div class="list-main">
+          <h4>{{item.created_at.substring(0,10)}}</h4>
+          <h3>{{item.title}}</h3>
+          <!-- 有标签才显示 -->
+          <div class="tag-box" v-if="item.tag.length">
+            <i class="iconfont lv-icon-biaoqian6"></i>
+            <span v-for="(tagli, index) in item.tag" :key="index" :class="{active:tag==tagli}">
+              {{tagli}}
+            </span>
+          </div>
+          <div class="comment">
+            <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
+            <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
+          </div>
+        </div>
+      </router-link>
+
       <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
     </div>
     <common 
+      :pageModel="pageModel"
       @getArticles="getArticles"
       @ArticlesOrderByClassify="ArticlesOrderByClassify" 
       @ArticlesOrderByTag="ArticlesOrderByTag" 
@@ -109,7 +118,20 @@ export default {
       })
     },
     selectRoleList() {
-      this.getArticles()
+      if (this.$route.query.classify) {
+        this.ArticlesOrderByClassify()
+        console.log('请求分类分页')
+      } else if (this.$route.query.tag) {
+        this.ArticlesOrderByTag()
+        console.log('请求标签分页')
+      } else if (this.$route.query.year) {
+        this.ArticlesOrderByTime()
+        console.log('请求时间分页')
+      } else {
+        this.getArticles()
+        console.log('请求正常分页')
+      }
+      window.scrollTo(0,0);
     },
     // 按标签获取
     ArticlesOrderByTag() {
@@ -117,9 +139,9 @@ export default {
       let param = {
         tag: this.$route.query.tag
       }
-      this.$post('/apis/tag/read', param).then(res => {
+      this.$post('/apis/tag/read', Object.assign(param, this.pageModel)).then(res => {
         if (res.data.status == 1) {
-          this.pageModel.sumCount = 0
+          this.pageModel.sumCount = res.data.total
           this.articles = []
           res.data.data.forEach(item => {
             this.articles.push(item.article)
@@ -140,10 +162,11 @@ export default {
       let param = {
         classify: this.$route.query.classify
       }
-      this.$post('/apis/article/read', param).then(res => {
+      this.$post('/apis/article/read', Object.assign(param, this.pageModel)).then(res => {
         console.log(res.data, 'class')
         if (res.data.status == 1) {
-          this.pageModel.sumCount = 0
+          // this.pageModel.sumCount = 0
+          this.pageModel.sumCount = res.data.total
           this.articles = res.data.data
           this.$store.commit('inclassify', this.$route.query.classify)
           this.$store.commit('intag', '')
@@ -161,10 +184,10 @@ export default {
         year: this.$route.query.year,
         month: this.$route.query.month
       }
-      this.$post('/apis/article/times', param).then(res => {
+      this.$post('/apis/article/times', Object.assign(param, this.pageModel)).then(res => {
         console.log(res.data, 'class')
         if (res.data.status == 1) {
-          this.pageModel.sumCount = 0
+          this.pageModel.sumCount = res.data.total
           this.articles = res.data.data
           this.$store.commit('inclassify', '')
           this.$store.commit('intag', '')
@@ -188,11 +211,16 @@ export default {
   .v-show-content
     background #fff !important
 </style>
+
 <style scoped lang="stylus">
 .article, a 
   font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
   color #34495e
-
+.topTab
+  font-size 16px
+  margin-bottom 20px
+  padding 12px 20px
+  box-shadow: 2px 2px 14px #c0dbe6
 
 .typeTitle
   padding: 5px 15px 5px;

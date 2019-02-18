@@ -2,7 +2,7 @@
 
   <div id="index">
       <headnav></headnav>
-      <section class="content">
+      <section class="content blog">
         <About class="slide animate03" v-if="$route.path == '/'"></About>
         
         <keep-alive>

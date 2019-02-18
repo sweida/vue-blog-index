@@ -1,7 +1,5 @@
 <template>
 <div>
-
-
   <div class="header">
     <img src="../../assets/nav-map.jpg" class="footer-bg">
 
@@ -10,8 +8,9 @@
         <div class="logo">
           <img src="../../assets/logo.png" alt="">
         </div>
+        <!-- 菜单 -->
         <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
-          <router-link :to="item.url">{{item.name}}</router-link>
+          <a @click="goRouter(item.url)">{{item.name}}</a>
         </li>
       </div>
 
@@ -112,15 +111,34 @@ export default {
       mobnav: '2'
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),
+  computed: mapState([
+    'user', 'classify', 'tag', 'timeline'
+    // user:state=>state.user
+  ]),
   watch:{
     $route(to,from){
       this.mobnav = '2'
     }
   },
   methods: {
+    goRouter(item) {
+      // 当有选择标签或者分类时点击博客自动选择
+      if (item == '/blog') {
+        if (this.classify && this.classify!='all') {
+          this.$router.push({path:'/blog', query:{classify: this.classify}})
+        } else if (this.tag) {
+          this.$router.push({path:'/blog', query:{classify: this.tag}})
+        } else if (this.timeline) {
+          let year = this.timeline.substring(0, 4)
+          let month = this.timeline.substring(5, 7)
+          this.$router.push({ name: 'blog', query: { year: year, month: month } })
+        } else {
+          this.$router.push({path:'/blog'})
+        }
+      } else {
+        this.$router.push({ path: item})
+      }
+    },
     changeMenu(item) {
       if (item == 'changePasswd') {
         this.$router.push('/password')

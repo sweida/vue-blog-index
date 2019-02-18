@@ -1,6 +1,6 @@
 <template>
   <main>
-    <section class="wrap scroll">
+    <section class="wrap scroll" v-loading="articleLoading">
 
       <el-form ref="form" v-model="form" label-width="70px" label-position='left'>
 
@@ -56,8 +56,8 @@
       <mavon-editor ref=md @imgAdd="$imgAdd" v-model="form.content" class="makedown" />
     </section>
     <footer>
-      <el-button type="primary" size="small" @click="addBtn" v-if="!$route.params.id">保　存</el-button>
-      <el-button type="info" size="small" @click="editBtn" v-else>保存修改</el-button>
+      <el-button type="primary" size="small" @click="addBtn" :loading="loading" v-if="!$route.params.id">保　存</el-button>
+      <el-button type="info" size="small" @click="editBtn" :loading="loading" v-else>保存修改</el-button>
     </footer>
   </main>
 </template>
@@ -70,6 +70,8 @@ export default {
     return {
       title: '写博客',
       blogBanner: '',
+      loading: false,
+      articleLoading: false,
       form: {
         title: '',
         desc: '',
@@ -108,6 +110,7 @@ export default {
   },
   methods: {
     addBtn() {
+      this.loading = true
       this.$post('/apis/article/add', this.form).then(res => {
         console.log(res)
         if (res.data.status == 1) {
@@ -119,14 +122,17 @@ export default {
       })
     },
     getArticle() {
+      this.articleLoading = true
       this.$post('/apis/article/read', this.$route.params).then(res => {
         console.log(res.data.data)
+        this.articleLoading = false
         this.form = res.data.data
         this.form.tag = res.data.data.tag.join(',')
         this.blogBanner = this.$baseUrl+this.form.img
       })
     },
     editBtn() {
+      this.loading = true
       this.$post('/apis/article/change', this.form).then(res => {
         console.log(res)
         if (res.data.status == 1) {
