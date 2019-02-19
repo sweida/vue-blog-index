@@ -49,7 +49,7 @@
 <style lang="stylus">
 #page {
   text-align: center;
-  margin: 30px 0 20px;
+  margin: 30px 0;
 }
 .blog
   .el-pagination

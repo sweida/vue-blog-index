@@ -54,7 +54,8 @@
         <img src="../../assets/nav-bg.jpg" class="nav-bg">
         <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
           <Icon :type="item.icon" />
-          <router-link :to="item.url">{{item.name}}</router-link>
+          <a @click="goRouter(item.url)">{{item.name}}</a>
+          <!-- <router-link :to="item.url">{{item.name}}</router-link> -->
         </li>
 
         <template v-if="user">

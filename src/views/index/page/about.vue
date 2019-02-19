@@ -56,7 +56,7 @@
       <p>15年开始接触前端，一路单刷副本，17年开始学习后端语言，打怪升级，目标成功合格的全栈攻城狮。</p>
       <div class="skills">
         <p>目前已习得技能</p>
-        <img src="../../../assets/skills.png" alt="">
+        <img v-for="(item, index) in skills" :key="index" :src="$baseUrl+item.url">
       </div>            
     </div>
 
@@ -69,9 +69,21 @@
 export default {
   data () {
     return {
+      skills: ''
     }
   },
+  created() {
+    this.getSkills()
+  },
   methods: {
+    getSkills() {
+      this.$post('/apis/ad/read', {type: '技能'}).then(res => {
+        if (res.data.status == 1) {
+          this.skills = res.data.data
+          console.log(this.skills, 444)
+        }
+      })
+    },
   }
 }
 </script>
@@ -197,7 +209,7 @@ export default {
     font-size 20px
     color #f7576c
   img
-    max-width 100% 
+    max-width 88px
 
 
 
@@ -221,7 +233,9 @@ export default {
       margin-bottom: 20px;
     em
       font-family: cursive;    
-
+.skills img
+  max-width 66px
+  
 @media screen and (min-width: 1368px)
   .about-bg:first-child
     height 700px

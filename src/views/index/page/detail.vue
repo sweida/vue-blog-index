@@ -304,11 +304,22 @@ export default {
   font-size: 16px;
   color #444
 
-
-h2
-  font-size 28px
-  text-align center
-  font-weight 400
+.text-box
+  h2
+    font-size 28px
+    text-align center
+    font-weight 400
+    position relative
+    margin-bottom 20px
+  h2:after
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    width: 80px;
+    height: 2px;
+    margin-left: -40px;
+    content: '';
+    background-color: #FF5722
 .post-meta
   display flex
   text-align center
@@ -368,7 +379,7 @@ h2
 .article
   max-width: 840px;
   margin: auto;
-  padding: 50px 20px 20px
+  padding: 50px 15px 20px
 
 .commentbox
   max-width: 840px;
