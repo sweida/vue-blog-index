@@ -233,9 +233,9 @@ export default {
       margin-bottom: 20px;
     em
       font-family: cursive;    
-.skills img
-  max-width 66px
-  
+  .skills img
+    max-width 66px
+
 @media screen and (min-width: 1368px)
   .about-bg:first-child
     height 700px
