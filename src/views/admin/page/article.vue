@@ -43,11 +43,6 @@
           </el-table-column>
 
         </el-table>
-        <!-- <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="1000">
-        </el-pagination> -->
         <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
       </div>
     </section>
@@ -109,7 +104,7 @@ export default {
           if (res.data.status == 1) {
             this.$message.success(`文章${id}下架操作成功`)
           } else {
-            this.$Message.error(res.data.msg+'55')
+            this.$Message.error(res.data.msg)
           }
         })
       } else {
@@ -118,7 +113,7 @@ export default {
           if (res.data.status == 1) {
             this.$message.success(`文章${id}恢复成功`)
           } else {
-            this.$Message.error(res.data.msg+'44')
+            this.$Message.error(res.data.msg)
           }
         })
       }

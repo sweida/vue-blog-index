@@ -45,8 +45,8 @@ Vue.prototype.$baseUrl = process.env.VUE_APP_URL
 // });
 
 Vue.config.productionTip = false
-console.log(process.env.VUE_APP_URL, 5657)
-console.log(process.env.NODE_ENV, 5658)
+// console.log(process.env.VUE_APP_URL, 5657)
+// console.log(process.env.NODE_ENV, 5658)
 new Vue({
   router,
   store,

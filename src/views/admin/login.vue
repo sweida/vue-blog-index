@@ -54,8 +54,10 @@ export default {
           this.$store.commit('increment', user)
           if (this.$route.query.redirect) {
             this.$router.push(this.$route.query.redirect)
+            console.log('跳转到之前路由')
           } else {
             this.$router.push('/admin/articlelist')
+            console.log('跳转到首页')
           }
         } else {
           this.$message.error(res.data.msg)

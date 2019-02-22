@@ -128,13 +128,15 @@ export default {
         this.articleLoading = false
         this.form = res.data.data
         this.form.tag = res.data.data.tag.join(',')
-        this.blogBanner = this.$baseUrl+this.form.img
+        if (this.form.img) {
+          this.blogBanner = this.$baseUrl+this.form.img
+        }
       })
     },
     editBtn() {
       this.loading = true
       this.$post('/apis/article/change', this.form).then(res => {
-        console.log(res)
+        console.log(res, 77777)
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
           this.$router.push('/admin/articlelist')

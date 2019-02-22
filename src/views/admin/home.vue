@@ -42,11 +42,11 @@ export default {
         }
         this.$store.commit('increment', user)
         localStorage.setItem('user', JSON.stringify(user))
-        if (this.$route.query.redirect) {
-          this.$router.push(this.$route.query.redirect)
-        } else {
-          this.$router.push('/admin/articlelist')
-        }
+        // if (this.$route.query.redirect) {
+        //   this.$router.push(this.$route.query.redirect)
+        // } else {
+        //   this.$router.push('/admin/articlelist')
+        // }
       }
     })
   },

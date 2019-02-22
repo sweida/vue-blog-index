@@ -32,10 +32,27 @@ const service = axios.create({
 // respone拦截器
 service.interceptors.response.use(
   res => {
-    if (res.data.status == 401) {
+    return res
+  },
+  error => {
+    if (error.response.status == 401) {
       // 管理员登录过期
       Message({
-        message: res.data.msg,
+        message: '登录状态已经过期，请重新登录',
+        type: 'error',
+        duration: 2000,
+        onClose() {
+          removeLogin()
+          router.push({ 
+            path: '/admin/login', 
+            query: { redirect: window.location.hash.substr(1) }
+          })
+        },
+      })
+    } else if (error.response.status == 403) {
+      // 管理员登录过期
+      Message({
+        message: '你不是管理员，没有权限',
         type: 'error',
         duration: 2000,
         onClose() {
@@ -43,15 +60,14 @@ service.interceptors.response.use(
           router.push('/admin/login')
         },
       })
-      return res
-    } else if (res.data.status == 2) {
-      removeLogin()
-      return res
-    } else {
-      return res
+    } else if (error.response.status == 500) {
+      // 管理员登录过期
+      Message({
+        message: '服务器连接失败，请稍后再试',
+        type: 'error',
+        duration: 2000
+      })
     }
-  },
-  error => {
     return Promise.reject(error)
   },
 )
