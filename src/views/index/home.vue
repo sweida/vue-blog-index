@@ -66,6 +66,9 @@ export default {
         }
         localStorage.setItem('user', JSON.stringify(user))
         this.$store.commit('increment', user)
+      } else {
+        localStorage.removeItem('user')
+        this.$store.commit('increment', '')
       }
     })
     this.getWebInfo()

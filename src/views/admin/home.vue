@@ -30,7 +30,6 @@ export default {
   }),
   created() {
     this.$get('/apis/login_Status').then(res => {
-      console.log(res.data, 4444)
       if (res.data.status == 2) {
         localStorage.removeItem('user')
         this.$store.commit('increment', '')
