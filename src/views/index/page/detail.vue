@@ -465,6 +465,4 @@ export default {
       margin-bottom 10px
       width 100%
       cursor: pointer
-    .goArticle:nth-child(2)
-      justify-content: flex-start
 </style>
