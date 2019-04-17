@@ -39,6 +39,18 @@
           <i class="iconfont lv-icon-yijin13-zan"></i>
           <span>{{detail.like}}</span>
         </div>
+
+        <!-- 上一篇和下一篇 -->
+        <div class="nextBox">
+          <p class="goArticle" @click="goArticle(prevArticle)">
+            <Icon type="md-arrow-round-back" />
+            <span>{{prevArticle ? prevArticle.title : '无'}}</span>
+          </p>
+          <p class="goArticle" @click="goArticle(nextrAticle)">
+            <span>{{nextrAticle ? nextrAticle.title : '无'}}</span>
+            <Icon type="md-arrow-round-forward" />
+          </p>
+        </div>
       </div>
 
       <div class="commentbox">
@@ -138,6 +150,8 @@ export default {
       hasclick: false,
       detail: [],
       commentList: [],
+      prevArticle: {},
+      nextrAticle: {},
       comment: {
         content: '',
         username: '',
@@ -176,6 +190,9 @@ export default {
           this.detail = res.data.data
           this.text_loading = false
           this.comment.article_id = this.detail.id
+          this.prevArticle = res.data.data.prevArticle[0]
+          this.nextrAticle = res.data.data.nextrAticle[0]
+
           // 有评论是才请求这个接口
           if (this.detail.comment){
             this.getComment()
@@ -184,6 +201,13 @@ export default {
           this.$message.error('文章请求失败')
         }
       })
+    },
+    // 跳转上下一篇文章
+    goArticle(article) {
+      if(article) {
+        this.text_loading = true
+        this.$router.push(`/blog/${article.id}`)
+      }
     },
     // 点赞
     giveLike() {
@@ -396,7 +420,31 @@ export default {
     margin-top: -6px;
     position: absolute;
 
-  
+
+.nextBox
+  border-top: 1px solid #dfe8ea
+  line-height: 26px
+  padding-top: 10px
+  margin-top: 45px
+  display flex
+  justify-content space-between
+  .goArticle
+    width 49%
+    cursor pointer
+    display flex
+    align-items center
+    span
+      overflow hidden
+      margin 0 5px
+      text-overflow ellipsis
+      white-space nowrap
+  .goArticle:nth-child(2)
+    justify-content: flex-end
+  .goArticle:hover
+    color: #ff7b8d
+  .goArticle:hover span
+    text-decoration: underline
+    
 
 @media screen and (min-width: 900px)
   .banner .bg
@@ -410,4 +458,13 @@ export default {
     margin-bottom: 10px
   .commentbox
     border-top: 30px solid #f5f6f7
+
+  .nextBox
+    flex-wrap wrap
+    .goArticle
+      margin-bottom 10px
+      width 100%
+      cursor: pointer
+    .goArticle:nth-child(2)
+      justify-content: flex-start
 </style>

@@ -7,7 +7,7 @@
       </a>
       <p>本站已萌萌哒运行{{longTime}}</p>
       <p class="base">Crafted with <i class="iconfont lv-icon-aixin"></i> by <span>@sweida</span>&nbsp;&nbsp;base on <span>Laravel</span> + <span>Vue</span></p>
-      <p>© {{year}} - 天行九歌 &nbsp;&nbsp;备案：不存在的</p>
+      <p>© {{year}} - 天行九歌 &nbsp;&nbsp;备案中</p>
       
     </div>
   </footer>
