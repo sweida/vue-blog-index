@@ -19,7 +19,9 @@
           <img :src="$baseUrl+item.img" class="footer-bg animate03">
         </div>
         <div class="bg"></div>
-        <div class="classify">{{item.classify}}</div>
+        <div class="classifybox">
+          <div class="classify">{{item.classify}}</div>
+        </div>
         <div class="list-main">
           <h4>{{item.created_at.substring(0,10)}}</h4>
           <h3>{{item.title}}</h3>
@@ -333,24 +335,54 @@ export default {
     h4
       font-size 16px
       color #ffed4a
-  .classify
+
+  .classifybox
     position absolute
-    padding 4px 15px
-    right -10px
-    top 12px
+    left -8px
+    top -8px
+    width 100px
+    height 100px
+    overflow hidden
     z-index: 30;
-    background #ead9cc
-    color #3d4852
+  .classify
+    width: 220px;
+    left: -70px;
+    top: 25px;
+    text-align: center
+    padding 4px 15px
+    position relative
+    color #fff
     font-weight 600
-  .classify:after
-    content: "";      
-    display: block;
+    background-image: linear-gradient(90deg,#23a6d5,#23d5ab);
+    text-shadow: 0 1px 1px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+    transform: rotate(-45deg);
+  .classifybox:after, .classifybox:before
     position: absolute;
-    right: 0px;
-    border-top: 8px solid #ead9cc;
-    border-left: 0px solid transparent;
-    border-right: 10px solid transparent;
-    top: 28px;
+    z-index: -1;
+    content: "";
+    display: block;
+    border: 4px solid #3d4852;
+    border-top-color: transparent;
+    border-left-color: transparent;
+
+  .classifybox:before
+    border-color: #2779bd;
+    top: 0;
+    right: 0;
+  .classifybox:after
+    border-color: #2779bd;
+    bottom : 0;
+    left: 0;
+  // .classify:after
+  //   content: "";      
+  //   display: block;
+  //   position: absolute;
+  //   right: 0px;
+  //   border-top: 8px solid #ead9cc;
+  //   border-left: 0px solid transparent;
+  //   border-right: 10px solid transparent;
+  //   top: 28px;
 
 @media screen and (max-width: 750px)
   #index .content .main 
