@@ -289,11 +289,11 @@ export default {
 <style lang="stylus">
 .higtlight .article
   h2
-    font-size 26px
+    font-size 1.5em
   h3
-    font-size 22px
+    font-size 1.4em
   h4
-    font-size 18px
+    font-size 1.4em
 .higtlight .article 
   h1, h2,  h3, h4,  h5, h6
     position relative
@@ -378,7 +378,7 @@ export default {
 
 
 .article
-  font-size 1.5em
+  font-size 1.3em
   font-family Georgia,system-ui,BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
   color #3d4852
 
@@ -432,7 +432,7 @@ export default {
   .title-box h1
     font-size: 2em;
   .article
-    font-size 1em
+    font-size 1.15em
   .commentbox
     border-top: 30px solid #f5f6f7
 
