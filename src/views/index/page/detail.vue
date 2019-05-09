@@ -11,7 +11,7 @@
           </div>
           <div class="tag-box" v-if="detail.tag.length">
             <i class="iconfont lv-icon-biaoqian6"></i>
-            <span v-for="(tagli, index) in detail.tag" :key="index" :class="{active:tag==tagli}">
+            <span v-for="(tagli, index) in detail.tag" :key="index">
               {{tagli}}
             </span>
           </div>
@@ -429,11 +429,10 @@ export default {
     background #989898
 
 @media screen and (max-width: 750px)
-  .banner 
-    height 320px
-  .post-tag
-    float: none
-    margin-bottom: 10px
+  .title-box h1
+    font-size: 2em;
+  .article
+    font-size 1em
   .commentbox
     border-top: 30px solid #f5f6f7
 
