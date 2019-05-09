@@ -370,6 +370,7 @@ export default {
     img
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
+      border-bottom-left-radius: 0
   .list-main
     flex 0 1 240px
 
@@ -393,6 +394,7 @@ export default {
       img
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
+        border-bottom-left-radius: 0
     .list-main
       flex 0 1 240px
       padding 30px

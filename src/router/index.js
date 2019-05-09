@@ -17,6 +17,7 @@ const index = [
   {
     path: "/",
     component: home,
+    redirect: '/blog',
     meta: {
       keepAlive: true // 需要被缓存
     }

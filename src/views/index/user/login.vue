@@ -92,14 +92,13 @@ export default {
           }
           localStorage.setItem('user', JSON.stringify(user))
           this.$store.commit('increment', user)
-          this.$router.push('/')
+          this.$router.push('/blog')
           localStorage.setItem('username', this.formCustom.username)
         } else {
           this.alert = {
             type: 'error',
             msg: res.data.msg
           }
-          // this.$Message.error(res.data.msg);
         }
       })
     }

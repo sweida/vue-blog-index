@@ -3,7 +3,7 @@
   <div id="index">
       <headnav></headnav>
       <section class="content blog">
-        <About class="slide animate03" v-if="$route.path == '/'"></About>
+        <!-- <About class="slide animate03" v-if="$route.path == '/'"></About> -->
         
         <keep-alive>
           <router-view v-if="$route.meta.keepAlive" class="slide animate03"></router-view>
