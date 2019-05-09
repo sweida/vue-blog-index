@@ -2,24 +2,21 @@
 
     <div class=" detail higtlight">
 
-      <div class="banner">
-        <img src="../../../assets/article.jpg" alt="">
-        <!-- <img :src="$baseUrl+detail.img" class="animate03"> -->
-        <div class="bg"></div>
-        
-        <div class="text-box" v-if="!text_loading">
-          <h2>{{detail.title}}</h2>
-          <div class="post-tag">
-
-            <span v-for="(tag,index) in detail.tag" :key="index">{{tag}}</span>
+      <div class="title-box" v-if="!text_loading">
+        <h1>{{detail.title}}</h1>
+        <div class="post-box">
+          <div>
+            <i class="iconfont lv-icon-kalendar"></i>
+            {{detail.created_at}}
           </div>
-          <div class="post-meta"> 
-            <div><i class="iconfont lv-icon-kalendar"></i>{{detail.created_at.substring(0,10)}}</div>
-            <span>•</span>
-            <div><i class="iconfont lv-icon-huore"></i>{{detail.clicks}}热度</div>
-            <span>•</span>
-            <div><i class="iconfont lv-icon-wenjianjia"></i>{{detail.classify}}</div>
+          <div class="tag-box" v-if="detail.tag.length">
+            <i class="iconfont lv-icon-biaoqian6"></i>
+            <span v-for="(tagli, index) in detail.tag" :key="index" :class="{active:tag==tagli}">
+              {{tagli}}
+            </span>
           </div>
+          <!-- <div><i class="iconfont lv-icon-wenjianjia"></i>{{detail.classify}}</div> -->
+          <div><i class="iconfont lv-icon-huore"></i>{{detail.clicks}}热度</div>
         </div>
       </div>
 
@@ -188,6 +185,7 @@ export default {
         console.log(res.data)
         if (res.data.status == 1) {
           this.detail = res.data.data
+          this.detail.created_at = this.detail.created_at.substring(0,10).replace(/-/g,"/")
           this.text_loading = false
           this.comment.article_id = this.detail.id
           this.prevArticle = res.data.data.prevArticle[0]
@@ -313,6 +311,27 @@ export default {
 
 <style scoped lang="stylus">
 
+.title-box
+  margin 20px auto 40px
+  h1
+    font-size: 3em;
+    padding: 0 0 50px;
+    color: #22292f;
+    line-height: 1.15;
+    font-family: monospace;
+  .post-box
+    border-top: 1px solid #b8c2cc;
+    background: #f8fafc;
+    border-bottom: 1px solid #b8c2cc;
+    padding: 7px 15px;
+    display: flex;
+    font-weight: 600;
+    color: #606f7b;
+    font-family: auto
+    flex-wrap: wrap;
+    line-height: 28px;
+    >div
+      margin-right 20px
 .more
   margin-top 10px
   text-align center
@@ -321,54 +340,12 @@ export default {
   font-size 14px
   text-align center
 .detail
-  // max-width 840px
-  // margin auto
-  // padding 40px 0
-  // min-width 100%
+  max-width 840px
+  margin auto
+  padding: 50px 15px 20px
   font-size: 16px;
   color #444
 
-.text-box
-  h2
-    font-size 28px
-    text-align center
-    font-weight 400
-    position relative
-    margin-bottom 20px
-  h2:after
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    width: 80px;
-    height: 2px;
-    margin-left: -40px;
-    content: '';
-    background-color: #FF5722
-.post-meta
-  display flex
-  text-align center
-  justify-content center
-  font-size 14px
-  margin-bottom 30px
-  color: #fff
-  // border-bottom: 1px solid #eee;
-  line-height 36px
-  span
-    margin 0 10px
-  i
-    margin-right 6px
-.post-tag
-  display none
-  float: left;
-  margin-right: 10px;
-  span
-    margin-right: 10px;
-    background: #ebf5f3;
-    padding: 2px 6px;
-    border-radius: 2px;
-    color: #fff
-    font-weight: 400;
-    font-size: 14px;
 
 .giveLike
   display flex
@@ -401,14 +378,14 @@ export default {
 
 
 .article
-  max-width: 840px;
-  margin: auto;
-  padding: 50px 15px 20px
+  font-size 1.5em
+  font-family Georgia,system-ui,BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
+  color #3d4852
 
 .commentbox
   max-width: 840px;
   margin: auto;  
-  padding 20px 20px 40px  
+  padding 20px 0px 40px  
 .comment-title
   font-size 20px
   margin: 10px 0 15px
@@ -433,6 +410,7 @@ export default {
     cursor pointer
     display flex
     align-items center
+    font-size 18px
     span
       overflow hidden
       margin 0 5px

@@ -98,8 +98,8 @@
       content: "\E613" !important
   .el-icon-arrow-left:before 
       content: "\E610" !important
-  button[disabled="disabled"]
-    display none
+  // button[disabled="disabled"]
+  //   display none
 
 @media screen and (max-width: 750px)
   .el-pagination.is-background .el-pager li
