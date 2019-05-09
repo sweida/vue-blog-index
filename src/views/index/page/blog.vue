@@ -294,8 +294,7 @@ export default {
   margin-bottom 40px
   min-height 280px
   font-size 14px
-  box-shadow: 8px 14px 38px rgba(39,44,49,.06), 1px 3px 8px rgba(39,44,49,.03);
-  overflow: hidden;
+  box-shadow: 8px 14px 38px #e7eeef
   width: 100%;
   .list-main
     flex 0 1 358px
@@ -314,7 +313,8 @@ export default {
       height 100%
       object-fit: cover
       mix-blend-mode: multiply
-
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
   .classifybox
     position absolute
     left -8px
@@ -367,6 +367,9 @@ export default {
   .list-img
     flex: 1 0 220px
     height: 220px
+    img
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
   .list-main
     flex 0 1 240px
 
@@ -387,6 +390,9 @@ export default {
     .list-img
       flex: 1 0 220px
       height: 220px
+      img
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
     .list-main
       flex 0 1 240px
       padding 30px
