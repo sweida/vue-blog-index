@@ -47,10 +47,11 @@
   }
 </script>
 <style lang="stylus">
-#page {
-  text-align: center;
+#page 
+  text-align: center
   margin: 30px 0;
-}
+  width 100%
+
 .blog
   .el-pagination
     display flex

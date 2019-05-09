@@ -3,7 +3,7 @@
     <TextLoading v-if="loading"></TextLoading>
     <div class="article" v-else>
 
-      <div class="topTab" v-if="classify && classify!='all'">
+      <!-- <div class="topTab" v-if="classify && classify!='all'">
         分类：{{classify}}
       </div>      
       <div class="topTab" v-if="tag">
@@ -11,33 +11,43 @@
       </div>      
       <div class="topTab" v-if="timeline">
         归档：{{timeline}}
-      </div>
+      </div> -->
 
       <!-- 新样式 -->
+
+
+
       <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
-        <div class="img-box">
-          <img :src="$baseUrl+item.img" class="footer-bg animate03">
-        </div>
-        <div class="bg"></div>
         <div class="classifybox">
           <div class="classify">{{item.classify}}</div>
         </div>
+
+        <div class="list-img">
+          <img :src="$baseUrl+item.img" class="footer-bg animate03">
+        </div>
+
         <div class="list-main">
-          <h4>{{item.created_at.substring(0,10)}}</h4>
+          <div class="creattime">
+            <i class="iconfont lv-icon-kalendar"></i>
+            发布于 {{item.created_at.substring(0,10)}}
+          </div>
           <h3>{{item.title}}</h3>
-          <!-- 有标签才显示 -->
+           <!-- 有标签才显示 -->
           <div class="tag-box" v-if="item.tag.length">
             <i class="iconfont lv-icon-biaoqian6"></i>
             <span v-for="(tagli, index) in item.tag" :key="index" :class="{active:tag==tagli}">
               {{tagli}}
             </span>
           </div>
+
           <div class="comment">
             <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
             <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
           </div>
         </div>
+
       </router-link>
+
 
       <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
     </div>
@@ -215,6 +225,8 @@ export default {
 </style>
 
 <style scoped lang="stylus">
+.main 
+  flex-direction: column
 .article, a 
   font-family: 'Source Han Serif SC','Source Han Serif','source-han-serif-sc','PT Serif','SongTi SC','MicroSoft Yahei',Georgia,serif;
   color #34495e
@@ -232,11 +244,9 @@ export default {
 
 .article
   flex 1
-  li
-    margin: 0 0 20px 0;
-    padding: 14px 25px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 14px #c0dbe6
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
 .created
   color #888
@@ -253,7 +263,6 @@ export default {
   line-height 30px
   span
     margin-right 20px
-    color #fff
     font-size 12px
   i 
     margin-right 4px
@@ -263,7 +272,6 @@ export default {
 .tag-box
   line-height 24px
   font-size 14px
-  color #fff
   span
     padding 0 4px
   i 
@@ -275,66 +283,37 @@ export default {
     background #e8e8e8
     margin 5px 5px   
   span.active
-    color #ffed4a
+    color #ea546e
 
 
-// 新样式
-.img-box
-  overflow hidden
-  width 100%
-  height 100%
-  position: relative;
-  border-radius: 5px;
-.list:hover
-  box-shadow:1 1px 20px -6px rgba(0,0,0,.5)
-  transition: transform .5s
-.list:hover img
-  transform: scale(1.1)
-  transition: transform .6s
-  // transform: translateY(-6px)
 
 .list
   position relative
-  display block
+  display flex
   border-radius 10px
-  margin-bottom 20px
-  height 250px
+  margin-bottom 40px
+  min-height 280px
   font-size 14px
-  .bg
-    // background-color: #3F51B5
-    // background-image: linear-gradient(167deg,#d93533,#c91c88 69%,#771787);
-    z-index 10
-    opacity .5
-    mix-blend-mode: screen;
-    border-radius 5px
-    position absolute
-    top 0
-    width 100%
-    height 100%
-  img
-    width 100%
-    position absolute
-    top 0
-    object-fit: cover;
-    height: 100%;
-    border-radius: 5px;
+  box-shadow: 8px 14px 38px rgba(39,44,49,.06), 1px 3px 8px rgba(39,44,49,.03);
+  overflow: hidden;
+  width: 100%;
   .list-main
-    font-family: sans-serif;
-    position absolute
-    z-index 11
-    bottom: 0;
-    width: 100%;
-    padding: 60px 20px 10px
-    border-radius 0 0 5px 5px 
-    background-image: linear-gradient(7deg,rgba(0,0,0,.8) 30%,transparent 70%);
+    flex 0 1 358px
+    padding 30px 40px
+    .creattime
+      text-align right
+      margin-bottom 5px
     h3
-      color #fff
-      font-size 22px
+      font-size 24px
       font-weight 400
-      // font-family: cursive;
-    h4
-      font-size 16px
-      color #ffed4a
+      margin-bottom 25px
+  .list-img
+    flex 1
+    img
+      width 100%
+      height 100%
+      object-fit: cover
+      mix-blend-mode: multiply
 
   .classifybox
     position absolute
@@ -365,24 +344,31 @@ export default {
     border: 4px solid #3d4852;
     border-top-color: transparent;
     border-left-color: transparent;
-
-  .classifybox:before
     border-color: #2779bd;
+  .classifybox:before
     top: 0;
     right: 0;
   .classifybox:after
-    border-color: #2779bd;
     bottom : 0;
     left: 0;
-  // .classify:after
-  //   content: "";      
-  //   display: block;
-  //   position: absolute;
-  //   right: 0px;
-  //   border-top: 8px solid #ead9cc;
-  //   border-left: 0px solid transparent;
-  //   border-right: 10px solid transparent;
-  //   top: 28px;
+
+.list:hover
+  box-shadow:1 1px 20px -6px rgba(0,0,0,.5)
+  transition: transform .5s
+  transform: scale(1.02)
+  color #34495e
+.list:nth-child(3n-1), .list:nth-child(3n)
+  width 47.5%
+  flex-direction: column
+  .classify
+    background linear-gradient(30deg,#ee7752,#e73c7e)
+  .classifybox:after, .classifybox:before
+    border-color: #621b18;
+  .list-img
+    flex: 1 0 220px
+    height: 220px
+  .list-main
+    flex 0 1 240px
 
 @media screen and (max-width: 750px)
   #index .content .main 
@@ -395,4 +381,13 @@ export default {
     font-size 18px
     font-family: cursive;
   
+  .list, .list:nth-child(3n-1), .list:nth-child(3n)
+    width 100%
+    flex-direction: column
+    .list-img
+      flex: 1 0 220px
+      height: 220px
+    .list-main
+      flex 0 1 240px
+      padding 30px
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="common">
-    <div class="box">
+    <!-- <div class="box">
       <li class="classify animate03" :class="{active:classify=='all'}" @click="allArticles">
         全部博文
       </li>
@@ -8,23 +8,29 @@
         {{item}}
       </li>
 
-    </div>
+    </div> -->
 
     <div class="box">
-      <h3>所有标签<i class="iconfont lv-icon-biaoqian"></i></h3>
-      <div class="tagBox">
+      <h3>Skills<i class="iconfont lv-icon-biaoqian"></i></h3>
+      <div class="tagBox
+      .type
+        background #f1f5f8
+        border none">
+        <span class="tagli animate03 type" @click="allArticles">
+          全部
+        </span>
         <span class="tagli animate03" v-for="(item, index) in tags" :key="index" @click="OrderByTag(item)">
           {{item}}
         </span>
       </div>
     </div>
 
-    <div class="box">
+    <!-- <div class="box">
       <h3>归档<i class="iconfont lv-icon-kalendar"></i></h3>
       <li class="timeli animate03" v-for="(item, index) in timeLines" :key="index" @click="TiemLine(item.date)" :class="{active:timeline==item.date}">
         <span>{{item.date}}<em>（{{item.value}}）</em></span>
       </li>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -118,47 +124,56 @@ export default {
 
 <style scoped lang="stylus">
 .common
-  margin-left 20px
-  width 255px
+  // margin-left 20px
+  // width 255px
   font-family: sans-serif;
   .box
     padding 15px 0
     margin-bottom 20px
-    box-shadow: 2px 2px 14px #c0dbe6
+    // box-shadow: 2px 2px 14px #c0dbe6
     background #fff
     border-radius 5px
     h3
       position relative
-      border-bottom 1px solid #ddd
+      border-bottom 1px solid #dae1e7
       padding 5px 0
-      margin 0 20px 5px
+      margin 0 0 25px
       font-size 16px
       font-weight 100 
       display flex
       justify-content space-between
+      font-family: Arkibal Serif,Constantia,Lucida Bright,Lucidabright,Lucida Serif,Lucida,DejaVu Serif,Bitstream Vera Serif,Liberation Serif,Georgia,serif;
+      font-size: 2.25em;
+      font-weight: bold;
+      color: #22292f;
     h3:before
       content ''
       position: absolute;
-      width: 65px;
+      width: 78px;
       height: 2px;
       background: #b8297e;
       bottom: -2px;
       left: 0px;
     .tagBox
-      padding 5px 15px
+      .type
+        background #f1f5f8
+        border none
+      // padding 5px 14px
     .tagli
-      font-size 12px
-      cursor pointer
+      color: #606f7b;
+      font-size: 12px;
+      cursor: pointer;
       display: inline-block;
-      padding 3px 10px
-      border-radius 3px
-      background #e8e8e8
-      margin 4px 6px
+      padding: 3px 15px;
+      border-radius: 31px;
+      // background: #f1f5f8;
+      margin: 0 10px 12px 0px;
       font-family: sans-serif;
-      a
-        color #34495e
+      font-weight: 600;
+      border: 1px solid #dae1e7;
+      font-size: 16px;
     .tagli:hover
-      background #ddd
+      background #d2d9de
     .timeli
       cursor pointer
       font-weight 100

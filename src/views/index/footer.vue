@@ -1,6 +1,5 @@
 <template>
   <footer>
-    <img src="../../assets/big-map.jpg" class="footer-bg">
     <div class="foot-text">
       <a href="https://github.com/sweida" target="_blank" class="link">
         <Icon type="logo-github" />
@@ -55,17 +54,7 @@ export default {
 footer
   position relative
   overflow hidden
-  background-image: linear-gradient(167deg,#2b274b,#771787 49%,rgba(201,28,136,.91));
-.footer-bg
-  position: absolute;
-  opacity: .25;
-  bottom: 0;
-  margin: auto;
-  right: 0;
-  left: 0;
-  top: 0;
-  width: 100%;
-  mix-blend-mode: multiply;
+  background: #3d4852;
 .link
   color #fff
   i
