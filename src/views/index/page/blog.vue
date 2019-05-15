@@ -292,7 +292,7 @@ export default {
   display flex
   border-radius 10px
   margin-bottom 40px
-  min-height 280px
+  height 280px
   font-size 14px
   box-shadow: 8px 14px 38px #e7eeef
   width: 100%;
@@ -360,6 +360,7 @@ export default {
 .list:nth-child(3n-1), .list:nth-child(3n)
   width 47.5%
   flex-direction: column
+  height auto
   .classify
     background linear-gradient(30deg,#ee7752,#e73c7e)
   .classifybox:after, .classifybox:before
@@ -388,6 +389,7 @@ export default {
   .list, .list:nth-child(3n-1), .list:nth-child(3n)
     width 100%
     flex-direction: column
+    height auto
     .list-img
       flex: 1 0 220px
       height: 220px
