@@ -22,8 +22,8 @@
       </Form>
 
       <Form ref="resetCustom" :model="formCustom" label-position="top" :rules="rulePasswd">
-        <FormItem label="验证码" prop="phone_captcha">
-          <Input type="text" size="large" v-model="formCustom.phone_captcha" placeholder="请输入邮件中的验证码">
+        <FormItem label="验证码" prop="captcha">
+          <Input type="text" size="large" v-model="formCustom.captcha" placeholder="请输入邮件中的验证码">
             <Icon type="md-mail-open" slot="prefix" />
           </Input>
         </FormItem>
@@ -70,7 +70,7 @@ export default {
       btnText: '发送邮箱验证码',
       formCustom: {
         email: '',
-        phone_captcha: '',
+        captcha: '',
         new_password: '',
         repassword: ''
       },
@@ -81,7 +81,7 @@ export default {
         ],
       },
       rulePasswd: {
-        phone_captcha: [
+        captcha: [
           { required: true, message: '验证码不能为空', trigger: 'change' },
         ],
         new_password: [
@@ -107,17 +107,17 @@ export default {
       let param = {
         email: this.formCustom.email
       }
-      this.$post('/apis/user/mail', param).then(res => {
+      this.$post('/apis/user/send_email', param).then(res => {
         console.log(res.data)
-        if (res.data.status == 1) {
+        if (res.data.status == 'success') {
           this.alert = {
             type: 'success',
-            text: res.data.msg
+            text: res.data.message
           }
         } else {
           this.alert = {
             type: 'error',
-            text: res.data.msg
+            text: res.data.message
           }
         }
         this.loading = false
@@ -134,14 +134,14 @@ export default {
       })
     },
     submitForm() {
-      this.$post('/apis/user/email_valid', this.formCustom).then(res => {
+      this.$post('/apis/user/check_captcha', this.formCustom).then(res => {
         console.log(res.data)
-        if (res.data.status == 1) {
+        if (res.data.status == 'success') {
           this.success = true
         } else {
           this.alert = {
             type: 'error',
-            text: res.data.msg
+            text: res.data.message
           }
         }
         this.loading2 = false
@@ -156,7 +156,7 @@ export default {
         if (res.data.status == 1) {
           this.$router.push('/')
         } else {
-          this.$message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
       })
     }
