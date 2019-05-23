@@ -201,12 +201,16 @@ export default {
 .header
   display: flex
   min-height: 60px
-  // background: #93a6ab
   background-image: linear-gradient(167deg,#2b274b,#771787 49%,rgba(201,28,136,.91));
   color #fff
   position relative
   width 100%
   z-index: 10
+  // animation: movingGradient 15s linear infinite;
+  // background-size: 600% 100%;
+  // background-image: linear-gradient(120deg, #EE7752, #E73C7E, #23A6D5, #23D5AB, #EE7752, #E73C7E);
+  // width: 100%;
+  // transition: width .3s linear;
   .nav
     display: flex
     justify-content: flex-end
@@ -323,6 +327,11 @@ export default {
     i 
       margin-right 10px
 
+
+@keyframes movingGradient{
+  0%{background-position:0 50%}
+  to{background-position:100% 50%}
+}
 @media screen and (max-width: 750px)
   .header 
     .footer-bg, .menu
