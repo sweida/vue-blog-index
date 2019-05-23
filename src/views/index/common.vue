@@ -16,12 +16,20 @@
       .type
         background #f1f5f8
         border none">
-        <span class="tagli animate03 type" @click="allArticles">
+        <span class="tagli animate03 classify" @click="allArticles">
           全部
         </span>
-        <span class="tagli animate03" v-for="(item, index) in tags" :key="index" @click="OrderByTag(item)">
+        <div v-for="(item, index) in classifys" :key="index" >
+          <span class="tagli animate03 classify" @click="OrderByClassify(item.name)">
+            {{item.name}}
+          </span>
+          <span class="tagli animate03 topaz" v-for="(child, index) in item.tags" :key="index" @click="OrderByTag(child)">
+            {{child}}
+          </span>
+        </div>
+        <!-- <span class="tagli animate03" v-for="(item, index) in tags" :key="index" @click="OrderByTag(item)">
           {{item}}
-        </span>
+        </span> -->
       </div>
     </div>
 
@@ -48,8 +56,8 @@ export default {
   },
   props: {pageModel: {}},
   created() {
-    this.getTimes()
-    this.getTags()
+    // this.getTimes()
+    // this.getTags()
     this.getClassify() 
   },
   computed: {
@@ -114,6 +122,7 @@ export default {
     getClassify() {
       this.$get('/apis/article/classify').then(res => {
         // console.log(res.data, 'classifys')
+        console.log(res.data, 555555)
         this.classifys = res.data.data
       })
     }
@@ -155,25 +164,23 @@ export default {
       bottom: -2px;
       left: 0px;
     .tagBox
-      .type
+      .classify
         background #f1f5f8
         border none
-      // padding 5px 14px
     .tagli
       color: #606f7b;
       font-size: 12px;
       cursor: pointer;
       display: inline-block;
-      padding: 3px 15px;
+      padding: 4px 16px;
       border-radius: 31px;
-      // background: #f1f5f8;
       margin: 0 10px 12px 0px;
       font-family: sans-serif;
       font-weight: 600;
-      border: 1px solid #dae1e7;
       font-size: 16px;
     .tagli:hover
       background #d2d9de
+      color: #606f7b;
     .timeli
       cursor pointer
       font-weight 100
@@ -184,21 +191,11 @@ export default {
     .timeli:hover, .timeli.active
       background #ecf0f1
       border-right 4px solid #7a8996
-    
-// 分类    
-.classify
-  font-size 14px
-  padding: 9px 30px
-  font-weight: 100
-  cursor pointer
-  a
-    color #80817f
-    display block
-.classify:hover, .classify.active
-  background #ecf0f1
-  border-right 4px solid #7a8996
-  a
-    color #525251
+    .topaz
+      background-image: linear-gradient(30deg,#ee7752,#e73c7e);
+      color #fff
+
+
 
 
 @media screen and (max-width: 750px)

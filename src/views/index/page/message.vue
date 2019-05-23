@@ -8,14 +8,9 @@
       <div class="input-main">
         <div class="input-box main">
           <div class="userbox">
-            <div class="user-img" v-if="user.id">
-              <img src="../../../assets/avatar/admin.jpg" v-if="user.is_admin==1">
-              <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" v-else>
-              <h4>{{user.username}}</h4>
-            </div>
-            <div class="user-img" v-else>
-              <img src="../../../assets/avatar/yk.jpg" >
-              <h4>游客</h4>
+            <div class="user-img">
+              <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt="">
+              <h4>{{user.name || '游客'}}</h4>
             </div>
           </div>
 
@@ -28,7 +23,7 @@
               :placeholder="textarea" />
             <div class="submit-box">
               <div class="ykname">
-                <Input v-model="message.ykname" placeholder="游客可以选填昵称" style="width: 120px" v-if="!user"/>
+                <Input v-model="message.name" placeholder="游客可以选填昵称" style="width: 120px" v-if="!user"/>
               </div>
               <Button type="primary" @click="submitMessage" >提交评论</Button>
             </div>
@@ -45,16 +40,15 @@
     <div class="main" v-else>
       <div class="commentList" v-for="(item, index) in messageList" :key="index">
         <div class="user-ava" >
-          <img src="../../../assets/avatar/admin.jpg" v-if="item.user_id==1">
-          <img :src="require(`@/assets/avatar/00${item.user_id%10}.jpg`)" alt="" v-else-if="item.user_id">
-          <img src="../../../assets/avatar/yk.jpg" alt="" v-else>
+          <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
+          <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg" v-else>
         </div>
 
         <div class="comment-box animate03">
           <div class="username"> 
             <span>
               <Icon type="md-person" />
-              {{item.user ? item.user.username : item.ykname ? `游客（${item.ykname}）` : '游客'}} 
+              {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
               <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
               <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
             </span>
@@ -127,11 +121,11 @@ export default {
     // 获取留言
     getMessage() {
       // this.loading = true
-      this.$post('/apis/message/read', this.pageModel).then(res => {
+      this.$post('/apis/message/list', this.pageModel).then(res => {
         console.log(res.data, 'message')
         this.loading = false
-        this.pageModel.sumCount = res.data.total
-        this.messageList = res.data.data
+        this.pageModel.sumCount = res.data.data.total
+        this.messageList = res.data.data.data
         // 转markdown语法
         this.messageList.forEach(item => {
           item.content = marked(item.content, { sanitize: true })
@@ -148,24 +142,25 @@ export default {
       this.$post('/apis/message/add', this.message).then(res => {
         console.log(res.data)
         this.getMessage()
-        if (res.data.status == 1) {
+        if (res.data.status == 'success') {
           this.message = {
             content: '',
-            ykname: ''
+            name: ''
           }
+          this.$Message.success(res.data.message)
         } else {
-          this.$message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
       })
     },
     // 删除自己的留言
     deleteComment(item) {
-      this.$post('/apis/message/remove', {id: item.id}).then(res => {
-        if (res.data.status == 1) {
+      this.$post('/apis/message/delete', {id: item.id}).then(res => {
+        if (res.data.status == 'success') {
           this.messageList.splice(this.messageList.indexOf(item), 1)
-          this.$Message.success(res.data.msg)
+          this.$Message.success(res.data.message)
         } else {
-          this.$Message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
       })
     },

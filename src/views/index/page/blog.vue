@@ -23,7 +23,7 @@
         </div>
 
         <div class="list-img">
-          <img :src="$baseUrl+item.img" class="footer-bg animate03">
+          <img :src="item.img" class="footer-bg animate03">
         </div>
 
         <div class="list-main">
@@ -41,7 +41,7 @@
           </div>
 
           <div class="comment">
-            <span><i class="iconfont lv-icon-huore"></i>{{item.clicks}}热度</span>
+            <span><i class="iconfont lv-icon-huore"></i>{{item.view_count}}热度</span>
             <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
           </div>
         </div>
@@ -113,15 +113,15 @@ export default {
     getArticles() {
       this.loading = true
       // 获取软删除的数据 all=1
-      this.$post('/apis/article/read', this.pageModel).then(res => {
+      this.$post('/apis/article/list', this.pageModel).then(res => {
         console.log(res.data)
-        if (res.data.status == 1) {
+        if (res.data.status == 'success') {
           this.loading = false
-          this.articles = res.data.data
-          this.$store.commit('inclassify', 'all')
-          this.$store.commit('intag', '')
-          this.$store.commit('intimeline', '')
-          this.pageModel.sumCount = res.data.total
+          this.articles = res.data.data.data
+          // this.$store.commit('inclassify', 'all')
+          // this.$store.commit('intag', '')
+          // this.$store.commit('intimeline', '')
+          // this.pageModel.sumCount = res.data.total
         } else {
           this.$message.error('获取数据失败！')
           this.loading = false
@@ -151,8 +151,8 @@ export default {
       let param = {
         tag: this.$route.query.tag
       }
-      this.$post('/apis/tag/read', Object.assign(param, this.pageModel)).then(res => {
-        if (res.data.status == 1) {
+      this.$post('apis/article/list', Object.assign(param, this.pageModel)).then(res => {
+        if (res.data.status == 'success') {
           this.pageModel.sumCount = res.data.total
           this.articles = []
           res.data.data.forEach(item => {
@@ -174,9 +174,9 @@ export default {
       let param = {
         classify: this.$route.query.classify
       }
-      this.$post('/apis/article/read', Object.assign(param, this.pageModel)).then(res => {
+      this.$post('/apis/article/list', Object.assign(param, this.pageModel)).then(res => {
         console.log(res.data, 'class')
-        if (res.data.status == 1) {
+        if (res.data.status == 'success') {
           // this.pageModel.sumCount = 0
           this.pageModel.sumCount = res.data.total
           this.articles = res.data.data
@@ -298,7 +298,7 @@ export default {
   width: 100%;
   .list-main
     flex 0 1 358px
-    padding 30px 40px
+    padding 25px 40px
     .creattime
       text-align right
       margin-bottom 5px
@@ -306,6 +306,10 @@ export default {
       font-size 24px
       font-weight 400
       margin-bottom 25px
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
   .list-img
     flex 1
     img
@@ -373,7 +377,7 @@ export default {
       border-top-right-radius: 10px;
       border-bottom-left-radius: 0
   .list-main
-    flex 0 1 240px
+    flex 0 1 220px
 
 @media screen and (max-width: 750px)
   #index .content .main 
@@ -398,6 +402,6 @@ export default {
         border-top-right-radius: 10px;
         border-bottom-left-radius: 0
     .list-main
-      flex 0 1 240px
+      flex 0 1 220px
       padding 30px
 </style>

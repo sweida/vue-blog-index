@@ -5,11 +5,10 @@
     <template v-else>
       <div class="leftinfo">
         <div class="info-top">
-          <img src="../../../assets/avatar/admin.jpg" class="user-img" v-if="user.is_admin">
-          <img :src="require(`@/assets/avatar/00${userInfo.id%10}.jpg`)" alt="" v-else>
+          <img :src="`https://avatars.dicebear.com/v2/identicon/id-${userInfo.id}.svg`" alt="">
           <!-- <img src="../../../assets/avatar/009.jpg" alt="" v-else> -->
           <div class="top-text">
-            <p class="name">{{userInfo.username}}</p>
+            <p class="name">{{userInfo.name}}</p>
             <p>第<span class="pink">{{userInfo.id}}</span>位注册的用户</p> 
             <p>注册于<span class="time">{{userInfo.created_at.substring(0,10)}}</span></p>
           </div>
@@ -23,19 +22,19 @@
             修改密码
           </router-link>
           <!-- <li>
-            我的评论<span class="pink"> ({{userInfo.comments.data.length}})</span>
+            我的评论<span class="pink"> ({{comments.length}})</span>
           </li>
           <li>
-            我的留言<span class="pink"> ({{userInfo.messages.data.length}})</span>
+            我的留言<span class="pink"> ({{messages.length}})</span>
           </li> -->
         </ul>
       </div>
 
       <div class="rightmain">
         <div class="comment">
-          <h6>我的评论<span class="pink" v-if="userInfo.comments.data"> ({{userInfo.comments.data.length}})</span></h6>
+          <h6>我的评论<span class="pink" v-if="comments"> ({{comments.length}})</span></h6>
           <ul>
-            <li v-for="(item, index) in userInfo.comments.data" :key="index">
+            <li v-for="(item, index) in comments" :key="index">
               <router-link :to="{path:`/blog/${item.article.id}`}">评论文章：{{item.article.title}}</router-link>
               <div class="mark" v-html="item.content" v-highlight></div>
               <p class="time"><Icon type="md-time" />{{item.created_at}}</p>
@@ -50,14 +49,15 @@
               </div>
             </li>
           </ul>
-          <ul class="noneli" v-if="!userInfo.comments.data">
+          <ul class="noneli" v-if="!comments">
             你还没有评论
           </ul>
         </div>
+
         <div class="message">
-          <h6>我的留言<span class="pink" v-if="userInfo.messages.data"> ({{userInfo.messages.data.length}})</span></h6>
+          <h6>我的留言<span class="pink" v-if="messages"> ({{messages.length}})</span></h6>
           <ul>
-            <li v-for="(item, index) in userInfo.messages.data" :key="index">
+            <li v-for="(item, index) in messages" :key="index">
               <div class="mark" v-html="item.content" v-highlight></div>
               <p class="time"><Icon type="md-time" />{{item.created_at}}</p>
               <div class="delete"  >
@@ -71,7 +71,7 @@
               </div>
             </li>
           </ul>
-          <ul class="noneli" v-if="!userInfo.messages.data">
+          <ul class="noneli" v-if="!messages">
             你还没有留言
           </ul>
         </div>
@@ -90,14 +90,9 @@ export default {
   data () {
     return {
       loading: true,
-      userInfo: {
-        comments: {
-          data: []
-        },
-        messages: {
-          data: []
-        }
-      }
+      userInfo: {},
+      comments: {},
+      messages: {}
     }
   },
   computed: mapState({
@@ -108,22 +103,37 @@ export default {
   },
   methods: {
     getUserInfo() {
-      let param = {
-        user_id: this.user.id
-      }
-      this.$post('/apis/user/read', param).then(res => {
+      this.$get('/apis/user/info').then(res => {
         console.log(res.data, 'UserInfo')
-        this.userInfo = res.data.data
-        this.loading = false
-        if (this.userInfo.comments.data) {
-          this.userInfo.comments.data.forEach(item => {
-            item.content = marked(item.content, { sanitize: true })
-          })
+        if (res.data.status == 'success') {
+          this.userInfo = res.data.data
+        } else {
+          this.alert = {
+            type: 'error',
+            msg: res.data.message
+          }
         }
-        if (this.userInfo.messages.data) {
-          this.userInfo.messages.data.forEach(item => {
-            item.content = marked(item.content, { sanitize: true })
-          })
+      })
+      this.$get('/apis/comment/person').then(res => {
+        this.loading = false
+        if (res.data.status == 'success') {
+          this.comments = res.data.data.data
+        } else {
+          this.alert = {
+            type: 'error',
+            msg: res.data.message
+          }
+        }
+      })
+      this.$get('/apis/message/person').then(res => {
+        this.loading = false
+        if (res.data.status == 'success') {
+          this.messages = res.data.data.data
+        } else {
+          this.alert = {
+            type: 'error',
+            msg: res.data.message
+          }
         }
       })
     },
@@ -132,12 +142,12 @@ export default {
       let param = {
         id: item.id
       }
-      this.$post('/apis/comment/remove', param).then(res => {
+      this.$post('/apis/comment/delete', param).then(res => {
         if (res.data.status == 1) {
-          this.userInfo.comments.data.splice(this.userInfo.comments.data.indexOf(item), 1)
-          this.$Message.success(res.data.msg)
+          this.comments.data.splice(this.comments.data.indexOf(item), 1)
+          this.$Message.success(res.data.message)
         } else {
-          this.$Message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
       })
     }, 
@@ -146,12 +156,12 @@ export default {
       let param = {
         id: item.id
       }
-      this.$post('/apis/message/remove', param).then(res => {
+      this.$post('/apis/message/delete', param).then(res => {
         if (res.data.status == 1) {
-          this.userInfo.messages.data.splice(this.userInfo.messages.data.indexOf(item), 1)
-          this.$Message.success(res.data.msg)
+          this.messages.data.splice(this.messages.data.indexOf(item), 1)
+          this.$Message.success(res.data.message)
         } else {
-          this.$Message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
       })
     }, 
@@ -178,8 +188,8 @@ export default {
     background: #ecf0f1;
     padding: 20px;
     img
-      width 90px
-      height 90px
+      width 86px
+      height 86px
       border-radius 50%
       box-shadow: 2px 2px 14px #c0dbe6
     .top-text

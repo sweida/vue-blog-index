@@ -16,7 +16,7 @@
             </span>
           </div>
           <!-- <div><i class="iconfont lv-icon-wenjianjia"></i>{{detail.classify}}</div> -->
-          <div><i class="iconfont lv-icon-huore"></i>{{detail.clicks}}热度</div>
+          <div><i class="iconfont lv-icon-huore"></i>{{detail.view_count}}热度</div>
         </div>
       </div>
 
@@ -60,9 +60,8 @@
         <div class="input-box">
           <div class="userbox">
             <div class="user-img" v-if="user.id">
-              <img src="../../../assets/avatar/admin.jpg" v-if="user.is_admin==1">
-              <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" v-else>
-              <h4>{{user.username}}</h4>
+              <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt="">
+              <h4>{{user.name}}</h4>
             </div>
             <div class="user-img" v-else>
               <img src="../../../assets/avatar/yk.jpg" >
@@ -95,15 +94,13 @@
           <MyLoading v-if="loading"></MyLoading>
           <div class="commentList" v-for="(item, index) in commentList" :key="index" v-else>
             <div class="user-ava">
-              <img src="../../../assets/avatar/admin.jpg" v-if="item.user_id==1">
-              <img :src="require(`@/assets/avatar/00${item.user_id%10}.jpg`)" alt="" v-else-if="item.user_id">
-              <img src="../../../assets/avatar/yk.jpg" v-else>
+              <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user_id}.svg`" alt="">
             </div>
             <div class="comment-box animate03">
               <div class="username">
                 <span>
                   <Icon type="md-person" />
-                  {{item.user ? item.user.username : item.username ? `游客（${item.username}）` : '游客'}} 
+                  {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
                   <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
                   <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
                 </span>
@@ -151,7 +148,7 @@ export default {
       nextrAticle: {},
       comment: {
         content: '',
-        username: '',
+        name: '',
         article_id: ''
       },
       pageModel: {
@@ -181,9 +178,9 @@ export default {
   },
   methods: {
     getDetail() {
-      this.$post('/apis/article/read', this.$route.params).then(res => {
+      this.$post('/apis/article', this.$route.params).then(res => {
         console.log(res.data)
-        if (res.data.status == 1) {
+        if (res.data.status == 'success') {
           this.detail = res.data.data
           this.detail.created_at = this.detail.created_at.substring(0,10).replace(/-/g,"/")
           this.text_loading = false
@@ -196,7 +193,7 @@ export default {
             this.getComment()
           }
         } else {
-          this.$message.error('文章请求失败')
+          this.$Message.error(res.data.message)
         }
       })
     },
@@ -214,7 +211,7 @@ export default {
       }
       if (!this.hasclick) {
         this.$post('/apis/article/like', param).then(res => {
-          if (res.data.status == 1) {
+          if (res.data.status == 'success') {
             this.detail.like +=1
             this.hasclick = true
           }
@@ -228,9 +225,9 @@ export default {
       }
       this.$post('/apis/comment/read', param).then(res => {
         console.log(res.data, 'comment')
-        if (res.data.status == 1) {
-          this.commentList = res.data.data
-          if (res.data.data.length < 10) {
+        if (res.data.status == 'success') {
+          this.commentList = res.data.data.data
+          if (res.data.data.total < 10) {
             this.hasMore = false
           }
           if (this.commentList) {
@@ -248,6 +245,7 @@ export default {
         console.log(res.data)
         this.comment.content = ''
         this.detail.comment += 1
+        this.$Message.success(res.data.message)
         this.getComment()
       })
     },
@@ -272,13 +270,13 @@ export default {
     },
     // 删除自己的留言
     deleteComment(item) {
-      this.$post('/apis/comment/remove', {id: item.id}).then(res => {
-        if (res.data.status == 1) {
+      this.$post('/apis/comment/delete', {id: item.id}).then(res => {
+        if (res.data.status == 'success') {
           this.commentList.splice(this.commentList.indexOf(item), 1)
-          this.$Message.success(res.data.msg)
+          this.$Message.success(res.data.message)
           this.detail.comment -= 1
         } else {
-          this.$Message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
       })
     }

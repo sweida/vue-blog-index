@@ -56,7 +56,8 @@
       <p>15年开始接触前端，一路单刷副本，17年开始学习后端语言，打怪升级，目标成功合格的全栈攻城狮。</p>
       <div class="skills">
         <p>目前已习得技能</p>
-        <img v-for="(item, index) in skills" :key="index" :src="$baseUrl+item.url">
+        <!-- <img v-for="(item, index) in skills" :key="index" :src="$baseUrl+item.url"> -->
+        <img v-for="(item, index) in skills" :key="index" :src="item.url">
       </div>            
     </div>
 
@@ -77,8 +78,8 @@ export default {
   },
   methods: {
     getSkills() {
-      this.$post('/apis/ad/read', {type: '技能'}).then(res => {
-        if (res.data.status == 1) {
+      this.$post('/apis/ad', {type: '技能'}).then(res => {
+        if (res.data.status == 'success') {
           this.skills = res.data.data
           console.log(this.skills, 444)
         }

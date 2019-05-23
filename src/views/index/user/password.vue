@@ -84,12 +84,12 @@ export default {
     // 修改密码接口
     changePasswd() {
       this.loading = true
-      this.$post('/apis/user/change_password', this.formCustom).then(res => {
+      this.$post('/apis/user/resetpassword', this.formCustom).then(res => {
         console.log(res)
-        if (res.data.status == 1) {
+        if (res.data.status == 'success') {
           this.alert = {
             type: 'success',
-            msg: res.data.msg
+            msg: res.data.message
           }
           this.loading = false
           setTimeout(() => {
@@ -98,7 +98,7 @@ export default {
         } else {
           this.alert = {
             type: 'error',
-            msg: res.data.msg
+            msg: res.data.message
           }
           this.loading = false
         }

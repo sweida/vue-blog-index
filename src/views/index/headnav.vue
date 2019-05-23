@@ -154,7 +154,7 @@ export default {
       }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
-          this.$Message.success(res.data.msg)
+          this.$Message.success(res.data.message)
           // 清除 localStorage 和 store
           localStorage.removeItem('user')
           this.$store.commit('increment', '')

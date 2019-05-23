@@ -4,8 +4,8 @@
       <div class="title">登录</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
         <Alert :type="alert.type" show-icon v-if="alert.msg">{{alert.msg}}</Alert>
-        <FormItem label="用户名" prop="username">
-          <Input type="text" size="large" v-model="formCustom.username">
+        <FormItem label="用户名" prop="name">
+          <Input type="text" size="large" v-model="formCustom.name">
             <Icon type="md-happy" slot="prefix" />
           </Input>
         </FormItem>
@@ -42,11 +42,11 @@ export default {
       },
       loading: false,  
       formCustom: {
-        username: '',
+        name: '',
         password: '',
       },
       ruleCustom: {
-        username: [
+        name: [
           { required: true, message: '用户名不能为空', trigger: 'change' }
         ],
         password: [
@@ -59,7 +59,7 @@ export default {
     user:state=>state.user
   }),
   mounted() {
-    this.formCustom.username = localStorage.getItem('username') || ''
+    this.formCustom.name = localStorage.getItem('name') || ''
   },
   methods: {
     handleSubmit (name) {
@@ -78,26 +78,27 @@ export default {
 
       this.$post('/apis/login', this.formCustom).then(res => {
         this.loading = false
-        if (res.data.status == 1) {
-          console.log(res, 5555)
-          this.$Message.success(res.data.msg);
+        console.log(res, 4444411)
+        if (res.data.status == 'success') {
+
+          this.$Message.success('登录成功！');
           // 保存数据到 localStorage 和 store
           let user = {
-            id: res.data.user_id,
-            username: this.formCustom.username,
-            token: res.data.token
+            id: res.data.data.user_id,
+            name: this.formCustom.name,
+            token: res.data.data.token
           }
-          if (res.data.is_admin) {
-            user.is_admin = res.data.is_admin
-          }
+          // if (res.data.is_admin) {
+          //   user.is_admin = res.data.is_admin
+          // }
+          this.$router.push('/blog')
           localStorage.setItem('user', JSON.stringify(user))
           this.$store.commit('increment', user)
-          this.$router.push('/blog')
-          localStorage.setItem('username', this.formCustom.username)
+          localStorage.setItem('name', this.formCustom.name)
         } else {
           this.alert = {
             type: 'error',
-            msg: res.data.msg
+            msg: res.data.message
           }
         }
       })
