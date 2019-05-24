@@ -14,10 +14,7 @@
       <img src="../../../assets/zfb.jpg">
       <img src="../../../assets/wx.jpg">
     </div>
-
   </div>
-
-
 </template>
 
 <script>
@@ -41,17 +38,13 @@ export default {
 }
 </script>
 
-
-
 <style scoped lang="stylus">
-
 .img-box
   text-align center
   margin 30px 0
   img
     width 250px
     margin 20px 40px
-
 
 @media screen and (max-width: 750px)
   .banner

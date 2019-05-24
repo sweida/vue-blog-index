@@ -3,20 +3,6 @@
     <TextLoading v-if="loading"></TextLoading>
     <div class="article" v-else>
 
-      <!-- <div class="topTab" v-if="classify && classify!='all'">
-        分类：{{classify}}
-      </div>      
-      <div class="topTab" v-if="tag">
-        标签：{{tag}}
-      </div>      
-      <div class="topTab" v-if="timeline">
-        归档：{{timeline}}
-      </div> -->
-
-      <!-- 新样式 -->
-
-
-
       <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
         <div class="classifybox">
           <div class="classify">{{item.classify}}</div>
@@ -55,8 +41,7 @@
       :pageModel="pageModel"
       @getArticles="getArticles"
       @ArticlesOrderByClassify="ArticlesOrderByClassify" 
-      @ArticlesOrderByTag="ArticlesOrderByTag" 
-      @ArticlesOrderByTime="ArticlesOrderByTime">
+      @ArticlesOrderByTag="ArticlesOrderByTag">
     </common>
   </div>
 </template>
@@ -75,72 +60,62 @@ export default {
       loading: false,
       checked: true,
       articles: [],
-      timeLine: [],
-      tags: [],
       classifys: [],
       pageModel: {
-        page: 1,
+        page: Number(this.$route.query.page) || 1,
         sumCount: 10
       }
     }
   },
-  created() {
-    if (this.classify) {
-      this.$route.query.classify = this.classify
-      console.log(this.$route.query.classify, 7777)
-    }
-    console.log(this.$route, 44444)
-    if (this.$route.query.tag) {
-      console.log('tag')
-      this.ArticlesOrderByTag()
-    } else if (this.$route.query.classify) {
-      console.log('classify')
-      this.ArticlesOrderByClassify()
-    } else if (this.$route.query.year) {
-      console.log('year month')
-      this.ArticlesOrderByTime()
-    } else {
-      console.log('all')
-      this.getArticles()
-    }
-  },
   computed: {
     ...mapState([
-        'classify', 'tag', 'timeline'
+        'classify', 'tag'
     ])
+  },
+  created() {
+    if (this.$route.query.tag) {
+      this.ArticlesOrderByTag()
+    } else if (this.$route.query.classify) {
+      this.ArticlesOrderByClassify()
+    } else {
+      this.getArticles()
+    }
   },
   methods: {
     getArticles() {
       this.loading = true
-      // 获取软删除的数据 all=1
       this.$post('/apis/article/list', this.pageModel).then(res => {
-        console.log(res.data)
         if (res.data.status == 'success') {
-          this.loading = false
+          this.pageModel.sumCount = res.data.data.total
           this.articles = res.data.data.data
-          // this.$store.commit('inclassify', 'all')
-          // this.$store.commit('intag', '')
-          // this.$store.commit('intimeline', '')
-          // this.pageModel.sumCount = res.data.total
+          this.$store.commit('inclassify', 'all')
+          this.$store.commit('intag', '')
         } else {
-          this.$message.error('获取数据失败！')
-          this.loading = false
+          this.$Message.error(res.data.message)
         }
-        
+        this.loading = false
       })
     },
     selectRoleList() {
       if (this.$route.query.classify) {
         this.ArticlesOrderByClassify()
+        this.$router.push({path:'/blog', query:{
+          classify: this.$route.query.classify,
+          page: this.pageModel.page
+        }})
         console.log('请求分类分页')
       } else if (this.$route.query.tag) {
         this.ArticlesOrderByTag()
+        this.$router.push({path:'/blog', query:{
+          classify: this.$route.query.tag,
+          page: this.pageModel.page
+        }})
         console.log('请求标签分页')
-      } else if (this.$route.query.year) {
-        this.ArticlesOrderByTime()
-        console.log('请求时间分页')
       } else {
         this.getArticles()
+        this.$router.push({path:'/blog', query:{
+          page: this.pageModel.page
+        }})
         console.log('请求正常分页')
       }
       window.scrollTo(0,0);
@@ -151,19 +126,18 @@ export default {
       let param = {
         tag: this.$route.query.tag
       }
-      this.$post('apis/article/list', Object.assign(param, this.pageModel)).then(res => {
+      this.$post('apis/tag/list', Object.assign(param, this.pageModel)).then(res => {
         if (res.data.status == 'success') {
-          this.pageModel.sumCount = res.data.total
+          this.pageModel.sumCount = res.data.data.total
           this.articles = []
-          res.data.data.forEach(item => {
+          // this.articles = res.data.data.data
+          res.data.data.data.forEach(item => {
             this.articles.push(item.article)
           })
           this.$store.commit('inclassify', '')
           this.$store.commit('intag', this.$route.query.tag)
-          this.$store.commit('intimeline', '')
-          console.log(this.articles, param)
         } else {
-          this.$message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
         this.loading = false
       })
@@ -175,37 +149,14 @@ export default {
         classify: this.$route.query.classify
       }
       this.$post('/apis/article/list', Object.assign(param, this.pageModel)).then(res => {
-        console.log(res.data, 'class')
         if (res.data.status == 'success') {
           // this.pageModel.sumCount = 0
-          this.pageModel.sumCount = res.data.total
-          this.articles = res.data.data
+          this.pageModel.sumCount = res.data.data.total
+          this.articles = res.data.data.data
           this.$store.commit('inclassify', this.$route.query.classify)
           this.$store.commit('intag', '')
-          this.$store.commit('intimeline', '')
         } else {
-          this.$message.error(res.data.msg)
-        }
-        this.loading = false
-      })
-    },
-    // 按时间线
-    ArticlesOrderByTime() {
-      this.loading = true
-      let param = {
-        year: this.$route.query.year,
-        month: this.$route.query.month
-      }
-      this.$post('/apis/article/times', Object.assign(param, this.pageModel)).then(res => {
-        console.log(res.data, 'class')
-        if (res.data.status == 1) {
-          this.pageModel.sumCount = res.data.total
-          this.articles = res.data.data
-          this.$store.commit('inclassify', '')
-          this.$store.commit('intag', '')
-          this.$store.commit('intimeline', `${param.year}年${param.month}月`)
-        } else {
-          this.$message.error(res.data.msg)
+          this.$Message.error(res.data.message)
         }
         this.loading = false
       })

@@ -1,17 +1,8 @@
 <template>
   <div class="common">
-    <!-- <div class="box">
-      <li class="classify animate03" :class="{active:classify=='all'}" @click="allArticles">
-        全部博文
-      </li>
-      <li class="classify animate03" :class="{active:classify==item}" v-for="(item, index) in classifys" :key="index" @click="OrderByClassify(item)" >
-        {{item}}
-      </li>
-
-    </div> -->
-
     <div class="box">
       <h3>Skills<i class="iconfont lv-icon-biaoqian"></i></h3>
+      <div class="backg"></div>
       <div class="tagBox
       .type
         background #f1f5f8
@@ -27,18 +18,8 @@
             {{child}}
           </span>
         </div>
-        <!-- <span class="tagli animate03" v-for="(item, index) in tags" :key="index" @click="OrderByTag(item)">
-          {{item}}
-        </span> -->
       </div>
     </div>
-
-    <!-- <div class="box">
-      <h3>归档<i class="iconfont lv-icon-kalendar"></i></h3>
-      <li class="timeli animate03" v-for="(item, index) in timeLines" :key="index" @click="TiemLine(item.date)" :class="{active:timeline==item.date}">
-        <span>{{item.date}}<em>（{{item.value}}）</em></span>
-      </li>
-    </div> -->
 
   </div>
 </template>
@@ -49,25 +30,18 @@ import {mapState} from "vuex"
 export default {
   data() {
     return {
-      timeLine: [],
-      tags: [],
       classifys: []
     }
   },
   props: {pageModel: {}},
   created() {
-    // this.getTimes()
-    // this.getTags()
     this.getClassify() 
   },
   computed: {
     ...mapState([
-        'classify', 'tag', 'timeline'
+        'classify', 'tag'
     ]),
-    // 倒序时间线
-    timeLines() {
-      return this.timeLine.reverse();
-    }
+
   },
   methods: {
     // 切换分类标签时，页码变为1
@@ -86,43 +60,9 @@ export default {
       this.pageModel.page = 1
       this.$emit('ArticlesOrderByTag');
     }, 
-    // 点击时间线
-    TiemLine(item) {
-      let year = item.substring(0, 4)
-      let month = item.substring(5, 7)
-      this.$router.push({
-        name: 'blog',
-        query: {
-          year: year,
-          month: month
-        }
-      })
-      this.pageModel.page = 1
-      this.$emit('ArticlesOrderByTime');
-    },
-
-    // 获取时间线
-    getTimes() {
-      this.$get('/apis/article/times').then(res => {
-        // console.log(res.data, 'times')
-        this.timeLine = res.data.data
-      })
-    },
-    // 获取所有标签
-    getTags() {
-      this.$get('/apis/tag/read').then(res => {
-        // console.log(res.data, 'tags')
-        this.tags = res.data.data
-      })
-    },
-    goTag(item) {
-      this.$router.query({tag: item})
-    },
     // 获取所有分类
     getClassify() {
       this.$get('/apis/article/classify').then(res => {
-        // console.log(res.data, 'classifys')
-        console.log(res.data, 555555)
         this.classifys = res.data.data
       })
     }
@@ -144,9 +84,6 @@ export default {
     border-radius 5px
     h3
       position relative
-      border-bottom 1px solid #dae1e7
-      padding 5px 0
-      margin 0 0 25px
       font-size 16px
       font-weight 100 
       display flex
@@ -155,14 +92,6 @@ export default {
       font-size: 2.25em;
       font-weight: bold;
       color: #22292f;
-    h3:before
-      content ''
-      position: absolute;
-      width: 78px;
-      height: 2px;
-      background: #b8297e;
-      bottom: -2px;
-      left: 0px;
     .tagBox
       .classify
         background #f1f5f8
@@ -195,8 +124,19 @@ export default {
       background-image: linear-gradient(30deg,#ee7752,#e73c7e);
       color #fff
 
+.backg
+  animation: movingGradient 15s linear infinite;
+  background-size: 600% 100%;
+  background-image: linear-gradient(120deg, #EE7752, #E73C7E, #23A6D5, #23D5AB, #EE7752, #E73C7E);
+  width: 100%;
+  transition: width .3s linear;
+  height 8px
+  margin-bottom 25px
 
-
+@keyframes movingGradient{
+  0%{background-position:0 50%}
+  to{background-position:100% 50%}
+}
 
 @media screen and (max-width: 750px)
   .common .box .tagli

@@ -49,7 +49,7 @@
               </div>
             </li>
           </ul>
-          <ul class="noneli" v-if="!comments">
+          <ul class="noneli" v-if="comments.length==0">
             你还没有评论
           </ul>
         </div>
@@ -71,7 +71,7 @@
               </div>
             </li>
           </ul>
-          <ul class="noneli" v-if="!messages">
+          <ul class="noneli" v-if="messages.length==0">
             你还没有留言
           </ul>
         </div>

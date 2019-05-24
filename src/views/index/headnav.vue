@@ -113,7 +113,7 @@ export default {
     }
   },
   computed: mapState([
-    'user', 'classify', 'tag', 'timeline'
+    'user', 'classify', 'tag'
     // user:state=>state.user
   ]),
   watch:{
@@ -128,11 +128,7 @@ export default {
         if (this.classify && this.classify!='all') {
           this.$router.push({path:'/blog', query:{classify: this.classify}})
         } else if (this.tag) {
-          this.$router.push({path:'/blog', query:{classify: this.tag}})
-        } else if (this.timeline) {
-          let year = this.timeline.substring(0, 4)
-          let month = this.timeline.substring(5, 7)
-          this.$router.push({ name: 'blog', query: { year: year, month: month } })
+          this.$router.push({path:'/blog', query:{tag: this.tag}})
         } else {
           this.$router.push({path:'/blog'})
         }
@@ -161,13 +157,6 @@ export default {
         })
       }
     }
-    // 获取所有分类
-    // getClassify() {
-    //   this.$get('/apis/article/classify').then(res => {
-    //     console.log(res.data, 'classifys')
-    //     this.classifys = res.data.data
-    //   })
-    // }
   }
 
 }
@@ -206,11 +195,6 @@ export default {
   position relative
   width 100%
   z-index: 10
-  // animation: movingGradient 15s linear infinite;
-  // background-size: 600% 100%;
-  // background-image: linear-gradient(120deg, #EE7752, #E73C7E, #23A6D5, #23D5AB, #EE7752, #E73C7E);
-  // width: 100%;
-  // transition: width .3s linear;
   .nav
     display: flex
     justify-content: flex-end
@@ -328,10 +312,6 @@ export default {
       margin-right 10px
 
 
-@keyframes movingGradient{
-  0%{background-position:0 50%}
-  to{background-position:100% 50%}
-}
 @media screen and (max-width: 750px)
   .header 
     .footer-bg, .menu
