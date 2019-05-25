@@ -5,18 +5,18 @@
     <template v-else>
       <div class="leftinfo">
         <div class="info-top">
-          <img :src="`https://avatars.dicebear.com/v2/identicon/id-${userInfo.id}.svg`" alt="">
+          <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt="">
           <!-- <img src="../../../assets/avatar/009.jpg" alt="" v-else> -->
           <div class="top-text">
-            <p class="name">{{userInfo.name}}</p>
-            <p>第<span class="pink">{{userInfo.id}}</span>位注册的用户</p> 
-            <p>注册于<span class="time">{{userInfo.created_at.substring(0,10)}}</span></p>
+            <p class="name">{{user.name}}</p>
+            <p>第<span class="pink">{{user.id}}</span>位注册的用户</p> 
+            <p>注册于<span class="time">{{user.created_at.substring(0,10)}}</span></p>
           </div>
         </div>
 
         <ul>
-          <li>邮箱： {{userInfo.email}}</li>
-          <li>权限： {{userInfo.is_admin ? '博主' : '普通用户'}}</li>
+          <li>邮箱： {{user.email}}</li>
+          <li>权限： {{user.admin ? '博主' : '普通用户'}}</li>
           <li>修改头像</li>
           <router-link tag="li" to="password" class="link">
             修改密码
@@ -84,36 +84,24 @@
 
 <script>
 import marked from 'marked'
-import {mapState} from "vuex"
+import {mapGetters} from "vuex"
 
 export default {
   data () {
     return {
       loading: true,
-      userInfo: {},
       comments: {},
       messages: {}
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),  
+  computed: mapGetters([
+    'user'
+  ]),  
   created() {
     this.getUserInfo()
   },
   methods: {
     getUserInfo() {
-      this.$get('/apis/user/info').then(res => {
-        console.log(res.data, 'UserInfo')
-        if (res.data.status == 'success') {
-          this.userInfo = res.data.data
-        } else {
-          this.alert = {
-            type: 'error',
-            msg: res.data.message
-          }
-        }
-      })
       this.$get('/apis/comment/person').then(res => {
         this.loading = false
         if (res.data.status == 'success') {

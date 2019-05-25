@@ -17,15 +17,13 @@
       <div class="user" v-if="user">
         <Dropdown @on-click="changeMenu">
           <a href="javascript:void(0)" class="user-info">
-            <img src="../../assets/avatar/admin.jpg" v-if="user.is_admin">
-            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" v-else>
-            <!-- <img src="../../assets/avatar/005.jpg" alt=""> -->
-            {{user.username}}
+            <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
+            {{user.name}}
             <Icon type="md-arrow-dropdown" />
           </a>
           <DropdownMenu slot="list">
             <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
-            <DropdownItem name="admin" v-if="user.is_admin == 1"><Icon type="logo-xbox" />后台管理</DropdownItem>
+            <DropdownItem name="admin" v-if="user.admin"><Icon type="logo-xbox" />后台管理</DropdownItem>
             <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
             <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
           </DropdownMenu>
@@ -60,9 +58,8 @@
 
         <template v-if="user">
           <li>
-            <img src="../../assets/avatar/admin.jpg" class="user-img" v-if="user.is_admin">
-            <img :src="require(`@/assets/avatar/00${user.id%10}.jpg`)" class="user-img" v-else>
-            {{user.username}}
+            <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
+            {{user.name}}
             <Icon type="md-arrow-dropdown" />
           </li>
           <li class="second">
@@ -97,7 +94,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapActions, mapGetters} from "vuex"
 
 export default {
   data () {
@@ -112,16 +109,18 @@ export default {
       mobnav: '2'
     }
   },
-  computed: mapState([
-    'user', 'classify', 'tag'
-    // user:state=>state.user
-  ]),
+  computed: {
+    ...mapGetters([
+      'user', 'classify', 'tag'
+    ]),
+  },
   watch:{
     $route(to,from){
       this.mobnav = '2'
     }
   },
   methods: {
+    ...mapActions(['Logout']),
     goRouter(item) {
       // 当有选择标签或者分类时点击博客自动选择
       if (item == '/blog') {
@@ -145,15 +144,13 @@ export default {
       } 
       if (item == 'admin') {
         let routeData = this.$router.resolve({ path: '/admin/articlelist'});
-        // this.$router.push('/admin/setting')
         window.open(routeData.href, '_blank');
       }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
           this.$Message.success(res.data.message)
-          // 清除 localStorage 和 store
-          localStorage.removeItem('user')
-          this.$store.commit('increment', '')
+          this.$router.push('/blog')
+          this.Logout()
         })
       }
     }

@@ -14,7 +14,11 @@
           <span class="tagli animate03 classify" @click="OrderByClassify(item.name)">
             {{item.name}}
           </span>
-          <span class="tagli animate03 topaz" v-for="(child, index) in item.tags" :key="index" @click="OrderByTag(child)">
+          <span class="tagli animate03" 
+            :class="{active: child=='laravel' || child=='vue' || child=='go' || child=='svelte' || child=='docker'}"
+            v-for="(child, index) in item.tags" 
+            :key="index" 
+            @click="OrderByTag(child)">
             {{child}}
           </span>
         </div>
@@ -25,7 +29,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapGetters} from "vuex"
 
 export default {
   data() {
@@ -38,10 +42,9 @@ export default {
     this.getClassify() 
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
         'classify', 'tag'
     ]),
-
   },
   methods: {
     // 切换分类标签时，页码变为1
@@ -96,33 +99,29 @@ export default {
       .classify
         background #f1f5f8
         border none
+        border: 1px solid #f1f5f8;
     .tagli
       color: #606f7b;
       font-size: 12px;
       cursor: pointer;
       display: inline-block;
-      padding: 4px 16px;
+      padding: 3px 15px;
       border-radius: 31px;
       margin: 0 10px 12px 0px;
       font-family: sans-serif;
       font-weight: 600;
       font-size: 16px;
+      border: 1px solid #dae1e7;
+      &.active
+        border 1px solid #ee7752
+        background-image: linear-gradient(30deg,#ee7752,#e73c7e);
+        color #fff
+      &.active:hover
+        background #f1f5f8
     .tagli:hover
-      background #d2d9de
+      background #f1f5f8
       color: #606f7b;
-    .timeli
-      cursor pointer
-      font-weight 100
-      font-size 14px
-      padding 8px 20px
-      em
-        color #ab267f
-    .timeli:hover, .timeli.active
-      background #ecf0f1
-      border-right 4px solid #7a8996
-    .topaz
-      background-image: linear-gradient(30deg,#ee7752,#e73c7e);
-      color #fff
+      border: 1px solid #dae1e7;
 
 .backg
   animation: movingGradient 15s linear infinite;

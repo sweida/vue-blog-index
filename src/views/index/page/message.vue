@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapGetters} from "vuex"
 import marked from 'marked'
 import '@/style/message.styl'
 
@@ -103,11 +103,8 @@ export default {
       hasMore: true
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),
-    computed: {
-    ...mapState([
+  computed: {
+    ...mapGetters([
         'user'
     ]),
     compiledMarkdown: function () {

@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
 import headnav from './headnav'
 import Footer from './footer'
 import About from './page/about'
@@ -47,39 +46,9 @@ export default {
       scrollPanel: {}
     }
   }),
-  computed: mapState({
-    user:state=>state.user,
-    webinfo:state=>state.webinfo,
-  }),  
   created() {
-    // console.log(this.$route, 4444)
-    // console.log(process.env.VUE_APP_URL, 5656)
-    // // 登录状态
-    // this.$get('/apis/login_Status').then(res => {
-    //   if (res.data.status == 1) {
-    //     let user = {
-    //       id: res.data.id,
-    //       username: res.data.username
-    //     }
-    //     if (res.data.is_admin) {
-    //       user.is_admin = res.data.is_admin
-    //     }
-    //     localStorage.setItem('user', JSON.stringify(user))
-    //     this.$store.commit('increment', user)
-    //   } else {
-    //     localStorage.removeItem('user')
-    //     this.$store.commit('increment', '')
-    //   }
-    // })
-    this.getWebInfo()
   },
-  methods: {
-    getWebInfo() {
-      this.$get('/apis/webinfo/read').then(res => {
-        this.$store.commit('inWebinfo', res.data.data)
-      })
-    }
-  }
+
 }
 </script>
 

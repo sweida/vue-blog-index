@@ -25,13 +25,12 @@
       <p class="text-center">尚未拥有账户？
         <router-link to="/register">注册</router-link>
       </p>
-      {{user}}
     </div>
   </div>
 </template>
 
 <script>
-import {mapState, mapGetters} from "vuex";  // 引入mapState 
+import { mapGetters, mapActions } from "vuex";  // 引入mapState 
 
 export default {
   data () {
@@ -55,17 +54,22 @@ export default {
       }
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
+  },
   mounted() {
     this.formCustom.name = localStorage.getItem('name') || ''
   },
   methods: {
+    ...mapActions([
+      'Token', 'UserInfo'
+    ]),
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.login()
+          this.loginFun()
         }
       })
     },
@@ -73,28 +77,16 @@ export default {
     handleReset (name) {
       this.$refs[name].resetFields();
     },
-    login () {
+    loginFun () {
       this.loading = true
 
       this.$post('/apis/login', this.formCustom).then(res => {
         this.loading = false
-        console.log(res, 4444411)
         if (res.data.status == 'success') {
-
           this.$Message.success('登录成功！');
-          // 保存数据到 localStorage 和 store
-          let user = {
-            id: res.data.data.user_id,
-            name: this.formCustom.name,
-            token: res.data.data.token
-          }
-          // if (res.data.is_admin) {
-          //   user.is_admin = res.data.is_admin
-          // }
+          this.Token(res.data.data.token)
+          this.UserInfo()
           this.$router.push('/blog')
-          localStorage.setItem('user', JSON.stringify(user))
-          this.$store.commit('increment', user)
-          localStorage.setItem('name', this.formCustom.name)
         } else {
           this.alert = {
             type: 'error',

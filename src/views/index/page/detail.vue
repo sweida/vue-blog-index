@@ -202,6 +202,7 @@ export default {
       if(article) {
         this.text_loading = true
         this.$router.push(`/blog/${article.id}`)
+        this.hasclick = false
       }
     },
     // 点赞

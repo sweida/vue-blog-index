@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import { mapGetters, mapActions } from "vuex"
 import common from '../common'
 
 export default {
@@ -68,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
         'classify', 'tag'
     ])
   },
@@ -82,14 +82,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'Tag', 'Classify'
+    ]),
     getArticles() {
       this.loading = true
       this.$post('/apis/article/list', this.pageModel).then(res => {
         if (res.data.status == 'success') {
           this.pageModel.sumCount = res.data.data.total
           this.articles = res.data.data.data
-          this.$store.commit('inclassify', 'all')
-          this.$store.commit('intag', '')
+          this.Classify('all')
         } else {
           this.$Message.error(res.data.message)
         }
@@ -134,8 +136,7 @@ export default {
           res.data.data.data.forEach(item => {
             this.articles.push(item.article)
           })
-          this.$store.commit('inclassify', '')
-          this.$store.commit('intag', this.$route.query.tag)
+          this.Tag(this.$route.query.tag)
         } else {
           this.$Message.error(res.data.message)
         }
@@ -153,8 +154,7 @@ export default {
           // this.pageModel.sumCount = 0
           this.pageModel.sumCount = res.data.data.total
           this.articles = res.data.data.data
-          this.$store.commit('inclassify', this.$route.query.classify)
-          this.$store.commit('intag', '')
+          this.Classify(this.$route.query.classify)
         } else {
           this.$Message.error(res.data.message)
         }

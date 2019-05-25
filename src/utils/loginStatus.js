@@ -1,6 +1,5 @@
-import store from "../store/store";
+import store from "../store/index";
 
-export function removeLogin() {
-  localStorage.removeItem("user");
-  store.commit("increment", "");
+export function Logout() {
+  store.commit("LOGOUT");
 }

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import router from '@/router/router'
 import { Message } from 'element-ui'
-import { removeLogin } from './loginStatus'
-import store from "../store/store"
+// import { removeLogin } from './loginStatus'
+import store from "../store/index"
 
 // 配置开发和生产的请求接口
 const service = axios.create({
@@ -36,7 +36,7 @@ service.interceptors.response.use(
         type: 'error',
         duration: 2000,
         onClose() {
-          removeLogin()
+          store.dispatch("Logout");
           router.push({ 
             path: '/login', 
             query: { redirect: window.location.hash.substr(1) }
@@ -50,7 +50,7 @@ service.interceptors.response.use(
         type: 'error',
         duration: 2000,
         onClose() {
-          removeLogin()
+          store.dispatch("Logout");
           router.push('/admin/login')
         },
       })
