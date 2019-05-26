@@ -151,7 +151,7 @@ export default {
           this.$Message.success(res.message)
           this.$router.push('/blog')
           this.Logout()
-        })
+        }).cathc(err => {})
       }
     }
   }

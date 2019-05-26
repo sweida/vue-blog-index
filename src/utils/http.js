@@ -44,23 +44,12 @@ service.interceptors.response.use(
       })
     }
     return Promise.reject(res.data)
- 
-
-    // if (res.status && res.status == 200 && res.data.status == 'error') {
-    //   Message({
-    //     message: res.data.message,
-    //     type: 'error',
-    //     duration: 2000
-    //   })
-    //   return;
-    // }
-    // return res;
   },
   error => {
     if (error.response.status == 401) {
       // 登录过期
       Message({
-        message: '登录状态已经过期，请重新登录',
+        message: error.response.data.message,
         type: 'error',
         duration: 2000,
         onClose() {
