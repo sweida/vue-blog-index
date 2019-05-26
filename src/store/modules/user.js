@@ -30,7 +30,7 @@ const mutations = {
 const actions = {
   async UserInfo({ commit }, data){
     const res = await http.get('/apis/user/info')
-    commit('USERINFO', res.data.data)
+    commit('USERINFO', res.data)
   },
   Token({ commit }, data) {
     localStorage.setItem('token', data)

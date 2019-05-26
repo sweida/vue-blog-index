@@ -106,20 +106,16 @@ export default {
     getUserInfo() {
       this.$get('/apis/comment/person').then(res => {
         this.loading = false
-        if (res.data.status == 'success') {
-          this.commentsTotal = res.data.data.total
-          this.comments = res.data.data.data
-        }
-      }).catch(err => {
-      })
+        this.commentsTotal = res.data.total
+        this.comments = res.data.data
+      }).catch(err => {})
+
       this.$get('/apis/message/person').then(res => {
+        console.log(res, 4545)
         this.loading = false
-        if (res.data.status == 'success') {
-          this.messages = res.data.data.data
-          this.messagesTotal = res.data.data.total
-        }
-      }).catch(err => {
-      })
+        this.messages = res.data.data
+        this.messagesTotal = res.data.total
+      }).catch(err => {})
     },
     // 删除评论
     deleteComment(item) {
@@ -127,11 +123,9 @@ export default {
         id: item.id
       }
       this.$post('/apis/comment/delete', param).then(res => {
-        if (res.data.status == 'success') {
-          this.comments.splice(this.comments.indexOf(item), 1)
-          this.commentsTotal-=1
-          this.$Message.success(res.data.message)
-        }
+        this.comments.splice(this.comments.indexOf(item), 1)
+        this.commentsTotal-=1
+        this.$Message.success(res.message)
       }).catch(err => {})
     }, 
     // 删除留言
@@ -140,11 +134,9 @@ export default {
         id: item.id
       }
       this.$post('/apis/message/delete', param).then(res => {
-        if (res.data.status == 'success') {
-          this.messages.splice(this.messages.indexOf(item), 1)
-          this.messagesTotal-=1
-          this.$Message.success(res.data.message)
-        }
+        this.messages.splice(this.messages.indexOf(item), 1)
+        this.messagesTotal-=1
+        this.$Message.success(res.message)
       }).catch(err => {})
     }, 
   }, 

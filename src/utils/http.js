@@ -30,18 +30,34 @@ service.interceptors.response.use(
     if (res.headers.authorization){
       store.dispatch("Token", res.headers.authorization);
     }
-    if (res.status && res.status == 200 && res.data.status == 'error') {
+
+    // window.vm.$loading.hide()
+    // 统一处理错误
+    // 在这里对返回的数据进行处理
+    if (res.data.status == 'success') {
+      return Promise.resolve(res.data)
+    } else {
       Message({
         message: res.data.message,
         type: 'error',
         duration: 2000
       })
-      return;
     }
-    return res;
+    return Promise.reject(res.data)
+ 
+
+    // if (res.status && res.status == 200 && res.data.status == 'error') {
+    //   Message({
+    //     message: res.data.message,
+    //     type: 'error',
+    //     duration: 2000
+    //   })
+    //   return;
+    // }
+    // return res;
   },
   error => {
-    if (error.response.status == 401 || 422) {
+    if (error.response.status == 401) {
       // 登录过期
       Message({
         message: '登录状态已经过期，请重新登录',
@@ -51,6 +67,20 @@ service.interceptors.response.use(
           store.dispatch("Logout");
           router.push({ 
             path: '/login', 
+            query: { redirect: window.location.hash.substr(1) }
+          })
+        },
+      })
+    } else if (error.response.status == 422) {
+      // token过期
+      Message({
+        message: error.response.data.message,
+        type: 'error',
+        duration: 2000,
+        onClose() {
+          store.dispatch("Logout");
+          router.push({
+            path: '/login',
             query: { redirect: window.location.hash.substr(1) }
           })
         },

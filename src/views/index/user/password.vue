@@ -85,23 +85,21 @@ export default {
     changePasswd() {
       this.loading = true
       this.$post('/apis/user/resetpassword', this.formCustom).then(res => {
-        console.log(res)
-        if (res.data.status == 'success') {
-          this.alert = {
-            type: 'success',
-            msg: res.data.message
-          }
-          this.loading = false
-          setTimeout(() => {
-            this.$router.push('/')
-          }, 800)
-        } else {
-          this.alert = {
-            type: 'error',
-            msg: res.data.message
-          }
-          this.loading = false
+        this.alert = {
+          type: 'success',
+          msg: res.message
         }
+        this.loading = false
+        // this.formCustom = {
+        //   old_password: '',
+        //   new_password: '',
+        //   rep_password: '',
+        // }
+        setTimeout(() => {
+          this.$router.push('/person')
+        }, 1500)
+      }).catch(err => {
+        this.loading = false
       })
     }
   }

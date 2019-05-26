@@ -88,13 +88,9 @@ export default {
     getArticles() {
       this.loading = true
       this.$post('/apis/article/list', this.pageModel).then(res => {
-        if (res.data.status == 'success') {
-          this.pageModel.sumCount = res.data.data.total
-          this.articles = res.data.data.data
-          this.Classify('all')
-        } else {
-          this.$Message.error(res.data.message)
-        }
+        this.pageModel.sumCount = res.data.total
+        this.articles = res.data.data
+        this.Classify('all')
         this.loading = false
       })
     },
@@ -129,17 +125,14 @@ export default {
         tag: this.$route.query.tag
       }
       this.$post('apis/tag/list', Object.assign(param, this.pageModel)).then(res => {
-        if (res.data.status == 'success') {
-          this.pageModel.sumCount = res.data.data.total
-          this.articles = []
-          // this.articles = res.data.data.data
-          res.data.data.data.forEach(item => {
-            this.articles.push(item.article)
-          })
-          this.Tag(this.$route.query.tag)
-        } else {
-          this.$Message.error(res.data.message)
-        }
+        this.pageModel.sumCount = res.data.total
+
+        this.articles = []
+        res.data.data.forEach(item => {
+          this.articles.push(item.article)
+        })
+
+        this.Tag(this.$route.query.tag)
         this.loading = false
       })
     },
@@ -150,14 +143,10 @@ export default {
         classify: this.$route.query.classify
       }
       this.$post('/apis/article/list', Object.assign(param, this.pageModel)).then(res => {
-        if (res.data.status == 'success') {
-          // this.pageModel.sumCount = 0
-          this.pageModel.sumCount = res.data.data.total
-          this.articles = res.data.data.data
-          this.Classify(this.$route.query.classify)
-        } else {
-          this.$Message.error(res.data.message)
-        }
+        this.pageModel.sumCount = res.data.total
+        this.articles = res.data.data
+        this.Classify(this.$route.query.classify)
+
         this.loading = false
       })
     },

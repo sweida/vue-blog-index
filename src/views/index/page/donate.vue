@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapGetters} from "vuex"
 
 export default {
   data () {
@@ -26,9 +26,9 @@ export default {
       success: '',
     }
   },
-  computed: mapState({
-    webinfo:state=>state.webinfo,
-  }), 
+  computed: mapGetters([
+    'webInfo'
+  ]), 
   created() {
 
   },

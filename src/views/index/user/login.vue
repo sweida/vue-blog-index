@@ -80,18 +80,17 @@ export default {
     loginFun () {
       this.loading = true
       this.$post('/apis/login', this.formCustom).then(res => {
-        this.loading = false
-        if (res.data.status == 'success') {
-          this.$Message.success('登录成功！');
-          this.Token(res.data.data.token)
-          this.UserInfo()
-          if (this.$route.query.redirect){
-            this.$router.push(this.$route.query.redirect)
-          } else{
-            this.$router.push('/blog')
-          }
+        this.$Message.success('登录成功！');
+        this.Token(res.data.token)
+        this.UserInfo()
+        if (this.$route.query.redirect){
+          this.$router.push(this.$route.query.redirect)
+        } else{
+          this.$router.push('/blog')
         }
-      }).catch(err => {})
+      }).catch(err => {
+        this.loading = false
+      })
     }
   }
 }

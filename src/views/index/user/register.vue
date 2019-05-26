@@ -4,7 +4,7 @@
       <div class="title">注册账号</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
         <FormItem label="用户名" prop="username">
-          <Input type="text" size="large" v-model="formCustom.username">
+          <Input type="text" size="large" v-model="formCustom.name">
             <Icon type="md-happy" slot="prefix" />
           </Input>
         </FormItem>
@@ -52,13 +52,13 @@ export default {
     return {
       laoding: false,
       formCustom: {
-        username: '',
+        name: '',
         password: '',
         repassword: '',
         email: ''
       },
       ruleCustom: {
-        username: [
+        name: [
           { required: true, message: '用户名不能为空', trigger: 'change' }
         ],
         email: [
@@ -89,25 +89,14 @@ export default {
     register() {
       this.laoding = true
       this.$post('/apis/signup', this.formCustom).then(res => {
-        console.log(res)
-        if (res.data.status == 1) {
-          this.$Message.success(res.data.msg)
-          this.login()
-        } else {
-          this.$Message.error(res.data.msg)
-        }
+        this.$Message.success(res.message+'，去登录！')
+        setTimeout(() => {
+          this.$router.push('/login')
+        }, 2000)
+      }).catch(err => {
         this.laoding = false
       })
     },
-    login() {
-      this.$post('/apis/login', this.formCustom).then(res => {
-        if (res.data.status == 1) {
-          this.$router.push('/')
-        } else {
-          this.$Message.error(res.data.msg)
-        }
-      })
-    }
   }
 }
 </script>

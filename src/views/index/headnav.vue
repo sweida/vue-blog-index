@@ -148,7 +148,7 @@ export default {
       }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
-          this.$Message.success(res.data.message)
+          this.$Message.success(res.message)
           this.$router.push('/blog')
           this.Logout()
         })

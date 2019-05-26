@@ -70,21 +70,16 @@
 export default {
   data () {
     return {
-      skills: ''
+      skills: []
     }
   },
   created() {
     this.getSkills()
   },
   methods: {
-    getSkills() {
-      this.$post('/apis/ad', {type: '技能'}).then(res => {
-        if (res.data.status == 'success') {
-          this.skills = res.data.data
-          console.log(this.skills, 444)
-        }
-      }).catch(err => {
-      })
+    async getSkills() {
+      const res = await this.$post('/apis/ad', {type: '前端'})
+      this.skills = res.data
     },
   }
 }

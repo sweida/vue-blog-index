@@ -27,8 +27,8 @@
             <Icon type="md-mail-open" slot="prefix" />
           </Input>
         </FormItem>
-        <FormItem label="新密码" prop="new_password">
-          <Input type="password" size="large" v-model="formCustom.new_password">
+        <FormItem label="新密码" prop="password">
+          <Input type="password" size="large" v-model="formCustom.password">
             <Icon type="md-lock" slot="prefix" />
           </Input>
         </FormItem>
@@ -53,7 +53,7 @@ export default {
     const validatePassCheck = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('确认新密码不能为空'));
-      } else if (value !== this.formCustom.new_password) {
+      } else if (value !== this.formCustom.password) {
         callback(new Error('两次输入的密码不一致!'));
       } else {
         callback();
@@ -71,7 +71,7 @@ export default {
       formCustom: {
         email: '',
         captcha: '',
-        new_password: '',
+        password: '',
         repassword: ''
       },
       ruleCustom: {
@@ -84,7 +84,7 @@ export default {
         captcha: [
           { required: true, message: '验证码不能为空', trigger: 'change' },
         ],
-        new_password: [
+        password: [
           { required: true, message: '密码不能为空', trigger: 'change'}
         ],
         repassword: [
@@ -108,18 +108,12 @@ export default {
         email: this.formCustom.email
       }
       this.$post('/apis/user/send_email', param).then(res => {
-        console.log(res.data)
-        if (res.data.status == 'success') {
-          this.alert = {
-            type: 'success',
-            text: res.data.message
-          }
-        } else {
-          this.alert = {
-            type: 'error',
-            text: res.data.message
-          }
+        this.alert = {
+          type: 'success',
+          text: res.message
         }
+        this.loading = false
+      }).catch(err =>{
         this.loading = false
         this.btnText = '重新发送邮件'
       })
@@ -135,30 +129,15 @@ export default {
     },
     submitForm() {
       this.$post('/apis/user/check_captcha', this.formCustom).then(res => {
-        console.log(res.data)
-        if (res.data.status == 'success') {
-          this.success = true
-        } else {
-          this.alert = {
-            type: 'error',
-            text: res.data.message
-          }
-        }
+        this.success = true
+        this.loading2 = false
+      }).catch(err => {
         this.loading2 = false
       })
     },
     // 重置表单
     handleReset (name) {
       this.$refs[name].resetFields();
-    },
-    login () {
-      this.$post('/apis/login', this.form).then(res => {
-        if (res.data.status == 1) {
-          this.$router.push('/')
-        } else {
-          this.$Message.error(res.data.message)
-        }
-      })
     }
   }
 }

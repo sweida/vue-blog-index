@@ -119,17 +119,16 @@ export default {
     getMessage() {
       // this.loading = true
       this.$post('/apis/message/list', this.pageModel).then(res => {
-        console.log(res.data, 'message')
         this.loading = false
-        this.pageModel.sumCount = res.data.data.total
-        this.messageList = res.data.data.data
+        this.pageModel.sumCount = res.data.total
+        this.messageList = res.data.data
         // 转markdown语法
         this.messageList.forEach(item => {
           item.content = marked(item.content, { sanitize: true })
           // 转换换行
           // item.content = item.content.replace(/\n/g, '<br>')
         })
-      })
+      }).catch(err =>{})
     },    
     selectRoleList() {
       this.getMessage()
@@ -137,29 +136,20 @@ export default {
     // 提交留言
     submitMessage() {
       this.$post('/apis/message/add', this.message).then(res => {
-        console.log(res.data)
         this.getMessage()
-        if (res.data.status == 'success') {
-          this.message = {
-            content: '',
-            name: ''
-          }
-          this.$Message.success(res.data.message)
-        } else {
-          this.$Message.error(res.data.message)
+        this.$Message.success(res.message)
+        this.message = {
+          content: '',
+          name: ''
         }
-      })
+      }).catch(err =>{})
     },
     // 删除自己的留言
     deleteComment(item) {
       this.$post('/apis/message/delete', {id: item.id}).then(res => {
-        if (res.data.status == 'success') {
-          this.messageList.splice(this.messageList.indexOf(item), 1)
-          this.$Message.success(res.data.message)
-        } else {
-          this.$Message.error(res.data.message)
-        }
-      })
+        this.messageList.splice(this.messageList.indexOf(item), 1)
+        this.$Message.success(res.message)
+      }).catch(err =>{})
     },
     // 回复
     reply(id) {

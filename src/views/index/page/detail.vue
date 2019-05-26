@@ -179,23 +179,18 @@ export default {
   methods: {
     getDetail() {
       this.$post('/apis/article', this.$route.params).then(res => {
-        console.log(res.data)
-        if (res.data.status == 'success') {
-          this.detail = res.data.data
-          this.detail.created_at = this.detail.created_at.substring(0,10).replace(/-/g,"/")
-          this.text_loading = false
-          this.comment.article_id = this.detail.id
-          this.prevArticle = res.data.data.prevArticle[0]
-          this.nextrAticle = res.data.data.nextrAticle[0]
+        this.text_loading = false
+        this.detail = res.data
+        this.detail.created_at = this.detail.created_at.substring(0,10).replace(/-/g,"/")
+        this.comment.article_id = this.detail.id
+        this.prevArticle = res.data.prevArticle[0]
+        this.nextrAticle = res.data.nextrAticle[0]
 
-          // 有评论是才请求这个接口
-          if (this.detail.comment){
-            this.getComment()
-          }
-        } else {
-          this.$Message.error(res.data.message)
+        // 有评论是才请求这个接口
+        if (this.detail.comment){
+          this.getComment()
         }
-      })
+      }).catch(err => {})
     },
     // 跳转上下一篇文章
     goArticle(article) {
@@ -212,11 +207,9 @@ export default {
       }
       if (!this.hasclick) {
         this.$post('/apis/article/like', param).then(res => {
-          if (res.data.status == 'success') {
-            this.detail.like +=1
-            this.hasclick = true
-          }
-        })
+          this.detail.like +=1
+          this.hasclick = true
+        }).catch(err => {})
       }
     },
     // 获取评论
@@ -225,61 +218,51 @@ export default {
         article_id: this.detail.id
       }
       this.$post('/apis/comment/read', param).then(res => {
-        console.log(res.data, 'comment')
-        if (res.data.status == 'success') {
-          this.commentList = res.data.data.data
-          if (res.data.data.total < 10) {
-            this.hasMore = false
-          }
-          if (this.commentList) {
-            this.commentList.forEach(item => {
-              item.content = marked(item.content, { sanitize: true })
-            })
-          }
-          this.loading = false
+        this.commentList = res.data.data
+        if (res.data.total < 10) {
+          this.hasMore = false
         }
-      })
+        if (this.commentList) {
+          this.commentList.forEach(item => {
+            item.content = marked(item.content, { sanitize: true })
+          })
+        }
+        this.loading = false
+      }).catch(err => {})
     },
     // 提交评论
     submitComment() {
       this.$post('/apis/comment/add', this.comment).then(res => {
-        console.log(res.data)
         this.comment.content = ''
         this.detail.comment += 1
-        this.$Message.success(res.data.message)
+        this.$Message.success(res.message)
         this.getComment()
-      })
+      }).catch(err => {})
     },
-    // 加载评论
+    // 加载更多评论
     getMore() {
       let param = {
         article_id: this.detail.id,
         page: this.page
       }
       this.$post('/apis/comment/read', param).then(res => {
-        console.log(res.data, 'commentList')
         this.page +=1
-        if (res.data.data.length < 10) {
+        if (res.data.length < 10) {
           this.hasMore = false
         }
-        // 转换换行
-        res.data.data.forEach(item => {
-          item.content = item.content.replace(/\n/g, '<br>')
-        })
         this.commentList.push(...res.data.data)
-      })
+        this.commentList.forEach(item => {
+          item.content = marked(item.content, { sanitize: true })
+        })
+      }).catch(err => {})
     },
     // 删除自己的留言
     deleteComment(item) {
       this.$post('/apis/comment/delete', {id: item.id}).then(res => {
-        if (res.data.status == 'success') {
-          this.commentList.splice(this.commentList.indexOf(item), 1)
-          this.$Message.success(res.data.message)
-          this.detail.comment -= 1
-        } else {
-          this.$Message.error(res.data.message)
-        }
-      })
+        this.commentList.splice(this.commentList.indexOf(item), 1)
+        this.$Message.success(res.message)
+        this.detail.comment -= 1
+      }).catch(err => {})
     }
   }
 }
