@@ -7,11 +7,6 @@ import http from '@/utils/http'
 Vue.prototype.$get = http.get
 Vue.prototype.$post = http.post
 
-// import Axios from 'axios'
-// Vue.prototype.$get = Axios.get
-// Vue.prototype.$post = Axios.post
-
-
 import './plugins/element.js'
 import './plugins/mavonEditor.js'
 import './plugins/iview.js'

@@ -32,7 +32,7 @@
 
       <div class="rightmain">
         <div class="comment">
-          <h6>我的评论<span class="pink" v-if="comments"> ({{comments.length}})</span></h6>
+          <h6>我的评论<span class="pink" v-if="comments"> ({{commentsTotal}})</span></h6>
           <ul>
             <li v-for="(item, index) in comments" :key="index">
               <router-link :to="{path:`/blog/${item.article.id}`}">评论文章：{{item.article.title}}</router-link>
@@ -49,13 +49,13 @@
               </div>
             </li>
           </ul>
-          <ul class="noneli" v-if="comments.length==0">
+          <ul class="noneli" v-if="commentsTotal==0">
             你还没有评论
           </ul>
         </div>
 
         <div class="message">
-          <h6>我的留言<span class="pink" v-if="messages"> ({{messages.length}})</span></h6>
+          <h6>我的留言<span class="pink" v-if="messages"> ({{messagesTotal}})</span></h6>
           <ul>
             <li v-for="(item, index) in messages" :key="index">
               <div class="mark" v-html="item.content" v-highlight></div>
@@ -71,7 +71,7 @@
               </div>
             </li>
           </ul>
-          <ul class="noneli" v-if="messages.length==0">
+          <ul class="noneli" v-if="messagesTotal==0">
             你还没有留言
           </ul>
         </div>
@@ -91,7 +91,9 @@ export default {
     return {
       loading: true,
       comments: {},
-      messages: {}
+      messages: {},
+      commentsTotal: 0,
+      messagesTotal: 0,
     }
   },
   computed: mapGetters([
@@ -105,24 +107,18 @@ export default {
       this.$get('/apis/comment/person').then(res => {
         this.loading = false
         if (res.data.status == 'success') {
+          this.commentsTotal = res.data.data.total
           this.comments = res.data.data.data
-        } else {
-          this.alert = {
-            type: 'error',
-            msg: res.data.message
-          }
         }
+      }).catch(err => {
       })
       this.$get('/apis/message/person').then(res => {
         this.loading = false
         if (res.data.status == 'success') {
           this.messages = res.data.data.data
-        } else {
-          this.alert = {
-            type: 'error',
-            msg: res.data.message
-          }
+          this.messagesTotal = res.data.data.total
         }
+      }).catch(err => {
       })
     },
     // 删除评论
@@ -131,13 +127,12 @@ export default {
         id: item.id
       }
       this.$post('/apis/comment/delete', param).then(res => {
-        if (res.data.status == 1) {
-          this.comments.data.splice(this.comments.data.indexOf(item), 1)
+        if (res.data.status == 'success') {
+          this.comments.splice(this.comments.indexOf(item), 1)
+          this.commentsTotal-=1
           this.$Message.success(res.data.message)
-        } else {
-          this.$Message.error(res.data.message)
         }
-      })
+      }).catch(err => {})
     }, 
     // 删除留言
     deleteMessage(item) {
@@ -145,13 +140,12 @@ export default {
         id: item.id
       }
       this.$post('/apis/message/delete', param).then(res => {
-        if (res.data.status == 1) {
-          this.messages.data.splice(this.messages.data.indexOf(item), 1)
+        if (res.data.status == 'success') {
+          this.messages.splice(this.messages.indexOf(item), 1)
+          this.messagesTotal-=1
           this.$Message.success(res.data.message)
-        } else {
-          this.$Message.error(res.data.message)
         }
-      })
+      }).catch(err => {})
     }, 
   }, 
 }

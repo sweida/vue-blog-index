@@ -83,6 +83,7 @@ export default {
           this.skills = res.data.data
           console.log(this.skills, 444)
         }
+      }).catch(err => {
       })
     },
   }

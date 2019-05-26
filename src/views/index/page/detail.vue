@@ -64,7 +64,7 @@
               <h4>{{user.name}}</h4>
             </div>
             <div class="user-img" v-else>
-              <img src="../../../assets/avatar/yk.jpg" >
+              <img :src="`https://avatars.dicebear.com/v2/identicon/id-.svg`" alt="">
               <h4>游客</h4>
             </div>
           </div>
@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapGetters} from "vuex"
 import marked from 'marked'
 import '@/style/message.styl'
 
@@ -160,7 +160,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
         'user'
     ]),
     compiledMarkdown: function () {

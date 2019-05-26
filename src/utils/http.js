@@ -10,7 +10,7 @@ const service = axios.create({
   timeout: 10000
 })
 
-// 设置header请求头
+// 设置header请求头，发起请求前做的事情
 service.interceptors.request.use(
   config => {
     config.headers['Authorization'] = store.state.user.token
@@ -23,14 +23,26 @@ service.interceptors.request.use(
   },
 )
 
-// respone拦截器
+// respone拦截器，发起请求后做的事情
 service.interceptors.response.use(
   res => {
-    return res
+    // 当有新的token时自动更新新的token
+    if (res.headers.authorization){
+      store.dispatch("Token", res.headers.authorization);
+    }
+    if (res.status && res.status == 200 && res.data.status == 'error') {
+      Message({
+        message: res.data.message,
+        type: 'error',
+        duration: 2000
+      })
+      return;
+    }
+    return res;
   },
   error => {
-    if (error.response.status == 401) {
-      // 管理员登录过期
+    if (error.response.status == 401 || 422) {
+      // 登录过期
       Message({
         message: '登录状态已经过期，请重新登录',
         type: 'error',
@@ -44,20 +56,26 @@ service.interceptors.response.use(
         },
       })
     } else if (error.response.status == 403) {
-      // 管理员登录过期
+      // 没有权限
       Message({
-        message: '你不是管理员，没有权限',
+        message: error.response.data.message,
         type: 'error',
         duration: 2000,
         onClose() {
           store.dispatch("Logout");
-          router.push('/admin/login')
+          router.push('/login')
         },
       })
     } else if (error.response.status == 500) {
-      // 管理员登录过期
+      // 服务器链接失败
       Message({
         message: '服务器连接失败，请稍后再试',
+        type: 'error',
+        duration: 2000
+      })
+    } else {
+      Message({
+        message: error.response.status+': ' +error.response.data.message,
         type: 'error',
         duration: 2000
       })
@@ -65,5 +83,6 @@ service.interceptors.response.use(
     return Promise.reject(error)
   },
 )
+
 
 export default service

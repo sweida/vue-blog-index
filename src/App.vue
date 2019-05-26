@@ -12,21 +12,25 @@ export default {
   computed: {
     ...mapGetters([
       'user',
+      'token',
       'webInfo'
     ])
   }, 
   created() {
-    if (!this.user){
-      this.UserInfo()
-    }
-    if (!this.webInfo){
-      this.WebInfo()
-    }
-    this.$Loading.config({
-      color: '#fff',
-      failedColor: '#000',
-      height: 50
-    });
+    setTimeout(() => {
+      // 有token,没有user时才请求用户信息
+      if (!this.user && this.token){
+        this.UserInfo()
+      }
+      if (!this.webInfo){
+        this.WebInfo()
+      }
+    }, 500);
+    // this.$Loading.config({
+    //   color: '#fff',
+    //   failedColor: '#000',
+    //   height: 50
+    // });
     //在页面加载时读取sessionStorage里的状态信息，一秒后删除sessionStoreage的数据
     if (sessionStorage.getItem("store") ) {
       this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
