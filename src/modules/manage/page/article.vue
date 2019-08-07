@@ -85,13 +85,14 @@ export default {
           })
 
         this.loading = false
+      }).catch(() => {
       })
     },
     selectRoleList() {
       this.getArticles()
     },
     detail(id) {
-      this.$router.push(`/admin/article/edit/${id}`)
+      this.$router.push(`/article/edit/${id}`)
     },
     // 下架文章
     deleteBtn(id, value) {
@@ -99,20 +100,14 @@ export default {
       if (value == true) {
         this.$post('/apis/article/remove', {id}).then(res => {
           console.log(res.data, 'remove')
-          if (res.data.status == 1) {
-            this.$message.success(`文章${id}下架操作成功`)
-          } else {
-            this.$Message.error(res.data.msg)
-          }
+          this.$message.success(`文章${id}下架操作成功`)
+        }).catch(() => {
         })
       } else {
         this.$post('/apis/article/restored', {id}).then(res => {
           console.log(res.data, 'restored')
-          if (res.data.status == 1) {
-            this.$message.success(`文章${id}恢复成功`)
-          } else {
-            this.$Message.error(res.data.msg)
-          }
+          this.$message.success(`文章${id}恢复成功`)
+        }).catch(() => {
         })
       }
     }

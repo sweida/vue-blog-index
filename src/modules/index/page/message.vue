@@ -118,7 +118,7 @@ export default {
     // 获取留言
     getMessage() {
       // this.loading = true
-      this.$post('/apis/message/list', this.pageModel).then(res => {
+      this.$get('/apis/message/list', this.pageModel).then(res => {
         this.loading = false
         this.pageModel.sumCount = res.data.total
         this.messageList = res.data.data

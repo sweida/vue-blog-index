@@ -1,5 +1,5 @@
 
-import http from '@/utils/http'
+import http from '@/utils/httpIndex'
 
 const state = {
   user: {},

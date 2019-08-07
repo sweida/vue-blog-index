@@ -1,5 +1,5 @@
 <template>
-  <div id="Admin">
+  <div id="manage">
     <leftnav></leftnav>
     <section class="content">
       <headnav></headnav>
@@ -13,7 +13,7 @@ import headnav from './headnav'
 import leftnav from './leftnav'
 import '@/style/common.styl'
 import '@/style/table.styl'
-import {mapState, mapGetters} from "vuex"
+import {mapActions, mapGetters} from "vuex"
 
 export default {
   name: 'app',
@@ -25,9 +25,11 @@ export default {
     return {
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
+  },
   created() {
 
   },
@@ -37,7 +39,7 @@ export default {
 </script>
 
 <style lang="stylus">
-#Admin
+#manage
   width:100%;
   height: 100%;
   display: flex;

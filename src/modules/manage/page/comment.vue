@@ -65,15 +65,13 @@ export default {
   methods: {
     getComment() {
       this.loading = true
-      this.$post('/apis/comment/read', this.pageModel).then(res => {
-        if (res.data.status == 1) {
-          console.log(res.data)
-          this.comments = res.data.data
-          this.pageModel.sumCount = res.data.total
-        } else {
-          this.$message.error('获取数据失败！')
-        }
+      this.$get('/apis/comment/list', this.pageModel).then(res => {
+
+        console.log(res.data)
+        this.comments = res.data.data
+        this.pageModel.sumCount = res.data.total
         this.loading = false
+      }).catch(() => {
       })
     },
     selectRoleList() {
@@ -84,11 +82,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$post('/apis/comment/remove', {id}).then(res => {
-          if (res.data.status == 1) {
-            this.$message.success(res.data.msg)
-          } else {
-            this.$message.error(res.data.msg)
-          }
+          this.$message.success(res.data.msg)
         })
       })
     }

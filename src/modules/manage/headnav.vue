@@ -7,14 +7,14 @@
       <div class="right-nav">
 
         <el-menu :router="true" :default-active="$route.path" class="el-menu-demo2" mode="horizontal" background-color="#2a2c40" text-color="#fff" active-text-color="#ffd04b">
-          <el-menu-item index="1" @click="goindex">前台博客</el-menu-item>
+          <el-menu-item index="1"><a href="/" target="_blank">前往博客</a></el-menu-item>
           <el-submenu class="user-nav" index="">
             <template slot="title">
               <img src="../../assets/avatar/admin.jpg" class="userimg">
               <span class="admin-name">{{user.username}}
               </span>
             </template>
-            <el-menu-item index="/admin/resetpassword">修改密码</el-menu-item>
+            <el-menu-item index="/resetpassword">修改密码</el-menu-item>
             <el-menu-item index="" @click="logout">退出登录</el-menu-item>
           </el-submenu>
         </el-menu>
@@ -46,7 +46,7 @@ export default {
         this.$post('/apis/logout').then(res => {
           this.$message.success(res.message)
           this.Logout()
-          this.$router.push('/admin/login')
+          this.$router.push('/login')
         }).cathc(err => {})
       }).catch(() => {
       })

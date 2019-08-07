@@ -123,11 +123,11 @@ export default {
     },
     getArticle() {
       this.articleLoading = true
-      this.$post('/apis/article/read', this.$route.params).then(res => {
-        console.log(res.data.data)
+      this.$post('/apis/article', this.$route.params).then(res => {
+        console.log(res.data)
         this.articleLoading = false
-        this.form = res.data.data
-        this.form.tag = res.data.data.tag.join(',')
+        this.form = res.data
+        this.form.tag = res.data.tag.join(',')
         if (this.form.img) {
           this.blogBanner = this.$baseUrl+this.form.img
         }

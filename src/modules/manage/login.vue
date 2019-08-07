@@ -52,7 +52,7 @@ export default {
         if (this.$route.query.redirect) {
           this.$router.push(this.$route.query.redirect)
         } else {
-          this.$router.push('/admin/articlelist')
+          this.$router.push('/articlelist')
         }
       }).catch(() => {
       })

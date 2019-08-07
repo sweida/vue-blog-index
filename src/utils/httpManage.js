@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from '@/router/router'
+import router from '@/modules/manage/router/router'
 import { Message } from 'element-ui'
 // import { removeLogin } from './loginStatus'
 import store from "../store/index"

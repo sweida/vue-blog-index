@@ -67,14 +67,12 @@ export default {
   methods: {
     getMessage() {
       this.loading = true
-      this.$post('/apis/message/read', this.pageModel).then(res => {
-        if (res.data.status == 1) {
-          this.message = res.data.data
-          this.pageModel.sumCount = res.data.total
-        } else {
-          this.$message.error('获取数据失败！')
-        }
+      this.$get('/apis/message/list', this.pageModel).then(res => {
+        this.message = res.data.data
+        this.pageModel.sumCount = res.data.total
+
         this.loading = false
+      }).catch(() => {
       })
     },
     selectRoleList() {

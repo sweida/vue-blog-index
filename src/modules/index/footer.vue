@@ -53,7 +53,6 @@ export default {
 <style scoped lang="stylus">
 footer
   position relative
-  overflow hidden
   background: #3d4852;
 .link
   color #fff

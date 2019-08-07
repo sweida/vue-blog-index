@@ -1,25 +1,25 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
-import store from './store/index'
+import store from '@/store'
 
-import http from '@/utils/http'
+import http from '@/utils/httpManage'
 Vue.prototype.$get = http.get
 Vue.prototype.$post = http.post
 
-import './plugins/element.js'
-import './plugins/mavonEditor.js'
-import './plugins/iview.js'
-import './plugins/highlightjs'
+import '@/plugins/element.js'
+import '@/plugins/mavonEditor.js'
+import '@/plugins/iview.js'
+import '@/plugins/highlightjs'
 
 // 全局自定义组件
-import MyLoading from './components/MyLoading'
+import MyLoading from '@/components/MyLoading'
 Vue.use(MyLoading)
 
-import MyPage from './components/MyPage'
+import MyPage from '@/components/MyPage'
 Vue.use(MyPage)
 
-import TextLoading from './components/TextLoading'
+import TextLoading from '@/components/TextLoading'
 Vue.use(TextLoading)
 
 Vue.prototype.$baseUrl = process.env.VUE_APP_URL

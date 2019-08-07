@@ -1,13 +1,10 @@
 import Vue from 'vue'
-import store from "../store/index"
+import store from "@/store/index"
 
 import Router from 'vue-router'
-import NotFound from '../404'
+import NotFound from '@/404'
 
-import admin from './admin'
 import index from './index'
-
-// import todos from "@/views/Todos"
 
 Vue.use(Router)
 
@@ -18,12 +15,7 @@ const router = new Router({
       path: '*',
       component: NotFound,
     },
-    // {
-    //   path: '/todos',
-    //   component: todos,
-    // },
     ...index,
-    ...admin,
 
   ],
   // 新开页面滚动条回到顶部，后退回到之前位置
@@ -55,30 +47,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-
-  setTimeout(() => {
-    // 如果是超级管理员并且已经登陆状态则直接跳转到文章列表页面
-    const isadmin = store.state.user.user.admin
-    if (isadmin && to.path == "/admin/login") {
-      next("/admin/articlelist")
-    }
-  
-    // 判断该路由是否需要登录权限
-    if (to.meta.requireAuth) {  
-      if (isadmin) {  // 通过vuex state获取是否管理员
-        next();
-      }
-      else {
-        next({
-          path: '/admin/login',
-          query: { redirect: to.fullPath }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-        })
-      }
-    }
-    else {
-      next();
-    }
-  }, 1000);
 })
 
 export default router

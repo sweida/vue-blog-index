@@ -65,19 +65,15 @@ export default {
   },
   created() {
     this.$get('/apis/webinfo/read').then(res => {
-      // console.log(res)
-      this.webinfo = res.data.data
+      this.webinfo = res.data
+    }).catch(() => {
     })
   },
   methods: {
     submit() {
       this.$post('/apis/webinfo/set', this.webinfo).then(res => {
-        // console.log(res)
-        if (res.data.status == 1){
-          this.$message.success(res.data.msg)
-        } else {
-          this.$message.error(res.data.msg)
-        }
+          this.$message.success(res.msg)
+      }).catch(() => {
       })
     }
   }
