@@ -5,7 +5,7 @@
       <div class="formbox">
         <div>
           <label for="name">账号</label>
-          <input v-model="formCustom.username" type="text" id="name" placeholder="请输入账号" auto-complete="off">
+          <input v-model="formCustom.name" type="text" id="name" placeholder="请输入账号" auto-complete="off">
         </div>
         <div>
           <label for="password">密码</label>
@@ -19,8 +19,7 @@
 </template>
 
 <script>
-// import { setToken, getToken } from '@/utils/token'
-import {mapState, mapGetters} from "vuex"
+import {mapActions, mapGetters} from "vuex"
 
 export default {
   data() {
@@ -28,40 +27,34 @@ export default {
       show: true,
       checked: true,
       formCustom: {
-        username: '',
+        name: '',
         password: ''
       }
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
+  },
   created() {
   },
   methods: {
+    ...mapActions([
+      'Token', 'UserInfo'
+    ]),
     loginSubmit() {
       this.$post('/apis/admin/login', this.formCustom).then(res => {
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg);
+        this.$message.success('登录成功！');
+        this.Token(res.data.token)
+        this.UserInfo()
 
-          // 保存数据到 localStorage 和 store
-          let user = {
-            id: res.data.user_id,
-            username: this.formCustom.username,
-            is_admin: res.data.is_admin
-          }
-          localStorage.setItem('user', JSON.stringify(user))
-          this.$store.commit('increment', user)
-          if (this.$route.query.redirect) {
-            this.$router.push(this.$route.query.redirect)
-            console.log('跳转到之前路由')
-          } else {
-            this.$router.push('/admin/articlelist')
-            console.log('跳转到首页')
-          }
+        if (this.$route.query.redirect) {
+          this.$router.push(this.$route.query.redirect)
         } else {
-          this.$message.error(res.data.msg)
+          this.$router.push('/admin/articlelist')
         }
+      }).catch(() => {
       })
     }
   }

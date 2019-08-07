@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import {mapState} from "vuex"
+import {mapActions, mapGetters} from "vuex"
 
 export default {
   data () {
@@ -32,21 +32,22 @@ export default {
 
     }
   },
-  computed: mapState({
-    user:state=>state.user
-  }),
+  computed: {
+    ...mapGetters([
+      'user'
+    ]),
+  },
   methods: {
-    logout: function () {
+    ...mapActions(['Logout']),
+    logout() {
       this.$confirm('确认退出吗?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$get('apis/logout').then(res => {
-          // 清除 localStorage 和 store
-          localStorage.removeItem('user')
-          this.$store.commit('increment', '')
+        this.$post('/apis/logout').then(res => {
+          this.$message.success(res.message)
+          this.Logout()
           this.$router.push('/admin/login')
-          this.$message.success('已退出登录')
-        }) 
+        }).cathc(err => {})
       }).catch(() => {
       })
     },

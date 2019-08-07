@@ -66,7 +66,7 @@ module.exports = {
     // proxy: 'http://localhost:4000' // 配置跨域处理,只有一个代理
     proxy: {
       "/apis": {
-        target: "http://127.0.0.1:8080/api/v1", // 需要请求的地址
+        target: "http://127.0.0.1:8080/api/v2", // 需要请求的地址
         // target: process.env.VUE_APP_URL,   // 需要请求的地址
         changeOrigin: true, // 是否跨域
         pathRewrite: {

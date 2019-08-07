@@ -73,8 +73,8 @@ export default {
     getArticles() {
       this.loading = true
       // 获取软删除的数据 all=1
-      this.$post('/apis/article/read', this.pageModel).then(res => {
-        if (res.data.status == 1) {
+      this.$post('/apis/article/list', this.pageModel).then(res => {
+
           this.articles = res.data.data
           this.pageModel.sumCount = res.data.total
           // 将已经下架的文章设置为true
@@ -83,9 +83,7 @@ export default {
               item.deleted_at = true
             }
           })
-        } else {
-          this.$message.error('获取数据失败！')
-        }
+
         this.loading = false
       })
     },

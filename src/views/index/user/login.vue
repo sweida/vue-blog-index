@@ -83,6 +83,7 @@ export default {
         this.$Message.success('登录成功！');
         this.Token(res.data.token)
         this.UserInfo()
+        
         if (this.$route.query.redirect){
           this.$router.push(this.$route.query.redirect)
         } else{

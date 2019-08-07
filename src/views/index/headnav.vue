@@ -58,7 +58,7 @@
 
         <template v-if="user">
           <li>
-            <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
+            <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" class="user-img">
             {{user.name}}
             <Icon type="md-arrow-dropdown" />
           </li>
@@ -277,6 +277,7 @@ export default {
     .user-img
       width 20px
       border-radius 50%
+      margin-right 8px
     i
       font-size 18px
       margin-right 10px
