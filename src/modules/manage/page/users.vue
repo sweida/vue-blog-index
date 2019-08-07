@@ -12,7 +12,7 @@
           tooltip-effect="dark">
           <el-table-column prop="id" label="用户ID" width="80">
           </el-table-column>
-          <el-table-column prop="username" label="用户名" >
+          <el-table-column prop="name" label="用户名" >
           </el-table-column>
           <el-table-column prop="email" label="邮箱地址" show-overflow-tooltip >
           </el-table-column>
@@ -59,14 +59,11 @@ export default {
   methods: {
     getUsers() {
       this.loading = true
-      this.$post('/apis/user/read', this.pageModel).then(res => {
-        if (res.data.status == 1) {
-          this.Users = res.data.data
-          this.pageModel.sumCount = res.data.total
-        } else {
-          this.$message.error('获取数据失败！')
-        }
+      this.$post('/apis/user/list', this.pageModel).then(res => {
+        this.Users = res.data.data
+        this.pageModel.sumCount = res.data.total
         this.loading = false
+      }).catch(() => {
       })
     },
     selectRoleList() {
@@ -77,7 +74,7 @@ export default {
       let param = {
         user_id: id
       }
-      this.$post('/apis/user/read', param).then(res => {
+      this.$get('/apis/user', param).then(res => {
         console.log(res)
       })
     },
@@ -179,23 +176,8 @@ export default {
     // addBtn() {
     //   this.$router.push('project/addProject')
     // },
-    // 删除项目
-    deleteBtn(index, row) {
-      this.$confirm('是否删除该项目?', '提示', {
-        type: 'warning'
-      }).then(() => {
-        this.$post('/api/user/remove').then(res => {
-          console.log(res)
-          // if (res.data.code == 200) {
-          //   this.projectList.splice(index, 1)
-          //   this.$message.success(res.data.msg)
-          //   this.getprojectList()
-          // } else {
-          //   this.$message.error('删除失败!')
-          // }
-        })
-      }).catch(() => {})
-    },
+
+
     // // 编辑项目
     // editBtn(index, row) {
     //   this.$router.push('project/edit/' + row.id)

@@ -84,13 +84,9 @@ export default {
   },
   methods: {
     getLink() {
-      this.$post('/apis/ad/read').then(res => {
+      this.$post('/apis/ad/list').then(res => {
         console.log(res.data)
-        if (res.data.status == 1) {
-          this.adlist = res.data.data
-        } else {
-          this.$message.error('获取数据失败！')
-        }
+        this.adlist = res.data.data
         this.loading = false
       })
     },

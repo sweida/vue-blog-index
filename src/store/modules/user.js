@@ -2,7 +2,7 @@
 import http from '@/utils/httpIndex'
 
 const state = {
-  user: {},
+  user: '',
   token: localStorage.getItem('token') || '',
 }
 
@@ -21,7 +21,7 @@ const mutations = {
     state.user = data
   },
   LOGOUT(state){
-    state.user = {},
+    state.user = '',
     state.token = ''
   }
 }

@@ -95,13 +95,9 @@ export default {
   },
   methods: {
     getLink() {
-      this.$get('/apis/link/read?all=1').then(res => {
+      this.$get('/apis/link/list?all=1').then(res => {
         console.log(res.data)
-        if (res.data.status == 1) {
-          this.links = res.data.data
-        } else {
-          this.$message.error('获取数据失败！')
-        }
+        this.links = res.data.data
         this.loading = false
       })
     },

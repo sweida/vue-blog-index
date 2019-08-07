@@ -9,6 +9,7 @@ Vue.directive('highlight', function(el) {
   })
 })
 
+// 高亮颜色
 // a11y-dark.css 还可以
 // atom-one-dark-reasonable.css  还可以atom
 // gruvbox-dark.css 太深，还可以

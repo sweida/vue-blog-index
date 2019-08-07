@@ -148,10 +148,15 @@ export default {
       }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
-          this.$Message.success(res.message)
+          this.$Notice.success({
+            title: res.message,
+            desc: '欢迎下次再来👏',
+            duration: 3,
+          });
+          // this.$Message.success(res.message)
           this.$router.push('/blog')
           this.Logout()
-        }).cathc(err => {})
+        }).catch(err => {})
       }
     }
   }

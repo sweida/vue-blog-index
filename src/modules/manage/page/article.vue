@@ -23,7 +23,7 @@
               </template>
             </template>
           </el-table-column>
-          <el-table-column prop="clicks" label="点击量" width="80">
+          <el-table-column prop="view_count" label="点击量" width="80">
           </el-table-column>
           <el-table-column prop="like" label="点赞量" width="80">
           </el-table-column>
@@ -98,8 +98,8 @@ export default {
     deleteBtn(id, value) {
       // 当value == true时操作下架，反之恢复文章
       if (value == true) {
-        this.$post('/apis/article/remove', {id}).then(res => {
-          console.log(res.data, 'remove')
+        this.$post('/apis/article/delete', {id}).then(res => {
+          console.log(res.data, 'delete')
           this.$message.success(`文章${id}下架操作成功`)
         }).catch(() => {
         })

@@ -65,7 +65,7 @@ export default {
   methods: {
     getComment() {
       this.loading = true
-      this.$get('/apis/comment/list', this.pageModel).then(res => {
+      this.$post('/apis/comment/list', this.pageModel).then(res => {
 
         console.log(res.data)
         this.comments = res.data.data

@@ -72,6 +72,7 @@
           
         </div>
       </div>
+      <div v-if="messageList.length==0">暂无评论</div>
       
       <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
     </div>
@@ -118,7 +119,7 @@ export default {
     // 获取留言
     getMessage() {
       // this.loading = true
-      this.$get('/apis/message/list', this.pageModel).then(res => {
+      this.$post('/apis/message/list', this.pageModel).then(res => {
         this.loading = false
         this.pageModel.sumCount = res.data.total
         this.messageList = res.data.data

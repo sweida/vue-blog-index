@@ -38,6 +38,7 @@
 
         </el-col>
       </el-row>
+      <div v-if="links.length==0">暂无小伙伴加入</div>
     </div>
 
   </div>

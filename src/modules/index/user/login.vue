@@ -80,7 +80,12 @@ export default {
     loginFun () {
       this.loading = true
       this.$post('/apis/login', this.formCustom).then(res => {
-        this.$Message.success('登录成功！');
+        // this.$Message.success('登录成功！');
+        this.$Notice.success({
+          title: '亲爱的 '+this.formCustom.name,
+          desc: '欢迎回来！！！',
+          duration: 3
+        });
         this.Token(res.data.token)
         this.UserInfo()
         

@@ -67,7 +67,7 @@ export default {
   methods: {
     getMessage() {
       this.loading = true
-      this.$get('/apis/message/list', this.pageModel).then(res => {
+      this.$post('/apis/message/list', this.pageModel).then(res => {
         this.message = res.data.data
         this.pageModel.sumCount = res.data.total
 
