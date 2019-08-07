@@ -41,7 +41,7 @@
         <el-form-item label="上传图片" >
           <el-upload
             class="avatar-uploader"
-            action="/apis/img/upload"
+            action="/apis/image/upload"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
@@ -106,7 +106,7 @@ export default {
     // 删除图片
     handleRemove() {
       let param = {url: this.form.url.replace('storage', 'public')}
-      this.$post('/apis/img/delete', param).then(res => {
+      this.$post('/apis/image/delete', param).then(res => {
         if (res.data.status == 1) {
           this.$message.success(res.data.msg)
         } else {

@@ -15,7 +15,7 @@
           </el-table-column>
           <el-table-column prop="title" label="标题" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column prop="href" label="链接" show-overflow-tooltip >
+          <el-table-column prop="url" label="链接" show-overflow-tooltip >
           </el-table-column>
           <el-table-column prop="img" label="头像" show-overflow-tooltip >
           </el-table-column>
@@ -40,7 +40,7 @@
           <el-input v-model="form.title" clearable></el-input>
         </el-form-item>
         <el-form-item label="链接" class="href">
-          <el-input v-model="form.href" clearable></el-input>
+          <el-input v-model="form.url" clearable></el-input>
         </el-form-item>
         <el-form-item label="头像" class="href">
           <el-input v-model="form.img" clearable></el-input>
@@ -78,7 +78,7 @@ export default {
       links: [],
       form: {
         title: '',
-        href: '',
+        url: '',
         img: '',
         desc: '',
         end_time: ''
@@ -105,13 +105,9 @@ export default {
       this.$confirm('是否删除该链接?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('/apis/link/remove', {id: item.id}).then(res => {
-          if (res.data.status == 1) {
-            this.$message.success(res.data.msg)
-            this.links.splice(this.links.indexOf(item), 1)
-          } else {
-            this.$message.error(res.data.msg)
-          }
+        this.$post('/apis/link/delete', {id: item.id}).then(res => {
+          this.$message.success(res.message)
+          this.links.splice(this.links.indexOf(item), 1)
         })
       }).catch(() => {     
       })
@@ -127,14 +123,10 @@ export default {
     },
     addSubmit() {
       this.$post('/apis/link/add', this.form).then(res => {
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg)
-          this.dialogFormVisible = false
-          this.getLink()
-        } else {
-          this.$message.error(res.data.msg)
-        }
-      })
+        this.$message.success(res.message)
+        this.dialogFormVisible = false
+        this.getLink()
+      }).catch({})
     },
     editBtn(item) {
       this.title = '编辑友情链接'
@@ -143,15 +135,11 @@ export default {
       this.form = Object.assign({}, item)
     },
     editSubmit() {
-      this.$post('/apis/link/change', this.form).then(res => {
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg)
-          this.dialogFormVisible = false
-          this.getLink()
-        } else {
-          this.$message.error(res.data.msg)
-        }
-      })
+      this.$post('/apis/link/edit', this.form).then(res => {
+        this.$message.success(res.message)
+        this.dialogFormVisible = false
+        this.getLink()
+      }).catch({})
     }
   }
 }

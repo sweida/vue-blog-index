@@ -1,7 +1,6 @@
 import axios from 'axios'
 import router from '@/modules/index/router/router'
 import { Notice } from 'iview'
-// import { removeLogin } from './loginStatus'
 import store from "../store/index"
 
 // 配置开发和生产的请求接口
@@ -42,7 +41,6 @@ service.interceptors.response.use(
         desc: res.data.message,
         duration: 2
       });
-      // Notice.error(res.data.message);
       // Message({
       //   message: res.data.message,
       //   type: 'error',

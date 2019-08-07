@@ -20,10 +20,10 @@
           <el-table-column label="用户名" show-overflow-tooltip >
             <template slot-scope="scope">
               <span v-if="scope.row.user_id">
-                {{scope.row.user.username}}
+                {{scope.row.user.name}}
               </span>
               <span v-else>
-                (游客) {{scope.row.ykname}}
+                (游客) {{scope.row.name}}
               </span>
             </template>
           </el-table-column>
@@ -83,14 +83,10 @@ export default {
       this.$confirm('是否删除该留言?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('/apis/message/remove', {id: item.id}).then(res => {
-          if (res.data.status == 1) {
-            console.log(res.data)
-            // this.$message.success(res.data.msg)
+        this.$post('/apis/message/delete', {id: item.id}).then(res => {
+            this.$message.success(res.message)
             this.message.splice(this.message.indexOf(item), 1)
-          } else {
-            this.$message.error(res.data.msg)
-          }
+
         })
       }).catch(() => {     
       })
@@ -108,14 +104,9 @@ export default {
       this.$confirm('是否删除选中的留言?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('/apis/message/remove', this.selectMessage).then(res => {
-          if (res.data.status == 1) {
-            // console.log(res.data)
-            this.$message.success(res.data.msg)
-            this.getMessage()
-          } else {
-            this.$message.error(res.data.msg)
-          }
+        this.$post('/apis/message/delete', this.selectMessage).then(res => {
+          this.$message.success(res.message)
+          this.getMessage()
         })
       }).catch(() => {     
       })

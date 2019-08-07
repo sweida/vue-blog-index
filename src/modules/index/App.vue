@@ -60,7 +60,7 @@ export default {
       if (!this.webInfo){
         this.WebInfo()
       }
-    }, 500);
+    }, 100);
     // this.$Loading.config({
     //   color: '#fff',
     //   failedColor: '#000',

@@ -42,7 +42,8 @@
           <el-form-item label="文章封面" >
             <el-upload
               class="avatar-uploader"
-              action="/apis/img/blogbanner"
+              action="/apis/image/upload"
+              :headers='headers'
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">
@@ -64,6 +65,7 @@
 
 <script>
 import Axios from 'axios'
+import {mapActions, mapGetters} from "vuex"
 
 export default {
   data() {
@@ -83,6 +85,17 @@ export default {
         like :'',
         deleted_at: false,
         created_at: new Date()
+      }
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'token'
+    ]),
+    headers() {
+      return {
+        'Authorization': this.token,
+        'X-Requested-With': 'XMLHttpRequest' 
       }
     }
   },
@@ -106,7 +119,7 @@ export default {
         deleted_at: false,
         created_at: new Date()
       }
-    }
+    },
   },
   methods: {
     addBtn() {
@@ -189,10 +202,14 @@ export default {
         let formdata = new FormData()
         formdata.append('picture', $file)
         Axios({
-            url: '/apis/img/blogdetail',
+            url: '/apis/image/upload',
             method: 'post',
             data: formdata,
-            headers:{'Content-Type':'multipart/form-data'}
+            headers:{
+              // 'Content-Type':'multipart/form-data',
+              'Authorization': this.token,
+              'X-Requested-With': 'XMLHttpRequest'
+            }
         }).then((url) => {
           console.log(111, url.data.path, $file)
             // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)

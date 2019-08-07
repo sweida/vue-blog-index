@@ -23,8 +23,8 @@
     <div class="main">
       <h3>小伙伴们</h3>
       <MyLoading v-if="loading"></MyLoading>
-      <el-row :gutter="20" v-else>
-        <el-col :xs="24" :sm="12" :md="8" v-for="(item, index) in links" :key="index" class="animate03">
+      <Row :gutter="20" v-else>
+        <Col :xs="24" :sm="12" :md="8" v-for="(item, index) in links" :key="index" class="animate03">
           <a :href="item.href" target="_blank" class="link-box animate03">
             <div class="imgbox">
               <img :src="item.img" v-if="item.img">
@@ -36,8 +36,8 @@
             </div>
           </a>
 
-        </el-col>
-      </el-row>
+        </Col>
+      </Row>
       <div v-if="links.length==0">暂无小伙伴加入</div>
     </div>
 
@@ -93,9 +93,9 @@ h3
   padding 5px 0
 
 
-.el-row 
+.ivu-row
   margin: 20px 0
-  .el-col 
+  .ivu-col 
     position relative
     margin-bottom 35px
 
@@ -128,7 +128,7 @@ h3
       width 100%
       height: 100%
       object-fit: cover
-.el-col:before
+.ivu-col:before
   content: "";      
   border: 0.5px solid #dedede;
   background: #fff;
@@ -139,7 +139,7 @@ h3
   bottom: -4px;
   height: 5px;
   z-index 9
-.el-col:after
+.ivu-col:after
   content: "";      
   border: 0.5px solid #dedede;
   background: #fff;
@@ -151,7 +151,7 @@ h3
   height: 5px;
   box-shadow: 2px 2px 10px #e4e4e4;
 
-.el-col:hover .link-box
+.ivu-col:hover .link-box
   transform: translateY(15px)
   background: #ecf0f1;
 .animate03
