@@ -32,34 +32,37 @@ const router = new Router({
 
 
 
-// router.beforeEach((to, from, next) => {
-//   // 使用钩子函数对路由进行权限跳转
-//   // 如果用户已经登录，访问登录和注册时，自动跳转到首页
-
-//   setTimeout(() => {
-//     // 如果是超级管理员并且已经登陆状态则直接跳转到文章列表页面
-//     const isadmin = store.state.user.user.admin
-//     if (isadmin && to.path == "/login") {
-//       next("/articlelist")
-//     }
-
-//     // 判断该路由是否需要登录权限
-//     if (to.meta.requireAuth) {
-//       if (isadmin) {  // 通过vuex state获取是否管理员
-//         next();
-//       }
-//       else {
-//         next({
-//           path: '/login',
-//           query: { redirect: to.fullPath }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
-//         })
-//       }
-//     }
-//     else {
-//       next();
-//     }
-//   }, 1000);
-// })
+router.beforeEach((to, from, next) => {
+  // 使用钩子函数对路由进行权限跳转
+  // 如果用户已经登录，访问登录和注册时，自动跳转到首页
+  const isadmin = store.state.user.user.admin
+  // 判断该路由是否需要登录权限
+  if (to.meta.requireAuth) {
+    if (isadmin) {  // 通过vuex state获取是否管理员
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      })
+    }
+  } else {
+    next();
+  }
+  
+  if (isadmin && to.path == "/login") {
+    next("/articlelist")
+  } else {
+    next();
+  }
+  // setTimeout(() => {
+  //   // 如果是超级管理员并且已经登陆状态则直接跳转到文章列表页面
+  //   const isadmin = store.state.user.user.admin
+  //   if (isadmin && to.path == "/login") {
+  //     next("/articlelist")
+  //   }
+  // }, 110);
+})
 
 
 

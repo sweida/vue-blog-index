@@ -13,7 +13,6 @@ export default {
     ...mapGetters([
       'user',
       'token',
-      'webInfo'
     ])
   }, 
   created() {
@@ -22,10 +21,7 @@ export default {
       if (!this.user && this.token){
         this.UserInfo()
       }
-      if (!this.webInfo){
-        this.WebInfo()
-      }
-    }, 500);
+    }, 110);
     // this.$Loading.config({
     //   color: '#fff',
     //   failedColor: '#000',
@@ -48,7 +44,6 @@ export default {
   methods: {
     ...mapActions([
       'UserInfo',
-      'WebInfo'
     ]),
   }
 }

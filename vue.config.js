@@ -1,4 +1,8 @@
 module.exports = {
+  chainWebpack: config => {
+    // 修复HMR
+    config.resolve.symlinks(true);
+  },
   // baseUrl  type:{string} default:'/'
   // 将部署应用程序的基本URL
   // 默认情况下，Vue CLI假设您的应用程序将部署在域的根目录下。
@@ -66,6 +70,10 @@ module.exports = {
       // 包含的模块，可选项
       chunks: ['manage']
     },
+    // 当使用只有入口的字符串格式时，
+    // 模板会被推导为 `public/subpage.html`
+    // 并且如果找不到的话，就回退到 `public/index.html`。
+    // 输出文件名会被推导为 `subpage.html`。
     // 只有entry属性时，直接用字符串表示模块入口
     // client: 'src/modules/client/client.js'
   },
@@ -82,6 +90,7 @@ module.exports = {
     host: "0.0.0.0",
     https: false, // https:{type:Boolean}
     open: true, //配置自动启动浏览器
+    // disableHostCheck: true,//webpack4.0 开启热更新
     // proxy: {
     //   [config.ROOT]: {    //将www.exaple.com印射为/apis
     //     target: config.PROXYROOT,  // 接口域名

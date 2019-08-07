@@ -1,7 +1,7 @@
 <template>
   <div class="higtlight">
     <div class="about-bg">
-      <img src="../../../assets/message.jpg" class="bg-img">
+      <!-- <img src="../../../assets/message.jpg" class="bg-img"> -->
       <div class="bg"></div>
       <p class="mgs-title">Say Hello~</p>
       <!-- 评论框 -->
@@ -129,7 +129,7 @@ export default {
           // 转换换行
           // item.content = item.content.replace(/\n/g, '<br>')
         })
-      }).catch(err =>{})
+      }).catch(() =>{})
     },    
     selectRoleList() {
       this.getMessage()
@@ -143,18 +143,17 @@ export default {
           content: '',
           name: ''
         }
-      }).catch(err =>{})
+      }).catch(() =>{})
     },
     // 删除自己的留言
     deleteComment(item) {
       this.$post('/apis/message/delete', {id: item.id}).then(res => {
         this.messageList.splice(this.messageList.indexOf(item), 1)
         this.$Message.success(res.message)
-      }).catch(err =>{})
+      }).catch(() =>{})
     },
     // 回复
     reply(id) {
-      console.log(id)
       this.autofocus = true
       this.message.content = ''
       this.message.reply_id = id

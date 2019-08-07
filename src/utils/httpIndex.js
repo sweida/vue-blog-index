@@ -17,7 +17,7 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    console.log(error) // for debug
+    // console.log(error) // for debug
     Promise.reject(error)
   },
 )
@@ -47,6 +47,7 @@ service.interceptors.response.use(
       //   duration: 2000
       // })
     }
+    // 打印错误信息
     return Promise.reject(res.data)
   },
   error => {

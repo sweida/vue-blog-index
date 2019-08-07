@@ -190,7 +190,7 @@ export default {
         if (this.detail.comment){
           this.getComment()
         }
-      }).catch(err => {})
+      }).catch(() => {})
     },
     // 跳转上下一篇文章
     goArticle(article) {
@@ -209,7 +209,7 @@ export default {
         this.$post('/apis/article/like', param).then(res => {
           this.detail.like +=1
           this.hasclick = true
-        }).catch(err => {})
+        }).catch(() => {})
       }
     },
     // 获取评论
@@ -228,7 +228,7 @@ export default {
           })
         }
         this.loading = false
-      }).catch(err => {})
+      }).catch(() => {})
     },
     // 提交评论
     submitComment() {
@@ -237,7 +237,7 @@ export default {
         this.detail.comment += 1
         this.$Message.success(res.message)
         this.getComment()
-      }).catch(err => {})
+      }).catch(() => {})
     },
     // 加载更多评论
     getMore() {
@@ -254,7 +254,7 @@ export default {
         this.commentList.forEach(item => {
           item.content = marked(item.content, { sanitize: true })
         })
-      }).catch(err => {})
+      }).catch(() => {})
     },
     // 删除自己的留言
     deleteComment(item) {
@@ -262,7 +262,7 @@ export default {
         this.commentList.splice(this.commentList.indexOf(item), 1)
         this.$Message.success(res.message)
         this.detail.comment -= 1
-      }).catch(err => {})
+      }).catch(() => {})
     }
   }
 }

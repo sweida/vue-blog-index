@@ -35,7 +35,6 @@
               <p>{{item.desc}}</p>
             </div>
           </a>
-
         </Col>
       </Row>
       <div v-if="links.length==0">暂无小伙伴加入</div>
@@ -62,7 +61,7 @@ export default {
       this.$get('/apis/link/list').then(res => {
         this.links = res.data.data
         this.loading = false
-      }).catch(err => {})
+      }).catch(() => {})
     }
   }
 }

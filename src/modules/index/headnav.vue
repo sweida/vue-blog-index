@@ -143,8 +143,9 @@ export default {
         this.$router.push('/person')
       } 
       if (item == 'admin') {
-        let routeData = this.$router.resolve({ path: '/admin/articlelist'});
-        window.open(routeData.href, '_blank');
+        // window.href = "/manage.html/#/articlelist"
+        // let routeData = this.$router.resolve({ path: '/manage.html/#/articlelist'});
+        window.open('/manage.html/#/articlelist', '_blank');
       }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
@@ -156,7 +157,7 @@ export default {
           // this.$Message.success(res.message)
           this.$router.push('/blog')
           this.Logout()
-        }).catch(err => {})
+        }).catch(() => {})
       }
     }
   }

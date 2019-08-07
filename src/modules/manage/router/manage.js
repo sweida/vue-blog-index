@@ -14,7 +14,7 @@ const Ad = resolve => require(["@/modules/manage/page/ad"], resolve);
 const manage = [
   {
     path: "/",
-    component: Login,
+    component: Home,
   },
   {
     path: "/login",

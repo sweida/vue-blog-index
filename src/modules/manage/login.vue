@@ -45,6 +45,12 @@ export default {
     ]),
     loginSubmit() {
       this.$post('/apis/admin/login', this.formCustom).then(res => {
+        // 因为接口请求用户信息需要时间，路由会先拦截，所以先设置 admin=true
+        let user = {
+          admin: true
+        }
+        this.$store.commit('USERINFO', user)
+        
         this.$message.success('登录成功！');
         this.Token(res.data.token)
         this.UserInfo()

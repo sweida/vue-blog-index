@@ -108,14 +108,14 @@ export default {
         this.loading = false
         this.commentsTotal = res.data.total
         this.comments = res.data.data
-      }).catch(err => {})
+      }).catch(() => {})
 
       this.$get('/apis/message/person').then(res => {
         console.log(res, 4545)
         this.loading = false
         this.messages = res.data.data
         this.messagesTotal = res.data.total
-      }).catch(err => {})
+      }).catch(() => {})
     },
     // 删除评论
     deleteComment(item) {
@@ -126,7 +126,7 @@ export default {
         this.comments.splice(this.comments.indexOf(item), 1)
         this.commentsTotal-=1
         this.$Message.success(res.message)
-      }).catch(err => {})
+      }).catch(() => {})
     }, 
     // 删除留言
     deleteMessage(item) {
@@ -137,7 +137,7 @@ export default {
         this.messages.splice(this.messages.indexOf(item), 1)
         this.messagesTotal-=1
         this.$Message.success(res.message)
-      }).catch(err => {})
+      }).catch(() => {})
     }, 
   }, 
 }
