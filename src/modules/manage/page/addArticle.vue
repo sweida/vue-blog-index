@@ -16,7 +16,7 @@
               <el-input size="small" v-model="form.classify"></el-input>
             </el-form-item>
             <el-form-item label="标签">
-              <el-input size="small" v-model="form.tag" placeholder="多个标签用英文逗号隔开"></el-input>
+              <el-input size="small" v-model="form.tags" placeholder="多个标签用英文逗号隔开"></el-input>
             </el-form-item>
           </el-row>
 
@@ -43,6 +43,7 @@
             <el-upload
               class="avatar-uploader"
               action="/apis/image/upload"
+              name="image"
               :headers='headers'
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
@@ -113,7 +114,7 @@ export default {
         img: '',
         content: '',
         classify: '',
-        tag: '',
+        tags: '',
         clicks: '',
         like :'',
         deleted_at: false,
@@ -125,13 +126,8 @@ export default {
     addBtn() {
       this.loading = true
       this.$post('/apis/article/add', this.form).then(res => {
-        console.log(res)
-        if (res.data.status == 1) {
-          this.$message.success('新增文章成功！')
-          this.$router.push('/admin/articlelist')
-        } else {
-          this.$message.error(res.data.msg)
-        }
+        this.$message.success(res.message)
+        this.$router.push('/articlelist')
       })
     },
     getArticle() {
@@ -142,20 +138,15 @@ export default {
         this.form = res.data
         this.form.tag = res.data.tag.join(',')
         if (this.form.img) {
-          this.blogBanner = this.$baseUrl+this.form.img
+          this.blogBanner = this.$staticUrl+this.form.img
         }
       })
     },
     editBtn() {
       this.loading = true
       this.$post('/apis/article/change', this.form).then(res => {
-        console.log(res, 77777)
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg)
-          this.$router.push('/admin/articlelist')
-        } else {
-          this.$message.error(res.data.msg)
-        }
+        this.$message.success(res.message)
+        this.$router.push('/articlelist')
       })
     },
     // 上传图片，获取图片地址
@@ -166,21 +157,14 @@ export default {
       }
 
       this.blogBanner = URL.createObjectURL(file.raw);
-      if (res.status == 1) {
-        this.$message.success('图片上传成功')
-        this.form.img = res.data.replace('public', 'storage')
-      }
+      this.$message.success('图片上传成功')
+      this.form.img = res.data.url
     },
     // 删除图片
     handleRemove() {
-      let param = {url: this.form.img.replace('storage', 'public')}
-      this.$post('/apis/img/delete', param).then(res => {
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg)
-        } else {
-          this.$message.error(res.data.msg)
-          return false
-        }
+      let param = {image: this.form.img}
+      this.$post('/apis/image/delete', param).then(res => {
+        this.$message.success(res.message)
       })
     },
     // 限制图片大小和格式
@@ -200,7 +184,7 @@ export default {
     // 绑定@imgAdd event 上传图片
     $imgAdd(pos, $file){
         let formdata = new FormData()
-        formdata.append('picture', $file)
+        formdata.append('image', $file)
         Axios({
             url: '/apis/image/upload',
             method: 'post',
@@ -211,9 +195,27 @@ export default {
               'X-Requested-With': 'XMLHttpRequest'
             }
         }).then((url) => {
-          console.log(111, url.data.path, $file)
+          console.log(111, url, url.data.data.url, $file)
             // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
-            this.$refs.md.$img2Url(pos, this.$baseUrl+url.data.path)
+          this.$refs.md.$img2Url(pos, this.$staticUrl+url.data.data.url)
+        })
+    },
+    // 因为拿不到图片名称，所以无法删除图片
+    $imgDel(pos) {
+        console.log(pos, '图片名')
+        Axios({
+            url: '/apis/image/delete',
+            method: 'post',
+            data: {
+              image: pos
+            },
+            headers:{
+              'Authorization': this.token,
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+        }).then((url) => {
+          console.log(111, url, url.data.data.url, $file)
+          this.$refs.md.$img2Url(pos, this.$staticUrl+url.data.data.url)
         })
     }
   }

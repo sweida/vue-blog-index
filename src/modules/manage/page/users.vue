@@ -18,7 +18,7 @@
           </el-table-column>
           <el-table-column prop="is_admin" label="权限" >
             <template slot-scope="scope">
-              {{ scope.row.id==1 ? '超级管理员' : '普通用户' }}
+              {{ scope.row.admin ? '超级管理员' : '普通用户' }}
             </template>
           </el-table-column>
           <el-table-column prop="created_at" label="注册日期" show-overflow-tooltip >

@@ -15,7 +15,7 @@
             {{item.name}}
           </span>
           <span class="tagli animate03" 
-            :class="{active: child=='laravel' || child=='vue' || child=='go' || child=='svelte' || child=='docker'}"
+            :class="{hot: child=='laravel' || child=='vue' || child=='go' || child=='svelte' || child=='docker'}"
             v-for="(child, index) in item.tags" 
             :key="index" 
             @click="OrderByTag(child)">
@@ -112,11 +112,11 @@ export default {
       font-weight: 600;
       font-size: 16px;
       border: 1px solid #dae1e7;
-      &.active
+      &.hot
         border 1px solid #ee7752
         background-image: linear-gradient(30deg,#ee7752,#e73c7e);
         color #fff
-      &.active:hover
+      &.hot:hover
         background #f1f5f8
     .tagli:hover
       background #f1f5f8

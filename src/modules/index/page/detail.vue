@@ -1,5 +1,4 @@
 <template>
-
     <div class=" detail higtlight">
 
       <div class="title-box" v-if="!text_loading">
@@ -15,7 +14,6 @@
               {{tagli}}
             </span>
           </div>
-          <!-- <div><i class="iconfont lv-icon-wenjianjia"></i>{{detail.classify}}</div> -->
           <div><i class="iconfont lv-icon-huore"></i>{{detail.view_count}}热度</div>
         </div>
       </div>
@@ -27,7 +25,7 @@
 
         <!-- 许可 -->
         <div class="posmition">
-          <p>文章版权所有：<a href="http://sweida.me" target="_black">sweida</a>，采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。</p>
+          <p>文章版权所有：<a href="https://github.com/sweida" target="_black">sweida</a>，采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。</p>
           <p>欢迎分享，转载务必保留出处及原文链接 <a :href="href" target="_blank">{{href}}</a></p>
         </div>
 

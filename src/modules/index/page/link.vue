@@ -10,8 +10,8 @@
 
         <div class="examp">
           <h4>格式示例</h4>
-          <p>名称: 马里奥</p>
-          <p>链接: https://minemine.cc</p>
+          <p>名称: 九歌</p>
+          <p>链接: https://golang365.com</p>
           <p>头像: https://s.gravatar.com/avatar</p>
           <p>简介: 集颜值和技术于一身的程序猿</p>
         </div>
@@ -37,7 +37,6 @@
           </a>
         </Col>
       </Row>
-      <div v-if="links.length==0">暂无小伙伴加入</div>
     </div>
 
   </div>
@@ -49,7 +48,12 @@ export default {
   data() {
     return {
       loading: true,
-      links: []
+      links: [],
+      pageModel: {
+        page: 1,
+        all: 1,
+        sumCount: 100
+      }
     }
   },
   created() {
@@ -58,7 +62,7 @@ export default {
   methods: {
     // 获取留言 all=1请求所有，不加的话请求的是有效期内的
     getLink() {
-      this.$get('/apis/link/list').then(res => {
+      this.$post('/apis/link/list', this.pageModel).then(res => {
         this.links = res.data.data
         this.loading = false
       }).catch(() => {})

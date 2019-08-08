@@ -90,6 +90,7 @@ export default {
       this.$post('/apis/article/list', this.pageModel).then(res => {
         this.pageModel.sumCount = res.data.total
         this.articles = res.data.data
+        this.AddStaticUrl()
         this.Classify('all')
         this.loading = false
       })
@@ -131,7 +132,7 @@ export default {
         res.data.data.forEach(item => {
           this.articles.push(item.article)
         })
-
+        this.AddStaticUrl()
         this.Tag(this.$route.query.tag)
         this.loading = false
       })
@@ -145,11 +146,20 @@ export default {
       this.$post('/apis/article/list', Object.assign(param, this.pageModel)).then(res => {
         this.pageModel.sumCount = res.data.total
         this.articles = res.data.data
+        this.AddStaticUrl()
         this.Classify(this.$route.query.classify)
 
         this.loading = false
       })
     },
+    // 为静态图片添加域名
+    AddStaticUrl() {
+      this.articles.forEach(item => {
+        if (item.img && item.img.indexOf("http")<0) {
+          item.img = this.$staticUrl + item.img
+        }
+      });
+    }
 
   }
 }

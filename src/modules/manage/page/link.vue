@@ -30,7 +30,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page> -->
+        <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
       </div>
     </section>
 
@@ -69,7 +69,11 @@
 </template>
 
 <script>
+import page from '@/components/page'
 export default {
+  components: {
+    page
+  },
   data() {
     return {
       title: '新增友情链接',
@@ -85,8 +89,8 @@ export default {
       },
       pageModel: {
         page: 1,
-        rows: 10,
-        sumCount: 0
+        all: 1,
+        sumCount: 10
       }
     }
   },
@@ -95,11 +99,14 @@ export default {
   },
   methods: {
     getLink() {
-      this.$get('/apis/link/list?all=1').then(res => {
-        console.log(res.data)
+      this.$post('/apis/link/list', this.pageModel).then(res => {
         this.links = res.data.data
+        this.pageModel.sumCount = res.data.total
         this.loading = false
       })
+    },
+    selectRoleList() {
+      this.getLink()
     },
     deleteBtn(item) {
       this.$confirm('是否删除该链接?', '提示', {

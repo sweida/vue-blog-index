@@ -207,6 +207,7 @@ export default {
     color #f7576c
   img
     max-width 88px
+    margin 3px
 
 
 

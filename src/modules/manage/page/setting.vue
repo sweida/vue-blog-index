@@ -72,7 +72,7 @@ export default {
   methods: {
     submit() {
       this.$post('/apis/webinfo/set', this.webinfo).then(res => {
-          this.$message.success(res.msg)
+        this.$message.success(res.message)
       }).catch(() => {
       })
     }

@@ -34,7 +34,6 @@
     </div>
 
 
-
     <!-- 评论列表 -->
     <MyLoading v-if="loading"></MyLoading>
     <div class="main" v-else>
@@ -72,7 +71,6 @@
           
         </div>
       </div>
-      <div v-if="messageList.length==0">暂无评论</div>
       
       <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
     </div>
