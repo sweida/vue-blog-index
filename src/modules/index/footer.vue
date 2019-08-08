@@ -5,8 +5,12 @@
         <Icon type="logo-github" />
       </a>
       <p>本站已萌萌哒运行{{longTime}}</p>
-      <p class="base">Crafted with <i class="iconfont lv-icon-aixin"></i> by <span>@sweida</span>&nbsp;&nbsp;base on <span>Laravel</span> + <span>Vue</span></p>
-      <p>© {{year}} - 天行九歌 &nbsp;&nbsp;粤ICP备19044398号</p>
+      <p class="base">Crafted with <i class="iconfont lv-icon-aixin"></i> by 
+        <span>@sweida</span>&nbsp;&nbsp;base on 
+        <a class="green" href="https://github.com/sweida/laravel-blog-api" target="_blank">Laravel</a> + 
+        <a class="green" href="https://github.com/sweida/vue-blog-index" target="_blank">Vue</a>
+      </p>
+      <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;粤ICP备19044398号</p>
       
     </div>
   </footer>
@@ -73,7 +77,7 @@ footer
   padding: 15px 0 20px;
   color: #fff;
   .base
-    span
+    span, .green
       color #ffed4a
       font-size 16px
       margin 0 2px

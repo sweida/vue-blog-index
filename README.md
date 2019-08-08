@@ -1,4 +1,12 @@
-# lv-blog
+# vue-blog v2重构
+**base on vue-cli3**  
+博客页面：[http://www.golang365.com](http://www.golang365.com)  
+后台页面：[http://www.golang365.com/manage.html/#/login](http://www.golang365.com/manage.html/#/login)
+
+1.多页面配置，博客页面和后台页面分离  
+2.图片上传又拍云  
+3.博客页面用iview UI  
+4.后台页面用element UI  
 
 ## Project setup
 ```
@@ -24,3 +32,11 @@ npm run test
 ```
 npm run lint
 ```
+
+### 未解决问题
+- [ ] 友链分页问题
+- [ ] 后端每篇博客自动生成一份md文档
+- [ ] 博客页面去除element UI
+- [ ] 多页面配置后，有时候热更新失效
+- [ ] 屏蔽生产环境的console.log
+- [ ] cmd启动显示的eslint报错
