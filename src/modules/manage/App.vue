@@ -16,29 +16,10 @@ export default {
     ])
   }, 
   created() {
-    setTimeout(() => {
-      // 有token,没有user时才请求用户信息
-      if (!this.user && this.token){
-        this.UserInfo()
-      }
-    }, 110);
-    // this.$Loading.config({
-    //   color: '#fff',
-    //   failedColor: '#000',
-    //   height: 50
-    // });
-    //在页面加载时读取sessionStorage里的状态信息，一秒后删除sessionStoreage的数据
-    if (sessionStorage.getItem("store") ) {
-      this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
-      setTimeout(()=> {
-        sessionStorage.removeItem('store')
-      }, 1000)
-    } 
-
-    //在页面刷新时将vuex里的信息保存到sessionStorage里
-    window.addEventListener("beforeunload",()=>{
-      sessionStorage.setItem("store",JSON.stringify(this.$store.state))
-    })
+    // 有token,没有user时才请求用户信息
+    if (this.token){
+      this.UserInfo()
+    }
 
   },
   methods: {

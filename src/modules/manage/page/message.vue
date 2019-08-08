@@ -83,7 +83,7 @@ export default {
       this.$confirm('是否删除该留言?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('/apis/message/delete', {id: item.id}).then(res => {
+        this.$post('/apis/message/deletes', {id: item.id}).then(res => {
             this.$message.success(res.message)
             this.message.splice(this.message.indexOf(item), 1)
 
@@ -104,7 +104,7 @@ export default {
       this.$confirm('是否删除选中的留言?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('/apis/message/delete', this.selectMessage).then(res => {
+        this.$post('/apis/message/deletes', this.selectMessage).then(res => {
           this.$message.success(res.message)
           this.getMessage()
         })

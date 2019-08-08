@@ -1,8 +1,4 @@
 module.exports = {
-  chainWebpack: config => {
-    // 修复HMR
-    config.resolve.symlinks(true);
-  },
   // baseUrl  type:{string} default:'/'
   // 将部署应用程序的基本URL
   // 默认情况下，Vue CLI假设您的应用程序将部署在域的根目录下。

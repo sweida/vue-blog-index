@@ -46,22 +46,15 @@ router.beforeEach((to, from, next) => {
         query: { redirect: to.fullPath }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
       })
     }
-  } else {
+  } 
+  else {
     next();
   }
   
   if (isadmin && to.path == "/login") {
     next("/articlelist")
-  } else {
-    next();
   }
-  // setTimeout(() => {
-  //   // 如果是超级管理员并且已经登陆状态则直接跳转到文章列表页面
-  //   const isadmin = store.state.user.user.admin
-  //   if (isadmin && to.path == "/login") {
-  //     next("/articlelist")
-  //   }
-  // }, 110);
+
 })
 
 

@@ -107,12 +107,7 @@ export default {
     handleRemove() {
       let param = {url: this.form.url.replace('storage', 'public')}
       this.$post('/apis/image/delete', param).then(res => {
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg)
-        } else {
-          this.$message.error(res.data.msg)
-          return false
-        }
+        this.$message.success(res.message)
       })
     },
     // 限制图片大小和格式
@@ -132,13 +127,9 @@ export default {
       this.$confirm('是否删除该广告图?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('/apis/ad/remove', {id: item.id}).then(res => {
-          if (res.data.status == 1) {
-            this.$message.success(res.data.msg)
-            this.adlist.splice(this.adlist.indexOf(item), 1)
-          } else {
-            this.$message.error(res.data.msg)
-          }
+        this.$post('/apis/ad/delete', {id: item.id}).then(res => {
+          this.$message.success(res.message)
+          this.adlist.splice(this.adlist.indexOf(item), 1)
         })
       }).catch(() => {     
       })
@@ -157,13 +148,9 @@ export default {
     // 提交新增
     addSubmit() {
       this.$post('/apis/ad/add', this.form).then(res => {
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg)
-          this.dialogFormVisible = false
-          this.getLink()
-        } else {
-          this.$message.error(res.data.msg)
-        }
+        this.$message.success(res.message)
+        this.dialogFormVisible = false
+        this.getLink()
       })
     },
     // 打开编辑
@@ -176,14 +163,10 @@ export default {
     },
     // 提交编辑
     editSubmit() {
-      this.$post('/apis/ad/change', this.form).then(res => {
-        if (res.data.status == 1) {
-          this.$message.success(res.data.msg)
-          this.dialogFormVisible = false
-          this.getLink()
-        } else {
-          this.$message.error(res.data.msg)
-        }
+      this.$post('/apis/ad/edit', this.form).then(res => {
+        this.$message.success(res.message)
+        this.dialogFormVisible = false
+        this.getLink()
       })
     }
   }

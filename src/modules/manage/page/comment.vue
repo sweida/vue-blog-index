@@ -15,10 +15,10 @@
           <el-table-column label="用户名" show-overflow-tooltip >
             <template slot-scope="scope">
               <span v-if="scope.row.user_id">
-                {{scope.row.user.username}}
+                {{scope.row.user.name}}
               </span>
               <span v-else>
-                (游客) {{scope.row.username}}
+                (游客) {{scope.row.name}}
               </span>
             </template>
           </el-table-column>
@@ -81,8 +81,9 @@ export default {
       this.$confirm('是否删除该评论?', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$post('/apis/comment/remove', {id}).then(res => {
-          this.$message.success(res.data.msg)
+        this.$post('/apis/comment/deletes', {id}).then(res => {
+          this.$message.success(res.message)
+          this.getComment()
         })
       })
     }

@@ -18,18 +18,18 @@
           </el-table-column>
           <el-table-column prop="is_admin" label="权限" >
             <template slot-scope="scope">
-              {{ scope.row.is_admin ? '超级管理员' : '普通用户' }}
+              {{ scope.row.id==1 ? '超级管理员' : '普通用户' }}
             </template>
           </el-table-column>
           <el-table-column prop="created_at" label="注册日期" show-overflow-tooltip >
           </el-table-column>
           <el-table-column prop="updated_at" label="最后登录时间" show-overflow-tooltip >
           </el-table-column>
-          <el-table-column label="操作" width="120">
+          <!-- <el-table-column label="操作" width="120">
             <template slot-scope="scope">
               <el-button type="primary" size="mini" @click="detail(scope.row.id, scope.row)">查看</el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
       </div>
@@ -71,12 +71,12 @@ export default {
     },
     // 查看用户详情
     detail(id, row) {
-      let param = {
-        user_id: id
+      let params = {
+        id: id
       }
-      this.$get('/apis/user', param).then(res => {
+      this.$post('/apis/user', params).then(res => {
         console.log(res)
-      })
+      }).catch(() =>{})
     },
     // // 获取项目产品菜单
     // getmixMenu() {

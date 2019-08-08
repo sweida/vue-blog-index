@@ -3,41 +3,38 @@ import Vuex from 'vuex'
 import todos from './modules/todos'
 import user from './modules/user'
 import blog from './modules/blog'
+import createPersiste from 'vue-savedata'
 
 Vue.use(Vuex)
 
+const persiste = createPersiste({
+  ciphertext: true, // 加密存本地, 默认为false
+  LS: [
+    {
+      module: user,
+      storePath: 'user' // __storePath:(和Vuex中的option.modules:{key：value}的key,一,一对应)__
+    }
+  ],
+  SS: [
+    {
+      module: todos,
+      storePath: 'todos'
+    },
+    {
+      module: blog,
+      storePath: 'blog'
+    }
+  ],
+})
+
 const store = new Vuex.Store({
-  // state: {
-  //   // user: JSON.parse(localStorage.getItem("user")) || "",
-  //   webinfo: "",
-  //   tag: "",
-  //   classify: "",
-  //   timeline: ""
-  // },
-  // mutations: {
-  //   // increment(state, data) {
-  //   //   state.user = data;
-  //   // },
-  //   inWebinfo(state, data) {
-  //     state.webinfo = data;
-  //   },
-  //   intag(state, data) {
-  //     state.tag = data;
-  //   },
-  //   inclassify(state, data) {
-  //     state.classify = data;
-  //   },
-  //   intimeline(state, data) {
-  //     state.timeline = data;
-  //   }
-  // },
   modules: {
-    todos,
     user,
-    blog
-  }
+    blog,
+    todos,
+  },
+  //缓存所有store数据到本地 也可以单独缓存
+  plugins: [persiste],
 })
 
 export default store;
-
-

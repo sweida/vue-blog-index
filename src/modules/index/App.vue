@@ -54,7 +54,7 @@ export default {
   created() {
     setTimeout(() => {
       // 有token,没有user时才请求用户信息
-      if (!this.user && this.token){
+      if (this.token){
         this.UserInfo()
       }
       if (!this.webInfo){
