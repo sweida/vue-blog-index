@@ -3,24 +3,23 @@
     <div class="box">
       <h3>Skills<i class="iconfont lv-icon-biaoqian"></i></h3>
       <div class="backg"></div>
-      <div class="tagBox
-      .type
-        background #f1f5f8
-        border none">
+      <div class="tagBox">
         <span class="tagli animate03 classify" @click="allArticles">
           全部
         </span>
-        <div v-for="(item, index) in classifys" :key="index" >
+        <div class="classifyBox" v-for="(item, index) in classifys" :key="index" >
           <span class="tagli animate03 classify" @click="OrderByClassify(item.name)">
             {{item.name}}
           </span>
-          <span class="tagli animate03" 
-            :class="{hot: child=='laravel' || child=='vue' || child=='go' || child=='svelte' || child=='docker'}"
-            v-for="(child, index) in item.tags" 
-            :key="index" 
-            @click="OrderByTag(child)">
-            {{child}}
-          </span>
+          <div>
+            <span class="tagli animate03" 
+              :class="{hot: child=='laravel' || child=='vue' || child=='go' || child=='svelte' || child=='docker'}"
+              v-for="(child, index) in item.tags" 
+              :key="index" 
+              @click="OrderByTag(child)">
+              {{child}}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -99,7 +98,12 @@ export default {
       .classify
         background #f1f5f8
         border none
-        border: 1px solid #f1f5f8;
+        border: 1px solid #f1f5f8
+        height: 32px
+        white-space: nowrap
+      .classifyBox
+        display flex
+
     .tagli
       color: #606f7b;
       font-size: 12px;
@@ -139,5 +143,8 @@ export default {
 
 @media screen and (max-width: 750px)
   .common .box .tagli
-      font-size: 14px
+    font-size: 14px
+  .common .box .tagBox
+    .classify
+      height 29px
 </style>
