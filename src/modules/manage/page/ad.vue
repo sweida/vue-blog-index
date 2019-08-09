@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- <header>广告图</header> -->
-    <section class="wrap scroll">
+    <section class="wrap scroll ad">
       <el-button type="primary" size="small" @click="addBtn">添 加</el-button>
       <div class="main_table">
         <el-table 
@@ -18,6 +18,11 @@
           <el-table-column prop="type" label="分类" show-overflow-tooltip >
           </el-table-column>
           <el-table-column prop="url" label="链接" show-overflow-tooltip >
+          </el-table-column>
+          <el-table-column label="图片预览" width="180">
+            <template slot-scope="scope">
+              <img class="imgload" :src="$staticUrl+scope.row.url" alt="">
+            </template>
           </el-table-column>
           <el-table-column label="操作" width="180">
             <template slot-scope="scope">
@@ -198,6 +203,9 @@ export default {
 .addimg .el-dialog{
   min-width: 600px;
 }
+.ad .el-table .cell{
+  line-height 100%
+}
 </style>
 
 <style scoped lang="stylus">
@@ -207,5 +215,9 @@ export default {
   width 220px
 .href .el-input
   width 400px
+
+
+.imgload
+  height 42px 
 
 </style>

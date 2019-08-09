@@ -25,7 +25,7 @@
       <MyLoading v-if="loading"></MyLoading>
       <Row :gutter="20" v-else>
         <Col :xs="24" :sm="12" :md="8" v-for="(item, index) in links" :key="index" class="animate03">
-          <a :href="item.href" target="_blank" class="link-box animate03">
+          <a :href="item.url" target="_blank" class="link-box animate03">
             <div class="imgbox">
               <img :src="item.img" v-if="item.img">
               <img src="../../../assets/avatar/link-img.jpg" v-else>
