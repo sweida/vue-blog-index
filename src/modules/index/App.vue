@@ -33,7 +33,7 @@ import '@/style/hybrid.styl'
 import {mapActions, mapGetters} from "vuex"
 
 export default {
-  name: 'index',
+  name: 'app',
   components: {
     headnav,
     Footer,

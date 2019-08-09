@@ -3,8 +3,9 @@ module.exports = {
   // 将部署应用程序的基本URL
   // 默认情况下，Vue CLI假设您的应用程序将部署在域的根目录下。
   // https://www.my-app.com/。如果应用程序部署在子路径上，则需要使用此选项指定子路径。例如，如果您的应用程序部署在https://www.foobar.com/my-app/，集baseUrl到'/my-app/'.
-
-  // baseUrl: process.env.NODE_ENV === "production" ? "./" : "/",
+  // assetsPublicPath: './',
+  baseUrl: "./",
+  assetsDir: "static",
 
   // outputDir: 在npm run build时 生成文件的目录 type:string, default:'dist'
 
@@ -51,7 +52,7 @@ module.exports = {
       // 需要注意的是使用title属性template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
       title: 'index page',
       // 包含的模块，可选项
-      chunks: ['index']
+      // chunks: ['chunk-vendors', 'chunk-common', 'index']
     },
     manage: {
       // 应用入口配置，相当于单页面应用的main.js，必需项
@@ -64,7 +65,7 @@ module.exports = {
       // 需要注意的是使用title属性template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
       title: 'manage page',
       // 包含的模块，可选项
-      chunks: ['manage']
+      // chunks: ['chunk-vendors', 'chunk-common', 'index']
     },
     // 当使用只有入口的字符串格式时，
     // 模板会被推导为 `public/subpage.html`
@@ -74,7 +75,7 @@ module.exports = {
     // client: 'src/modules/client/client.js'
   },
   //   lintOnSave：{ type:Boolean default:true } 问你是否使用eslint
-  lintOnSave: true,
+  lintOnSave: false,
   // productionSourceMap：{ type:Bollean,default:true } 生产源映射
   // 如果您不需要生产时的源映射，那么将此设置为false可以加速生产构建
   productionSourceMap: false,
