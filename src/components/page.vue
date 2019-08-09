@@ -103,10 +103,13 @@
   //   display none
 
 @media screen and (max-width: 750px)
-  .el-pagination.is-background .el-pager li
-    width: 40px;
-    height: 40px;
-    line-height: 36px;
+  .blog
+    .el-pagination.is-background .el-pager li,
+    .el-pagination.is-background.el-pagination--small .btn-next,
+    .el-pagination.is-background.el-pagination--small .btn-prev
+      width: 38px;
+      height: 38px;
+      line-height: 36px;
 
 </style>
 
