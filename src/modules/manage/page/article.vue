@@ -43,14 +43,13 @@
           </el-table-column>
 
         </el-table>
-        <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page>
+        <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
       </div>
     </section>
   </main>
 </template>
 
 <script>
-import page from '@/components/page'
 export default {
   data() {
     return {
@@ -62,9 +61,6 @@ export default {
         sumCount: 10
       }
     }
-  },
-  components: {
-    page
   },
   created() {
     this.getArticles()

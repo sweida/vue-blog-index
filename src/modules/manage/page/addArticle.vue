@@ -16,7 +16,7 @@
               <el-input size="small" v-model="form.classify"></el-input>
             </el-form-item>
             <el-form-item label="标签">
-              <el-input size="small" v-model="form.tags" placeholder="多个标签用英文逗号隔开"></el-input>
+              <el-input size="small" v-model="form.tag" placeholder="多个标签用英文逗号隔开"></el-input>
             </el-form-item>
           </el-row>
 
@@ -114,7 +114,7 @@ export default {
         img: '',
         content: '',
         classify: '',
-        tags: '',
+        tag: '',
         clicks: '',
         like :'',
         deleted_at: false,
@@ -144,7 +144,7 @@ export default {
     },
     editBtn() {
       this.loading = true
-      this.$post('/apis/article/change', this.form).then(res => {
+      this.$post('/apis/article/edit', this.form).then(res => {
         this.$message.success(res.message)
         this.$router.push('/articlelist')
       })

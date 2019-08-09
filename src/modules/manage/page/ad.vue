@@ -26,7 +26,7 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- <page :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></page> -->
+        <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
       </div>
     </section>
 
@@ -42,10 +42,12 @@
           <el-upload
             class="avatar-uploader"
             action="/apis/image/upload"
+            name="image"
+            :headers='headers'
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="$baseUrl+imageUrl" class="avatar">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -64,6 +66,8 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex"
+
 export default {
   data() {
     return {
@@ -77,18 +81,37 @@ export default {
         url: '',
         type: ''
       },
+      pageModel: {
+        page: 1,
+        sumCount: 10
+      }
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'token'
+    ]),
+    headers() {
+      return {
+        'Authorization': this.token,
+        'X-Requested-With': 'XMLHttpRequest' 
+      }
     }
   },
   created() {
-    this.getLink()
+    this.getAd()
   },
   methods: {
-    getLink() {
-      this.$post('/apis/ad/list').then(res => {
+    getAd() {
+      this.$post('/apis/ad/list', this.pageModel).then(res => {
         console.log(res.data)
         this.adlist = res.data.data
+        this.pageModel.sumCount = res.data.total
         this.loading = false
       })
+    },
+    selectRoleList() {
+      this.getAd()
     },
     // 上传图片，获取图片地址
     handleAvatarSuccess(res, file) {
@@ -98,14 +121,12 @@ export default {
       }
 
       this.imageUrl = URL.createObjectURL(file.raw);
-      if (res.status == 1) {
-        this.$message.success('图片上传成功')
-        this.form.url = res.data.replace('public', 'storage')
-      }
+      this.$message.success('图片上传成功')
+      this.form.url = res.data.url
     },
     // 删除图片
     handleRemove() {
-      let param = {url: this.form.url.replace('storage', 'public')}
+      let param = {image: this.form.img}
       this.$post('/apis/image/delete', param).then(res => {
         this.$message.success(res.message)
       })
@@ -150,7 +171,7 @@ export default {
       this.$post('/apis/ad/add', this.form).then(res => {
         this.$message.success(res.message)
         this.dialogFormVisible = false
-        this.getLink()
+        this.getAd()
       })
     },
     // 打开编辑
@@ -159,14 +180,14 @@ export default {
       this.dialogFormVisible = true
       // 复制对象不修改原对象
       this.form = Object.assign({}, item)
-      this.imageUrl = this.form.url
+      this.imageUrl = this.$staticUrl + this.form.url
     },
     // 提交编辑
     editSubmit() {
       this.$post('/apis/ad/edit', this.form).then(res => {
         this.$message.success(res.message)
         this.dialogFormVisible = false
-        this.getLink()
+        this.getAd()
       })
     }
   }

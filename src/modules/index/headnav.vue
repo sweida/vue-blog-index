@@ -145,7 +145,7 @@ export default {
       if (item == 'admin') {
         // window.href = "/manage.html/#/articlelist"
         // let routeData = this.$router.resolve({ path: '/manage.html/#/articlelist'});
-        window.open('/manage.html/#/articlelist', '_blank');
+        window.open('/manage.html#/articlelist', '_blank');
       }
       if (item == 'logout') {
         this.$post('/apis/logout').then(res => {
