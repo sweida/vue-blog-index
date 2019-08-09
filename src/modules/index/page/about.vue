@@ -57,7 +57,7 @@
       <div class="skills">
         <p>目前已习得技能</p>
         <!-- <img v-for="(item, index) in skills" :key="index" :src="$baseUrl+item.url"> -->
-        <img v-for="(item, index) in skills" :key="index" :src="item.url">
+        <img v-for="(item, index) in skills" :key="index" :src="$staticUrl + item.url">
       </div>            
     </div>
 

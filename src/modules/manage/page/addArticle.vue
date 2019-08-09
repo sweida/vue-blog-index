@@ -16,7 +16,7 @@
               <el-input size="small" v-model="form.classify"></el-input>
             </el-form-item>
             <el-form-item label="标签">
-              <el-input size="small" v-model="form.tag" placeholder="多个标签用英文逗号隔开"></el-input>
+              <el-input size="small" v-model="form.tags" placeholder="多个标签用英文逗号隔开"></el-input>
             </el-form-item>
           </el-row>
 
@@ -81,7 +81,7 @@ export default {
         img: '',
         content: '',
         classify: '',
-        tag: '',
+        tags: '',
         clicks: '',
         like :'',
         deleted_at: false,
@@ -132,11 +132,15 @@ export default {
     },
     getArticle() {
       this.articleLoading = true
-      this.$post('/apis/article', this.$route.params).then(res => {
+      let params = {
+        id: this.$route.params.id,
+        all: 1
+      }
+      this.$post('/apis/article', params).then(res => {
         console.log(res.data)
         this.articleLoading = false
         this.form = res.data
-        this.form.tag = res.data.tag.join(',')
+        this.form.tags = res.data.tags.join(',')
         if (this.form.img) {
           this.blogBanner = this.$staticUrl+this.form.img
         }
