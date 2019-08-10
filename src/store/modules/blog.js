@@ -4,13 +4,15 @@ const state = {
   webinfo: "",
   tag: "",
   classify: "",
+  banners: ""
 }
 
 // 获取state的数据
 const getters = {
   webInfo: state => state.webinfo,
   tag: state => state.tag,
-  classify: state => state.classify
+  classify: state => state.classify,
+  banners: state=> state.banners
 }
 
 // 更新state的数据
@@ -25,6 +27,9 @@ const mutations = {
   CLASSIFY(state, data) {
     state.classify = data
     state.tag = ''
+  },
+  BANNERS(state, data) {
+    state.banners = data
   }
 }
 
@@ -32,7 +37,7 @@ const mutations = {
 const actions = {
   async WebInfo({ commit }, data) {
     const res = await http.get('/apis/webinfo/read')
-    commit('WEBINFO', res.data.data)
+    commit('WEBINFO', res.data)
   },
   Tag({ commit }, data) {
     commit('TAG', data)
@@ -40,6 +45,10 @@ const actions = {
   Classify({ commit }, data) {
     commit('CLASSIFY', data)
   },
+  async Banners({ commit }, data) {
+    const res = await http.post('/apis/ad', {type: 'banner'})
+    commit('BANNERS', res.data)
+  }
 }
 
 

@@ -1,7 +1,7 @@
 <template>
   <div class="higtlight">
     <div class="about-bg">
-      <img src="../../../assets/message.jpg" class="bg-img">
+      <img :src="$staticUrl + banners[3].url" class="bg-img">
       <div class="bg"></div>
       <p class="mgs-title">Say Hello~</p>
       <!-- 评论框 -->
@@ -104,7 +104,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-        'user'
+        'user',
+        'banners'
     ]),
     compiledMarkdown: function () {
       return marked(this.detail.content, { sanitize: true })

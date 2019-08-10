@@ -49,7 +49,7 @@
       <span></span>
       <span></span>
       <div class="mobliNav-main" slot="content">
-        <img src="../../assets/nav-bg.jpg" class="nav-bg">
+        <img :src="$staticUrl + banners[4].url" class="nav-bg">
         <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
           <Icon :type="item.icon" />
           <a @click="goRouter(item.url)">{{item.name}}</a>
@@ -111,7 +111,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'user', 'classify', 'tag'
+      'user', 'classify', 'tag', 'banners'
     ]),
   },
   watch:{

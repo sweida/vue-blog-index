@@ -1,7 +1,7 @@
 <template>
   <div >
     <div class="banner">
-      <img src="../../../assets/shang.jpg" alt="">
+      <img :src="$staticUrl + banners[5].url" alt="">
       <div class="bg"></div>
       
       <div class="text-box">
@@ -11,8 +11,8 @@
     </div>    
 
     <div class="img-box">
-      <img src="../../../assets/zfb.jpg">
-      <img src="../../../assets/wx.jpg">
+      <img :src="$staticUrl + webInfo.zhifubao">
+      <img :src="$staticUrl + webInfo.weixin">
     </div>
   </div>
 </template>
@@ -26,9 +26,12 @@ export default {
       success: '',
     }
   },
-  computed: mapGetters([
-    'webInfo'
-  ]), 
+  computed: {
+    ...mapGetters([
+      'webInfo',
+      'banners'
+    ])
+  }, 
   created() {
 
   },
@@ -45,6 +48,7 @@ export default {
   img
     width 250px
     margin 20px 40px
+    box-shadow: 8px 14px 38px #e7eeef;
 
 @media screen and (max-width: 750px)
   .banner

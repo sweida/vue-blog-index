@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner">
-      <img src="../../../assets/link.jpg" alt="">
+      <img :src="$staticUrl + banners[2].url" alt="">
       <div class="bg"></div>
       
       <div class="text-box">
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-
+import {mapActions, mapGetters} from "vuex"
 export default {
   data() {
     return {
@@ -56,6 +56,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters([
+      'banners'
+    ])
+  }, 
   created() {
     this.getLink()
   },

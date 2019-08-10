@@ -1,7 +1,7 @@
 <template>
   <div class="home" >
     <div class="about-bg">
-      <img src="../../../assets/index1.jpg" >
+      <img :src="$staticUrl + banners[0].url">
       <div class="bg bg2"></div>
       <div class="title">
         <h2>写在前面</h2>
@@ -42,7 +42,7 @@
 
 
     <div class="about-bg">
-      <img src="../../../assets/index2.jpg" >
+      <img :src="$staticUrl + banners[1].url" >
       <div class="bg"></div>
       <div class="title">
         <h2>关于我</h2>
@@ -66,13 +66,18 @@
 </template>
 
 <script>
-
+import {mapActions, mapGetters} from "vuex"
 export default {
   data () {
     return {
       skills: []
     }
   },
+  computed: {
+    ...mapGetters([
+      'banners'
+    ])
+  }, 
   created() {
     this.getSkills()
   },
