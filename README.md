@@ -8,29 +8,24 @@
 3.博客页面用iview UI  
 4.后台页面用element UI  
 
-## Project setup
+## 安装依赖
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 启动项目
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 打包
 ```
 npm run build
 ```
 
-### Run your tests
+### 打包并提交代码到分支gh-pages
 ```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
+npm run deploy
 ```
 
 ### 未解决问题
