@@ -48,6 +48,7 @@
                 </Poptip>
               </div>
             </li>
+            <MyPage :pageModel="pageModel1" @selectList="selectCommentList" v-if="pageModel1.sumCount>10"></MyPage>
           </ul>
           <ul class="noneli" v-if="commentsTotal==0">
             你还没有评论
@@ -70,6 +71,7 @@
                 </Poptip>
               </div>
             </li>
+            <MyPage :pageModel="pageModel2" @selectList="selectMessageList" v-if="pageModel2.sumCount>10"></MyPage>
           </ul>
           <ul class="noneli" v-if="messagesTotal==0">
             你还没有留言
@@ -94,28 +96,34 @@ export default {
       messages: {},
       commentsTotal: 0,
       messagesTotal: 0,
+      pageModel1: {
+        page: 1,
+        sumCount: 10
+      },
+      pageModel2: {
+        page: 1,
+        sumCount: 10
+      },
     }
   },
   computed: mapGetters([
     'user'
   ]),  
   created() {
-    this.getUserInfo()
+    this.getComment()
+    this.getMessage()
   },
   methods: {
-    getUserInfo() {
-      this.$get('/apis/comment/person').then(res => {
+    getComment() {
+      this.$post('/apis/comment/person', this.pageModel1).then(res => {
         this.loading = false
         this.commentsTotal = res.data.total
         this.comments = res.data.data
+        this.pageModel1.sumCount = res.data.total
       }).catch(() => {})
-
-      this.$get('/apis/message/person').then(res => {
-        console.log(res, 4545)
-        this.loading = false
-        this.messages = res.data.data
-        this.messagesTotal = res.data.total
-      }).catch(() => {})
+    },
+    selectCommentList() {
+      this.getComment()
     },
     // 删除评论
     deleteComment(item) {
@@ -128,6 +136,17 @@ export default {
         this.$Message.success(res.message)
       }).catch(() => {})
     }, 
+    getMessage() {
+      this.$post('/apis/message/person', this.pageModel2).then(res => {
+        this.loading = false
+        this.messages = res.data.data
+        this.messagesTotal = res.data.total
+        this.pageModel1.sumCount = res.data.total
+      }).catch(() => {})
+    },
+    selectMessageList() {
+      this.getMessage()
+    },
     // 删除留言
     deleteMessage(item) {
       let param = {

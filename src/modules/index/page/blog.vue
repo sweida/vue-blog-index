@@ -106,7 +106,7 @@ export default {
       } else if (this.$route.query.tag) {
         this.ArticlesOrderByTag()
         this.$router.push({path:'/blog', query:{
-          classify: this.$route.query.tag,
+          tag: this.$route.query.tag,
           page: this.pageModel.page
         }})
         console.log('请求标签分页')

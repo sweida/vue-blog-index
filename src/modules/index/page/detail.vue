@@ -90,36 +90,40 @@
         </div>
         <div v-else>
           <MyLoading v-if="loading"></MyLoading>
-          <div class="commentList" v-for="(item, index) in commentList" :key="index" v-else>
-            <div class="user-ava">
-              <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user_id}.svg`" alt="">
-            </div>
-            <div class="comment-box animate03">
-              <div class="username">
-                <span>
-                  <Icon type="md-person" />
-                  {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
-                  <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
-                  <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
-                </span>
+          <div v-else>
+            <div class="commentList" v-for="(item, index) in commentList" :key="index">
+              <div class="user-ava">
+                <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user_id}.svg`" alt="">
               </div>
-              <div class="com_detail" v-html="item.content" v-highlight></div>
-              <!-- 显示自己的留言的删除按钮 -->
-              <div class="delete" v-if="item.user_id==user.id" >
-                <Poptip
-                  confirm
-                  placement="left"
-                  title="是否删除该评论?"
-                  @on-ok="deleteComment(item)">
-                  <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
-                </Poptip>
+              <div class="comment-box animate03">
+                <div class="username">
+                  <span>
+                    <Icon type="md-person" />
+                    {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
+                    <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
+                    <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
+                  </span>
+                </div>
+                <div class="com_detail" v-html="item.content" v-highlight></div>
+                <!-- 显示自己的留言的删除按钮 -->
+                <div class="delete" v-if="item.user_id==user.id" >
+                  <Poptip
+                    confirm
+                    placement="left"
+                    title="是否删除该评论?"
+                    @on-ok="deleteComment(item)">
+                    <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
+                  </Poptip>
+                </div>
               </div>
             </div>
+            <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
           </div>
-          <div class="more">
+
+          <!-- <div class="more">
             <Button @click="getMore" v-if="hasMore">加载更多</Button>
             <p v-else>没有更多了..</p>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -150,7 +154,8 @@ export default {
         article_id: ''
       },
       pageModel: {
-        id: 1
+        page: 1,
+        sumCount: 10
       },
       page: 2,
       hasMore: true,
@@ -213,18 +218,16 @@ export default {
     // 获取评论
     getComment() {
       let param = {
-        article_id: this.detail.id
+        article_id: this.detail.id,
+        ...this.pageModel,
       }
       this.$post('/apis/comment/read', param).then(res => {
         this.commentList = res.data.data
-        if (res.data.total < 10) {
-          this.hasMore = false
-        }
-        if (this.commentList) {
-          this.commentList.forEach(item => {
-            item.content = marked(item.content, { sanitize: true })
-          })
-        }
+        this.pageModel.sumCount = res.data.total
+
+        this.commentList.forEach(item => {
+          item.content = marked(item.content, { sanitize: true })
+        })
         this.loading = false
       }).catch(() => {})
     },
@@ -237,22 +240,9 @@ export default {
         this.getComment()
       }).catch(() => {})
     },
-    // 加载更多评论
-    getMore() {
-      let param = {
-        article_id: this.detail.id,
-        page: this.page
-      }
-      this.$post('/apis/comment/read', param).then(res => {
-        this.page +=1
-        if (res.data.length < 10) {
-          this.hasMore = false
-        }
-        this.commentList.push(...res.data.data)
-        this.commentList.forEach(item => {
-          item.content = marked(item.content, { sanitize: true })
-        })
-      }).catch(() => {})
+    // 评论分页
+    selectRoleList() {
+      this.getComment()
     },
     // 删除自己的留言
     deleteComment(item) {
