@@ -94,6 +94,30 @@ server
 }
 ```
 
+### 修改服务器nginx配置文件，开启gzip
+```
+gzip on;
+
+# 不压缩临界值，大于1K的才压缩，一般不用改
+gzip_min_length 1k;
+
+
+gzip_buffers 4 16k;
+
+# 压缩级别，1-10，数字越大压缩的越好，时间也越长，看心情随便改吧
+gzip_comp_level 9;
+
+# 进行压缩的文件类型，缺啥补啥就行了，JavaScript有两种写法，最好都写上吧，总有人抱怨js文件没有压缩，其实多写一种格式就行了
+gzip_types text/plain application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+
+# 跟Squid等缓存服务有关，on的话会在Header里增加"Vary: Accept-Encoding"，我不需要这玩意，自己对照情况看着办吧
+gzip_vary off;
+
+# IE6对Gzip不怎么友好，不给它Gzip了
+gzip_disable "MSIE [1-6]\.";
+```
+
+
 ### 未解决问题
 - [ ] 友链分页问题
 - [ ] 博客页面去除element UI
@@ -101,3 +125,4 @@ server
 - [x] 多页面配置后，有时候热更新失效
 - [x] 后端每篇博客自动生成一份md文档
 - [x] cmd启动显示的eslint报错
+
