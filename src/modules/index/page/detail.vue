@@ -8,7 +8,7 @@
             <i class="iconfont lv-icon-kalendar"></i>
             {{detail.created_at}}
           </div>
-          <div class="tag-box" v-if="detail.tags.length">
+          <div class="tag-box" v-if="detail.tags && detail.tags.length">
             <i class="iconfont lv-icon-biaoqian6"></i>
             <span v-for="(tagli, index) in detail.tags" :key="index">
               {{tagli}}

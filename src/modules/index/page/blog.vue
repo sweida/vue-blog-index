@@ -19,7 +19,7 @@
           </div>
           <h3>{{item.title}}</h3>
            <!-- 有标签才显示 -->
-          <div class="tag-box" v-if="item.tags.length">
+          <div class="tag-box" v-if="item.tags && item.tags.length">
             <i class="iconfont lv-icon-biaoqian6"></i>
             <span v-for="(tagli, index) in item.tags" :key="index" :class="{active:tag==tagli}">
               {{tagli}}
