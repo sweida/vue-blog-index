@@ -141,7 +141,7 @@ export default {
         this.loading = false
         this.messages = res.data.data
         this.messagesTotal = res.data.total
-        this.pageModel1.sumCount = res.data.total
+        this.pageModel2.sumCount = res.data.total
       }).catch(() => {})
     },
     selectMessageList() {

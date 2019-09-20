@@ -25,7 +25,10 @@
               <div class="ykname">
                 <Input v-model="message.name" placeholder="游客可以选填昵称" style="width: 120px" v-if="!user"/>
               </div>
-              <Button type="primary" @click="submitMessage" >提交评论</Button>
+              <Button type="primary" @click="submitMessage" >
+                <Icon type="ios-create" />
+                提交评论
+              </Button>
             </div>
           </div>
         </div>

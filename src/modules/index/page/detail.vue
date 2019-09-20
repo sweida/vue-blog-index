@@ -77,7 +77,10 @@
               <div class="ykname">
                 <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
               </div>
-              <Button type="primary" @click="submitComment" >提交评论</Button>
+              <Button type="primary" @click="submitComment" >
+                <Icon type="ios-create" />
+                提交评论
+              </Button>
             </div>
           </div>
 
