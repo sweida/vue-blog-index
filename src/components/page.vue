@@ -95,10 +95,9 @@
   .el-pagination.is-background .el-pager li:not(.disabled).active
       background-color: #b8297e;
       border: 2px solid #b8297e;    
-  .el-icon-arrow-right:before 
-      content: "\E613" !important
+  .el-icon-arrow-right:before,
   .el-icon-arrow-left:before 
-      content: "\E610" !important
+    font-size 20px
   // button[disabled="disabled"]
   //   display none
 
