@@ -9,7 +9,7 @@
         <div class="input-box main">
           <div class="userbox">
             <div class="user-img">
-              <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt="">
+              <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
               <h4>{{user.name || '游客'}}</h4>
             </div>
           </div>
@@ -42,7 +42,9 @@
     <div class="main" v-else>
       <div class="commentList" v-for="(item, index) in messageList" :key="index">
         <div class="user-ava" >
-          <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
+          <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
+
+          <!-- <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user"> -->
           <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg" v-else>
         </div>
 

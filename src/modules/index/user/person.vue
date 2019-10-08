@@ -5,7 +5,8 @@
     <template v-else>
       <div class="leftinfo">
         <div class="info-top">
-          <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt="">
+          <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
+          <!-- <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt=""> -->
           <!-- <img src="../../../assets/avatar/009.jpg" alt="" v-else> -->
           <div class="top-text">
             <p class="name">{{user.name}}</p>

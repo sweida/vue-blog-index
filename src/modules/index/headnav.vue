@@ -17,7 +17,7 @@
       <div class="user" v-if="user">
         <Dropdown @on-click="changeMenu">
           <a href="javascript:void(0)" class="user-info">
-            <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
+            <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
             {{user.name}}
             <Icon type="md-arrow-dropdown" />
           </a>
@@ -58,7 +58,7 @@
 
         <template v-if="user">
           <li>
-            <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" class="user-img">
+            <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" class="user-img">
             {{user.name}}
             <Icon type="md-arrow-dropdown" />
           </li>
@@ -157,7 +157,10 @@ export default {
           // this.$Message.success(res.message)
           this.$router.push('/blog')
           this.Logout()
-        }).catch(() => {})
+        }).catch(() => {
+          this.$router.push('/blog')
+          this.Logout()
+        })
       }
     }
   }

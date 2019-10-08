@@ -7,7 +7,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   publicPath: "./",
   assetsDir: "static",
-
   pages: {
     index: {
       // 应用入口配置，相当于单页面应用的main.js，必需项
@@ -33,6 +32,8 @@ module.exports = {
   productionSourceMap: false,
 
   devServer: {
+    sockHost: 'localhost',
+    disableHostCheck: true,
     port: 9000, // 端口号
     host: "0.0.0.0",
     https: false, // https:{type:Boolean}

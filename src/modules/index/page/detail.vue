@@ -58,7 +58,7 @@
         <div class="input-box">
           <div class="userbox">
             <div class="user-img" v-if="user.id">
-              <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt="">
+              <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
               <h4>{{user.name}}</h4>
             </div>
             <div class="user-img" v-else>
@@ -96,7 +96,8 @@
           <div v-else>
             <div class="commentList" v-for="(item, index) in commentList" :key="index">
               <div class="user-ava">
-                <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user_id}.svg`" alt="">
+                <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`">
+                <!-- <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user_id}.svg`" alt=""> -->
               </div>
               <div class="comment-box animate03">
                 <div class="username">

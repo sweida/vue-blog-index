@@ -18,6 +18,13 @@
         <FormItem>
           <Button type="primary" @click="handleSubmit('formCustom')" long size="large" :loading="loading">登录</Button>
         </FormItem>
+        <h3 class="text-center or">or</h3>
+        <FormItem>
+          <Button class="black" @click="githubLogin" long size="large" :loading="gitHubLoading">
+            <Icon type="logo-github" />
+            GitHub 登录
+          </Button>
+        </FormItem>
       </Form>
       <div class="text-center">
         <router-link to="/recover">忘记密码</router-link>
@@ -40,6 +47,7 @@ export default {
         msg: ''
       },
       loading: false,  
+      gitHubLoading: false,
       formCustom: {
         name: '',
         password: '',
@@ -97,7 +105,35 @@ export default {
       }).catch(err => {
         this.loading = false
       })
-    }
+    },
+    githubLogin () {
+      this.gitHubLoading = true
+      let githubUrl = this.$baseApiUrl + '/github'
+      // 弹出 500 * 500 的窗口
+      window.open(githubUrl, 'newwindow', 'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
+
+      //  通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
+      window.addEventListener('message', (e) => {
+          console.log('调用登录');
+          
+          this.Token(e.data)
+          this.UserInfo()
+          if (this.$route.query.redirect){
+            this.$router.push(this.$route.query.redirect)
+          } else{
+            this.$router.push('/blog')
+          }
+      }, false)
+    },
+    // githubLogin() {
+    //   this.gitHubLoading = true
+      
+    //   window.open("http://localhost:8080/api/v2/github")
+    //   // this.$get('/apis/github').then(res => {
+    //   //   console.log(res, 2222);
+        
+    //   // })
+    // }
   }
 }
 </script>
@@ -123,5 +159,19 @@ export default {
   box-shadow: 1px 1px 5px #cddde2
   .ivu-form
     padding: 15px 15px 0
+.or
+  margin -15px 0 10px
+
+.black
+  background #333
+  color #fff
+  outline none
+  border #333
+  i
+    font-size 18px
+    margin 0 6px 3px 0
+
+.black:hover
+  background #222
 
 </style>

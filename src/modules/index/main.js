@@ -22,7 +22,6 @@ Vue.use(MyPage)
 import TextLoading from '@/components/TextLoading'
 Vue.use(TextLoading)
 
-Vue.prototype.$baseUrl = process.env.VUE_APP_URL
 Vue.prototype.$staticUrl = 'http://static.golang365.com/'
 // }
 // Vue.prototype.$baseUrl = baseUrl
@@ -39,9 +38,17 @@ Vue.prototype.$staticUrl = 'http://static.golang365.com/'
 //   iView.LoadingBar.finish();
 // });
 
+if (process.env.NODE_ENV == "development") {
+    Vue.prototype.$baseApiUrl = "http://localhost:8080/api/v2";
+} else {
+    Vue.prototype.$baseApiUrl = "http://api.golang365.com/api/v2";
+}
+
+console.log(process.env.NODE_ENV, '环境变量');
+
+
 Vue.config.productionTip = false
-// console.log(process.env.VUE_APP_URL, 5657)
-// console.log(process.env.NODE_ENV, 5658)
+
 new Vue({
   router,
   store,
