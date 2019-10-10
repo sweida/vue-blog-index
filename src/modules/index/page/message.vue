@@ -10,7 +10,7 @@
           <div class="userbox">
             <div class="user-img">
               <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
-              <h4>{{user.name || '游客'}}</h4>
+              <h4>{{user.name || '未登录'}}</h4>
             </div>
           </div>
 
@@ -22,9 +22,9 @@
               :maxlength="400"
               :placeholder="textarea" />
             <div class="submit-box">
-              <div class="ykname">
+              <!-- <div class="ykname">
                 <Input v-model="message.name" placeholder="游客可以选填昵称" style="width: 120px" v-if="!user"/>
-              </div>
+              </div> -->
               <Button type="primary" @click="submitMessage" >
                 <Icon type="ios-create" />
                 提交评论

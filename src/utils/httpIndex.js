@@ -84,6 +84,12 @@ service.interceptors.response.use(
         desc: error.response.data.message,
         duration: 2,
       });
+      setTimeout(() => {
+        router.push({
+            path: "/login",
+            query: { redirect: window.location.hash.substr(1) }
+        });
+      }, 1500)
     } else if (error.response.status == 403) {
       // 没有权限
       Notice.warning({

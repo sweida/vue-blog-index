@@ -44,7 +44,7 @@ if (process.env.NODE_ENV == "development") {
     Vue.prototype.$baseApiUrl = "http://api.golang365.com/api/v2";
 }
 
-console.log(process.env.NODE_ENV, '环境变量');
+// console.log(process.env.NODE_ENV, '环境变量');
 
 
 Vue.config.productionTip = false

@@ -13,7 +13,7 @@
           </span>
           <div>
             <span class="tagli animate03" 
-              :class="{hot: child=='laravel' || child=='vue' || child=='go' || child=='svelte' || child=='docker'}"
+              :class="{hot: child=='laravel' || child=='vue' || child=='go' || child=='react' || child=='svelte' || child=='docker'}"
               v-for="(child, index) in item.tags" 
               :key="index" 
               @click="OrderByTag(child)">

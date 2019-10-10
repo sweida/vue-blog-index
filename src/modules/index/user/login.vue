@@ -4,7 +4,7 @@
       <div class="title">登录</div>
       <Form ref="formCustom" :model="formCustom" label-position="top" :rules="ruleCustom">
         <Alert :type="alert.type" show-icon v-if="alert.msg">{{alert.msg}}</Alert>
-        <FormItem label="用户名" prop="name">
+        <FormItem label="用户名或邮箱地址" prop="name">
           <Input type="text" size="large" v-model="formCustom.name">
             <Icon type="md-happy" slot="prefix" />
           </Input>
@@ -51,10 +51,11 @@ export default {
       formCustom: {
         name: '',
         password: '',
+        type: 'name'
       },
       ruleCustom: {
         name: [
-          { required: true, message: '用户名不能为空', trigger: 'change' }
+          { required: true, message: '用户名或邮箱不能为空', trigger: 'change' }
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'change'}
@@ -66,6 +67,13 @@ export default {
     ...mapGetters([
       'user'
     ])
+  },
+  created() {
+    if (this.$route.query.token){
+      this.Token(this.$route.query.token)
+      this.UserInfo()
+      this.$router.push('/blog')
+    }
   },
   mounted() {
     this.formCustom.name = localStorage.getItem('name') || ''
@@ -87,6 +95,8 @@ export default {
     },
     loginFun () {
       this.loading = true
+      this.formCustom.name.indexOf('@') == -1 ? this.formCustom.type = 'name' : this.formCustom.type = 'email'
+
       this.$post('/apis/login', this.formCustom).then(res => {
         // this.$Message.success('登录成功！');
         this.$Notice.success({
@@ -109,31 +119,18 @@ export default {
     githubLogin () {
       this.gitHubLoading = true
       let githubUrl = this.$baseApiUrl + '/github'
-      // 弹出 500 * 500 的窗口
-      window.open(githubUrl, 'newwindow', 'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
 
-      //  通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
-      window.addEventListener('message', (e) => {
-          console.log('调用登录');
-          
-          this.Token(e.data)
-          this.UserInfo()
-          if (this.$route.query.redirect){
-            this.$router.push(this.$route.query.redirect)
-          } else{
-            this.$router.push('/blog')
-          }
-      }, false)
+      window.location.href = githubUrl
+
+      // 弹出 500 * 500 的窗口
+      // window.open(githubUrl, 'newwindow', 'height=500, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no')
+
+      // //  通过监听，父页面可以拿到子页面传递的token，父(前端页面)，子(小窗)
+      // window.addEventListener('message', (e) => {
+      //     console.log('调用登录');
+      //     this.setLogin(e.data)
+      // }, false)
     },
-    // githubLogin() {
-    //   this.gitHubLoading = true
-      
-    //   window.open("http://localhost:8080/api/v2/github")
-    //   // this.$get('/apis/github').then(res => {
-    //   //   console.log(res, 2222);
-        
-    //   // })
-    // }
   }
 }
 </script>

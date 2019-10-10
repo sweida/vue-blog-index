@@ -155,10 +155,10 @@ export default {
             duration: 3,
           });
           // this.$Message.success(res.message)
-          this.$router.push('/blog')
+          this.$router.push('/')
           this.Logout()
         }).catch(() => {
-          this.$router.push('/blog')
+          this.$router.push('/')
           this.Logout()
         })
       }

@@ -3,7 +3,7 @@ import http from '@/utils/httpIndex'
 
 const state = {
   user: '',
-  token: localStorage.getItem('token') || '',
+  token: localStorage.getItem('so_token') || '',
 }
 
 // 获取state的数据
@@ -33,11 +33,11 @@ const actions = {
     commit('USERINFO', res.data)
   },
   Token({ commit }, data) {
-    localStorage.setItem('token', data)
+    localStorage.setItem("so_token", data);
     commit('TOKEN', data)
   },
   Logout({ commit }) {
-    localStorage.removeItem('token')
+    localStorage.removeItem("so_token");
     commit('LOGOUT')
   },
 }
