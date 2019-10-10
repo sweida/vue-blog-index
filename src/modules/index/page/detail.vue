@@ -63,7 +63,7 @@
             </div>
             <div class="user-img" v-else>
               <img :src="`https://avatars.dicebear.com/v2/identicon/id-.svg`" alt="">
-              <h4>游客</h4>
+              <h4>未登录</h4>
             </div>
           </div>
           <div class="textbox">
@@ -74,9 +74,9 @@
                 :maxlength="400"
                 placeholder="说点什么。。支持markdown语法，尾部2个空格后回车才会换行，最长400个字" />
             <div class="submit-box">
-              <div class="ykname">
+              <!-- <div class="ykname">
                 <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
-              </div>
+              </div> -->
               <Button type="primary" @click="submitComment" >
                 <Icon type="ios-create" />
                 提交评论
@@ -96,8 +96,8 @@
           <div v-else>
             <div class="commentList" v-for="(item, index) in commentList" :key="index">
               <div class="user-ava">
-                <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`">
-                <!-- <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user_id}.svg`" alt=""> -->
+                <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
+                <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg" v-else>
               </div>
               <div class="comment-box animate03">
                 <div class="username">
