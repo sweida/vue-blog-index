@@ -12,6 +12,9 @@
         <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
           <a @click="goRouter(item.url)">{{item.name}}</a>
         </li>
+        <li>
+          <a href="http://blog-doc.golang365.com" target="_blank"> API文档 </a>
+        </li>
       </div>
 
       <div class="user" v-if="user">
@@ -54,6 +57,12 @@
           <Icon :type="item.icon" />
           <a @click="goRouter(item.url)">{{item.name}}</a>
           <!-- <router-link :to="item.url">{{item.name}}</router-link> -->
+        </li>
+        <li>
+          <a href="http://blog-doc.golang365.com" target="_blank">
+            <Icon type="ios-bug" />
+            API文档
+          </a>
         </li>
 
         <template v-if="user">
