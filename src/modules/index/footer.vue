@@ -10,7 +10,7 @@
         <a class="green" href="https://github.com/sweida/laravel-blog-api" target="_blank">Laravel</a> + 
         <a class="green" href="https://github.com/sweida/vue-blog-index" target="_blank">Vue</a>
       </p>
-      <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;粤ICP备19044398号</p>
+      <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;<a href="http://www.beian.miit.gov.cn" target="_blank" style="color: #fff">粤ICP备19044398号-1</a></p>
       
     </div>
   </footer>

@@ -42,10 +42,10 @@
     <div class="main" v-else>
       <div class="commentList" v-for="(item, index) in messageList" :key="index">
         <div class="user-ava" >
-          <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
+          <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user" onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
 
           <!-- <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user"> -->
-          <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg" v-else>
+          <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svgss" v-else onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
         </div>
 
         <div class="comment-box animate03">

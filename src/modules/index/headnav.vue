@@ -111,7 +111,7 @@ export default {
       nav: [
         {name: '文章', url: '/blog', icon: 'ios-book'},
         {name: '友链', url: '/link', icon: 'logo-octocat'},
-        {name: '打赏', url: '/donate', icon: 'logo-usd'},
+        // {name: '打赏', url: '/donate', icon: 'logo-usd'},
         {name: '留言', url: '/message', icon: 'md-chatboxes'},
         {name: '关于我', url: '/about', icon: 'md-beer'},
       ],

@@ -48,13 +48,11 @@
         </div>
       </div>
 
-      <div class="commentbox">
-
+      <div class="commentbox" v-if="user" >
         <div class="comment-title">
           <p>评论 <span>「 {{detail.comment}} 」</span></p>
         </div>
 
-        <!-- 评论 -->
         <div class="input-box">
           <div class="userbox">
             <div class="user-img" v-if="user.id">
@@ -68,25 +66,19 @@
           </div>
           <div class="textbox">
             <Input 
-                v-model="comment.content" 
-                type="textarea" 
-                :autosize="{minRows: 4, maxRows: 8}" 
-                :maxlength="400"
-                placeholder="说点什么。。支持markdown语法，尾部2个空格后回车才会换行，最长400个字" />
+              v-model="comment.content" 
+              type="textarea" 
+              :autosize="{minRows: 4, maxRows: 8}" 
+              :maxlength="400"
+              placeholder="说点什么。。支持markdown语法，尾部2个空格后回车才会换行，最长400个字" />
             <div class="submit-box">
-              <!-- <div class="ykname">
-                <Input v-model="comment.username" placeholder="游客可以选填昵称" style="width: 150px" v-if="!user"/>
-              </div> -->
               <Button type="primary" @click="submitComment" >
                 <Icon type="ios-create" />
                 提交评论
               </Button>
             </div>
           </div>
-
         </div>
-
-
         <!-- 评论列表 -->
         <div class="none" v-if="!detail.comment">
           还没有评论，快来抢沙发。
@@ -109,7 +101,6 @@
                   </span>
                 </div>
                 <div class="com_detail" v-html="item.content" v-highlight></div>
-                <!-- 显示自己的留言的删除按钮 -->
                 <div class="delete" v-if="item.user_id==user.id" >
                   <Poptip
                     confirm
@@ -123,12 +114,8 @@
             </div>
             <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
           </div>
-
-          <!-- <div class="more">
-            <Button @click="getMore" v-if="hasMore">加载更多</Button>
-            <p v-else>没有更多了..</p>
-          </div> -->
         </div>
+
       </div>
 
     </div>
