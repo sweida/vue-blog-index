@@ -271,7 +271,6 @@ export default {
 
 
 <style scoped lang="stylus">
-
 .title-box
   margin 20px auto 40px
   h1
@@ -303,7 +302,7 @@ export default {
 .detail
   max-width 840px
   margin auto
-  padding: 50px 15px 20px
+  padding: 50px 15px 70px
   font-size: 16px;
   color #444
 
