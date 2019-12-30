@@ -28,7 +28,8 @@ export default {
       checked: true,
       formCustom: {
         name: '',
-        password: ''
+        password: '',
+        type: 'name'
       }
     }
   },
@@ -44,6 +45,7 @@ export default {
       'Token', 'UserInfo'
     ]),
     loginSubmit() {
+      this.formCustom.name.indexOf('@') == -1 ? this.formCustom.type = 'name' : this.formCustom.type = 'email'
       this.$post('/apis/admin/login', this.formCustom).then(res => {
         // 因为接口请求用户信息需要时间，路由会先拦截，所以先设置 admin=true
         let user = {
