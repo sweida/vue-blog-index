@@ -125,6 +125,21 @@ server
 }
 ```
 
+### 自己写的自动打包提交编译文件到gh-pages
+```
+新建gh-pages目录
+gh-pages目录创建gh-pages分支的git，并把gh-pages添加到.gitignore文件
+
+gh-pages.sh文件
+
+开启权限才能运行sh文件
+chmod 777 gh-pages.sh 
+
+运行文件
+./gh-pages.sh
+
+将自动打包文件，把打包后的文件复制到gh-pages文件，并提交gh-pages文件到gh-pages分支
+```
 
 ### 未解决问题
 - [ ] 友链分页问题
