@@ -158,7 +158,7 @@ export default {
         'user'
     ]),
     compiledMarkdown: function () {
-      return marked(this.detail.content, { sanitize: true })
+      return marked(this.detail.content, { sanitize: false })
     }
   },
   created() {
@@ -217,7 +217,7 @@ export default {
         this.pageModel.sumCount = res.data.total
 
         this.commentList.forEach(item => {
-          item.content = marked(item.content, { sanitize: true })
+          item.content = marked(item.content, { sanitize: false })
         })
         this.loading = false
       }).catch(() => {})

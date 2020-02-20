@@ -322,6 +322,7 @@ export default {
     height 40px
     margin-right 10px
     border-radius 50%
+    background #fff
   .ivu-dropdown-item
     font-size 14px !important
     i 

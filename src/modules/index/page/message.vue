@@ -113,7 +113,7 @@ export default {
         'banners'
     ]),
     compiledMarkdown: function () {
-      return marked(this.detail.content, { sanitize: true })
+      return marked(this.detail.content, { sanitize: false })
     }
   },
   created() {
@@ -129,7 +129,7 @@ export default {
         this.messageList = res.data.data
         // 转markdown语法
         this.messageList.forEach(item => {
-          item.content = marked(item.content, { sanitize: true })
+          item.content = marked(item.content, { sanitize: false })
           // 转换换行
           // item.content = item.content.replace(/\n/g, '<br>')
         })
