@@ -21,7 +21,7 @@
            <!-- 有标签才显示 -->
           <div class="tag-box" v-if="item.tags && item.tags.length">
             <i class="iconfont lv-icon-biaoqian6"></i>
-            <span v-for="(tagli, index) in item.tags" :key="index" :class="{active:tag==tagli}">
+            <span v-for="(tagli, index) in item.tags" :key="index" :class="{active: tag==tagli}">
               {{tagli}}
             </span>
           </div>
@@ -31,28 +31,26 @@
             <span><i class="iconfont lv-icon-xiaoxi3"></i>{{item.commentCount}}条评论</span>
           </div>
         </div>
-
       </router-link>
-
 
       <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
     </div>
-    <common 
+    <Skills 
       :pageModel="pageModel"
       @getArticles="getArticles"
       @ArticlesOrderByClassify="ArticlesOrderByClassify" 
       @ArticlesOrderByTag="ArticlesOrderByTag">
-    </common>
+    </Skills>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex"
-import common from '../common'
+import Skills from '../components/skills'
 
 export default {
   components: {
-    common
+    Skills
   },
   data() {
     return {
@@ -69,7 +67,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-        'classify', 'tag'
+      'classify', 'tag'
     ])
   },
   created() {
@@ -160,19 +158,9 @@ export default {
         }
       });
     }
-
   }
 }
 </script>
-
-<style lang="stylus">
-// markmown样式
-.article 
-  .v-note-wrapper .v-note-panel
-    border none !important
-  .v-show-content
-    background #fff !important
-</style>
 
 <style scoped lang="stylus">
 .main 

@@ -1,26 +1,27 @@
 <template>
 <div>
   <div class="header">
-    <img src="../../assets/nav-map.jpg" class="footer-bg">
+    <img src="@/assets/nav-map.jpg" class="footer-bg">
 
     <div class="menu">
       <div class="left">
         <div class="logo">
-          <img src="../../assets/logo.png" alt="">
+          <img src="@/assets/logo.png" alt="">
         </div>
         <!-- 菜单 -->
-        <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
+        <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
           <a @click="goRouter(item.url)">{{item.name}}</a>
         </li>
         <li>
-          <a href="http://blog-doc.golang365.com" target="_blank"> API文档 </a>
+          <a href="http://blog-doc.golang365.com" target="_blank">API文档</a>
         </li>
       </div>
 
       <div class="user" v-if="user">
         <Dropdown @on-click="changeMenu">
           <a href="javascript:void(0)" class="user-info">
-            <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
+            <img :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" 
+              onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
             {{user.name}}
             <Icon type="md-arrow-dropdown" />
           </a>
@@ -44,7 +45,7 @@
 
   <!-- 手机菜单 -->
   <div class="phone-logo">
-    <img src="../../assets/logo.png" />
+    <img src="@/assets/logo.png" />
   </div>
   <Collapse simple v-model="mobnav" class="nav-content">
     <Panel name="1" hide-arrow>
@@ -53,7 +54,7 @@
       <span></span>
       <div class="mobliNav-main" slot="content">
         <img :src="$staticUrl + banners[4].url" class="nav-bg">
-        <li v-for="(item, index) in nav" :key="index" :class="{active:$route.path==item.url}">
+        <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
           <Icon :type="item.icon" />
           <a @click="goRouter(item.url)">{{item.name}}</a>
           <!-- <router-link :to="item.url">{{item.name}}</router-link> -->
@@ -67,7 +68,8 @@
 
         <template v-if="user">
           <li>
-            <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" class="user-img">
+            <img class="user-img"
+              :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
             {{user.name}}
             <Icon type="md-arrow-dropdown" />
           </li>

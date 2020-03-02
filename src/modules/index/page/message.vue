@@ -1,6 +1,6 @@
 <template>
   <div class="higtlight">
-    <div class="about-bg">
+    <section class="about-bg">
       <img :src="$staticUrl + banners[3].url" class="bg-img">
       <div class="bg"></div>
       <p class="mgs-title">Say Hello~</p>
@@ -9,7 +9,7 @@
         <div class="input-box main">
           <div class="userbox">
             <div class="user-img">
-              <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
+              <img :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
               <h4>{{user.name || '未登录'}}</h4>
             </div>
           </div>
@@ -33,19 +33,22 @@
           </div>
         </div>
       </div>
-
-    </div>
-
+    </section>
 
     <!-- 评论列表 -->
     <MyLoading v-if="loading"></MyLoading>
-    <div class="main" v-else>
+    <section class="main" v-else>
       <div class="commentList" v-for="(item, index) in messageList" :key="index">
         <div class="user-ava" >
-          <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user" onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
-
-          <!-- <img :src="`https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user"> -->
-          <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svgss" v-else onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
+          <img v-if="item.user" 
+            :src="item.user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" 
+            onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'"
+            alt="hasLogin"
+          >
+          <img v-else 
+            src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg"
+            alt="unLogin"
+          >
         </div>
 
         <div class="comment-box animate03">
@@ -73,12 +76,10 @@
             <!-- 回复功能后续再做 -->
             <!-- <i class="iconfont lv-icon-xiaoxi2" @click="reply(item.id)"></i> -->
           </div>
-          
         </div>
       </div>
-      
       <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
-    </div>
+    </section>
 
   </div>
 </template>

@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import headnav from './headnav'
-import Footer from './footer'
+import headnav from './components/headnav'
+import Footer from './components/footer'
 import '@/style/index.styl'
 import '@/style/hybrid.styl'
 import {mapActions, mapGetters} from "vuex"

@@ -7,8 +7,6 @@
         <h2>写在前面</h2>
         <em>人生是一场永不停息的奔跑</em>
         <em>每一天，期待遇上更好的自己</em>
-        <!-- <em>在每一个苦思冥想的瞬间求知</em> -->
-
       </div>
     </div>
     <div class="about">
@@ -35,11 +33,8 @@
           </a>
         </div>
       </div>
-
-
       <p>如果该项目对你有帮助，希望可以给个<em class="star">star</em></p>
     </div>
-
 
     <div class="about-bg">
       <img :src="$staticUrl + banners[1].url" >
@@ -47,7 +42,7 @@
       <div class="title">
         <h2>关于我</h2>
         <em>——集技术和颜值于一身的程序猿</em>
-        <em>坐标 GuangZhou「广州」</em>
+        <em>坐标 GuangZhou「深圳」</em>
       </div>
     </div>
     <div class="about">
@@ -56,11 +51,9 @@
       <p>15年开始接触前端，一路单刷副本，16年底开始学习后端语言，打怪升级，目标成功合格的全栈攻城狮。</p>
       <div class="skills">
         <p>目前已习得技能</p>
-        <!-- <img v-for="(item, index) in skills" :key="index" :src="$baseUrl+item.url"> -->
         <img v-for="(item, index) in skills" :key="index" :src="$staticUrl + item.url">
       </div>            
     </div>
-
 
   </div>
 </template>

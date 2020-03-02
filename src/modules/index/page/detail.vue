@@ -20,7 +20,7 @@
 
       <TextLoading class="article" v-if="text_loading"></TextLoading>
 
-      <div class="article" v-else>
+      <section class="article" v-else>
         <div v-html="compiledMarkdown" v-highlight></div>
 
         <!-- 许可 -->
@@ -46,9 +46,9 @@
             <Icon type="md-arrow-round-forward" />
           </p>
         </div>
-      </div>
+      </section>
 
-      <div class="commentbox" v-if="user" >
+      <section class="commentbox" v-if="user" >
         <div class="comment-title">
           <p>评论 <span>「 {{detail.comment}} 」</span></p>
         </div>
@@ -115,8 +115,7 @@
             <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
           </div>
         </div>
-
-      </div>
+      </section>
 
     </div>
 
@@ -125,7 +124,7 @@
 <script>
 import {mapGetters} from "vuex"
 import marked from 'marked'
-import '@/style/message.styl'
+import 'style/message.styl'
 
 export default {
   data() {
@@ -247,28 +246,6 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-.higtlight .article
-  h2
-    font-size 1.5em
-  h3
-    font-size 1.4em
-  h4
-    font-size 1.4em
-.higtlight .article 
-  h1, h2,  h3, h4,  h5, h6
-    position relative
-    text-indent 1.2em
-.higtlight .article 
-  h1:before, h2:before, h3:before, h4:before, h5:before, h6:before
-    position: absolute
-    left -1em
-    display block
-    content '#'
-    color #f72d84
-</style>
-
-
 
 <style scoped lang="stylus">
 .title-box
@@ -341,11 +318,11 @@ export default {
   font-size 1.3em
   font-family Georgia,system-ui,BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
   color #3d4852
+  padding-bottom 20px
 
 .commentbox
   max-width: 840px;
-  margin: auto;  
-  padding 20px 0px 40px  
+  margin: auto;   
 .comment-title
   font-size 20px
   margin: 10px 0 15px

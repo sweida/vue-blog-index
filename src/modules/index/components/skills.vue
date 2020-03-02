@@ -2,7 +2,7 @@
   <div class="common">
     <div class="box">
       <h3>Skills<i class="iconfont lv-icon-biaoqian"></i></h3>
-      <div class="backg"></div>
+      <div class="line"></div>
       <div class="tagBox">
         <span class="tagli animate03 classify" @click="allArticles">
           全部
@@ -127,7 +127,7 @@ export default {
       color: #606f7b;
       border: 1px solid #dae1e7;
 
-.backg
+.line
   animation: movingGradient 15s linear infinite;
   background-size: 600% 100%;
   background-image: linear-gradient(120deg, #EE7752, #E73C7E, #23A6D5, #23D5AB, #EE7752, #E73C7E);
