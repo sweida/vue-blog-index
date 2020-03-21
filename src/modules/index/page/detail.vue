@@ -112,7 +112,7 @@
                 </div>
               </div>
             </div>
-            <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
+            <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></NewPage>
           </div>
         </div>
       </section>

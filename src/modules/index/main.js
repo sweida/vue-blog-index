@@ -5,7 +5,6 @@ import store from 'store/index'
 
 import http from 'utils/httpIndex'
 
-import 'plugins/element.js'
 import 'plugins/mavonEditor.js'
 import 'plugins/iview.js'
 import 'plugins/highlightjs'
@@ -19,6 +18,9 @@ Vue.use(MyLoading)
 
 import MyPage from 'components/MyPage'
 Vue.use(MyPage)
+
+import NewPage from "components/NewPage";
+Vue.use(NewPage);
 
 import TextLoading from 'components/TextLoading'
 Vue.use(TextLoading)

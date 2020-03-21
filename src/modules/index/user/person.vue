@@ -49,7 +49,7 @@
                 </Poptip>
               </div>
             </li>
-            <MyPage :pageModel="pageModel1" @selectList="selectCommentList" v-if="pageModel1.sumCount>10"></MyPage>
+            <NewPage :pageModel="pageModel1" @selectList="selectCommentList" v-if="pageModel1.sumCount>10"></NewPage>
           </ul>
           <ul class="noneli" v-if="commentsTotal==0">
             你还没有评论
@@ -72,7 +72,7 @@
                 </Poptip>
               </div>
             </li>
-            <MyPage :pageModel="pageModel2" @selectList="selectMessageList" v-if="pageModel2.sumCount>10"></MyPage>
+            <NewPage :pageModel="pageModel2" @selectList="selectMessageList" v-if="pageModel2.sumCount>10"></NewPage>
           </ul>
           <ul class="noneli" v-if="messagesTotal==0">
             你还没有留言
