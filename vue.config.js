@@ -10,7 +10,8 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   publicPath: "./",
   assetsDir: "static",
-  outputDir: isProduction ? 'prod' : 'dist',
+  // outputDir: isProduction ? "prod" : "dist",
+  outputDir: "dist",
   pages: {
     index: {
       // 应用入口配置，相当于单页面应用的main.js，必需项
