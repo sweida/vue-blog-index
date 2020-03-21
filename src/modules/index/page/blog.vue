@@ -9,7 +9,7 @@
         </div>
 
         <div class="list-img">
-          <img :src="item.img" class="footer-bg animate03">
+          <img v-imgUrl="item.img" class="footer-bg animate03">
         </div>
 
         <div class="list-main">

@@ -1,107 +1,103 @@
 <template>
-<div>
-  <div class="header">
-    <img src="@/assets/nav-map.jpg" class="footer-bg">
+  <header>
+    <div class="header">
+      <img src="@/assets/nav-map.jpg" class="footer-bg">
 
-    <div class="menu">
-      <div class="left">
-        <div class="logo">
-          <img src="@/assets/logo.png" alt="">
+      <div class="menu">
+        <div class="left">
+          <div class="logo">
+            <img src="@/assets/logo.png" alt="">
+          </div>
+          <!-- 菜单 -->
+          <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
+            <a @click="goRouter(item.url)">{{item.name}}</a>
+          </li>
+          <li>
+            <a href="http://blog-doc.golang365.com" target="_blank">API文档</a>
+          </li>
         </div>
-        <!-- 菜单 -->
-        <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
-          <a @click="goRouter(item.url)">{{item.name}}</a>
-        </li>
-        <li>
-          <a href="http://blog-doc.golang365.com" target="_blank">API文档</a>
-        </li>
-      </div>
 
-      <div class="user" v-if="user">
-        <Dropdown @on-click="changeMenu">
-          <a href="javascript:void(0)" class="user-info">
-            <img :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" 
-              onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
-            {{user.name}}
-            <Icon type="md-arrow-dropdown" />
-          </a>
-          <DropdownMenu slot="list">
-            <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
-            <DropdownItem name="admin" v-if="user.admin"><Icon type="logo-xbox" />后台管理</DropdownItem>
-            <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
-            <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <div class="user" v-if="user">
+          <Dropdown @on-click="changeMenu">
+            <a href="javascript:void(0)" class="user-info">
+              <img :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" 
+                onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
+              {{user.name}}
+              <Icon type="md-arrow-dropdown" />
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
+              <DropdownItem name="admin" v-if="user.admin"><Icon type="logo-xbox" />后台管理</DropdownItem>
+              <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
+              <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        <div class="right" v-else>
+          <router-link to="/login">登录</router-link>
+          <span class="register">/</span>
+          <router-link to="/register">注册</router-link>
+        </div>
       </div>
-
-      <div class="right" v-else>
-        <router-link to="/login">登录</router-link>
-        <span class="register">/</span>
-        <router-link to="/register">注册</router-link>
-      </div>
-
     </div>
-  </div>
 
-  <!-- 手机菜单 -->
-  <div class="phone-logo">
-    <img src="@/assets/logo.png" />
-  </div>
-  <Collapse simple v-model="mobnav" class="nav-content">
-    <Panel name="1" hide-arrow>
-      <span></span>
-      <span></span>
-      <span></span>
-      <div class="mobliNav-main" slot="content">
-        <img :src="$staticUrl + banners[4].url" class="nav-bg">
-        <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
-          <Icon :type="item.icon" />
-          <a @click="goRouter(item.url)">{{item.name}}</a>
-          <!-- <router-link :to="item.url">{{item.name}}</router-link> -->
-        </li>
-        <li>
-          <a href="http://blog-doc.golang365.com" target="_blank">
-            <Icon type="ios-bug" />
-            API文档
-          </a>
-        </li>
-
-        <template v-if="user">
-          <li>
-            <img class="user-img"
-              :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
-            {{user.name}}
-            <Icon type="md-arrow-dropdown" />
-          </li>
-          <li class="second">
-            <Icon type="md-person" />
-            <router-link to="/person">个人中心</router-link>
-          </li>
-          <li class="second">
-            <Icon type="md-settings" />
-            <router-link to="/password">修改密码</router-link>
-          </li>
-          <li class="second">
-            <Icon type="md-exit" />
-            <a @click="changeMenu('logout')">退出登录</a>
-          </li>
-        </template>
-        <template v-else>
-          <li>
-            <Icon type="logo-snapchat" />
-            <router-link to="/login">登录</router-link>
+    <!-- 手机菜单 -->
+    <div class="phone-logo">
+      <img src="@/assets/logo.png" />
+    </div>
+    <Collapse simple v-model="mobnav" class="nav-content">
+      <Panel name="1" hide-arrow>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div class="mobliNav-main" slot="content">
+          <img v-imgUrl="banners[4].url" class="nav-bg">
+          <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
+            <Icon :type="item.icon" />
+            <a @click="goRouter(item.url)">{{item.name}}</a>
+            <!-- <router-link :to="item.url">{{item.name}}</router-link> -->
           </li>
           <li>
-            <Icon type="md-person-add" />
-            <router-link to="/register">注册</router-link>
+            <a href="http://blog-doc.golang365.com" target="_blank">
+              <Icon type="ios-bug" />
+              API文档
+            </a>
           </li>
-        </template>
-      </div>
-    </Panel>
-  </Collapse>
 
-
-</div>
+          <template v-if="user">
+            <li>
+              <img class="user-img"
+                :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
+              {{user.name}}
+              <Icon type="md-arrow-dropdown" />
+            </li>
+            <li class="second">
+              <Icon type="md-person" />
+              <router-link to="/person">个人中心</router-link>
+            </li>
+            <li class="second">
+              <Icon type="md-settings" />
+              <router-link to="/password">修改密码</router-link>
+            </li>
+            <li class="second">
+              <Icon type="md-exit" />
+              <a @click="changeMenu('logout')">退出登录</a>
+            </li>
+          </template>
+          <template v-else>
+            <li>
+              <Icon type="logo-snapchat" />
+              <router-link to="/login">登录</router-link>
+            </li>
+            <li>
+              <Icon type="md-person-add" />
+              <router-link to="/register">注册</router-link>
+            </li>
+          </template>
+        </div>
+      </Panel>
+    </Collapse>
+  </header>
 </template>
 
 <script>

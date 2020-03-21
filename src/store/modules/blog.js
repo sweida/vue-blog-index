@@ -4,8 +4,27 @@ const state = {
   webinfo: "",
   tag: "",
   classify: "",
-  banners: ""
-}
+  banners: [
+    {
+      url: require("@/assets/banner1.jpg")
+    },
+    {
+      url: require("@/assets/banner2.jpg")
+    },
+    {
+      url: require("@/assets/banner3.jpg")
+    },
+    {
+      url: require("@/assets/banner4.jpg")
+    },
+    {
+      url: require("@/assets/banner5.jpg")
+    },
+    {
+      url: require("@/assets/message.jpg")
+    }
+  ]
+};
 
 // 获取state的数据
 const getters = {

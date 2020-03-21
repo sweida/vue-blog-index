@@ -12,7 +12,7 @@ module.exports = {
   assetsDir: "static",
   outputDir: isProduction ? 'prod' : 'dist',
   pages: {
-    'blog/index': {
+    index: {
       // 应用入口配置，相当于单页面应用的main.js，必需项
       entry: "src/modules/index/main.js",
       // 应用的模版，相当于单页面应用的public/index.html，可选项，省略时默认与模块名一致
@@ -23,14 +23,14 @@ module.exports = {
       // 需要注意的是使用title属性template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
       title: "index page",
       // 包含的模块，可选项
-      chunks: ["chunk-vendors", "chunk-common", "blog/index"]
+      chunks: ["chunk-vendors", "chunk-common", "index"]
     },
-    'manage/manage': {
+    manage: {
       entry: "src/modules/manage/main.js",
       template: "public/manage.html",
       filename: "manage.html",
       title: "manage page",
-      chunks: ["chunk-vendors", "chunk-common", "manage/manage"]
+      chunks: ["chunk-vendors", "chunk-common", "manage"]
     }
   },
   lintOnSave: false,

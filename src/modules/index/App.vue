@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <headnav></headnav>
+    <Headnav></Headnav>
     <section class="content blog">
-      <!-- <About class="slide animate03" v-if="$route.path == '/'"></About> -->
-      
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive" class="slide animate03"></router-view>
       </keep-alive>
@@ -18,15 +16,13 @@
           <Icon type="ios-arrow-up" />
         </div>
       </BackTop>
-
     </section>
     <Footer></Footer>
-    <!-- <router-view/> -->
   </div>
 </template>
 
 <script>
-import headnav from './components/headnav'
+import Headnav from './components/headnav'
 import Footer from './components/footer'
 import '@/style/index.styl'
 import '@/style/hybrid.styl'
@@ -35,7 +31,7 @@ import {mapActions, mapGetters} from "vuex"
 export default {
   name: 'app',
   components: {
-    headnav,
+    Headnav,
     Footer,
   },
   computed: {
@@ -46,12 +42,10 @@ export default {
       'banners'
     ])
   }, 
-  data: () => ({
-    ops: {
-      vuescroll: {},
-      scrollPanel: {}
+  data() {
+    return {
     }
-  }),
+  },
   created() {
     // 有token,没有user时才请求用户信息
     if (this.token){
@@ -60,15 +54,14 @@ export default {
     if (!this.webInfo){
       this.WebInfo()
     }
-      this.Banners()
-    if (!this.banners) {
-    }
+    this.Banners()
+    // if (!this.banners) {
+    // }
     // this.$Loading.config({
     //   color: '#fff',
     //   failedColor: '#000',
     //   height: 50
-    // });
-
+    // })
   },
   methods: {
     ...mapActions([
@@ -85,7 +78,6 @@ html, body, #app
   height 100%
   display flex
   flex-direction column
-body
   margin 0
   padding 0
 section.content

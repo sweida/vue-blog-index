@@ -30,6 +30,17 @@ npm run build
 npm run deploy
 ```
 
+### 环境变量
+```
+.env                # 在所有的环境中被载入
+.env.local          # 在所有的环境中被载入，但会被 git 忽略
+.env.[mode]         # 只在指定的模式中被载入
+.env.[mode].local   # 只在指定的模式中被载入，但会被 git 忽略
+
+process.env.VUE_APP_VERSION
+以 VUE_APP_ 开头
+```
+
 ### `vue.config.js`开发环境文件配置
 这是多页面配置，2个入口，`index.html`指向`/`路由，`manage.html`指向`manage.html#/`路由
 ```js
