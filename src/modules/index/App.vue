@@ -97,16 +97,20 @@ section.content
   padding: 6px 8px !important
 
 .slide {
-  animation: slide 1s;
+  animation: slide .8s;
 }
 @keyframes slide{
   0%{
-    opacity:0
-    transform:translateY(10px)
+    opacity:0.3
+    transition: all .5s cubic-bezier(.19,1,.22,1);
+    transform: translate3d(0,-20px,0);
+    // transform:translateY(-20px)
   }
   100%{
     opacity:1;
-    transform:translateY(0)
+    transition: all .5s cubic-bezier(.22,1,.27,1);
+    transform: translateZ(0);
+    // transform:translateY(0)
   }
 }
 

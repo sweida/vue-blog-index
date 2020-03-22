@@ -42,7 +42,7 @@
       <div class="title">
         <h2>关于我</h2>
         <em>——集技术和颜值于一身的程序猿</em>
-        <em>坐标 GuangZhou「深圳」</em>
+        <em>坐标 GuangZhou「广州」</em>
       </div>
     </div>
     <div class="about">

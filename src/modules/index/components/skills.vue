@@ -1,7 +1,10 @@
 <template>
   <div class="common">
     <div class="box">
-      <h3>Skills<i class="iconfont lv-icon-biaoqian"></i></h3>
+      <h3>
+        <i class="hover">#</i>
+        Skills<i class="iconfont lv-icon-biaoqian"></i>
+      </h3>
       <div class="line"></div>
       <div class="tagBox">
         <span class="tagli animate03 classify" @click="allArticles">
@@ -90,10 +93,22 @@ export default {
       font-weight 100 
       display flex
       justify-content space-between
-      font-family: Arkibal Serif,Constantia,Lucida Bright,Lucidabright,Lucida Serif,Lucida,DejaVu Serif,Bitstream Vera Serif,Liberation Serif,Georgia,serif;
-      font-size: 2.25em;
+      font-family: monospace;
+      font-size: 2.5em;
       font-weight: bold;
       color: #22292f;
+      .hover
+        margin: 0 .4rem;
+        color: #f72d84;
+        font-family: none;
+        display none
+        position absolute
+        left -35px
+        top 3px
+        opacity .7
+      &:hover
+        .hover
+          display block
     .tagBox
       .classify
         background #f1f5f8

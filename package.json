@@ -5,8 +5,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --mode development",
-    "build:prod": "vue-cli-service build --mode production",
+    "build": "vue-cli-service build",
+    "prod": "vue-cli-service build --mode prod",
+    "uat": "vue-cli-service build --mode uat",
     "predeploy": "vue-cli-service build",
     "deploy": "gh-pages -d dist",
     "lint": "vue-cli-service lint"

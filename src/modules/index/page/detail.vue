@@ -1,124 +1,131 @@
 <template>
-    <div class=" detail higtlight">
-
-      <div class="title-box" v-if="!text_loading">
-        <h1>{{detail.title}}</h1>
-        <div class="post-box">
-          <div>
-            <i class="iconfont lv-icon-kalendar"></i>
-            {{detail.created_at}}
-          </div>
-          <div class="tag-box" v-if="detail.tags && detail.tags.length">
-            <i class="iconfont lv-icon-biaoqian6"></i>
-            <span v-for="(tagli, index) in detail.tags" :key="index">
-              {{tagli}}
-            </span>
-          </div>
-          <div><i class="iconfont lv-icon-huore"></i>{{detail.view_count}}热度</div>
-        </div>
+  <div class="detail higtlight" id="blog">
+    <!-- 标题和进度条 -->
+    <div :class="{'blog-header': true, 'active': progress > 5}">
+      <div class="title">
+        <router-link to="/blog"><Icon type="ios-home" /></router-link>
+        {{detail.title}}
       </div>
-
-      <TextLoading class="article" v-if="text_loading"></TextLoading>
-
-      <section class="article" v-else>
-        <div v-html="compiledMarkdown" v-highlight></div>
-
-        <!-- 许可 -->
-        <div class="posmition">
-          <p>文章版权所有：<a href="https://github.com/sweida" target="_black">sweida</a>，采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。</p>
-          <p>欢迎分享，转载务必保留出处及原文链接 <a :href="href" target="_blank">{{href}}</a></p>
+      <div class="progressBar" :style="{width: progress + '%'}"></div>
+    </div>
+    
+    <div class="title-box" v-if="!text_loading">
+      <h1>{{detail.title}}</h1>
+      <div class="post-box">
+        <div>
+          <i class="iconfont lv-icon-kalendar"></i>
+          {{detail.created_at}}
         </div>
-
-        <!-- 点赞 -->
-        <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
-          <i class="iconfont lv-icon-yijin13-zan"></i>
-          <span>{{detail.like}}</span>
+        <div class="tag-box" v-if="detail.tags && detail.tags.length">
+          <i class="iconfont lv-icon-biaoqian6"></i>
+          <span v-for="(tagli, index) in detail.tags" :key="index">
+            {{tagli}}
+          </span>
         </div>
-
-        <!-- 上一篇和下一篇 -->
-        <div class="nextBox">
-          <p class="goArticle" @click="goArticle(prevArticle)">
-            <Icon type="md-arrow-round-back" />
-            <span>{{prevArticle ? prevArticle.title : '无'}}</span>
-          </p>
-          <p class="goArticle" @click="goArticle(nextrAticle)">
-            <span>{{nextrAticle ? nextrAticle.title : '无'}}</span>
-            <Icon type="md-arrow-round-forward" />
-          </p>
-        </div>
-      </section>
-
-      <section class="commentbox" v-if="user" >
-        <div class="comment-title">
-          <p>评论 <span>「 {{detail.comment}} 」</span></p>
-        </div>
-
-        <div class="input-box">
-          <div class="userbox">
-            <div class="user-img" v-if="user.id">
-              <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
-              <h4>{{user.name}}</h4>
-            </div>
-            <div class="user-img" v-else>
-              <img :src="`https://avatars.dicebear.com/v2/identicon/id-.svg`" alt="">
-              <h4>未登录</h4>
-            </div>
-          </div>
-          <div class="textbox">
-            <Input 
-              v-model="comment.content" 
-              type="textarea" 
-              :autosize="{minRows: 4, maxRows: 8}" 
-              :maxlength="400"
-              placeholder="说点什么。。支持markdown语法，尾部2个空格后回车才会换行，最长400个字" />
-            <div class="submit-box">
-              <Button type="primary" @click="submitComment" >
-                <Icon type="ios-create" />
-                提交评论
-              </Button>
-            </div>
-          </div>
-        </div>
-        <!-- 评论列表 -->
-        <div class="none" v-if="!detail.comment">
-          还没有评论，快来抢沙发。
-        </div>
-        <div v-else>
-          <MyLoading v-if="loading"></MyLoading>
-          <div v-else>
-            <div class="commentList" v-for="(item, index) in commentList" :key="index">
-              <div class="user-ava">
-                <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
-                <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg" v-else>
-              </div>
-              <div class="comment-box animate03">
-                <div class="username">
-                  <span>
-                    <Icon type="md-person" />
-                    {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
-                    <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
-                    <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
-                  </span>
-                </div>
-                <div class="com_detail" v-html="item.content" v-highlight></div>
-                <div class="delete" v-if="item.user_id==user.id" >
-                  <Poptip
-                    confirm
-                    placement="left"
-                    title="是否删除该评论?"
-                    @on-ok="deleteComment(item)">
-                    <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
-                  </Poptip>
-                </div>
-              </div>
-            </div>
-            <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></NewPage>
-          </div>
-        </div>
-      </section>
-
+        <div><i class="iconfont lv-icon-huore"></i>{{detail.view_count}}热度</div>
+      </div>
     </div>
 
+    <TextLoading class="article" v-if="text_loading"></TextLoading>
+
+    <section class="article" v-else>
+      <div v-html="compiledMarkdown" v-highlight></div>
+
+      <!-- 许可 -->
+      <div class="posmition">
+        <p>文章版权所有：<a href="https://github.com/sweida" target="_black">sweida</a>，采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。</p>
+        <p>欢迎分享，转载务必保留出处及原文链接 <a :href="href" target="_blank">{{href}}</a></p>
+      </div>
+
+      <!-- 点赞 -->
+      <div :class="{hasclick:hasclick}" class="giveLike animate03" @click="giveLike">
+        <i class="iconfont lv-icon-yijin13-zan"></i>
+        <span>{{detail.like}}</span>
+      </div>
+
+      <!-- 上一篇和下一篇 -->
+      <div class="nextBox">
+        <p class="goArticle" @click="goArticle(prevArticle)">
+          <Icon type="md-arrow-round-back" />
+          <span>{{prevArticle ? prevArticle.title : '无'}}</span>
+        </p>
+        <p class="goArticle" @click="goArticle(nextrAticle)">
+          <span>{{nextrAticle ? nextrAticle.title : '无'}}</span>
+          <Icon type="md-arrow-round-forward" />
+        </p>
+      </div>
+    </section>
+
+    <section class="commentbox" id="comment" v-if="user" >
+      <div class="comment-title">
+        <p>评论 <span>「 {{detail.comment}} 」</span></p>
+      </div>
+
+      <div class="input-box">
+        <div class="userbox">
+          <div class="user-img" v-if="user.id">
+            <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
+            <h4>{{user.name}}</h4>
+          </div>
+          <div class="user-img" v-else>
+            <img :src="`https://avatars.dicebear.com/v2/identicon/id-.svg`" alt="">
+            <h4>未登录</h4>
+          </div>
+        </div>
+        <div class="textbox">
+          <Input 
+            v-model="comment.content" 
+            type="textarea" 
+            :autosize="{minRows: 4, maxRows: 8}" 
+            :maxlength="400"
+            placeholder="说点什么。。支持markdown语法，尾部2个空格后回车才会换行，最长400个字" />
+          <div class="submit-box">
+            <Button type="primary" @click="submitComment" >
+              <Icon type="ios-create" />
+              提交评论
+            </Button>
+          </div>
+        </div>
+      </div>
+      <!-- 评论列表 -->
+      <div class="none" v-if="!detail.comment">
+        还没有评论，快来抢沙发。
+      </div>
+      <div v-else>
+        <MyLoading v-if="loading"></MyLoading>
+        <div v-else>
+          <div class="commentList" v-for="(item, index) in commentList" :key="index">
+            <div class="user-ava">
+              <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
+              <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg" v-else>
+            </div>
+            <div class="comment-box animate03">
+              <div class="username">
+                <span>
+                  <Icon type="md-person" />
+                  {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
+                  <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
+                  <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
+                </span>
+              </div>
+              <div class="com_detail" v-html="item.content" v-highlight></div>
+              <div class="delete" v-if="item.user_id==user.id" >
+                <Poptip
+                  confirm
+                  placement="left"
+                  title="是否删除该评论?"
+                  @on-ok="deleteComment(item)">
+                  <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
+                </Poptip>
+              </div>
+            </div>
+          </div>
+          <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></NewPage>
+        </div>
+      </div>
+    </section>
+
+  </div>
 </template>
 
 <script>
@@ -149,7 +156,8 @@ export default {
       },
       page: 2,
       hasMore: true,
-      href: ''
+      href: '',
+      progress: ''
     }
   },
   computed: {
@@ -159,6 +167,9 @@ export default {
     compiledMarkdown: function () {
       return marked(this.detail.content, { sanitize: false })
     }
+  },
+  mounted() {
+    window.addEventListener('scroll',this.handleScroll)
   },
   created() {
     this.href = window.location.href
@@ -170,6 +181,13 @@ export default {
     }
   },
   methods: {
+    handleScroll() {
+      // const commentHeight = document.getElementById('comment').clientHeight
+      const top = document.documentElement.scrollTop;
+      // body高度 减去 body可见高度
+      let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
+      this.progress = (top / bodyHeight) * 100
+    },
     getDetail() {
       this.$post('/apis/article', this.$route.params).then(res => {
         this.text_loading = false
@@ -360,6 +378,50 @@ export default {
   .goArticle:hover span
     text-decoration: underline
     
+
+.blog-header
+  position fixed
+  width 100%
+  top 0
+  left 0
+  z-index: 10;
+  height: 50px;
+  line-height: 50px;
+  font-size 20px
+  font-family: monospace;
+  visibility: hidden;
+  background: hsla(0,0%,100%,.95);
+  transition: all .5s cubic-bezier(.19,1,.22,1);
+  transform: translate3d(0,-120%,0);
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+  .title
+    width 840px
+    margin auto
+    display flex
+    align-items center
+    a
+      display: inherit;
+    i
+      color #a0aec0
+      font-size: 22px;
+      margin: 0 15px;
+  &.active
+    visibility: visible;
+    transition: all .5s cubic-bezier(.22,1,.27,1);
+    transform: translateZ(0);
+    
+
+.progressBar
+  height: 4px;
+  animation: movingGradient 15s linear infinite;
+  background-size: 600% 100%;
+  background-image: linear-gradient(120deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ee7752, #e73c7e);
+  transition: width 0.3s linear 0s;
+
+@keyframes movingGradient{
+  0%{background-position:0 50%}
+  to{background-position:100% 50%}
+}
 
 @media screen and (min-width: 900px)
   .banner .bg

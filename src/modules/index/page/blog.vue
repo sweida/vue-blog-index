@@ -1,8 +1,11 @@
 <template>
   <div class="main flex">
-    <TextLoading v-if="loading"></TextLoading>
-    <div class="article" v-else>
+    <div class="tagBox" v-if="tag || (classify && classify!='all')">
+      {{tag || classify}} tag
+    </div>
 
+    <TextLoading v-if="loading"></TextLoading>
+    <div class="article slide" v-else>
       <router-link :to="{path:`/blog/${item.id}`}" class="list animate03" v-for="(item, index) in articles" :key="index">
         <div class="classifybox">
           <div class="classify">{{item.classify}}</div>
@@ -33,7 +36,7 @@
         </div>
       </router-link>
 
-      <MyPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></MyPage>
+      <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></NewPage>
     </div>
     <Skills 
       :pageModel="pageModel"
@@ -62,13 +65,18 @@ export default {
       pageModel: {
         page: Number(this.$route.query.page) || 1,
         sumCount: 10
-      }
+      },
     }
   },
   computed: {
     ...mapGetters([
       'classify', 'tag'
     ])
+  },
+  watch: {
+    $router() {
+      console.log(333);
+    }
   },
   created() {
     if (this.$route.query.tag) {
@@ -78,6 +86,7 @@ export default {
     } else {
       this.getArticles()
     }
+    // this.tag = this.$route.query.tag
   },
   methods: {
     ...mapActions([
@@ -179,6 +188,14 @@ export default {
   margin-bottom: 17px;
   background: #ecf0f1
   font-size: 16px;
+
+.tagBox
+  font-size 3rem
+  line-height 50px
+  color #2d3748
+  font-family monospace
+  font-weight bold
+  margin-bottom 50px
 
 .article
   flex 1
