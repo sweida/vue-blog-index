@@ -169,20 +169,27 @@ export default {
     }
   },
   mounted() {
+    // window.onscroll = () => {
+    //   let scrollAvail = document.body.scrollHeight - document.body.offsetHeight
+    //   let scrollTop = document.documentElement.scrollTop;  // 获取滚动条的高度
+    //   this.progress = (scrollTop / scrollAvail) * 100;
+    // };
     window.addEventListener('scroll',this.handleScroll)
+  },
+  destroyed(){
+    window.removeEventListener('scroll',this.handleScroll)
   },
   created() {
     this.href = window.location.href
     this.getDetail()
   },
   watch:{
-    $route(to,from){
+    $route(to, from){
       this.getDetail()
     }
   },
   methods: {
     handleScroll() {
-      // const commentHeight = document.getElementById('comment').clientHeight
       const top = document.documentElement.scrollTop;
       // body高度 减去 body可见高度
       let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
