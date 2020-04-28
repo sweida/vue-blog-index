@@ -1,9 +1,9 @@
 <template>
   <section class="blog">
-		<Headnav />
-		<!-- 插槽 -->
+    <Headnav />
+    <!-- 插槽 -->
     <slot name="content"></slot>
-		<Footer />
+    <Footer />
   </section>
 </template>
 
@@ -12,17 +12,14 @@ import Headnav from './headnav'
 import Footer from './footer'
 
 export default {
-	components: {
-		Footer,
-		Headnav
-	},
-  data () {
-    return {
-    }
-  },    
+  components: {
+    Footer,
+    Headnav,
+  },
+  data() {
+    return {}
+  },
 }
 </script>
 
-<style scoped lang="stylus">
-
-</style>
+<style scoped lang="stylus"></style>

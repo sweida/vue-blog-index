@@ -19,7 +19,7 @@
 				page: 1,
 				rows: 10
 			}
-    },
+		},
     methods: {
       //每页条数变化事件
       handleSizeChange(val) {

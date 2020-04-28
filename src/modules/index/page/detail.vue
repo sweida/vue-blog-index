@@ -1,7 +1,7 @@
 <template>
   <div class="detail higtlight" id="blog">
     <!-- 标题和进度条 -->
-    <div :class="{'blog-header': true, 'active': progress > 5}">
+    <div :class="{'blog-header': true, 'active': progress > 3}">
       <div class="title">
         <router-link to="/blog"><Icon type="ios-home" /></router-link>
         {{detail.title}}

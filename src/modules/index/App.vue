@@ -3,10 +3,10 @@
     <Headnav></Headnav>
     <section class="content blog">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" class="slide animate03"></router-view>
+        <router-view v-if="$route.meta.keepAlive" class="slide animate03" ></router-view>
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" class="slide animate03"></router-view>
-      
+      <router-view v-if="!$route.meta.keepAlive" class="slide animate03" ></router-view>
+
       <!-- <transition name="el-fade-in">
         <router-view class="main animate03" />
       </transition> -->
@@ -26,7 +26,7 @@ import Headnav from './components/headnav'
 import Footer from './components/footer'
 import '@/style/index.styl'
 import '@/style/hybrid.styl'
-import {mapActions, mapGetters} from "vuex"
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'app',
@@ -35,23 +35,17 @@ export default {
     Footer,
   },
   computed: {
-    ...mapGetters([
-      'user',
-      'token',
-      'webInfo',
-      'banners'
-    ])
-  }, 
+    ...mapGetters(['user', 'token', 'webInfo', 'banners']),
+  },
   data() {
-    return {
-    }
+    return {}
   },
   created() {
     // 有token,没有user时才请求用户信息
-    if (this.token){
+    if (this.token) {
       this.UserInfo()
     }
-    if (!this.webInfo){
+    if (!this.webInfo) {
       this.WebInfo()
     }
     this.Banners()
@@ -64,12 +58,8 @@ export default {
     // })
   },
   methods: {
-    ...mapActions([
-      'UserInfo',
-      'WebInfo',
-      'Banners'
-    ]),
-  }
+    ...mapActions(['UserInfo', 'WebInfo', 'Banners']),
+  },
 }
 </script>
 
@@ -93,7 +83,7 @@ section.content
   cursor: pointer;
 .top:hover
   background #64156e
-.ivu-back-top i 
+.ivu-back-top i
   padding: 6px 8px !important
 
 .slide {
@@ -120,6 +110,4 @@ section.content
     right 20px !important
   .top
     background #b8297e
-
-
 </style>

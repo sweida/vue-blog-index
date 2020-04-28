@@ -11,45 +11,46 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="pageModel.sumCount"> 
             </el-pagination> -->
-        <!-- <el-pagination
+    <!-- <el-pagination
           background
           layout="prev, pager, next"
           :total="1000">
         </el-pagination> -->
-    <el-pagination class="page"
+    <el-pagination
+      class="page"
       background
       small
       @size-change="handleSizeChange"
       @current-change="pageChange"
       :current-page="pageModel.page"
       :total="pageModel.sumCount"
-      layout="prev, pager, next">
+      layout="prev, pager, next"
+    >
     </el-pagination>
-    
   </div>
 </template>
 <script>
-  export default {
-    name: 'page',
-    props: {
-      pageModel: {}
+export default {
+  name: 'page',
+  props: {
+    pageModel: {},
+  },
+  methods: {
+    //每页条数变化事件
+    handleSizeChange(val) {
+      this.pageModel.rows = val
+      this.$emit('selectList')
     },
-    methods: {
-      //每页条数变化事件
-      handleSizeChange(val) {
-        this.pageModel.rows = val
-        this.$emit("selectList");
-      },
-      //页数变化事件
-      pageChange(val) {
-        this.pageModel.page = val
-        this.$emit("selectList");
-      },
-    }
-  }
+    //页数变化事件
+    pageChange(val) {
+      this.pageModel.page = val
+      this.$emit('selectList')
+    },
+  },
+}
 </script>
 <style lang="stylus">
-#page 
+#page
   text-align: center
   margin: 30px 0;
   width 100%
@@ -80,7 +81,7 @@
     height: 44px;
     line-height: 40px;
     font-size: 14px;
-  .el-pagination.is-background .el-pager li:hover, 
+  .el-pagination.is-background .el-pager li:hover,
   .el-pagination.is-background.el-pagination--small .btn-prev:hover,
   .el-pagination.is-background.el-pagination--small .btn-next:hover
     background-color: #b8297e;
@@ -96,9 +97,9 @@
       font-size 14px
   .el-pagination.is-background .el-pager li:not(.disabled).active
       background-color: #b8297e;
-      border: 2px solid #b8297e;    
+      border: 2px solid #b8297e;
   .el-icon-arrow-right:before,
-  .el-icon-arrow-left:before 
+  .el-icon-arrow-left:before
     font-size 20px
 
 @media screen and (max-width: 750px)
@@ -110,7 +111,4 @@
       width: 34px;
       height: 34px;
       line-height: 30px;
-
 </style>
-
-

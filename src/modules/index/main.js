@@ -10,7 +10,7 @@ import 'plugins/iview.js'
 import 'plugins/highlightjs'
 
 // 自定义指令
-import "utils/directive";
+import 'utils/directive'
 
 // 全局自定义组件
 import MyLoading from 'components/MyLoading'
@@ -19,8 +19,8 @@ Vue.use(MyLoading)
 import MyPage from 'components/MyPage'
 Vue.use(MyPage)
 
-import NewPage from "components/NewPage";
-Vue.use(NewPage);
+import NewPage from 'components/NewPage'
+Vue.use(NewPage)
 
 import TextLoading from 'components/TextLoading'
 Vue.use(TextLoading)
@@ -37,15 +37,15 @@ Vue.use(TextLoading)
 // router.afterEach(route => {
 //   iView.LoadingBar.finish();
 // });
-Vue.prototype.$get = http.get;
-Vue.prototype.$post = http.post;
-Vue.prototype.$baseApiUrl = process.env.VUE_APP_API_URL;
-Vue.prototype.$staticUrl = process.env.VUE_APP_STATIC_URL;
+Vue.prototype.$get = http.get
+Vue.prototype.$post = http.post
+Vue.prototype.$baseApiUrl = process.env.VUE_APP_API_URL
+Vue.prototype.$staticUrl = process.env.VUE_APP_STATIC_URL
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
-  render: h => h(App),
+  render: (h) => h(App),
 }).$mount('#app')
