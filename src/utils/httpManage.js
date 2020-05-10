@@ -13,7 +13,7 @@ const service = axios.create({
 // 设置header请求头，发起请求前做的事情
 service.interceptors.request.use(
   config => {
-    config.headers['Authorization'] = store.state.user.token
+    config.headers['Authorization'] = 'Bearer ' + store.state.user.token
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
     return config
   },
@@ -28,7 +28,8 @@ service.interceptors.response.use(
   res => {
     // 当有新的token时自动更新新的token
     if (res.headers.authorization){
-      store.dispatch("Token", res.headers.authorization);
+      let token = res.headers.authorization.split(' ')[1]
+      store.dispatch("Token", token);
     }
 
     // window.vm.$loading.hide()

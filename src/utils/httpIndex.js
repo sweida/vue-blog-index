@@ -12,7 +12,7 @@ const service = axios.create({
 // 设置header请求头，发起请求前做的事情
 service.interceptors.request.use(
   config => {
-    config.headers['Authorization'] = store.state.user.token
+    config.headers['Authorization'] = 'Bearer ' + store.state.user.token
     config.headers['X-Requested-With'] = 'XMLHttpRequest'
     return config
   },
@@ -27,7 +27,8 @@ service.interceptors.response.use(
   res => {
     // 当有新的token时自动更新新的token
     if (res.headers.authorization){
-      store.dispatch("Token", res.headers.authorization);
+      let token = res.headers.authorization.split(' ')[1]
+      store.dispatch("Token", token);
     }
 
     // window.vm.$loading.hide()
@@ -40,12 +41,7 @@ service.interceptors.response.use(
         title: '错误提示',
         desc: res.data.message,
         duration: 2
-      });
-      // Message({
-      //   message: res.data.message,
-      //   type: 'error',
-      //   duration: 2000
-      // })
+      })
     }
     // 打印错误信息
     return Promise.reject(res.data)
@@ -59,37 +55,28 @@ service.interceptors.response.use(
         duration: 2,
         onClose() {
           store.dispatch("Logout");
-          router.push({
-            path: '/login',
-            query: { redirect: window.location.hash.substr(1) }
-          })
+          // router.push({
+          //   path: '/login',
+          //   query: { redirect: window.location.hash.substr(1) }
+          // })
         },
       });
-      // Message({
-      //   message: error.response.data.message,
-      //   type: 'error',
-      //   duration: 2000,
-      //   onClose() {
-      //     store.dispatch("Logout");
-      //     router.push({ 
-      //       path: '/login', 
-      //       query: { redirect: window.location.hash.substr(1) }
-      //     })
-      //   },
-      // })
     } else if (error.response.status == 422) {
       // token过期
       Notice.warning({
         title: '温馨提示',
         desc: error.response.data.message,
         duration: 2,
+        onClose () {
+          store.dispatch("Logout")
+        },
       });
-      setTimeout(() => {
-        router.push({
-            path: "/login",
-            query: { redirect: window.location.hash.substr(1) }
-        });
-      }, 1500)
+      // setTimeout(() => {
+      //   router.push({
+      //     path: "/login",
+      //     query: { redirect: window.location.hash.substr(1) }
+      //   });
+      // }, 1500)
     } else if (error.response.status == 403) {
       // 没有权限
       Notice.warning({
