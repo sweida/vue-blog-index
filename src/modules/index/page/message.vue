@@ -51,30 +51,77 @@
           >
         </div>
 
-        <div class="comment-box animate03">
-          <div class="username"> 
-            <span>
-              <Icon type="md-person" />
-              {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
-              <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
-              <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
-            </span>
-            <span class="floor">{{item.id}}楼</span>
+        <div class="comment-main">
+          <div class="comment-box animate03">
+            <div class="username"> 
+              <span>
+                <Icon type="md-person" />
+                {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
+                <em v-if="item.user_id==1">(博主)</em>
+                <span class="created"><Icon type="ios-time-outline" />{{item.created_at}}</span>
+              </span>
+              <span class="floor">{{item.id}}楼</span>
+            </div>
+            <div class="com_detail" v-html="item.content" v-highlight></div>
+            <div class="comment-menu">
+              <!-- 自己的留言显示删除按钮 -->
+              <Poptip
+                confirm
+                placement="left"
+                title="是否删除该留言?"
+                @on-ok="deleteComment(item)">
+                <Icon type="md-trash" v-if="item.user_id == user.id"/>
+              </Poptip>
+              <Tooltip content="回复留言">
+                <i class="iconfont lv-icon-xiaoxi2" @click="handleReply(item, item)"></i>
+              </Tooltip>
+            </div>
+            <!-- 回复功能 -->
+            <div class="reply-box" v-for="(reply, _index) in item.reply" :key="_index">
+              <p class="reply-header">
+                <span>
+                  {{reply.user.name}}
+                  <em v-if="reply.user.id==1">(博主)</em>
+                  <span class="noml">回复</span>
+                  <span>{{reply.topic_user ? reply.topic_user.name : '游客'}}</span>
+                  <em v-if="reply.topic_user && reply.topic_user.id==1">(博主)</em>
+                  <span class="created"><Icon type="ios-time-outline" /> {{item.created_at}}</span>
+                </span>
+              </p>
+              <div class="com_detail" v-html="reply.content" v-highlight></div>
+              <div class="comment-menu">
+                <!-- 自己的留言显示删除按钮 -->
+                <Poptip
+                  confirm
+                  placement="left"
+                  title="是否删除该留言?"
+                  @on-ok="deleteComment(reply)">
+                  <Icon type="md-trash" v-if="reply.user_id == user.id"/>
+                </Poptip>
+                <Tooltip content="回复留言">
+                  <i class="iconfont lv-icon-xiaoxi2" @click="handleReply(item, reply)"></i>
+                </Tooltip>
+              </div>
+            </div>
           </div>
-          <!-- 回复功能后续再做 -->
-          <!-- <p class="reply" v-if="item.reply_id">回复<span>{{item.reply_id}}楼</span>“{{item.replyContent}}</p> -->
-          <div class="com_detail" v-html="item.content" v-highlight></div>
-          <div class="delete"  >
-            <!-- 自己的留言显示删除按钮 -->
-            <Poptip
-              confirm
-              placement="left"
-              title="是否删除该留言?"
-              @on-ok="deleteComment(item)">
-              <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
-            </Poptip>
-            <!-- 回复功能后续再做 -->
-            <!-- <i class="iconfont lv-icon-xiaoxi2" @click="reply(item.id)"></i> -->
+          <!-- 回复评论 -->
+          <div class="reply-text" v-if="item.id == messageId">
+            <Input 
+              v-model="replyContent" 
+              ref="textarea"
+              type="textarea" 
+              :autosize="{minRows: 3, maxRows: 8}" 
+              :maxlength="400"
+              :placeholder="replyTextarea" />
+            <div class="reply-button">
+              <Button class="cancel" @click="cancelReply">
+                取消回复
+              </Button>
+              <Button type="primary" @click="submitReply" >
+                <Icon type="ios-create" />
+                回复留言
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -93,9 +140,13 @@ export default {
   data() {
     return {
       textarea: '支持markdown语法，尾部2个空格后回车才会换行，最长400个字',
-      autofocus: false,
+      replyTextarea: '',
+      replyContent: '',
       loading: true,
       messageList: [],
+      messageId: -1,
+      topicUserId: '',
+      isReply: false,
       message:{
         content: '',
         ykname: ''
@@ -123,7 +174,6 @@ export default {
   methods: {
     // 获取留言
     getMessage() {
-      // this.loading = true
       this.$post('/apis/message/list', this.pageModel).then(res => {
         this.loading = false
         this.pageModel.sumCount = res.data.total
@@ -131,6 +181,11 @@ export default {
         // 转markdown语法
         this.messageList.forEach(item => {
           item.content = marked(item.content, { sanitize: false })
+          if (item.reply.length > 0) {
+            item.reply.forEach(reply => {
+              reply.content = marked(reply.content, { sanitize: false })
+            })
+          }
           // 转换换行
           // item.content = item.content.replace(/\n/g, '<br>')
         })
@@ -157,12 +212,39 @@ export default {
         this.$Message.success(res.message)
       }).catch(() =>{})
     },
-    // 回复
-    reply(id) {
-      this.autofocus = true
-      this.message.content = ''
-      this.message.reply_id = id
-      this.textarea = `回复 ${id}楼`
+    // 回复留言
+    handleReply(item, reply) {
+      if (!item.user) {
+        this.$Message.error('不能回复游客！')
+        return
+      }
+      if (this.messageId == reply.id) {
+        this.cancelReply()
+        return
+      }
+      this.messageId = item.id
+      this.topicUserId = item.user.id
+      this.replyTextarea = '回复' + reply.user.name + '：'
+      this.replyContent = ''
+      setTimeout(() => {
+        this.$refs.textarea[0].focus()
+      }, 200)
+    },
+    cancelReply() {
+      this.messageId = -1
+    },
+    // 提交回复
+    submitReply() {
+      let params = {
+        content: this.replyContent,
+        message_id: this.messageId,
+        topic_user_id: this.topicUserId
+      }
+      this.$post('/apis/message/reply', params).then(res => {
+        this.getMessage()
+        this.$Message.success(res.message)
+        this.cancelReply()
+      }).catch(() =>{})
     }
 
   }
@@ -206,6 +288,53 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+
+.comment-menu
+  display: flex;
+  justify-content: flex-end;
+  color #657f86
+  padding 0 10px 5px 0
+  i
+    font-size: 20px;
+    margin-left 10px
+    cursor: pointer
+  .lv-icon-xiaoxi2
+    top: 2px;
+    position: relative;
+
+.comment-main
+  flex 1
+.reply-text,
+.reply-button
+  margin-top 10px
+.reply-box
+  margin: 0px 10px 7px;
+  border: 1px solid #ecf0f1;
+  .reply-header
+    display: flex;
+    justify-content: space-between;
+    background: #ecf0f1;
+    margin: 0;
+    padding: 8px 9px;
+    span
+      color #f7576c
+      font-weight bold
+      margin 0 3px
+    em
+      color: #009688;
+      font-weight bold
+    .created
+      margin-left: 10px;
+      font-weight: 100;
+      color: #7f8c8d;
+    .noml
+      color: #7f8c8d;
+  &:hover
+    box-shadow 2px 2px 15px #d2e7fd
+
+
+.cancel
+  margin-right 10px
 
 @media screen and (max-width: 750px)
   .comment-box
