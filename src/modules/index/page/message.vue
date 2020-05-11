@@ -95,7 +95,7 @@
                   confirm
                   placement="left"
                   title="是否删除该留言?"
-                  @on-ok="deleteComment(reply)">
+                  @on-ok="deleteReply(reply)">
                   <Icon type="md-trash" v-if="reply.user_id == user.id"/>
                 </Poptip>
                 <Tooltip content="回复留言">
@@ -212,18 +212,24 @@ export default {
         this.$Message.success(res.message)
       }).catch(() =>{})
     },
+    deleteReply(item) {
+      this.$post('/apis/message/reply/delete', {id: item.id}).then(res => {
+        this.getMessage()
+        this.$Message.success(res.message)
+      }).catch(() =>{})
+    },
     // 回复留言
     handleReply(item, reply) {
       if (!item.user) {
         this.$Message.error('不能回复游客！')
         return
       }
-      if (this.messageId == reply.id) {
-        this.cancelReply()
-        return
-      }
+      // if (this.messageId == reply.id) {
+      //   this.cancelReply()
+      //   return
+      // }
       this.messageId = item.id
-      this.topicUserId = item.user.id
+      this.topicUserId = reply.user.id
       this.replyTextarea = '回复' + reply.user.name + '：'
       this.replyContent = ''
       setTimeout(() => {
