@@ -17,7 +17,7 @@ npm install
 
 ### 启动项目
 ```
-npm run serve
+npm run start
 ```
 
 ### 打包
