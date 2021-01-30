@@ -1,13 +1,13 @@
 <template>
   <div class="detail higtlight" id="blog">
     <!-- 标题和进度条 -->
-    <div :class="{'blog-header': true, 'active': progress > 3}">
+    <!-- <div :class="{'blog-header': true, 'active': progress > 3}">
       <div class="title">
         <router-link to="/blog"><Icon type="ios-home" /></router-link>
         {{detail.title}}
       </div>
-      <!-- <div class="progressBar" :style="{width: progress + '%'}"></div> -->
-    </div>
+      <div class="progressBar" :style="{width: progress + '%'}"></div>
+    </div> -->
     
     <div class="title-box" v-if="!text_loading">
       <h1>{{detail.title}}</h1>
@@ -169,10 +169,10 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('scroll',this.handleScroll)
+    // window.addEventListener('scroll',this.handleScroll)
   },
   destroyed(){
-    window.removeEventListener('scroll',this.handleScroll)
+    // window.removeEventListener('scroll',this.handleScroll)
   },
   created() {
     this.href = window.location.href
@@ -184,13 +184,13 @@ export default {
     }
   },
   methods: {
-    // 页面很卡顿
-    handleScroll() {
-      const top = document.documentElement.scrollTop;
-      // body高度 减去 body可见高度
-      let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
-      this.progress = (top / bodyHeight) * 100
-    },
+    // 页面很卡顿，暂时去掉
+    // handleScroll() {
+    //   const top = document.documentElement.scrollTop;
+    //   // body高度 减去 body可见高度
+    //   let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
+    //   this.progress = (top / bodyHeight) * 100
+    // },
     getDetail() {
       this.$post('/apis/article', this.$route.params).then(res => {
         this.text_loading = false
