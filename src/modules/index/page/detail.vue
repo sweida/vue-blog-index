@@ -6,7 +6,7 @@
         <router-link to="/blog"><Icon type="ios-home" /></router-link>
         {{detail.title}}
       </div>
-      <div class="progressBar" :style="{width: progress + '%'}"></div>
+      <!-- <div class="progressBar" :style="{width: progress + '%'}"></div> -->
     </div>
     
     <div class="title-box" v-if="!text_loading">
@@ -169,15 +169,10 @@ export default {
     }
   },
   mounted() {
-    // window.onscroll = () => {
-    //   let scrollAvail = document.body.scrollHeight - document.body.offsetHeight
-    //   let scrollTop = document.documentElement.scrollTop;  // 获取滚动条的高度
-    //   this.progress = (scrollTop / scrollAvail) * 100;
-    // };
-    window.addEventListener('scroll',this.handleScroll)
+    // window.addEventListener('scroll',this.handleScroll)
   },
   destroyed(){
-    window.removeEventListener('scroll',this.handleScroll)
+    // window.removeEventListener('scroll',this.handleScroll)
   },
   created() {
     this.href = window.location.href
@@ -189,12 +184,13 @@ export default {
     }
   },
   methods: {
-    handleScroll() {
-      const top = document.documentElement.scrollTop;
-      // body高度 减去 body可见高度
-      let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
-      this.progress = (top / bodyHeight) * 100
-    },
+    // 页面很卡顿，暂时去掉
+    // handleScroll() {
+    //   const top = document.documentElement.scrollTop;
+    //   // body高度 减去 body可见高度
+    //   let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
+    //   this.progress = (top / bodyHeight) * 100
+    // },
     getDetail() {
       this.$post('/apis/article', this.$route.params).then(res => {
         this.text_loading = false
