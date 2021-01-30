@@ -169,10 +169,10 @@ export default {
     }
   },
   mounted() {
-    // window.addEventListener('scroll',this.handleScroll)
+    window.addEventListener('scroll',this.handleScroll)
   },
   destroyed(){
-    // window.removeEventListener('scroll',this.handleScroll)
+    window.removeEventListener('scroll',this.handleScroll)
   },
   created() {
     this.href = window.location.href
@@ -184,13 +184,13 @@ export default {
     }
   },
   methods: {
-    // 页面很卡顿，暂时去掉
-    // handleScroll() {
-    //   const top = document.documentElement.scrollTop;
-    //   // body高度 减去 body可见高度
-    //   let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
-    //   this.progress = (top / bodyHeight) * 100
-    // },
+    // 页面很卡顿
+    handleScroll() {
+      const top = document.documentElement.scrollTop;
+      // body高度 减去 body可见高度
+      let bodyHeight = document.body.scrollHeight - document.body.offsetHeight
+      this.progress = (top / bodyHeight) * 100
+    },
     getDetail() {
       this.$post('/apis/article', this.$route.params).then(res => {
         this.text_loading = false
