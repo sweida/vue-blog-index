@@ -55,7 +55,7 @@ export default {
           this.$message.success(res.message)
           this.Logout()
           this.$router.push('/login')
-        }).cathc(err => {})
+        }).catch(err => {})
       }).catch(() => {
       })
     },

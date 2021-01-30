@@ -3,16 +3,16 @@
 import blog from "@/modules/index/page/blog"
 import about from "@/modules/index/page/about"
 
-const detail = resolve => require(["@/modules/index/page/detail"], resolve);
-const message = resolve => require(["@/modules/index/page/message"], resolve);
-const link = resolve => require(["@/modules/index/page/link"], resolve);
-const donate = resolve => require(["@/modules/index/page/donate"], resolve);
+const detail   = resolve => require(["@/modules/index/page/detail"], resolve);
+const message  = resolve => require(["@/modules/index/page/message"], resolve);
+const link     = resolve => require(["@/modules/index/page/link"], resolve);
+const donate   = resolve => require(["@/modules/index/page/donate"], resolve);
 
-const login = resolve => require(["@/modules/index/user/login"], resolve);
+const login    = resolve => require(["@/modules/index/user/login"], resolve);
 const register = resolve => require(["@/modules/index/user/register"], resolve);
-const recover = resolve => require(["@/modules/index/user/recover"], resolve);
+const recover  = resolve => require(["@/modules/index/user/recover"], resolve);
 const password = resolve => require(["@/modules/index/user/password"], resolve);
-const person = resolve => require(["@/modules/index/user/person"], resolve);
+const person   = resolve => require(["@/modules/index/user/person"], resolve);
 
 const index = [
   {

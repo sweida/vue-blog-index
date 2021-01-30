@@ -1,15 +1,16 @@
 {
-  "name": "vue-cli3-demo",
-  "version": "0.1.0",
+  "name": "vue-cli3-blog",
+  "version": "1.0.0",
   "homepage": "https://sweida.github.io/vue-cli3-demo",
   "private": true,
   "scripts": {
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "prod": "vue-cli-service build --mode prod",
-    "uat": "vue-cli-service build --mode uat",
-    "predeploy": "vue-cli-service build",
-    "deploy": "gh-pages -d dist",
+    "build:sit": "vue-cli-service build --mode sit",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist --branch prod",
+    "predeploy:sit": "npm run build:sit",
+    "deploy:sit": "gh-pages -d dist --branch sit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

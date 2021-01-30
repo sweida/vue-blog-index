@@ -8,10 +8,10 @@ const productionGzipExtensions = ['js', 'css'];
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  outputDir: process.env.VUE_APP_OUTPUT_DIR,
   publicPath: "./",
   assetsDir: "static",
-  // outputDir: isProduction ? "prod" : "dist",
-  outputDir: "dist",
+  // outputDir: "dist",
   pages: {
     index: {
       // 应用入口配置，相当于单页面应用的main.js，必需项

@@ -2,10 +2,11 @@ import axios from 'axios'
 import router from '@/modules/index/router/router'
 import { Notice } from 'iview'
 import store from "../store/index"
+// import baseURL from '@/api/baseUrlConfig'
 
 // 配置开发和生产的请求接口
 const service = axios.create({
-  // baseURL: process.env.VUE_APP_URL,
+  // baseURL: baseURL.api_url,
   timeout: 10000
 })
 

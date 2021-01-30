@@ -26,7 +26,10 @@ npm run build
 ```
 
 ### 打包并提交代码到分支gh-pages，服务器就可以直接拉取gh-pages的代码
-```
+```bash
+# 打包提交到sit分支
+npm run deploy:sit
+# 打包提交到prod分支
 npm run deploy
 ```
 
