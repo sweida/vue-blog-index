@@ -17,7 +17,7 @@ Vue.directive("imgUrl", async function(el, binding) {
         el.setAttribute("src", errorImg || defaultErrorImg);
       }
 		} else {
-      let exist = await imageIsExist(imgURL);
+      let exist = await imageIsExist(process.env.VUE_APP_STATIC_URL + imgURL);
       if (exist) {
         el.setAttribute("src", process.env.VUE_APP_STATIC_URL + imgURL);
       } else {
