@@ -89,7 +89,6 @@ export default {
       },
       pageModel: {
         page: 1,
-        all: 1,
         sumCount: 10
       }
     }
