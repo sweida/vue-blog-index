@@ -18,7 +18,6 @@ const baseURL = {
     host: '',
     auth: '',
     prefix: '',
-    prefix: '',
     channel: '',
   }
 }[process.env.NODE_ENV || 'production']

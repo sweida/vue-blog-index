@@ -8,17 +8,16 @@ const baseURL = {
   production: {
     ...common,
     host: '',
-    auth: "",
-    prefix: "",
+    auth: '',
+    prefix: '',
     channel: ''
   },
   /** 开发 */
   development: {
     ...common,
     host: '',
-    auth: "",
-    prefix: "",
-    prefix: "",
+    auth: '',
+    prefix: '',
     channel: '',
   }
 }[process.env.NODE_ENV || 'production']
