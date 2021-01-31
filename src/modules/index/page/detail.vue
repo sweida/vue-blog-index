@@ -192,7 +192,7 @@ export default {
     //   this.progress = (top / bodyHeight) * 100
     // },
     getDetail() {
-      this.$post('/apis/article', this.$route.params).then(res => {
+      this.$api.ArticleDetial(this.$route.params).then(res => {
         this.text_loading = false
         this.detail = res.data
         this.detail.created_at = this.detail.created_at.substring(0,10).replace(/-/g,"/")
@@ -220,7 +220,7 @@ export default {
         id: this.detail.id
       }
       if (!this.hasclick) {
-        this.$post('/apis/article/like', param).then(res => {
+        this.$api.ArticleLike(param).then(res => {
           this.detail.like +=1
           this.hasclick = true
         }).catch(() => {})

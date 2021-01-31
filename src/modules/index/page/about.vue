@@ -1,7 +1,7 @@
 <template>
   <div class="home" >
     <div class="about-bg">
-      <img :src="$staticUrl + banners[0].url">
+      <img v-imgUrl="banners[0].url">
       <div class="bg bg2"></div>
       <div class="title">
         <h2>写在前面</h2>
@@ -16,7 +16,7 @@
 
       <div class="make">
         <div>
-          <img src="../../../assets/laravel.png" alt="">
+          <img src="~assets/laravel.png" alt="">
           <p class="laravel">Laravel
           </p>
           <a href="https://github.com/sweida/laravel-blog-api" target="_blank" class="laravel">
@@ -26,7 +26,7 @@
         </div>
         <i class="iconfont lv-icon-aixin"></i>
         <div>
-          <img src="../../../assets/vue.jpg" alt="">
+          <img src="~assets/vue.jpg" alt="">
           <p class="vue">Vue</p> 
           <a href="https://github.com/sweida/vue-blog-index" target="_blank" class="vue">
             <Icon type="logo-github" />
@@ -37,7 +37,7 @@
     </div>
 
     <div class="about-bg">
-      <img :src="$staticUrl + banners[1].url" >
+      <img v-imgUrl="banners[1].url" >
       <div class="bg"></div>
       <div class="title">
         <h2>关于我</h2>
@@ -51,7 +51,7 @@
       <p>15年开始接触前端，一路单刷副本，16年底开始学习后端语言，打怪升级，目标成功合格的全栈攻城狮。</p>
       <div class="skills">
         <p>目前已习得技能</p>
-        <img v-for="(item, index) in skills" :key="index" :src="$staticUrl + item.url">
+        <img v-for="(item, index) in skills" :key="index" v-imgUrl="item.url">
       </div>            
     </div>
 
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     async getSkills() {
-      const res = await this.$post('/apis/ad', {type: '技能'})
+      const res = await this.$api.GetAd({type: '技能'})
       this.skills = res.data
     },
   }

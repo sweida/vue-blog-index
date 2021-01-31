@@ -2,7 +2,7 @@ import request from "utils/httpIndex";
 import baseURL from "./baseUrlConfig";
 
 // 文章详情
-export function articleDetial(data) {
+export function ArticleDetial(data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/article',
@@ -12,7 +12,7 @@ export function articleDetial(data) {
 }
 
 // 文章列表
-export function articleList(data) {
+export function ArticleList(data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/article/list',
@@ -22,7 +22,7 @@ export function articleList(data) {
 }
 
 // 点赞
-export function articleLike(data) {
+export function ArticleLike(data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/article/like',
@@ -32,7 +32,7 @@ export function articleLike(data) {
 }
 
 // 标签
-export function tagList(data) {
+export function TagList(data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/tag/list',

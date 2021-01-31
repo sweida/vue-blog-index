@@ -4,13 +4,14 @@ import router from './router/router'
 import store from 'store/index'
 
 import http from 'utils/httpIndex'
+import * as API from './api/index'
 
 import 'plugins/mavonEditor.js'
 import 'plugins/iview.js'
 import 'plugins/highlightjs'
 
 // 自定义指令
-import 'utils/directive'
+import '@/directive/index'
 
 // 全局自定义组件
 import MyLoading from 'components/MyLoading'
@@ -41,6 +42,7 @@ Vue.prototype.$get = http.get
 Vue.prototype.$post = http.post
 Vue.prototype.$baseApiUrl = process.env.VUE_APP_API_URL
 Vue.prototype.$staticUrl = process.env.VUE_APP_STATIC_URL
+Vue.prototype.$api = API
 
 Vue.config.productionTip = false
 

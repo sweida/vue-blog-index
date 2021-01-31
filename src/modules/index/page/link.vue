@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="banner">
-      <img :src="$staticUrl + banners[2].url" alt="">
+      <img v-imgUrl="banners[2].url" alt="">
       <div class="bg"></div>
       
       <div class="text-box">
@@ -27,7 +27,7 @@
         <Col :xs="24" :sm="12" :md="8" v-for="(item, index) in links" :key="index" class="animate03">
           <a :href="item.url" target="_blank" class="link-box animate03">
             <div class="imgbox">
-              <img :src="item.img">
+              <img v-imgUrl="item.img">
             </div>
             <div class="desc">
               <h4>{{item.title}}</h4>
@@ -66,7 +66,7 @@ export default {
   methods: {
     // 获取留言 all=1请求所有，不加的话请求的是有效期内的
     getLink() {
-      this.$post('/apis/link/list', this.pageModel).then(res => {
+      this.$api.LinkList(this.pageModel).then(res => {
         this.links = res.data.data
         this.loading = false
       }).catch(() => {})

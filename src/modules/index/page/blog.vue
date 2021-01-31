@@ -75,7 +75,6 @@ export default {
   },
   watch: {
     $router() {
-      console.log(333);
     }
   },
   created() {
@@ -94,10 +93,9 @@ export default {
     ]),
     getArticles() {
       this.loading = true
-      this.$post('/apis/article/list', this.pageModel).then(res => {
+      this.$api.ArticleList(this.pageModel).then(res => {
         this.pageModel.sumCount = res.data.total
         this.articles = res.data.data
-        this.AddStaticUrl()
         this.Classify('all')
         this.loading = false
       })
@@ -109,20 +107,17 @@ export default {
           classify: this.$route.query.classify,
           page: this.pageModel.page
         }})
-        console.log('请求分类分页')
       } else if (this.$route.query.tag) {
         this.ArticlesOrderByTag()
         this.$router.push({path:'/blog', query:{
           tag: this.$route.query.tag,
           page: this.pageModel.page
         }})
-        console.log('请求标签分页')
       } else {
         this.getArticles()
         this.$router.push({path:'/blog', query:{
           page: this.pageModel.page
         }})
-        console.log('请求正常分页')
       }
       window.scrollTo(0,0);
     },
@@ -132,14 +127,13 @@ export default {
       let param = {
         tag: this.$route.query.tag
       }
-      this.$post('apis/tag/list', Object.assign(param, this.pageModel)).then(res => {
+      this.$api.TagList(Object.assign(param, this.pageModel)).then(res => {
         this.pageModel.sumCount = res.data.total
 
         this.articles = []
         res.data.data.forEach(item => {
           this.articles.push(item.article)
         })
-        this.AddStaticUrl()
         this.Tag(this.$route.query.tag)
         this.loading = false
       })
@@ -150,23 +144,14 @@ export default {
       let param = {
         classify: this.$route.query.classify
       }
-      this.$post('/apis/article/list', Object.assign(param, this.pageModel)).then(res => {
+      this.$api.ArticleList(Object.assign(param, this.pageModel)).then(res => {
         this.pageModel.sumCount = res.data.total
         this.articles = res.data.data
-        this.AddStaticUrl()
         this.Classify(this.$route.query.classify)
 
         this.loading = false
       })
     },
-    // 为静态图片添加域名
-    AddStaticUrl() {
-      this.articles.forEach(item => {
-        if (item.img && item.img.indexOf("http")<0) {
-          item.img = this.$staticUrl + item.img
-        }
-      });
-    }
   }
 }
 </script>
@@ -239,8 +224,6 @@ export default {
     margin 5px 5px   
   span.active
     color #ea546e
-
-
 
 .list
   position relative

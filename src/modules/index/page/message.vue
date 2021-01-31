@@ -1,7 +1,7 @@
 <template>
   <div class="higtlight">
     <section class="about-bg">
-      <img :src="$staticUrl + banners[3].url" class="bg-img">
+      <img v-imgUrl="banners[3].url" class="bg-img">
       <div class="bg"></div>
       <p class="mgs-title">Say Hello~</p>
       <!-- 评论框 -->
@@ -161,8 +161,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-        'user',
-        'banners'
+      'user',
+      'banners'
     ]),
     compiledMarkdown: function () {
       return marked(this.detail.content, { sanitize: false })
@@ -174,7 +174,7 @@ export default {
   methods: {
     // 获取留言
     getMessage() {
-      this.$post('/apis/message/list', this.pageModel).then(res => {
+      this.$api.MessageList(this.pageModel).then(res => {
         this.loading = false
         this.pageModel.sumCount = res.data.total
         this.messageList = res.data.data
@@ -196,7 +196,7 @@ export default {
     },
     // 提交留言
     submitMessage() {
-      this.$post('/apis/message/add', this.message).then(res => {
+      this.$api.MessageAdd(this.message).then(res => {
         this.getMessage()
         this.$Message.success(res.message)
         this.message = {
@@ -207,13 +207,13 @@ export default {
     },
     // 删除自己的留言
     deleteComment(item) {
-      this.$post('/apis/message/delete', {id: item.id}).then(res => {
+      this.$api.MessageDelete({id: item.id}).then(res => {
         this.messageList.splice(this.messageList.indexOf(item), 1)
         this.$Message.success(res.message)
       }).catch(() =>{})
     },
     deleteReply(item) {
-      this.$post('/apis/message/reply/delete', {id: item.id}).then(res => {
+      this.$api.MessageReplyDelete({id: item.id}).then(res => {
         this.getMessage()
         this.$Message.success(res.message)
       }).catch(() =>{})
@@ -246,7 +246,7 @@ export default {
         message_id: this.messageId,
         topic_user_id: this.topicUserId
       }
-      this.$post('/apis/message/reply', params).then(res => {
+      this.$api.MessageReply(params).then(res => {
         this.getMessage()
         this.$Message.success(res.message)
         this.cancelReply()
