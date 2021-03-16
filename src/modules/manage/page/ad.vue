@@ -98,7 +98,7 @@ export default {
     ]),
     headers() {
       return {
-        'Authorization': this.token,
+        'Authorization': 'Bearer ' + this.token,
         'X-Requested-With': 'XMLHttpRequest' 
       }
     }

@@ -95,7 +95,7 @@ export default {
     ]),
     headers() {
       return {
-        'Authorization': this.token,
+        'Authorization': 'Bearer ' + this.token,
         'X-Requested-With': 'XMLHttpRequest' 
       }
     }
@@ -195,7 +195,7 @@ export default {
             data: formdata,
             headers:{
               // 'Content-Type':'multipart/form-data',
-              'Authorization': this.token,
+              'Authorization': 'Bearer ' + this.token,
               'X-Requested-With': 'XMLHttpRequest'
             }
         }).then((url) => {
@@ -214,7 +214,7 @@ export default {
               image: pos
             },
             headers:{
-              'Authorization': this.token,
+              'Authorization': 'Bearer ' + this.token,
               'X-Requested-With': 'XMLHttpRequest'
             }
         }).then((url) => {
