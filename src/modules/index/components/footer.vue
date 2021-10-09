@@ -2,7 +2,7 @@
  * @Author: 施伟达
  * @Date: 2019-09-06 00:08:20
  * @LastEditors: 施伟达
- * @LastEditTime: 2021-09-24 10:34:31
+ * @LastEditTime: 2021-10-09 14:25:57
  * @Description: 
 -->
 <template>
@@ -17,7 +17,7 @@
         <a class="green" href="https://github.com/sweida/laravel-blog-api" target="_blank">Laravel</a> + 
         <a class="green" href="https://github.com/sweida/vue-blog-index" target="_blank">Vue</a>
       </p>
-      <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">粤ICP备19044398号-1</a></p>
+      <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">粤ICP备19044398号</a></p>
       
     </div>
   </footer>
