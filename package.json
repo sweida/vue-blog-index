@@ -19,7 +19,7 @@
     "gh-pages": "^2.0.1",
     "highlight.js": "^9.13.1",
     "iview": "^3.0.1",
-    "mavon-editor": "^2.6.17",
+    "mavon-editor": "^2.8.2",
     "vue-marked": "^0.1.1",
     "vue-router": "^3.0.1",
     "vue-savedata": "^2.0.2",
