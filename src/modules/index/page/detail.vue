@@ -223,7 +223,7 @@ export default {
         article_id: this.detail.id,
         ...this.pageModel,
       }
-      this.$post('/apis/comment/read', param).then(res => {
+      this.$api.CommentList(param).then(res => {
         this.commentList = res.data.data
         this.pageModel.sumCount = res.data.total
 
@@ -235,7 +235,7 @@ export default {
     },
     // 提交评论
     submitComment() {
-      this.$post('/apis/comment/add', this.comment).then(res => {
+      this.$api.CommentAdd(this.comment).then(res => {
         this.comment.content = ''
         this.detail.comment += 1
         this.$Message.success(res.message)
@@ -248,7 +248,7 @@ export default {
     },
     // 删除自己的留言
     deleteComment(item) {
-      this.$post('/apis/comment/delete', {id: item.id}).then(res => {
+      this.$api.CommentDelete({id: item.id}).then(res => {
         this.commentList.splice(this.commentList.indexOf(item), 1)
         this.$Message.success(res.message)
         this.detail.comment -= 1

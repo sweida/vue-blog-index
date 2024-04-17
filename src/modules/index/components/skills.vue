@@ -65,7 +65,7 @@ export default {
     }, 
     // 获取所有分类
     getClassify() {
-      this.$get('/apis/article/classify').then(res => {
+      this.$api.getClassify().then(res => {
         this.classifys = res.data
       }).catch(err =>{})
     }

@@ -97,7 +97,7 @@ export default {
       this.loading = true
       this.formCustom.name.indexOf('@') == -1 ? this.formCustom.type = 'name' : this.formCustom.type = 'email'
 
-      this.$post('/apis/login', this.formCustom).then(res => {
+      this.$api.Login(this.formCustom).then(res => {
         // this.$Message.success('登录成功！');
         this.$Notice.success({
           title: '亲爱的 '+this.formCustom.name,

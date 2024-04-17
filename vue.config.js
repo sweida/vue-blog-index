@@ -47,14 +47,15 @@ module.exports = {
       .set("plugins", resolve("src/plugins"))
       .set("components", resolve("src/components"))
       .set("assets", resolve("src/assets"))
+      .set("api", resolve("src/api"))
       .set("modules", resolve("src/modules"));
   },
   devServer: {
     sockHost: "localhost",
     disableHostCheck: true,
-    port: 9000, // 端口号
+    port: 7000, // 端口号
     host: "0.0.0.0",
-    https: false, // https:{type:Boolean}
+    // https: false, // https:{type:Boolean}
     open: true, //配置自动启动浏览器
     proxy: {
       "/apis": {
