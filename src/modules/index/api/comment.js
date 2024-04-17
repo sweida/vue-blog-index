@@ -21,7 +21,7 @@ export function CommentAdd (data) {
 // 删除评论
 export function CommentDelete (data) {
   return request({
-    url: '/apis/commen/delete',
+    url: '/apis/comment/delete',
     method: 'post',
     data
   })
@@ -30,7 +30,7 @@ export function CommentDelete (data) {
 // 个人留言
 export function CommentPerson (data) {
   return request({
-    url: '/apis/commen/person',
+    url: '/apis/comment/person',
     method: 'post',
     data
   })

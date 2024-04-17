@@ -1,5 +1,5 @@
 <template>
-  <div class="home" >
+  <div class="home">
     <div class="about-bg">
       <img v-imgUrl="banners[0].url">
       <div class="bg bg2"></div>
@@ -27,7 +27,7 @@
         <i class="iconfont lv-icon-aixin"></i>
         <div>
           <img src="~assets/vue.jpg" alt="">
-          <p class="vue">Vue</p> 
+          <p class="vue">Vue</p>
           <a href="https://github.com/sweida/vue-blog-index" target="_blank" class="vue">
             <Icon type="logo-github" />
           </a>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="about-bg">
-      <img v-imgUrl="banners[1].url" >
+      <img v-imgUrl="banners[1].url">
       <div class="bg"></div>
       <div class="title">
         <h2>关于我</h2>
@@ -51,8 +51,12 @@
       <p>15年开始接触前端，一路单刷副本，16年底开始学习后端语言，打怪升级，目标成功合格的全栈攻城狮。</p>
       <div class="skills">
         <p>目前已习得技能</p>
-        <img v-for="(item, index) in skills" :key="index" v-imgUrl="item.url">
-      </div>            
+        <img 
+          v-for="(item, index) in skills" 
+          :key="index" 
+          v-imgUrl="item.url" 
+          class="skill-img animate03">
+      </div>
     </div>
 
   </div>
@@ -76,7 +80,7 @@ export default {
   },
   methods: {
     async getSkills() {
-      const res = await this.$api.GetAd({type: '技能'})
+      const res = await this.$api.getAd({type: '技能'})
       this.skills = res.data
     },
   }
@@ -206,6 +210,9 @@ export default {
   img
     max-width 88px
     margin 3px
+  :hover {
+    transform: scale(1.1)
+  }
 
 
 
