@@ -7,7 +7,7 @@ import store from "../store/index"
 // 配置开发和生产的请求接口
 const service = axios.create({
   // baseURL: baseURL.api_url,
-  timeout: 10000
+  timeout: 20000
 })
 
 // 设置header请求头，发起请求前做的事情
@@ -27,7 +27,6 @@ service.interceptors.request.use(
 
 // respone拦截器，发起请求后做的事情
 service.interceptors.response.use((res) => {
-  console.log('response axios', res);
   // 当有新的token时自动更新新的token
   if (res.headers.authorization) {
     let token = res.headers.authorization.split(' ')[1]
@@ -38,7 +37,6 @@ service.interceptors.response.use((res) => {
   // 统一处理错误
   // 在这里对返回的数据进行处理
   if (res.data.status == 'success') {
-    console.log(res.data, 'asxios');
     // return res.data
     return Promise.resolve(res.data)
   } else {

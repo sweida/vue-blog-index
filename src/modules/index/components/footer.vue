@@ -18,7 +18,7 @@
         <a class="green" href="https://github.com/sweida/vue-blog-index" target="_blank">Vue</a>
       </p>
       <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;
-        <a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">{{ ICP }}</a>
+        <a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">{{ webInfo.icp || ICP}}</a>
       </p>
 
     </div>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -35,6 +35,9 @@ export default {
       year: (new Date()).getFullYear(),
       ICP: '粤ICP备2024211741号'
     }
+  },
+  computed: {
+    ...mapGetters(['webInfo']),
   },
   beforeMount() {
     setInterval(getRemainderTime, 1000)
