@@ -1,5 +1,5 @@
 const path = require("path");
-function resolve(dir) {
+function resolve (dir) {
   return path.join(__dirname, dir);
 }
 
@@ -58,7 +58,9 @@ module.exports = {
     open: true, //配置自动启动浏览器
     proxy: {
       "/apis": {
-        target: "http://127.0.0.1:8080/api/v2", // 需要请求的地址
+        // target: "http://127.0.0.1:8080/api/v2", // 需要请求的地址
+        // target: "http://114.132.76.194:8100/api/v2", // 生产环境
+        target: "https://api.golang365.top/api/v2", // 生产环境
         // target: process.env.VUE_APP_URL,   // 需要请求的地址
         changeOrigin: true, // 是否跨域
         pathRewrite: {

@@ -1,9 +1,11 @@
 <template>
-  <div class="text_loading">
+  <div class="text_loading" >
     <div class="hr"></div>
     <div class="box">
-      <i class="iconfont lv-icon-huore"></i> <p></p>
-      <i class="iconfont lv-icon-biaoqian6"></i> <p></p>
+      <i class="iconfont lv-icon-huore"></i>
+      <p></p>
+      <i class="iconfont lv-icon-biaoqian6"></i>
+      <p></p>
     </div>
     <div class="hr hr2"></div>
     <div class="hr hr1"></div>
@@ -14,9 +16,13 @@
 
 <script>
 export default {
-  methods: {
-
-  }
+  name: 'textLoading',
+  // props: {
+  //   isLoading: {
+  //     type: Boolean,
+  //     default: true
+  //   }
+  // }
 }
 </script>
 

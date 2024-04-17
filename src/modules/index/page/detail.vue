@@ -8,7 +8,7 @@
       </div>
       <div class="progressBar" :style="{width: progress + '%'}"></div>
     </div> -->
-    
+
     <div class="title-box" v-if="!text_loading">
       <h1>{{detail.title}}</h1>
       <div class="post-box">
@@ -33,7 +33,9 @@
 
       <!-- 许可 -->
       <div class="posmition">
-        <p>文章版权所有：<a href="https://github.com/sweida" target="_black">sweida</a>，采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0 国际许可协议</a> 进行许可。</p>
+        <p>文章版权所有：<a href="https://github.com/sweida" target="_black">sweida</a>，采用 <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_black">知识共享署名-非商业性使用 4.0
+            国际许可协议</a> 进行许可。</p>
         <p>欢迎分享，转载务必保留出处及原文链接 <a :href="href" target="_blank">{{href}}</a></p>
       </div>
 
@@ -56,31 +58,23 @@
       </div>
     </section>
 
-    <section class="commentbox" id="comment" v-if="user" >
+    <section class="commentbox" id="comment" v-if="user">
       <div class="comment-title">
         <p>评论 <span>「 {{detail.comment}} 」</span></p>
       </div>
 
       <div class="input-box">
         <div class="userbox">
-          <div class="user-img" v-if="user.id">
-            <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
-            <h4>{{user.name}}</h4>
-          </div>
-          <div class="user-img" v-else>
-            <img :src="`https://avatars.dicebear.com/v2/identicon/id-.svg`" alt="">
-            <h4>未登录</h4>
+          <div class="user-img">
+            <img :src="`${avatarUrl}?seed=${user.id || 'false'}`" alt="avatar" />
+            <h4>{{ user.name || '未登录'}}</h4>
           </div>
         </div>
         <div class="textbox">
-          <Input 
-            v-model="comment.content" 
-            type="textarea" 
-            :autosize="{minRows: 4, maxRows: 8}" 
-            :maxlength="400"
+          <Input v-model="comment.content" type="textarea" :autosize="{minRows: 4, maxRows: 8}" :maxlength="400"
             placeholder="说点什么。。支持markdown语法，尾部2个空格后回车才会换行，最长400个字" />
           <div class="submit-box">
-            <Button type="primary" @click="submitComment" >
+            <Button type="primary" @click="submitComment">
               <Icon type="ios-create" />
               提交评论
             </Button>
@@ -96,31 +90,27 @@
         <div v-else>
           <div class="commentList" v-for="(item, index) in commentList" :key="index">
             <div class="user-ava">
-              <img :src="item.user.avatar_url ? item.user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" v-if="item.user">
-              <img src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg" v-else>
+              <img :src="`${avatarUrl}?seed=${item.user.id || 'false'}`" alt="avatar" />
             </div>
             <div class="comment-box animate03">
               <div class="username">
                 <span>
                   <Icon type="md-person" />
-                  {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
+                  {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}}
                   <em>{{item.user_id==1 ? '(博主)' : ''}}</em>
                   <span class="created"><i class="el-icon-time"></i>{{item.created_at}}</span>
                 </span>
               </div>
               <div class="com_detail" v-html="item.content" v-highlight></div>
-              <div class="delete" v-if="item.user_id==user.id" >
-                <Poptip
-                  confirm
-                  placement="left"
-                  title="是否删除该评论?"
-                  @on-ok="deleteComment(item)">
-                  <Icon type="md-trash" v-if="(item.user_id==user.id) && item.user_id"/>
+              <div class="delete" v-if="item.user_id==user.id">
+                <Poptip confirm placement="left" title="是否删除该评论?" @on-ok="deleteComment(item)">
+                  <Icon type="md-trash" v-if="(item.user_id === user.id) && item.user_id" />
                 </Poptip>
               </div>
             </div>
           </div>
-          <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></NewPage>
+          <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10">
+          </NewPage>
         </div>
       </div>
     </section>
@@ -157,7 +147,8 @@ export default {
       page: 2,
       hasMore: true,
       href: '',
-      progress: ''
+      progress: '',
+      avatarUrl: this.$avatarUrl,
     }
   },
   computed: {

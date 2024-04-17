@@ -23,7 +23,8 @@ import TextLoading from '@/components/TextLoading'
 Vue.use(TextLoading)
 
 Vue.prototype.$baseUrl = process.env.VUE_APP_URL
-Vue.prototype.$staticUrl = 'http://static.golang365.com/'
+Vue.prototype.$staticUrl = process.env.VUE_APP_STATIC_URL
+Vue.prototype.$avatarUrl = process.env.VUE_APP_AVATAR_URL
 // }
 // Vue.prototype.$baseUrl = baseUrl
 // // 引入ivew,

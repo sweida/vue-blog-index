@@ -12,13 +12,15 @@
         <Icon type="logo-github" />
       </a>
       <p>本站已萌萌哒运行{{longTime}}</p>
-      <p class="base">Crafted with <i class="iconfont lv-icon-aixin"></i> by 
-        <span>@sweida</span>&nbsp;&nbsp;base on 
-        <a class="green" href="https://github.com/sweida/laravel-blog-api" target="_blank">Laravel</a> + 
+      <p class="base">Crafted with <i class="iconfont lv-icon-aixin"></i> by
+        <span>@sweida</span>&nbsp;&nbsp;base on
+        <a class="green" href="https://github.com/sweida/laravel-blog-api" target="_blank">Laravel</a> +
         <a class="green" href="https://github.com/sweida/vue-blog-index" target="_blank">Vue</a>
       </p>
-      <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">粤ICP备19044398号</a></p>
-      
+      <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;
+        <a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">{{ ICP }}</a>
+      </p>
+
     </div>
   </footer>
 </template>
@@ -30,7 +32,8 @@ export default {
   data () {
     return {
       longTime: '',
-      year: (new Date()).getFullYear()
+      year: (new Date()).getFullYear(),
+      ICP: '粤ICP备2024211741号'
     }
   },
   beforeMount() {
@@ -53,6 +56,9 @@ export default {
       that.longTime = day+'天'+hour+'小时'+minute+'分'+second+'秒';
     }
     getRemainderTime();      
+  },
+  created() {
+
   },
   methods: {
 

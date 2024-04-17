@@ -1,7 +1,7 @@
 <template>
   <div class="higtlight">
     <section class="about-bg">
-      <img v-imgUrl="banners[3].url" class="bg-img">
+      <img v-imgUrl="banners[3].url" class="bg-img" />
       <div class="bg"></div>
       <p class="mgs-title">Say Hello~</p>
       <!-- 评论框 -->
@@ -9,23 +9,19 @@
         <div class="input-box main">
           <div class="userbox">
             <div class="user-img">
-              <img :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" >
-              <h4>{{user.name || '未登录'}}</h4>
+              <img :src="`${avatarUrl}?seed=${user.id || 'false'}`" alt="avatar" />
+              <h4>{{ user.name || '未登录' }}</h4>
             </div>
           </div>
 
           <div class="textbox">
-            <Input 
-              v-model="message.content" 
-              type="textarea" 
-              :autosize="{minRows: 4, maxRows: 8}" 
-              :maxlength="400"
+            <Input v-model="message.content" type="textarea" :autosize="{ minRows: 4, maxRows: 8 }" :maxlength="400"
               :placeholder="textarea" />
             <div class="submit-box">
               <!-- <div class="ykname">
                 <Input v-model="message.name" placeholder="游客可以选填昵称" style="width: 120px" v-if="!user"/>
               </div> -->
-              <Button type="primary" @click="submitMessage" >
+              <Button type="primary" @click="submitMessage">
                 <Icon type="ios-create" />
                 提交评论
               </Button>
@@ -36,103 +32,95 @@
     </section>
 
     <!-- 评论列表 -->
-    <MyLoading v-if="loading"></MyLoading>
-    <section class="main" v-else>
-      <div class="commentList" v-for="(item, index) in messageList" :key="index">
-        <div class="user-ava" >
-          <img v-if="item.user" 
-            :src="item.user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${item.user.id}.svg`" 
-            onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'"
-            alt="hasLogin"
-          >
-          <img v-else 
-            src="https://avatars.dicebear.com/v2/identicon/id-undefined.svg"
-            alt="unLogin"
-          >
-        </div>
-
-        <div class="comment-main">
-          <div class="comment-box animate03">
-            <div class="username"> 
-              <span>
-                <Icon type="md-person" />
-                {{item.user ? item.user.name : item.name ? `游客（${item.name}）` : '游客'}} 
-                <em v-if="item.user_id==1">(博主)</em>
-                <span class="created"><Icon type="ios-time-outline" />{{item.created_at}}</span>
-              </span>
-              <span class="floor">{{item.id}}楼</span>
-            </div>
-            <div class="com_detail" v-html="item.content" v-highlight></div>
-            <div class="comment-menu">
-              <!-- 自己的留言显示删除按钮 -->
-              <Poptip
-                confirm
-                placement="left"
-                title="是否删除该留言?"
-                @on-ok="deleteComment(item)">
-                <Icon type="md-trash" v-if="item.user_id == user.id"/>
-              </Poptip>
-              <Tooltip content="回复留言">
-                <i class="iconfont lv-icon-xiaoxi2" @click="handleReply(item, item)"></i>
-              </Tooltip>
-            </div>
-            <!-- 回复功能 -->
-            <div class="reply-box" v-for="(reply, _index) in item.reply" :key="_index">
-              <p class="reply-header">
+    <SpinLoading :isLoading="loading">
+      <section class="main">
+        <div class="commentList" v-for="(item, index) in messageList" :key="index">
+          <div class="user-ava">
+            <img :src="`${avatarUrl}?seed=${item.user.id || 'false'}`" alt="avatar" />
+          </div>
+  
+          <div class="comment-main">
+            <div class="comment-box animate03">
+              <div class="username">
                 <span>
-                  {{reply.user.name}}
-                  <em v-if="reply.user.id==1">(博主)</em>
-                  <span class="noml">回复</span>
-                  <span>{{reply.topic_user ? reply.topic_user.name : '游客'}}</span>
-                  <em v-if="reply.topic_user && reply.topic_user.id==1">(博主)</em>
-                  <span class="created"><Icon type="ios-time-outline" /> {{item.created_at}}</span>
+                  <Icon type="md-person" />
+                  {{
+                  item.user
+                  ? item.user.name
+                  : item.name
+                  ? `游客（${item.name}）`
+                  : '游客'
+                  }}
+                  <em v-if="item.user_id == 1">(博主)</em>
+                  <span class="created">
+                    <Icon type="ios-time-outline" />{{ item.created_at }}
+                  </span>
                 </span>
-              </p>
-              <div class="com_detail" v-html="reply.content" v-highlight></div>
+                <span class="floor">{{ item.id }}楼</span>
+              </div>
+              <div class="com_detail" v-html="item.content" v-highlight></div>
               <div class="comment-menu">
                 <!-- 自己的留言显示删除按钮 -->
-                <Poptip
-                  confirm
-                  placement="left"
-                  title="是否删除该留言?"
-                  @on-ok="deleteReply(reply)">
-                  <Icon type="md-trash" v-if="reply.user_id == user.id"/>
+                <Poptip confirm placement="left" title="是否删除该留言?" @on-ok="deleteComment(item)">
+                  <Icon type="md-trash" v-if="item.user_id == user.id" />
                 </Poptip>
                 <Tooltip content="回复留言">
-                  <i class="iconfont lv-icon-xiaoxi2" @click="handleReply(item, reply)"></i>
+                  <i class="iconfont lv-icon-xiaoxi2" @click="handleReply(item, item)"></i>
                 </Tooltip>
+              </div>
+              <!-- 回复功能 -->
+              <div class="reply-box" v-for="(reply, _index) in item.reply" :key="_index">
+                <p class="reply-header">
+                  <span>
+                    {{ reply.user.name }}
+                    <em v-if="reply.user.id == 1">(博主)</em>
+                    <span class="noml">回复</span>
+                    <span>{{
+                      reply.topic_user ? reply.topic_user.name : '游客'
+                      }}</span>
+                    <em v-if="reply.topic_user && reply.topic_user.id == 1">(博主)</em>
+                    <span class="created">
+                      <Icon type="ios-time-outline" />
+                      {{ item.created_at }}
+                    </span>
+                  </span>
+                </p>
+                <div class="com_detail" v-html="reply.content" v-highlight></div>
+                <div class="comment-menu">
+                  <!-- 自己的留言显示删除按钮 -->
+                  <Poptip confirm placement="left" title="是否删除该留言?" @on-ok="deleteReply(reply)">
+                    <Icon type="md-trash" v-if="reply.user_id == user.id" />
+                  </Poptip>
+                  <Tooltip content="回复留言">
+                    <i class="iconfont lv-icon-xiaoxi2" @click="handleReply(item, reply)"></i>
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+            <!-- 回复评论 -->
+            <div class="reply-text" v-if="item.id == messageId">
+              <Input v-model="replyContent" ref="textarea" type="textarea" :autosize="{ minRows: 3, maxRows: 8 }"
+                :maxlength="400" :placeholder="replyTextarea" />
+              <div class="reply-button">
+                <Button class="cancel" @click="cancelReply">
+                  取消回复
+                </Button>
+                <Button type="primary" @click="submitReply">
+                  <Icon type="ios-create" />
+                  回复留言
+                </Button>
               </div>
             </div>
           </div>
-          <!-- 回复评论 -->
-          <div class="reply-text" v-if="item.id == messageId">
-            <Input 
-              v-model="replyContent" 
-              ref="textarea"
-              type="textarea" 
-              :autosize="{minRows: 3, maxRows: 8}" 
-              :maxlength="400"
-              :placeholder="replyTextarea" />
-            <div class="reply-button">
-              <Button class="cancel" @click="cancelReply">
-                取消回复
-              </Button>
-              <Button type="primary" @click="submitReply" >
-                <Icon type="ios-create" />
-                回复留言
-              </Button>
-            </div>
-          </div>
         </div>
-      </div>
-      <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount>10"></NewPage>
-    </section>
-
+        <NewPage :pageModel="pageModel" @selectList="selectRoleList" v-if="pageModel.sumCount > 10"></NewPage>
+      </section>
+    </SpinLoading>
   </div>
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import { mapGetters } from 'vuex'
 import marked from 'marked'
 import '@/style/message.styl'
 
@@ -147,26 +135,24 @@ export default {
       messageId: -1,
       topicUserId: '',
       isReply: false,
-      message:{
+      message: {
         content: '',
-        ykname: ''
+        name: '',
       },
       pageModel: {
         page: 1,
-        sumCount: 10
+        sumCount: 10,
       },
       page: 2,
-      hasMore: true
+      hasMore: true,
+      avatarUrl: this.$avatarUrl
     }
   },
   computed: {
-    ...mapGetters([
-      'user',
-      'banners'
-    ]),
-    compiledMarkdown: function () {
+    ...mapGetters(['user', 'banners']),
+    compiledMarkdown: function() {
       return marked(this.detail.content, { sanitize: false })
-    }
+    },
   },
   created() {
     this.getMessage()
@@ -174,49 +160,63 @@ export default {
   methods: {
     // 获取留言
     getMessage() {
-      this.$api.MessageList(this.pageModel).then(res => {
-        this.loading = false
-        this.pageModel.sumCount = res.data.total
-        this.messageList = res.data.data
-        // 转markdown语法
-        this.messageList.forEach(item => {
-          item.content = marked(item.content, { sanitize: false })
-          if (item.reply.length > 0) {
-            item.reply.forEach(reply => {
-              reply.content = marked(reply.content, { sanitize: false })
-            })
-          }
-          // 转换换行
-          // item.content = item.content.replace(/\n/g, '<br>')
+      this.$api
+        .MessageList(this.pageModel)
+        .then((res) => {
+          this.loading = false
+          this.pageModel.sumCount = res.data.total
+          this.messageList = res.data.data
+          // 转markdown语法
+          this.messageList.forEach((item) => {
+            item.content = marked(item.content, { sanitize: false })
+            if (item.reply.length > 0) {
+              item.reply.forEach((reply) => {
+                reply.content = marked(reply.content, { sanitize: false })
+              })
+            }
+            // 转换换行
+            // item.content = item.content.replace(/\n/g, '<br>')
+          })
         })
-      }).catch(() =>{})
-    },    
+        .catch(() => {})
+    },
     selectRoleList() {
       this.getMessage()
     },
     // 提交留言
     submitMessage() {
-      this.$api.MessageAdd(this.message).then(res => {
-        this.getMessage()
-        this.$Message.success(res.message)
-        this.message = {
-          content: '',
-          name: ''
-        }
-      }).catch(() =>{})
+      this.$api
+        .MessageAdd(this.message)
+        .then((res) => {
+          this.message = {
+            content: '',
+            name: '',
+          }
+          this.$Message.success(res.message)
+          this.pageModel.page = 1
+          this.getMessage()
+        })
+        .catch(() => {})
     },
     // 删除自己的留言
     deleteComment(item) {
-      this.$api.MessageDelete({id: item.id}).then(res => {
-        this.messageList.splice(this.messageList.indexOf(item), 1)
-        this.$Message.success(res.message)
-      }).catch(() =>{})
+      this.$api
+        .MessageDelete({ id: item.id })
+        .then((res) => {
+          // this.messageList.splice(this.messageList.indexOf(item), 1)
+          this.$Message.success(res.message)
+          this.getMessage()
+        })
+        .catch(() => {})
     },
     deleteReply(item) {
-      this.$api.MessageReplyDelete({id: item.id}).then(res => {
-        this.getMessage()
-        this.$Message.success(res.message)
-      }).catch(() =>{})
+      this.$api
+        .MessageReplyDelete({ id: item.id })
+        .then((res) => {
+          this.getMessage()
+          this.$Message.success(res.message)
+        })
+        .catch(() => {})
     },
     // 回复留言
     handleReply(item, reply) {
@@ -244,16 +244,18 @@ export default {
       let params = {
         content: this.replyContent,
         message_id: this.messageId,
-        topic_user_id: this.topicUserId
+        topic_user_id: this.topicUserId,
       }
-      this.$api.MessageReply(params).then(res => {
-        this.getMessage()
-        this.$Message.success(res.message)
-        this.cancelReply()
-      }).catch(() =>{})
-    }
-
-  }
+      this.$api
+        .MessageReply(params)
+        .then((res) => {
+          this.$Message.success(res)
+          this.getMessage()
+          this.cancelReply()
+        })
+        .catch(() => {})
+    },
+  },
 }
 </script>
 
@@ -262,7 +264,7 @@ export default {
   width 100%
   height 500px
   position relative
-  .bg-img 
+  .bg-img
     width: 100%;
     position absolute
     top 0

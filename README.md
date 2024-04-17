@@ -1,8 +1,8 @@
 # vue-blog v2 重构
 
 **base on vue-cli3**  
-博客页面：[http://www.golang365.com](http://www.golang365.com)  
-后台页面：[http://www.golang365.com/manage.html#/login](http://www.golang365.com/manage.html#/login)
+博客页面：[http://www.golang365.top](http://www.golang365.top)  
+后台页面：[http://www.golang365.top/manage.html#/login](http://www.golang365.top/manage.html#/login)
 
 1.多页面配置，博客页面和后台页面分离  
 2.图片上传又拍云  
@@ -113,7 +113,7 @@ server
     // 添加下面三行
     location /api {
         add_header 'Access-Control-Allow-Origin' '*';
-        proxy_pass http://api.golang365.com/api/v2;
+        proxy_pass http://api.golang365.top/api/v2;
     }
     ...
 }

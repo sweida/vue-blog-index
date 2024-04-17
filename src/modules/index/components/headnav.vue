@@ -1,35 +1,42 @@
 <template>
   <header>
     <div class="header">
-      <img src="@/assets/nav-map.jpg" class="footer-bg">
+      <img src="@/assets/nav-map.jpg" class="footer-bg" />
 
       <div class="menu">
         <div class="left">
           <div class="logo">
-            <img src="@/assets/logo.png" alt="">
+            <img src="@/assets/logo.png" alt="" />
           </div>
           <!-- 菜单 -->
           <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
-            <a @click="goRouter(item.url)">{{item.name}}</a>
+            <a @click="goRouter(item.url)">{{ item.name }}</a>
           </li>
           <li>
-            <a href="http://blog-doc.golang365.com" target="_blank">API文档</a>
+            <a href="http://game.golang365.top/" target="_blank">小游戏</a>
           </li>
         </div>
 
         <div class="user" v-if="user">
           <Dropdown @on-click="changeMenu">
             <a href="javascript:void(0)" class="user-info">
-              <img :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" 
-                onerror="this.src='https://avatars.dicebear.com/v2/identicon/id-undefined.svg'">
-              {{user.name}}
+              <img :src="`${avatarUrl}?seed=${user.id || 'false'}`" alt="avatar" />
+              {{ user.name }}
               <Icon type="md-arrow-dropdown" />
             </a>
             <DropdownMenu slot="list">
-              <DropdownItem name="person"><Icon type="md-person" />个人中心</DropdownItem>
-              <DropdownItem name="admin" v-if="user.admin"><Icon type="logo-xbox" />后台管理</DropdownItem>
-              <DropdownItem name="changePasswd"><Icon type="md-settings" />修改密码</DropdownItem>
-              <DropdownItem name="logout"><Icon type="md-exit" />退出登录</DropdownItem>
+              <DropdownItem name="person">
+                <Icon type="md-person" />个人中心
+              </DropdownItem>
+              <DropdownItem name="admin" v-if="user.admin">
+                <Icon type="logo-xbox" />后台管理
+              </DropdownItem>
+              <DropdownItem name="changePasswd">
+                <Icon type="md-settings" />修改密码
+              </DropdownItem>
+              <DropdownItem name="logout">
+                <Icon type="md-exit" />退出登录
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -51,24 +58,24 @@
         <span></span>
         <span></span>
         <div class="mobliNav-main" slot="content">
-          <img v-imgUrl="banners[4].url" class="nav-bg">
-          <li v-for="(item, index) in nav" :key="index" :class="{active: $route.path==item.url}">
+          <img v-imgUrl="banners[4].url" class="nav-bg" />
+          <li v-for="(item, index) in nav" :key="index">
+            <!-- :class="{ active: $route.path == item.url }" -->
             <Icon :type="item.icon" />
-            <a @click="goRouter(item.url)">{{item.name}}</a>
+            <a @click="goRouter(item.url)">{{ item.name }}</a>
             <!-- <router-link :to="item.url">{{item.name}}</router-link> -->
           </li>
           <li>
-            <a href="http://blog-doc.golang365.com" target="_blank">
+            <a href="http://game.golang365.top/" target="_blank">
               <Icon type="ios-bug" />
-              API文档
+              小游戏
             </a>
           </li>
 
           <template v-if="user">
             <li>
-              <img class="user-img"
-                :src="user.avatar_url || `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
-              {{user.name}}
+              <img :src="`${avatarUrl}?seed=${user.id || 'false'}`" alt="avatar" />
+              {{ user.name }}
               <Icon type="md-arrow-dropdown" />
             </li>
             <li class="second">
@@ -101,83 +108,85 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex"
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  data () {
+  data() {
     return {
+      avatarUrl: this.$avatarUrl,
       nav: [
-        {name: '文章', url: '/blog', icon: 'ios-book'},
-        {name: '友链', url: '/link', icon: 'logo-octocat'},
-        // {name: '打赏', url: '/donate', icon: 'logo-usd'},
-        {name: '留言', url: '/message', icon: 'md-chatboxes'},
-        {name: '关于我', url: '/about', icon: 'md-beer'},
+        { name: '文章', url: '/blog', icon: 'ios-book' },
+        { name: '友链', url: '/link', icon: 'logo-octocat' },
+        { name: '留言', url: '/message', icon: 'md-chatboxes' },
+        { name: '关于我', url: '/about', icon: 'md-beer' },
       ],
-      mobnav: '2'
+      mobnav: '2',
     }
   },
   computed: {
-    ...mapGetters([
-      'user', 'classify', 'tag', 'banners'
-    ]),
+    ...mapGetters(['user', 'classify', 'tag', 'banners']),
   },
-  watch:{
-    $route(to,from){
+  watch: {
+    $route(to, from) {
       this.mobnav = '2'
-    }
+    },
   },
   methods: {
     ...mapActions(['Logout']),
     goRouter(item) {
       // 当有选择标签或者分类时点击博客自动选择
       if (item == '/blog') {
-        if (this.classify && this.classify!='all') {
-          this.$router.push({path:'/blog', query:{classify: this.classify}})
+        if (this.classify && this.classify != 'all') {
+          this.$router.push({
+            path: '/blog',
+            query: { classify: this.classify },
+          })
         } else if (this.tag) {
-          this.$router.push({path:'/blog', query:{tag: this.tag}})
+          this.$router.push({ path: '/blog', query: { tag: this.tag } })
         } else {
-          this.$router.push({path:'/blog'})
+          this.$router.push({ path: '/blog' })
         }
       } else {
-        this.$router.push({ path: item})
+        this.$router.push({ path: item })
       }
     },
     changeMenu(item) {
       if (item == 'changePasswd') {
         this.$router.push('/password')
-      } 
+      }
       if (item == 'person') {
         this.$router.push('/person')
-      } 
+      }
       if (item == 'admin') {
         // window.href = "/manage.html/#/articlelist"
         // let routeData = this.$router.resolve({ path: '/manage.html/#/articlelist'});
-        window.open('/manage.html#/articlelist', '_blank');
+        window.open('/manage.html#/articlelist', '_blank')
       }
       if (item == 'logout') {
-        this.$post('/apis/logout').then(res => {
-          this.$Notice.success({
-            title: res.message,
-            desc: '欢迎下次再来👏',
-            duration: 3,
-          });
-          // this.$Message.success(res.message)
-          this.$router.push('/')
-          this.Logout()
-        }).catch(() => {
-          this.$router.push('/')
-          this.Logout()
-        })
+        this.$post('/apis/logout')
+          .then((res) => {
+            this.$Notice.success({
+              title: res.message,
+              desc: '欢迎下次再来👏',
+              duration: 3,
+            })
+            // this.$Message.success(res.message)
+            this.$router.push('/')
+            this.Logout()
+          })
+          .catch(() => {
+            this.$router.push('/')
+            this.Logout()
+          })
       }
-    }
-  }
-
+    },
+  },
 }
 </script>
 
 <style>
 /* 手机菜单 */
-.nav-content .ivu-collapse-header{
+.nav-content .ivu-collapse-header {
   height: 60px !important;
   display: flex;
   flex-direction: column;
@@ -189,12 +198,12 @@ export default {
   top: -60px;
 }
 
-.nav-content .ivu-collapse-content{
+.nav-content .ivu-collapse-content {
   padding: 0 !important;
   border-radius: 0 !important;
   border-top: 1px solid #d8ddde;
 }
-.nav-content .ivu-collapse-content>.ivu-collapse-content-box{
+.nav-content .ivu-collapse-content > .ivu-collapse-content-box {
   padding: 0 !important;
 }
 </style>
@@ -247,7 +256,7 @@ export default {
   div
     display flex
     align-items center
-    a 
+    a
       color #fff
   .left li
     padding 1px 15px
@@ -257,7 +266,7 @@ export default {
     border-radius: 3px;
   .left li a:hover
     border-bottom: 1px solid;
-    // text-decoration 
+    // text-decoration
 
 .register
   margin 0 10px
@@ -323,12 +332,12 @@ export default {
     background #fff
   .ivu-dropdown-item
     font-size 14px !important
-    i 
+    i
       margin-right 10px
 
 
 @media screen and (max-width: 750px)
-  .header 
+  .header
     .footer-bg, .menu
       display none
   .nav-bg, .nav-content

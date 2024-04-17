@@ -3,9 +3,9 @@
     <Headnav></Headnav>
     <section class="content blog">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" class="slide animate03" ></router-view>
+        <router-view v-if="$route.meta.keepAlive" class="slide animate03"></router-view>
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" class="slide animate03" ></router-view>
+      <router-view v-if="!$route.meta.keepAlive" class="slide animate03"></router-view>
 
       <!-- <transition name="el-fade-in">
         <router-view class="main animate03" />
@@ -37,10 +37,10 @@ export default {
   computed: {
     ...mapGetters(['user', 'token', 'webInfo', 'banners']),
   },
-  data() {
+  data () {
     return {}
   },
-  created() {
+  created () {
     // 有token,没有user时才请求用户信息
     if (this.token) {
       this.UserInfo()

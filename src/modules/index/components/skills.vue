@@ -10,16 +10,13 @@
         <span class="tagli animate03 classify" @click="allArticles">
           全部
         </span>
-        <div class="classifyBox" v-for="(item, index) in classifys" :key="index" >
+        <div class="classifyBox" v-for="(item, index) in classifys" :key="index">
           <span class="tagli animate03 classify" @click="OrderByClassify(item.name)">
             {{item.name}}
           </span>
           <div>
-            <span class="tagli animate03" 
-              :class="{hot: child=='laravel' || child=='vue' || child=='go' || child=='react' || child=='svelte' || child=='docker'}"
-              v-for="(child, index) in item.tags" 
-              :key="index" 
-              @click="OrderByTag(child)">
+            <span class="tagli animate03" :class="{ hot: hotClassifys.includes(child)}"
+              v-for="(child, index) in item.tags" :key="index" @click="OrderByTag(child)">
               {{child}}
             </span>
           </div>
@@ -36,6 +33,7 @@ import {mapGetters} from "vuex"
 export default {
   data() {
     return {
+      hotClassifys: ['vue', 'react', 'laravel', 'go', 'svelte', 'docker', 'python'],
       classifys: []
     }
   },

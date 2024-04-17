@@ -27,7 +27,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   res => {
     // 当有新的token时自动更新新的token
-    if (res.headers.authorization){
+    if (res.headers.authorization) {
       let token = res.headers.authorization.split(' ')[1]
       store.dispatch("Token", token);
     }
@@ -53,10 +53,10 @@ service.interceptors.response.use(
         message: error.response.data.message,
         type: 'error',
         duration: 2000,
-        onClose() {
+        onClose () {
           store.dispatch("Logout");
-          router.push({ 
-            path: '/login', 
+          router.push({
+            path: '/login',
             query: { redirect: window.location.hash.substr(1) }
           })
         },
@@ -67,7 +67,7 @@ service.interceptors.response.use(
         message: error.response.data.message,
         type: 'error',
         duration: 2000,
-        onClose() {
+        onClose () {
           store.dispatch("Logout");
           router.push({
             path: '/login',
@@ -81,7 +81,7 @@ service.interceptors.response.use(
         message: error.response.data.message,
         type: 'error',
         duration: 2000,
-        onClose() {
+        onClose () {
           store.dispatch("Logout");
           router.push('/login')
         },
@@ -95,7 +95,7 @@ service.interceptors.response.use(
       })
     } else {
       Message({
-        message: error.response.status+': ' +error.response.data.message,
+        message: error.response.status + ': ' + error.response.data.message,
         type: 'error',
         duration: 2000
       })

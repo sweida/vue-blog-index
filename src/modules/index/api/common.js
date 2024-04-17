@@ -1,7 +1,7 @@
 import request from "utils/httpIndex";
 import baseURL from "./baseUrlConfig";
 
-export function GetAd(data) {
+export function GetAd (data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/ad',
@@ -11,7 +11,7 @@ export function GetAd(data) {
 }
 
 // 友链
-export function LinkList(data) {
+export function LinkList (data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/link/list',
@@ -21,7 +21,7 @@ export function LinkList(data) {
 }
 
 // 留言列表
-export function MessageList(data) {
+export function MessageList (data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/message/list',
@@ -31,7 +31,7 @@ export function MessageList(data) {
 }
 
 // 新增留言
-export function MessageAdd(data) {
+export function MessageAdd (data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/message/add',
@@ -41,7 +41,7 @@ export function MessageAdd(data) {
 }
 
 // 删除留言
-export function MessageDelete(data) {
+export function MessageDelete (data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/message/delete',
@@ -51,7 +51,7 @@ export function MessageDelete(data) {
 }
 
 // 回复留言
-export function MessageReply(data) {
+export function MessageReply (data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/message/reply',
@@ -61,7 +61,7 @@ export function MessageReply(data) {
 }
 
 // 删除回复
-export function MessageReplyDelete(data) {
+export function MessageReplyDelete (data) {
   return request({
     // baseURL: baseURL.host,
     url: '/apis/message/reply/delete',

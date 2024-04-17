@@ -5,12 +5,10 @@
     <template v-else>
       <div class="leftinfo">
         <div class="info-top">
-          <img :src="user.avatar_url ? user.avatar_url : `https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`">
-          <!-- <img :src="`https://avatars.dicebear.com/v2/identicon/id-${user.id}.svg`" alt=""> -->
-          <!-- <img src="../../../assets/avatar/009.jpg" alt="" v-else> -->
+          <img :src="`${avatarUrl}?seed=${user.id || 'false'}`" alt="avatar" />
           <div class="top-text">
             <p class="name">{{user.name}}</p>
-            <p>第<span class="pink">{{user.id}}</span>位注册的用户</p> 
+            <p>第<span class="pink">{{user.id}}</span>位注册的用户</p>
             <p>注册于<span class="time">{{user.created_at.substring(0,10)}}</span></p>
           </div>
         </div>
@@ -38,13 +36,11 @@
             <li v-for="(item, index) in comments" :key="index">
               <router-link :to="{path:`/blog/${item.article.id}`}">评论文章：{{item.article.title}}</router-link>
               <div class="mark" v-html="item.content" v-highlight></div>
-              <p class="time"><Icon type="md-time" />{{item.created_at}}</p>
-              <div class="delete"  >
-                <Poptip
-                  confirm
-                  placement="left"
-                  title="是否删除该评论?"
-                  @on-ok="deleteComment(item)">
+              <p class="time">
+                <Icon type="md-time" />{{item.created_at}}
+              </p>
+              <div class="delete">
+                <Poptip confirm placement="left" title="是否删除该评论?" @on-ok="deleteComment(item)">
                   <Icon type="md-trash" />
                 </Poptip>
               </div>
@@ -61,13 +57,11 @@
           <ul>
             <li v-for="(item, index) in messages" :key="index">
               <div class="mark" v-html="item.content" v-highlight></div>
-              <p class="time"><Icon type="md-time" />{{item.created_at}}</p>
-              <div class="delete"  >
-                <Poptip
-                  confirm
-                  placement="left"
-                  title="是否删除该留言?"
-                  @on-ok="deleteMessage(item)">
+              <p class="time">
+                <Icon type="md-time" />{{item.created_at}}
+              </p>
+              <div class="delete">
+                <Poptip confirm placement="left" title="是否删除该留言?" @on-ok="deleteMessage(item)">
                   <Icon type="md-trash" />
                 </Poptip>
               </div>
@@ -92,6 +86,7 @@ import {mapGetters} from "vuex"
 export default {
   data () {
     return {
+      avatarUrl: this.$avatarUrl,
       loading: true,
       comments: {},
       messages: {},

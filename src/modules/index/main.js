@@ -17,6 +17,9 @@ import '@/directive/index'
 import MyLoading from 'components/MyLoading'
 Vue.use(MyLoading)
 
+import SpinLoading from 'components/SpinLoading'
+Vue.use(SpinLoading)
+
 import MyPage from 'components/MyPage'
 Vue.use(MyPage)
 
@@ -25,6 +28,11 @@ Vue.use(NewPage)
 
 import TextLoading from 'components/TextLoading'
 Vue.use(TextLoading)
+
+import { Plugin } from 'vue-fragment'
+Vue.use(Plugin)
+// import Fragment from 'vue-fragment'
+// Vue.use(Fragment.Plugin)
 
 // // 引入ivew,
 // import iView from 'iview'
@@ -38,10 +46,12 @@ Vue.use(TextLoading)
 // router.afterEach(route => {
 //   iView.LoadingBar.finish();
 // });
+
 Vue.prototype.$get = http.get
 Vue.prototype.$post = http.post
 Vue.prototype.$baseApiUrl = process.env.VUE_APP_API_URL
 Vue.prototype.$staticUrl = process.env.VUE_APP_STATIC_URL
+Vue.prototype.$avatarUrl = process.env.VUE_APP_AVATAR_URL
 Vue.prototype.$api = API
 
 Vue.config.productionTip = false
