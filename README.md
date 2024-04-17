@@ -171,3 +171,15 @@ chmod 777 gh-pages.sh
 ### 未解决问题
 
 - [ ] 目前已经是配置多页面，但是打包后 js 还是合并在一起，有没有大佬知道怎么解决多页面 js 分开打包
+
+### vue-cli3启动报错问题
+找到/node_modules/sockjs-client/dist/sockjs.js  
+2.找到代码的 1605行
+```js
+try {
+  //  self.xhr.send(payload); 把这里注掉
+} catch (e) {
+  self.emit('finish', 0, '');
+  self._cleanup(false);
+}
+```
