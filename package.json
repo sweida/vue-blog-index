@@ -9,6 +9,7 @@
     "build:sit": "vue-cli-service build --mode sit",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
+    "deploy:push": "gh-pages -d dist",
     "predeploy:sit": "npm run build:sit",
     "deploy:sit": "gh-pages -d dist --branch sit",
     "lint": "vue-cli-service lint"

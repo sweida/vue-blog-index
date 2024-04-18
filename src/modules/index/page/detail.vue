@@ -331,6 +331,7 @@ export default {
   font-family Georgia,system-ui,BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif
   color #3d4852
   padding-bottom 20px
+  word-break: break-word;
 
 .commentbox
   max-width: 840px;
