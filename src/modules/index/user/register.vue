@@ -88,7 +88,7 @@ export default {
     },
     register() {
       this.laoding = true
-      this.$post('/apis/signup', this.formCustom).then(res => {
+      this.$api.Signup(this.formCustom).then(res => {
         this.$Message.success(res.message+'，去登录！')
         setTimeout(() => {
           this.$router.push('/login')

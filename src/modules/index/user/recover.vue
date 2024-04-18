@@ -107,7 +107,7 @@ export default {
       let param = {
         email: this.formCustom.email
       }
-      this.$post('/apis/user/send_email', param).then(res => {
+      this.$api.SendEmail(param).then(res => {
         this.alert = {
           type: 'success',
           text: res.message
@@ -128,7 +128,7 @@ export default {
       })
     },
     submitForm() {
-      this.$post('/apis/user/check_captcha', this.formCustom).then(res => {
+      this.$api.CheckCaptcha(this.formCustom).then(res => {
         this.success = true
         this.loading2 = false
       }).catch(err => {

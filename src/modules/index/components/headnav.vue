@@ -74,7 +74,7 @@
 
           <template v-if="user">
             <li>
-              <img :src="`${avatarUrl}?seed=${user.id || 'false'}`" alt="avatar" />
+              <img class="user-img" :src="`${avatarUrl}?seed=${user.id || 'false'}`" alt="avatar" />
               {{ user.name }}
               <Icon type="md-arrow-dropdown" />
             </li>
@@ -338,7 +338,7 @@ export default {
 
 @media screen and (max-width: 750px)
   .header
-    .footer-bg, .menu
+    .menu
       display none
   .nav-bg, .nav-content
     display block

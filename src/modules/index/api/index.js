@@ -1,12 +1,8 @@
 
 export { 
-  GetAd,
+  getAd,
   LinkList,
-  MessageList, 
-  MessageAdd,
-  MessageDelete,
-  MessageReply,
-  MessageReplyDelete,
+  getWebInfo,
 } from './common'
 
 export {
@@ -14,4 +10,32 @@ export {
   ArticleList,
   ArticleLike,
   TagList,
+  getClassify,
 } from './article'
+
+export {
+  CommentList,
+  CommentAdd,
+  CommentDelete,
+  CommentPerson,
+} from './comment'
+
+export {
+  MessageList,
+  MessageAdd,
+  MessageDelete,
+  MessageReply,
+  MessageReplyDelete,
+  MessagePerson,
+} from'./message'
+
+export {
+  getUserInfo,
+  Login,
+  Signup,
+  ResetPassword,
+  SendEmail,
+  CheckCaptcha,
+} from './user'
+
+

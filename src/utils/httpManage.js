@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '@/modules/manage/router/router'
-import { Message } from 'element-ui'
+import { Notice } from 'iview'
 // import { removeLogin } from './loginStatus'
 import store from "../store/index"
 
@@ -38,10 +38,10 @@ service.interceptors.response.use(
     if (res.data.status == 'success') {
       return Promise.resolve(res.data)
     } else {
-      Message({
-        message: res.data.message,
-        type: 'error',
-        duration: 2000
+      Notice.error({
+        title: '错误提示',
+        desc: res.data.message,
+        duration: 2
       })
     }
     return Promise.reject(res.data)
@@ -49,10 +49,10 @@ service.interceptors.response.use(
   error => {
     if (error.response.status == 401) {
       // 登录过期
-      Message({
-        message: error.response.data.message,
-        type: 'error',
-        duration: 2000,
+      Notice.warning({
+        title: '登录提示',
+        desc: error.response.data.message,
+        duration: 2,
         onClose () {
           store.dispatch("Logout");
           router.push({
@@ -60,45 +60,45 @@ service.interceptors.response.use(
             query: { redirect: window.location.hash.substr(1) }
           })
         },
-      })
+      });
     } else if (error.response.status == 422) {
       // token过期
-      Message({
-        message: error.response.data.message,
-        type: 'error',
-        duration: 2000,
+      Notice.warning({
+        title: '温馨提示',
+        desc: error.response.data.message,
+        duration: 2,
         onClose () {
-          store.dispatch("Logout");
+          store.dispatch("Logout")
           router.push({
             path: '/login',
             query: { redirect: window.location.hash.substr(1) }
           })
         },
-      })
+      });
     } else if (error.response.status == 403) {
       // 没有权限
-      Message({
-        message: error.response.data.message,
-        type: 'error',
-        duration: 2000,
+      Notice.warning({
+        title: '用户权限提示',
+        desc: error.response.data.message,
+        duration: 2,
         onClose () {
           store.dispatch("Logout");
           router.push('/login')
         },
-      })
+      });
     } else if (error.response.status == 500) {
       // 服务器链接失败
-      Message({
-        message: '服务器连接失败，请稍后再试',
-        type: 'error',
-        duration: 2000
-      })
+      Notice.error({
+        title: '网络提示',
+        desc: '服务器连接失败，请稍后再试',
+        duration: 2,
+      });
     } else {
-      Message({
-        message: error.response.status + ': ' + error.response.data.message,
-        type: 'error',
-        duration: 2000
-      })
+      Notice.error({
+        title: '错误提示 ' + error.response.status,
+        desc: error.response.data.message,
+        duration: 2,
+      });
     }
     return Promise.reject(error)
   },

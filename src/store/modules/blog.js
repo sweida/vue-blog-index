@@ -1,4 +1,4 @@
-import http from '@/utils/httpIndex'
+import { getWebInfo, getAd } from '@/modules/index/api'
 
 const state = {
   webinfo: "",
@@ -55,7 +55,7 @@ const mutations = {
 // 更新state数据的动作
 const actions = {
   async WebInfo ({ commit }, data) {
-    const res = await http.get('/apis/webinfo/read')
+    const res = await getWebInfo()
     console.log(res.data, 'webinfo');
     commit('WEBINFO', res.data)
   },
@@ -66,7 +66,7 @@ const actions = {
     commit('CLASSIFY', data)
   },
   async Banners ({ commit }, data) {
-    const res = await http.post('/apis/ad', { type: 'banner' })
+    const res = await getAd({ type: 'banner' })
     console.log(res.data, 'banner');
 
     commit('BANNERS', res.data)

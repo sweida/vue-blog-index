@@ -7,7 +7,7 @@ export function ArticleDetial (data) {
     // baseURL: baseURL.host,
     url: '/apis/article',
     method: 'post',
-    data: data
+    data
   })
 }
 
@@ -17,7 +17,7 @@ export function ArticleList (data) {
     // baseURL: baseURL.host,
     url: '/apis/article/list',
     method: 'post',
-    data: data
+    data
   })
 }
 
@@ -27,7 +27,17 @@ export function ArticleLike (data) {
     // baseURL: baseURL.host,
     url: '/apis/article/like',
     method: 'post',
-    data: data
+    data
+  })
+}
+
+// 技能skill
+export function getClassify (data) {
+  return request({
+    // baseURL: baseURL.host,
+    url: '/apis/article/classify',
+    method: 'get',
+    data
   })
 }
 
@@ -37,6 +47,7 @@ export function TagList (data) {
     // baseURL: baseURL.host,
     url: '/apis/tag/list',
     method: 'post',
-    data: data
+    data
   })
 }
+

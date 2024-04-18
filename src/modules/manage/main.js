@@ -7,7 +7,7 @@ import http from '@/utils/httpManage'
 Vue.prototype.$get = http.get
 Vue.prototype.$post = http.post
 
-import '@/plugins/element.js'
+// import '@/plugins/element.js'
 import '@/plugins/mavonEditor.js'
 import '@/plugins/iview.js'
 import '@/plugins/highlightjs'
