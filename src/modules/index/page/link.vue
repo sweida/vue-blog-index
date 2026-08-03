@@ -11,7 +11,7 @@
         <div class="examp">
           <h4>格式示例</h4>
           <p>名称: 九歌</p>
-          <p>链接: http://golang365.top</p>
+          <p>链接: {{ blogUrl }}</p>
           <p>
             头像: https://avatars2.githubusercontent.com/u/23181508?s=460&v=4
           </p>
@@ -48,6 +48,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      blogUrl: this.$blogUrl,
       loading: true,
       links: [],
       pageModel: {

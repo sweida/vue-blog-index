@@ -18,7 +18,7 @@
         <a class="green" href="https://github.com/sweida/vue-blog-index" target="_blank">Vue</a>
       </p>
       <p>© 2018 - {{year}} &nbsp;&nbsp;天行九歌 &nbsp;&nbsp;
-        <a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">{{ webInfo.icp || ICP}}</a>
+        <a href="https://beian.miit.gov.cn/" target="_blank" style="color: #fff">{{ webInfo.icp || '备案中'}}</a>
       </p>
 
     </div>
@@ -33,7 +33,6 @@ export default {
     return {
       longTime: '',
       year: (new Date()).getFullYear(),
-      ICP: '粤ICP备2024211741号'
     }
   },
   computed: {

@@ -34,8 +34,10 @@ npm run build
 ```bash
 # 打包提交到sit分支
 npm run deploy:sit
-# 打包提交到prod分支
+# 打包并提交到gh-pages分支
 npm run deploy
+# 不执行打包，直接将dist目录提交到gh-pages分支
+npm run deploy:push 
 ```
 
 ### 环境变量

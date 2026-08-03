@@ -31,27 +31,13 @@ Vue.use(TextLoading)
 
 import { Plugin } from 'vue-fragment'
 Vue.use(Plugin)
-// import Fragment from 'vue-fragment'
-// Vue.use(Fragment.Plugin)
-
-// // 引入ivew,
-// import iView from 'iview'
-// import 'iview/dist/styles/iview.css'
-// Vue.use(iView)
-// // 路由跳转开启进度条
-// router.beforeEach((to, from, next) => {
-//   iView.LoadingBar.start();
-//   next();
-// });
-// router.afterEach(route => {
-//   iView.LoadingBar.finish();
-// });
 
 Vue.prototype.$get = http.get
 Vue.prototype.$post = http.post
 Vue.prototype.$baseApiUrl = process.env.VUE_APP_API_URL
 Vue.prototype.$staticUrl = process.env.VUE_APP_STATIC_URL
 Vue.prototype.$avatarUrl = process.env.VUE_APP_AVATAR_URL
+Vue.prototype.$blogUrl = process.env.VUE_APP_BLOG_URL
 Vue.prototype.$api = API
 
 Vue.config.productionTip = false
